@@ -1,0 +1,6 @@
+[report]
+include =
+    src/nal/*
+omit =
+    */test*
+    */upgrades/*

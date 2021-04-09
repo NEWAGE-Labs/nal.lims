@@ -1,0 +1,4 @@
+graft src/nal
+graft docs
+include *.rst
+global-exclude *.pyc
