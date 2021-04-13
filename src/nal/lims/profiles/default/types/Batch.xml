@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<object name="Batch"
+        meta_type="Factory-based Type Information with dynamic views"
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        i18n:domain="nal.lims">
+ <property name="title" purge="True" i18n:translate="">SDG</property>
+</object>

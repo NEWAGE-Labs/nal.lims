@@ -11,6 +11,27 @@
       layer="nal.lims.interfaces.INalLimsLayer"
       />
 
+  <include package=".client" />
+
+  <!-- Override View Classes -->
+  <!-- Batch Folder from bika.lims-->
+  <browser:page
+      name="base_view"
+      class=".batchfolder.BatchFolderContentsView"
+      permission="cmf.ListFolderContents"
+      for="bika.lims.interfaces.IBatchFolder"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <!-- Batch Labels from bika.lims -->
+  <browser:page
+      name="folder_view"
+      class=".batchlabels.BatchLabelsView"
+      permission="cmf.ListFolderContents"
+      for="bika.lims.interfaces.IBatchLabels"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
   <!-- Publish static files -->
   <plone:static
       name="nal.lims"

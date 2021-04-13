@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<object name="Client"
+        meta_type="Factory-based Type Information with dynamic views"
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        i18n:domain="plone">
+
+  <action title="SDGs"
+          action_id="batches"
+          category="object"
+          condition_expr=""
+          icon_expr="string:${portal_url}/images/batch.png"
+          link_target=""
+          url_expr="string:${object_url}/batches"
+          i18n:attributes="title"
+          visible="True">
+    <permission value="View"/>
+  </action>
+<!-- 
+  <action title="Sample Points"
+          action_id="samplepoints"
+          category="object"
+          condition_expr=""
+          icon_expr="string:${portal_url}/images/samplepoint.png"
+          link_target=""
+          url_expr="string:${object_url}/samplepoints"
+          i18n:attributes="title"
+          visible="True">
+    <permission value="View"/>
+  </action> -->
+
+</object>
