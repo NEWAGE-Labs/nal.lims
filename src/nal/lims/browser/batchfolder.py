@@ -10,7 +10,7 @@ from bika.lims.utils import get_progress_bar_html
 from bika.lims.browser.batchfolder import BatchFolderContentsView as BikaBatchFolderContentsView
 
 class BatchFolderContentsView(BikaBatchFolderContentsView):
-    """Listing View for all Batches in the System
+    """Custom Listing View for all Batches in nal.lims
     """
 
     def __init__(self, context, request):

@@ -36,7 +36,8 @@ from bika.lims.controlpanel.bika_batchlabels import BatchLabelsView as BikaBatch
 
 
 class BatchLabelsView(BikaBatchLabelsView):
-
+    """ Custom Batch Labels listing view for nal.lims
+    """
     def __init__(self, context, request):
         super(BatchLabelsView, self).__init__(context, request)
 

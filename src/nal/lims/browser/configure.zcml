@@ -11,7 +11,9 @@
       layer="nal.lims.interfaces.INalLimsLayer"
       />
 
+  <include package=".samples" />
   <include package=".client" />
+  <include package=".analysisrequest" />
 
   <!-- Override View Classes -->
   <!-- Batch Folder from bika.lims-->

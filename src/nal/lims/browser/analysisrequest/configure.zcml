@@ -1,0 +1,49 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="nal.lims">
+
+  <!-- AR Add 2 -->
+  <browser:page
+      for="*"
+      name="ar_add_manage"
+      class="nal.lims.browser.analysisrequest.AnalysisRequestManageView"
+      permission="senaite.core.permissions.ManageBika"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      for="bika.lims.interfaces.IClient"
+      name="ar_add"
+      class="nal.lims.browser.analysisrequest.AnalysisRequestAddView"
+      permission="senaite.core.permissions.AddAnalysisRequest"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      for="bika.lims.interfaces.IAnalysisRequestsFolder"
+      name="ar_add"
+      class="nal.lims.browser.analysisrequest.AnalysisRequestAddView"
+      permission="senaite.core.permissions.AddAnalysisRequest"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      for="bika.lims.interfaces.IBatch"
+      name="ar_add"
+      class="nal.lims.browser.analysisrequest.AnalysisRequestAddView"
+      permission="senaite.core.permissions.AddAnalysisRequest"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      for="*"
+      name="ajax_ar_add"
+      class="nal.lims.browser.analysisrequest.ajaxAnalysisRequestAddView"
+      permission="zope.Public"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+  <!-- /AR Add 2 -->
+
+</configure>

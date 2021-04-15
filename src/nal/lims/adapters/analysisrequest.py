@@ -37,4 +37,19 @@ class AnalysisRequestSchemaModifier(object):
         self.context = context
 
     def fiddle(self, schema):
+        schema['Batch'].widget.label = _("SDG")
+        schema['Batch'].widget.description = _("The SDG of this sample")
+        schema['Batch'].widget.colModel = [
+            {'columnName': 'getId', 'width': '20',
+             'label': _('SDG ID'), 'align': 'left'},
+            {'columnName': 'Title', 'width': '20',
+             'label': _('Title'), 'align': 'left'},
+            # {'columnName': 'getClientBatchID', 'width': '20',
+            #  'label': _('CBID'), 'align': 'left'},
+            {'columnName': 'getClientTitle', 'width': '30',
+             'label': _('Client'), 'align': 'left'},
+        ]
+
+        schema['SubGroup'].widget.label = _("Sample Pairings")
+        schema['SubGroup'].widget.description = _("If this sample is part of a pair, assign both samples to the same Pair #")
         return schema

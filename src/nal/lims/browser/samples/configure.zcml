@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="nal.lims">
+
+    <browser:page
+        for="senaite.core.interfaces.ISamples"
+        name="view"
+        class="nal.lims.browser.samples.SamplesView"
+        permission="cmf.ListFolderContents"
+        layer="nal.lims.interfaces.INalLimsLayer"
+    />
+
+</configure>
