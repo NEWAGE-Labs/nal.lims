@@ -39,4 +39,16 @@
       provides="archetypes.schemaextender.interfaces.ISchemaExtender"
       />
 
+    <!-- Schema modifier for Clients -->
+    <adapter
+      name="nal.lims.analysis.schemamodifier"
+      factory=".analysis.AnalysisSchemaModifier"
+      />
+    <!-- Schema extender for Clients -->
+    <adapter
+      name="nal.lims.analysis.schemaextender"
+      factory=".analysis.AnalysisSchemaExtender"
+      provides="archetypes.schemaextender.interfaces.ISchemaExtender"
+      />
+
 </configure>
