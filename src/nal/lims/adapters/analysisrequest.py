@@ -4,12 +4,13 @@ from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
 from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
 from archetypes.schemaextender.interfaces import ISchemaModifier
 from bika.lims.fields import ExtStringField
+from bika.lims.fields import ExtBooleanField
 from bika.lims import bikaMessageFactory as _
 from zope.component import adapts
 from zope.interface import implements
 from nal.lims.interfaces import INalLimsLayer
-from Products.Archetypes.public import StringField
 from Products.Archetypes.public import StringWidget
+from Products.Archetypes.public import BooleanWidget
 
 class AnalysisRequestSchemaExtender(object):
     adapts(IAnalysisRequest)
@@ -17,7 +18,65 @@ class AnalysisRequestSchemaExtender(object):
     layer = INalLimsLayer
 
     fields = [
+        ExtStringField(
+            'PlantType',
+            widget=StringWidget(
+                label="Plant Type (Sap Samples)",
+                description="The Plant Species or Crop the sample was taken from",
+                render_own_label=True,
+                visible={
+                    'edit':'visible',
+                    'view':'visible',
+                    'add':'edit',
+                    'header_table':'visible',
+                },
+            )
+        ),
 
+        ExtStringField(
+            'Variety',
+            widget=StringWidget(
+                label="Variety (Sap Samples)",
+                description="The Plant Variety or Cultivar the sample was taken from",
+                render_own_label=True,
+                visible={
+                    'edit':'visible',
+                    'view':'visible',
+                    'add':'edit',
+                    'header_table':'visible',
+                },
+            )
+        ),
+
+        ExtStringField(
+            'GrowthStage',
+            widget=StringWidget(
+                label="Growth Stage (Sap Samples)",
+                description="The development stage of the plant the sample was taken from",
+                render_own_label=True,
+                visible={
+                    'edit':'visible',
+                    'view':'visible',
+                    'add':'edit',
+                    'header_table':'visible',
+                },
+            )
+        ),
+
+        ExtBooleanField(
+            'NewLeaf',
+            widget=BooleanWidget(
+                label="New Leaf (Sap Samples)",
+                description="The sample is from the new growth of a plant",
+                render_own_label=True,
+                visible={
+                    'edit':'visible',
+                    'view':'visible',
+                    'add':'edit',
+                    'header_table':'visible',
+                },
+            )
+        ),
     ]
 
     def __init__(self, context):
