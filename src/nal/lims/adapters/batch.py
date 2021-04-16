@@ -19,9 +19,6 @@ from bika.lims.browser.widgets import ReferenceWidget
 from zope.component import adapts
 from zope.interface import implements
 from nal.lims.interfaces import INalLimsLayer
-from datetime import date
-
-
 
 class BatchSchemaExtender(object):
     adapts(IBatch)
@@ -36,13 +33,14 @@ class BatchSchemaExtender(object):
             widget=DateTimeWidget(
                 label="Date Received",
                 description="The Date the Sample Delivery Group was received by the lab.",
-                show_time=True,
+                show_time=False,
                 datepicker_nofuture=1,
             )
         ),
 
         ExtStringField(
             'SDGTime',
+            required=True,
             widget=StringWidget(
                 label=_("Time Received"),
                 description=_("The Time the Sample Delivery Group was received by the lab."),
@@ -172,8 +170,9 @@ class BatchSchemaModifier(object):
         schema['description'].widget.description = "Additional details about the SDG"
         schema['Remarks'].widget.visible = False
 
-        schema.moveField('SDGDateTime', after='Client')
-        schema.moveField('ProjectContact', after='SDGDateTime')
+        schema.moveField('SDGDate', after='Client')
+        schema.moveField('SDGTime', after='SDGDate')
+        schema.moveField('ProjectContact', after='SDGTime')
         schema.moveField('SamplerContact', after='ProjectContact')
         schema.moveField('title', after='SamplerContact')
         schema.moveField('ReportContact', after='title')
