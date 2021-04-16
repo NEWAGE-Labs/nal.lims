@@ -12,4 +12,20 @@
       layer="nal.lims.interfaces.INalLimsLayer"
     />
 
+    <browser:page
+      for="bika.lims.interfaces.IClient"
+      name="base_view"
+      class="nal.lims.browser.client.ClientSamplesView"
+      permission="zope2.View"
+      layer="nal.lims.interfaces.INalLimsLayer"
+    />
+
+    <browser:page
+      for="bika.lims.interfaces.IClient"
+      name="samplepoints"
+      class="nal.lims.browser.client.ClientSamplePointsView"
+      permission="zope2.View"
+      layer="nal.lims.interfaces.INalLimsLayer"
+    />
+
 </configure>

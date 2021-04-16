@@ -18,6 +18,16 @@
 # Copyright 2018-2021 by it's authors.
 # Some rights reserved, see README and LICENSE.
 
-from views.batches import ClientBatchesView
-from views.samples import ClientSamplesView
-from views.samplepoints import ClientSamplePointsView
+from nal.lims.browser.samplepoints import SamplePointsView
+
+
+class ClientSamplePointsView(SamplePointsView):
+    """This is displayed in the "Sample Points" tab on each client
+    """
+
+    def before_render(self):
+        """Before template render hook
+        """
+        # Display the Client's tab bar at the top
+        if "disable_border" in self.request:
+            del(self.request["disable_border"])

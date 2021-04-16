@@ -18,6 +18,4 @@
 # Copyright 2018-2021 by it's authors.
 # Some rights reserved, see README and LICENSE.
 
-from views.batches import ClientBatchesView
-from views.samples import ClientSamplesView
-from views.samplepoints import ClientSamplePointsView
+from .view import AnalysesView

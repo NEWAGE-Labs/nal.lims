@@ -22,6 +22,8 @@ def post_install(context):
     nallims.batches.title = "SDGs"
     #Change 'Batch Labels' folder to 'SDG Labels'
     nallims.bika_setup.bika_batchlabels.title = "SDG Labels"
+    #Change 'Sample Points' folder to 'Sample Locations'
+    nallims.bika_setup.bika_samplepoints.title = "Sample Locations"
 
 def uninstall(context):
     """Uninstall script"""
@@ -32,3 +34,5 @@ def uninstall(context):
     nallims.batches.title = "Batches"
     #Revert 'Batch Labels' folder to default senaite title
     nallims.bika_setup.bika_batchlabels.title = "Batch Labels"
+    #Revert 'Sample Locations' folder to 'Sample Points'
+    nallims.bika_setup.bika_samplepoints.title = "Sample Points"

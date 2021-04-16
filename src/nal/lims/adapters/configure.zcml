@@ -14,7 +14,7 @@
       factory=".batch.BatchSchemaExtender"
       provides="archetypes.schemaextender.interfaces.ISchemaExtender"
       />
-      
+
     <!-- Schema modifier for ARs -->
     <adapter
       name="nal.lims.analysisrequest.schemamodifier"
@@ -24,6 +24,18 @@
     <adapter
       name="nal.lims.analysisrequest.schemaextender"
       factory=".analysisrequest.AnalysisRequestSchemaExtender"
+      provides="archetypes.schemaextender.interfaces.ISchemaExtender"
+      />
+
+    <!-- Schema modifier for Clients -->
+    <adapter
+      name="nal.lims.client.schemamodifier"
+      factory=".client.ClientSchemaModifier"
+      />
+    <!-- Schema extender for Clients -->
+    <adapter
+      name="nal.lims.client.schemaextender"
+      factory=".client.ClientSchemaExtender"
       provides="archetypes.schemaextender.interfaces.ISchemaExtender"
       />
 

@@ -18,6 +18,26 @@
 # Copyright 2018-2021 by it's authors.
 # Some rights reserved, see README and LICENSE.
 
-from views.batches import ClientBatchesView
-from views.samples import ClientSamplesView
-from views.samplepoints import ClientSamplePointsView
+from bika.lims import api
+from nal.lims.browser.samples import SamplesView
+
+class ClientSamplesView(SamplesView):
+
+    def __init__(self, context, request):
+        super(ClientSamplesView, self).__init__(context, request)
+
+        self.contentFilter["path"] = {
+            "query": api.get_path(context),
+            "level": 0}
+
+        self.remove_column("Client")
+
+    def update(self):
+        super(ClientSamplesView, self).update()
+
+        # always redirect to the /analysisrequets view
+        request_path = self.request.PATH_TRANSLATED
+        if (request_path.endswith(self.context.getId())):
+            object_url = api.get_url(self.context)
+            redirect_url = "{}/{}".format(object_url, "analysisrequests")
+            self.request.response.redirect(redirect_url)

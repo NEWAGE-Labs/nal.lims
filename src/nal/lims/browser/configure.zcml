@@ -29,8 +29,26 @@
   <browser:page
       name="folder_view"
       class=".batchlabels.BatchLabelsView"
-      permission="cmf.ListFolderContents"
+      permission="senaite.core.permissions.ManageBika"
       for="bika.lims.interfaces.IBatchLabels"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <!-- Client Folder from bika.lims-->
+  <browser:page
+      name="base_view"
+      class=".clientfolder.ClientFolderContentsView"
+      permission="cmf.ListFolderContents"
+      for="bika.lims.interfaces.IClientFolder"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <!-- Sample Points from bika.lims-->
+  <browser:page
+      name="folder_view"
+      class=".samplepoints.SamplePointsView"
+      permission="senaite.core.permissions.ManageBika"
+      for="bika.lims.interfaces.ISamplePoints"
       layer="nal.lims.interfaces.INalLimsLayer"
       />
 
