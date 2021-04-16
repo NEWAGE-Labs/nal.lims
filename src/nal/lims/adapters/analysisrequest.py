@@ -52,4 +52,7 @@ class AnalysisRequestSchemaModifier(object):
 
         schema['SubGroup'].widget.label = _("Sample Pairings")
         schema['SubGroup'].widget.description = _("If this sample is part of a pair, assign both samples to the same Pair #")
+        schema['Template'].widget.visible = False
+        schema['Container'].widget.visible = False
+        schema['Preservation'].widget.visible = False
         return schema
