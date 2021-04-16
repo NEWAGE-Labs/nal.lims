@@ -115,4 +115,13 @@ class AnalysisRequestSchemaModifier(object):
         schema['Container'].widget.visible = False
         schema['Preservation'].widget.visible = False
         schema['ClientOrderNumber'].widget.visible = False
+        schema['Attachment'].widget.visible = False
+        schema['InvoiceExclude'].widget.visible = False
+        schema['Composite'].widget.visible = False
+        schema['EnvironmentalConditions'].widget.visible = False
+        schema['Priority'].widget.visible = False
+        schema['SampleCondition'].widget.visible = False
+        schema['SamplingDeviation'].widget.visible = False
+        schema['ClientReference'].widget.visible = False
+        schema['InternalUse'].widget.visible = False
         return schema
