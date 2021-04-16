@@ -53,6 +53,15 @@ setup(
         'plone.api>=1.8.4',
         'plone.restapi',
         'plone.app.dexterity',
+        'senaite.core>=2.0',
+        'senaite.lims>=2.0',
+        'senaite.impress',
+        'senaite.jsonapi',
+        'pandas',
+        'numpy',
+        'pyodbc',
+        'Products.PDBDebugMode',
+        'ipdb'
     ],
     extras_require={
         'test': [
