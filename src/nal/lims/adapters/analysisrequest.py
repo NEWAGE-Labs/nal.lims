@@ -55,4 +55,5 @@ class AnalysisRequestSchemaModifier(object):
         schema['Template'].widget.visible = False
         schema['Container'].widget.visible = False
         schema['Preservation'].widget.visible = False
+        schema['ClientOrderNumber'].widget.visible = False
         return schema
