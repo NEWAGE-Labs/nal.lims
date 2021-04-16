@@ -5,7 +5,7 @@ from Products.ATContentTypes.content import schemata
 from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.atapi import FileField as ExtFileField
 from Products.Archetypes.atapi import FileWidget
-from Products.Archetypes.Widget import CalendarWidget
+from bika.lims.browser.widgets import DateTimeWidget
 from AccessControl import ClassSecurityInfo
 from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
 from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
@@ -31,13 +31,22 @@ class BatchSchemaExtender(object):
 
     fields = [
         ExtDateTimeField(
-            "SDGDateTime",
+            "SDGDate",
             required=True,
-            default_method="now",
-            widget=CalendarWidget(
+            widget=DateTimeWidget(
                 label="Date Received",
                 description="The Date the Sample Delivery Group was received by the lab.",
+                show_time=True,
+                datepicker_nofuture=1,
             )
+        ),
+
+        ExtStringField(
+            'SDGTime',
+            widget=StringWidget(
+                label=_("Time Received"),
+                description=_("The Time the Sample Delivery Group was received by the lab."),
+            ),
         ),
 
         ExtStringField(
@@ -45,7 +54,6 @@ class BatchSchemaExtender(object):
             widget=StringWidget(
                 label=_("Report Contact"),
                 description=_("Optional field. Used if there is a secondary client the results are being tested for."),
-                visible=True,
             ),
         ),
 
