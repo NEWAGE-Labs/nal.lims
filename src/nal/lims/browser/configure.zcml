@@ -52,6 +52,14 @@
       layer="nal.lims.interfaces.INalLimsLayer"
       />
 
+    <browser:page
+        name="icp"
+        class=".icp.ICPDisplayView"
+        permission="cmf.ListFolderContents"
+        for="*"
+        layer="nal.lims.interfaces.INalLimsLayer"
+        />
+
   <!-- Publish static files -->
   <plone:static
       name="nal.lims"
