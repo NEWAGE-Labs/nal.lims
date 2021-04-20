@@ -52,13 +52,22 @@
       layer="nal.lims.interfaces.INalLimsLayer"
       />
 
-    <browser:page
-        name="icp"
-        class=".icp.ICPDisplayView"
-        permission="cmf.ListFolderContents"
-        for="*"
-        layer="nal.lims.interfaces.INalLimsLayer"
-        />
+  <!-- <browser:page
+      name="icp"
+      class=".icp.ICPDisplayView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="icpjs"
+      class=".icp.ICPJSView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/icp.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      /> -->
 
   <!-- Publish static files -->
   <plone:static

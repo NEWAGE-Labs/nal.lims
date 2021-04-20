@@ -3,6 +3,7 @@
 
 # from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 # from plone.theme.interfaces import IDefaultPloneLayer
+from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from senaite.impress.interfaces import ILayer as ISenaiteImpressLayer
 from senaite.lims.interfaces import ISenaiteLIMS
 from senaite.core.interfaces import ISenaiteCore
@@ -10,5 +11,5 @@ from senaite.core.interfaces import ISenaiteCore
 from bika.lims.interfaces import IBikaLIMS
 
 
-class INalLimsLayer(IBikaLIMS, ISenaiteLIMS, ISenaiteImpressLayer, ISenaiteCore):
+class INalLimsLayer(IDefaultBrowserLayer, IBikaLIMS, ISenaiteLIMS, ISenaiteImpressLayer, ISenaiteCore):
     """Marker interface that defines a browser layer."""

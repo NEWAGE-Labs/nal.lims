@@ -1,0 +1,13 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="nal.lims">
+
+  <!-- <plone:behavior
+      title="instrumentresult"
+      name="nal.lims.instrumentresult"
+      description="Instrument Results that are not analyses yet"
+      provides=".instrumentresult.IInstrumentResult"
+      /> -->
+
+</configure>
