@@ -60,8 +60,8 @@ setup(
         'pandas',
         'numpy',
         'pyodbc',
-        'Products.PDBDebugMode',
-        'ipdb'
+        #'Products.PDBDebugMode',
+        #'ipdb'
     ],
     extras_require={
         'test': [
