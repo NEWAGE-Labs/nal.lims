@@ -39,12 +39,24 @@
       provides="archetypes.schemaextender.interfaces.ISchemaExtender"
       />
 
-    <!-- Schema modifier for Clients -->
+    <!-- Schema modifier for SamplePoints -->
+    <adapter
+      name="nal.lims.samplepoint.schemamodifier"
+      factory=".samplepoint.SamplePointSchemaModifier"
+      />
+    <!-- Schema extender for SamplePoints -->
+    <adapter
+      name="nal.lims.samplepoint.schemaextender"
+      factory=".samplepoint.SamplePointSchemaExtender"
+      provides="archetypes.schemaextender.interfaces.ISchemaExtender"
+      />
+
+    <!-- Schema modifier for Analyses -->
     <adapter
       name="nal.lims.analysis.schemamodifier"
       factory=".analysis.AnalysisSchemaModifier"
       />
-    <!-- Schema extender for Clients -->
+    <!-- Schema extender for Analyses -->
     <adapter
       name="nal.lims.analysis.schemaextender"
       factory=".analysis.AnalysisSchemaExtender"

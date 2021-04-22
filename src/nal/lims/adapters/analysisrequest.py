@@ -125,6 +125,7 @@ class AnalysisRequestSchemaExtender(object):
 class AnalysisRequestSchemaModifier(object):
     adapts(IAnalysisRequest)
     implements(ISchemaModifier)
+    layer = INalLimsLayer
 
     def __init__(self, context):
         self.context = context
