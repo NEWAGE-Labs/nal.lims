@@ -29,7 +29,7 @@ class SamplePointSchemaExtender(object):
         ExtStringField(
             "WSSN",
             widget=StringWidget(
-                label="MBG Location Type",
+                label="WSSN",
                 format="radio",
             )
         ),
