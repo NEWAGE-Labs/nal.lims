@@ -22,6 +22,9 @@ class AnalysisSchemaExtender(object):
             'AnalysisDateTime',
             read_permission=View,
             write_permission="Field: Edit Result",
+            widget=StringWidget(
+                label=_("Analysis Date/Time"),
+            ),
         )
     ]
 
