@@ -51,6 +51,18 @@
       provides="archetypes.schemaextender.interfaces.ISchemaExtender"
       />
 
+    <!-- Schema modifier for Contacts -->
+    <adapter
+      name="nal.lims.contact.schemamodifier"
+      factory=".contact.ContactSchemaModifier"
+      />
+    <!-- Schema extender for Contacts -->
+    <adapter
+      name="nal.lims.contact.schemaextender"
+      factory=".contact.ContactSchemaExtender"
+      provides="archetypes.schemaextender.interfaces.ISchemaExtender"
+      />
+
     <!-- Schema modifier for Analyses -->
     <adapter
       name="nal.lims.analysis.schemamodifier"
