@@ -5,6 +5,8 @@ from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
 from archetypes.schemaextender.interfaces import ISchemaModifier
 from bika.lims.fields import ExtStringField
 from bika.lims.fields import ExtBooleanField
+from bika.lims.fields import ExtDateTimeField
+from bika.lims.browser.widgets import DateTimeWidget
 from bika.lims import bikaMessageFactory as _
 from zope.component import adapts
 from zope.interface import implements
@@ -77,6 +79,38 @@ class AnalysisRequestSchemaExtender(object):
                 },
             )
         ),
+
+        ExtDateTimeField(
+            'DateOfSampling',
+            widget=DateTimeWidget(
+                label="Date Sampled",
+                description="The Date the sample was taken",
+                render_own_label=True,
+                show_time=False,
+                datepicker_nofuture=1,
+                visible={
+                    'edit':'visible',
+                    'view':'visible',
+                    'add':'edit',
+                    'header_table':'visible',
+                },
+            )
+        ),
+
+        ExtStringField(
+            'TimeofSampling',
+            widget=StringWidget(
+                label="Time Sampled",
+                description="The time of day the sample was taken",
+                render_own_label=True,
+                visible={
+                    'edit':'visible',
+                    'view':'visible',
+                    'add':'edit',
+                    'header_table':'visible',
+                },
+            )
+        ),
     ]
 
     def __init__(self, context):
@@ -111,9 +145,13 @@ class AnalysisRequestSchemaModifier(object):
 
         schema['SubGroup'].widget.label = _("Sample Pairings")
         schema['SubGroup'].widget.description = _("If this sample is part of a pair, assign both samples to the same Pair #")
+        schema['DateSampled'].widget.required = False
+
         schema['Template'].widget.visible = False
         schema['Container'].widget.visible = False
         schema['Preservation'].widget.visible = False
+        schema['DatePreserved'].widget.visible = False
+        schema['Preserver'].widget.visible = False
         schema['ClientOrderNumber'].widget.visible = False
         schema['Attachment'].widget.visible = False
         schema['InvoiceExclude'].widget.visible = False
@@ -124,4 +162,10 @@ class AnalysisRequestSchemaModifier(object):
         schema['SamplingDeviation'].widget.visible = False
         schema['ClientReference'].widget.visible = False
         schema['InternalUse'].widget.visible = False
+        schema['DateSampled'].widget.visible = False
+        schema['SamplingDate'].widget.visible = False
+        schema['PrimaryAnalysisRequest'].widget.visible = False
+        schema['Sampler'].widget.visible = False
+        schema['ScheduledSamplingSampler'].widget.visible = False
+        schema['StorageLocation'].widget.visible = False
         return schema
