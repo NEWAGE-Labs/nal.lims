@@ -1537,17 +1537,17 @@ class ajaxAnalysisRequestAddView(BikaajaxAnalysisRequestAddView):
                 continue
 
             # Re-add the Contact
-            required_fields["Contact"] = contact
+            # required_fields["Contact"] = contact
 
             # Check if the contact belongs to the selected client
-            contact_obj = api.get_object(contact, None)
-            if not contact_obj:
-                fielderrors["Contact"] = _("No valid contact")
-            else:
-                parent_uid = api.get_uid(api.get_parent(contact_obj))
-                if parent_uid != record.get("Client"):
-                    msg = _("Contact does not belong to the selected client")
-                    fielderrors["Contact"] = msg
+            # contact_obj = api.get_object(contact, None)
+            # if not contact_obj:
+            #     fielderrors["Contact"] = _("No valid contact")
+            # else:
+            #     parent_uid = api.get_uid(api.get_parent(contact_obj))
+            #     if parent_uid != record.get("Client"):
+            #         msg = _("Contact does not belong to the selected client")
+            #         fielderrors["Contact"] = msg
 
             # Missing required fields
             missing = [f for f in required_fields if not record.get(f, None)]

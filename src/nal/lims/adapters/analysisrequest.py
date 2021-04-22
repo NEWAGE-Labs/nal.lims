@@ -98,7 +98,7 @@ class AnalysisRequestSchemaExtender(object):
         ),
 
         ExtStringField(
-            'TimeofSampling',
+            'TimeOfSampling',
             widget=StringWidget(
                 label="Time Sampled",
                 description="The time of day the sample was taken",
@@ -147,6 +147,7 @@ class AnalysisRequestSchemaModifier(object):
         schema['SubGroup'].widget.label = _("Sample Pairings")
         schema['SubGroup'].widget.description = _("If this sample is part of a pair, assign both samples to the same Pair #")
         schema['DateSampled'].widget.required = False
+        schema['Contact'].widget.required = False
 
         schema['Template'].widget.visible = False
         schema['Container'].widget.visible = False
@@ -169,4 +170,24 @@ class AnalysisRequestSchemaModifier(object):
         schema['Sampler'].widget.visible = False
         schema['ScheduledSamplingSampler'].widget.visible = False
         schema['StorageLocation'].widget.visible = False
+        schema['Contact'].widget.visible = False
+
+        schema['CCEmails'].widget.label = "Email Contacts"
+        schema['CCEmails'].widget.description = "The contacts to email the sample to"
+
+        schema.moveField('CCEmails', after='CCContact')
+        schema.moveField('SamplePoint', after='CCEmails')
+        schema.moveField('ClientSampleID', after='SamplePoint')
+        schema.moveField('DateOfSampling', after='ClientSampleID')
+        schema.moveField('TimeOfSampling', after='DateOfSampling')
+        schema.moveField('SampleType', after='TimeOfSampling')
+        schema.moveField('Profiles', after='SampleType')
+        schema.moveField('Specification', after='Profiles')
+        schema.moveField('SubGroup', after='Specification')
+        schema.moveField('PlantType', after='SubGroup')
+        schema.moveField('Variety', after='PlantType')
+        schema.moveField('GrowthStage', after='Variety')
+        schema.moveField('NewLeaf', after='GrowthStage')
+        schema.moveField('Remarks', after='NewLeaf')
+        schema.moveField('Attachment', after='Remarks')
         return schema
