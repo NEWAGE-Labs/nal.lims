@@ -121,6 +121,7 @@ class BatchSchemaExtender(object):
             widget=FileWidget(
                 label="Chain Of Custody",
                 description="Select a printed COC to attach.",
+                visible=False,
             )
         ),
     ]
