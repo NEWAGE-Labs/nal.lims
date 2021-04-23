@@ -174,6 +174,7 @@ class AnalysisRequestSchemaModifier(object):
         schema['Invoice'].widget.visible = False
         schema['PublicationSpecification'].widget.visible = False
         schema['MemberDiscount'].widget.visible = False
+        schema['DateReceived'].widget.visible = False
 
         schema['CCEmails'].widget.label = "Email Contacts"
         schema['CCEmails'].widget.description = "The contacts to email the sample to"
