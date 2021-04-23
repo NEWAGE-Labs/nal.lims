@@ -194,4 +194,7 @@ class AnalysisRequestSchemaModifier(object):
         schema.moveField('NewLeaf', after='GrowthStage')
         schema.moveField('Remarks', after='NewLeaf')
         schema.moveField('Attachment', after='Remarks')
+
+        schema.moveField('Batch' before='CCEmails')
+        schema.moveField('Client' before='Batch')
         return schema
