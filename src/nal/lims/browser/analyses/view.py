@@ -69,6 +69,16 @@ class AnalysesView(BikaAnalysesView):
     Visible InterimFields from all analyses are added to self.columns[].
     Keyword arguments are passed directly to bika_analysis_catalog.
     """
+#Custom Method
+    def _folder_item_analysisdatetime(self, analysis_brain, item):
+        """Sets the category to the item passed in
+
+        :param analysis_brain: Brain that represents an analysis
+        :param item: analysis' dictionary counterpart that represents a row
+        """
+        item["allow_edit"].append("AnalysisDateTime")
+        datetime = self.get_object(analysis_brain).getAnalysisDateTime()
+        item["AnalysisDateTime"] = datetime or ""
 
     def __init__(self, context, request, **kwargs):
         super(AnalysesView, self).__init__(context, request, **kwargs)
@@ -116,6 +126,7 @@ class AnalysesView(BikaAnalysesView):
                 "toggle": False}),
             ("Service", {
                 "title": _("Analysis"),
+                "url": "self.url",
                 "attr": "Title",
                 "index": "sortable_title",
                 "sortable": False}),
@@ -128,7 +139,7 @@ class AnalysesView(BikaAnalysesView):
                 "title": _("Instrument"),
                 "ajax": True,
                 "sortable": False,
-                "toggle": True}),
+                "toggle": False}),
             ("Calculation", {
                 "title": _("Calculation"),
                 "sortable": False,
@@ -140,7 +151,8 @@ class AnalysesView(BikaAnalysesView):
                 "toggle": True}),
             ("state_title", {
                 "title": _("Status"),
-                "sortable": False}),
+                "sortable": False,
+                "toggle": False}),
             ("DetectionLimitOperand", {
                 "title": _("DL"),
                 "sortable": False,
@@ -154,36 +166,49 @@ class AnalysesView(BikaAnalysesView):
                 "ajax": True,
                 "sortable": False}),
             ("Specification", {
-                "title": _("Specification"),
-                "sortable": False}),
+                "title": _("Range"),
+                "sortable": False,
+                "toggle": True}),
             ("Uncertainty", {
                 "title": _("+-"),
                 "ajax": True,
-                "sortable": False}),
+                "sortable": False,
+                "toggle": False}),
             ("retested", {
                 "title": _("Retested"),
                 "type": "boolean",
-                "sortable": False}),
+                "sortable": False,
+                "toggle": False}),
             ("Attachments", {
                 "title": _("Attachments"),
-                "sortable": False}),
+                "sortable": False,
+                "toggle": False}),
             ("CaptureDate", {
                 "title": _("Captured"),
                 "index": "getResultCaptureDate",
-                "sortable": False}),
+                "sortable": False,
+                "toggle": False}),
             ("SubmittedBy", {
                 "title": _("Submitter"),
-                "sortable": False}),
+                "sortable": False,
+                "toggle": False}),
             ("DueDate", {
                 "title": _("Due Date"),
                 "index": "getDueDate",
-                "sortable": False}),
+                "sortable": False,
+                "toggle": False}),
             ("Hidden", {
                 "title": _("Hidden"),
-                "toggle": True,
+                "toggle": False,
                 "sortable": False,
                 "ajax": True,
                 "type": "boolean"}),
+            ("AnalysisDateTime", {
+                "title": _("Analysis DateTime"),
+                "toggle": True,
+                "sortable": False,
+                "ajax": True,
+                "type": "string"}),
         ))
 
         # Inject Remarks column for listing
@@ -778,6 +803,7 @@ class AnalysesView(BikaAnalysesView):
 
         # Get the analysis object
         obj = self.get_object(analysis_brain)
+        item['AnalysisDateTime'] = obj.AnalysisDateTime
 
         # Edit mode enabled of this Analysis
         if self.is_analysis_edition_allowed(analysis_brain):
@@ -787,6 +813,8 @@ class AnalysesView(BikaAnalysesView):
             # Set the results field editable
             if self.is_result_edition_allowed(analysis_brain):
                 item["allow_edit"].append("Result")
+                item["allow_edit"].append("Analyst")
+                item["allow_edit"].append("AnalysisDateTime")
 
             # Prepare result options
             choices = obj.getResultOptions()
