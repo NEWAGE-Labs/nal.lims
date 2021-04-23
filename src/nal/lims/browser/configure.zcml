@@ -14,6 +14,7 @@
   <include package=".samples" />
   <include package=".client" />
   <include package=".analysisrequest" />
+  <!-- <include package=".analyses" /> -->
 
   <!-- Override View Classes -->
   <!-- Batch Folder from bika.lims-->
