@@ -170,7 +170,7 @@ class AnalysisRequestSchemaModifier(object):
         schema['Sampler'].widget.visible = False
         schema['ScheduledSamplingSampler'].widget.visible = False
         schema['StorageLocation'].widget.visible = False
-        schema['Contact'].widget.visible = False
+        # schema['Contact'].widget.visible = False
         schema['Invoice'].widget.visible = False
         schema['PublicationSpecification'].widget.visible = False
         schema['MemberDiscount'].widget.visible = False
@@ -195,6 +195,6 @@ class AnalysisRequestSchemaModifier(object):
         schema.moveField('Remarks', after='NewLeaf')
         schema.moveField('Attachment', after='Remarks')
 
-        schema.moveField('Batch' before='CCEmails')
-        schema.moveField('Client' before='Batch')
+        schema.moveField('Batch', before='CCEmails')
+        schema.moveField('Client', before='Batch')
         return schema
