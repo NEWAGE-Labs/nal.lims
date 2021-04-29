@@ -132,6 +132,7 @@ class AnalysisRequestSchemaModifier(object):
         self.context = context
 
     def fiddle(self, schema):
+        schema['SamplePoint'].widget.label = _("Sample Location")
         schema['Batch'].widget.label = _("SDG")
         schema['Batch'].widget.description = _("The SDG of this sample")
         schema['Batch'].widget.colModel = [
