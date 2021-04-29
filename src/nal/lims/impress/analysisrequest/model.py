@@ -52,51 +52,52 @@ class SuperModel(BaseModel):
 
     def get_optimal_high_level(self, analysis):
         specs = analysis.getResultsRange()
-        return specs.get('max', 0)
+        return specs.get('max', '')
 
     def get_optimal_low_level(self, analysis):
         specs = analysis.getResultsRange()
-        return specs.get('min', 0)
+        return specs.get('min', '')
 
     def get_result_bar_percentage(self, analysis):
         specs = analysis.getResultsRange()
-        min_str = str(specs.get('min', 0)).strip()
-        max_str = str(specs.get('max', 0)).strip()
-        result_str = str(analysis.getResult()).strip()
-        min = -1
-        max = -1
-        result = -1
-
-        try:
-            min = float(min_str)
-        except ValueError:
-            pass
-        try:
-            max = float(max_str)
-        except ValueError:
-            pass
-        try:
-            result = float(result_str)
-        except ValueError:
-            pass
-
         perc = 0
-        if result < float(analysis.getLowerDetectionLimit()):
-            result = 0
-        if min != -1 and max != -1 and result != -1 and max != 0:
-            if result <= min:
-                perc = (result/min)*(100/3)
-            elif result >= max:
-                perc = (200/3) + ((100/3)-(100/3)/(result/max))
-            else:
-                perc = (100/3) + (((result-min)/(max-min))*(100/3))
+        if specs:
+            min_str = str(specs.get('min', 0)).strip()
+            max_str = str(specs.get('max', 99999)).strip()
+            result_str = str(analysis.getResult()).strip()
+            min = -1
+            max = -1
+            result = -1
+
+            try:
+                min = float(min_str)
+            except ValueError:
+                pass
+            try:
+                max = float(max_str)
+            except ValueError:
+                pass
+            try:
+                result = float(result_str)
+            except ValueError:
+                pass
+
+            if result < float(analysis.getLowerDetectionLimit()):
+                result = 0
+            if min != -1 and max != -1 and result != -1 and max != 0:
+                if result <= min:
+                    perc = (result/min)*(100/3)
+                elif result >= max:
+                    perc = (200/3) + ((100/3)-(100/3)/(result/max))
+                else:
+                    perc = (100/3) + (((result-min)/(max-min))*(100/3))
         return perc
 
     def get_formatted_result_or_NT(self, analysis, digits):
         """Return formatted result or NT
         """
         result = analysis.getResult()
-        if result == "":
+        if analysis is None or result == "":
             return "NT"
         elif float(result) < float(analysis.getLowerDetectionLimit()):
             return "< " + "0.1"
@@ -111,8 +112,11 @@ class SuperModel(BaseModel):
         """Returns the batch date formatted as [Month Day, Year]
         """
         batch = api.get_object(self.getBatch())
-        received_date = batch.SDGDate.strftime("%b %d, %Y")
-        return received_date or ""
+        try:
+            received_date = batch.SDGDate.strftime("%b %d, %Y")
+            return received_date or ""
+        except TypeError:
+            raise TypeError("No SDG Recieved Date")
 #End Custom Methods
 
     def is_invalid(self):

@@ -82,6 +82,7 @@ class AnalysisRequestSchemaExtender(object):
 
         ExtDateTimeField(
             'DateOfSampling',
+            required=1,
             widget=DateTimeWidget(
                 label="Date Sampled",
                 description="The Date the sample was taken",
