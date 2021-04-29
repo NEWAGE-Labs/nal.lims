@@ -134,7 +134,7 @@ class AnalysesView(BikaAnalysesView):
                 "title": _("Method"),
                 "sortable": False,
                 "ajax": True,
-                "toggle": True}),
+                "toggle": False}),
             ("Instrument", {
                 "title": _("Instrument"),
                 "ajax": True,
@@ -710,8 +710,8 @@ class AnalysesView(BikaAnalysesView):
         # same time, because the value assigned to one causes
         # a value reassignment to the other (one method can be performed
         # by different instruments)
-        self.columns["Method"]["toggle"] = self.show_methodinstr_columns
-        self.columns["Instrument"]["toggle"] = self.show_methodinstr_columns
+        # self.columns["Method"]["toggle"] = self.show_methodinstr_columns
+        # self.columns["Instrument"]["toggle"] = self.show_methodinstr_columns
 
         return items
 
