@@ -1,47 +1,17 @@
-<html metal:use-macro="context/main_template/macros/master">
+<html metal:use-macro="context/main_template/macros/master"
+      tal:define="update view/update">
   <metal:content-core fill-slot="main">
-    Does this do the thing?
-    ${python:view.saveCSV()}
-      <!-- <tal:sql define="headers python:view.getDFHeaders(); body python:view.getDFBody()">
-        <table
-            class="listing pat-datatables"
-            data-pat-datatables='{
-              "pageLength": 50,
-              "pagingType": "simple_numbers",
-              "language": {
-                  "processing": "Bitte warten...",
-                  "lengthMenu": "_MENU_ Einträge anzeigen",
-                  "zeroRecords": "Keine Einträge vorhanden.",
-                  "info": "_START_ bis _END_ von _TOTAL_ Einträgen",
-                  "infoEmpty": "Keine Einträge",
-                  "infoFiltered": "(gefiltert von _MAX_ Einträgen)",
-                  "infoPostFix": "",
-                  "search": "Filtern",
-                  "url": "",
-                  "paginate": {
-                      "first":    "Erster",
-                      "previous": "Zurück",
-                      "next":     "Weiter",
-                      "last":     "Letzter"
-                   }}}'
-            id="asbest_table">
-          <thead>
-            <tr>
-              <tal:headers repeat="header python:headers">
-                  <th>${header}</th>
-              </tal:headers>
-            </tr>
-          </thead>
-          <tbody>
-            <tal:row repeat="row python:body">
-              <tr>
-                <tal:data repeat="col python:headers">
-                  <td>${python:row[col]}</td>
-                </tal:data>
-              </tr>
-            </tal:row>
-          </tbody>
-        </table>
-      </tal:sql> -->
-  </metal:content-core>
+    <div>Does this do the thing?</div>
+    <div>
+      <input type="file" name="instrument_results_file" id="instrument_results_file"/>
+    </div>
+    <form action="update" method="POST">
+      <button type="submit" name="import_button">
+              Import
+      </button>
+    </form>
+    <div>
+      ${python:view.saveCSV(context, request)}
+    </div>
+</metal:content-core>
 </html>
