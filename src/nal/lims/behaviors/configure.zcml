@@ -10,4 +10,32 @@
       provides=".instrumentresult.IInstrumentResult"
       /> -->
 
+  <plone:behavior
+      title="instrumentreadfolder"
+      name="nal.lims.instrumentreadfolder"
+      description="Special Folder for Instrument Reads"
+      provides=".instrumentreadfolder.IInstrumentReadFolder"
+      />
+
+  <plone:behavior
+      title="instrumentread"
+      name="nal.lims.instrumentread"
+      description="Queries to a specific instrument. Returns a set of Read Samples"
+      provides=".instrumentread.IInstrumentRead"
+      />
+
+  <plone:behavior
+      title="readsample"
+      name="nal.lims.readsample"
+      description="An individual sample from an Instrument Read"
+      provides=".readsample.IReadSample"
+      />
+
+  <plone:behavior
+      title="readresult"
+      name="nal.lims.readresult"
+      description="An individual analyte from a Read Sample"
+      provides=".readresult.IReadResult"
+      />
+
 </configure>

@@ -5,29 +5,16 @@ from plone.supermodel import model
 from zope import schema
 from zope.interface import provider
 from datetime import date
+from plone.namedfile import field
 
 @provider(IFormFieldProvider)
-class IInstrumentReads(model.Schema):
-
+class IInstrumentReadFolder(model.Schema):
     # directives.fieldset(
     #     'metrc',
     #     label=u'METRC',
     #     fields=('rfid','room', 'cannabis'),
     # )
-    today = date.datetime.today()
-
-    instrument = schema.TextLine(
-        title=u'Instrument',
-        required=True,
-    )
-
-    start = schema.Datetime(
-        title=u'Start',
-        required=True,
-        default=today,
-    )
-
-    end = schema.Datetime(
-        title=u'End',
+    sample = field.NamedFile(
+        title=u'CSV of Samples',
         required=False,
     )

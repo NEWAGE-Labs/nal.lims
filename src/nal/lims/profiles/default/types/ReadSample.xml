@@ -22,11 +22,12 @@
  <property name="add_permission">cmf.AddPortalContent</property>
  <property name="klass">plone.dexterity.content.Container</property>
  <property name="behaviors">
-  <element value="nal.lims.instrumentresult"/>
+  <element value="plone.namefromtitle"/>
+  <element value="nal.lims.readsample"/>
  </property>
  <property name="schema"></property>
  <property name="model_source"></property>
- <property name="model_file">nal.lims.content:instrumentresult.xml</property>
+ <property name="model_file">nal.lims.content:readsample.xml</property>
  <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>
  <alias from="edit" to="@@edit"/>

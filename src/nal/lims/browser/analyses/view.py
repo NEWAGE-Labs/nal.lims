@@ -710,8 +710,9 @@ class AnalysesView(BikaAnalysesView):
         # same time, because the value assigned to one causes
         # a value reassignment to the other (one method can be performed
         # by different instruments)
-        # self.columns["Method"]["toggle"] = self.show_methodinstr_columns
-        # self.columns["Instrument"]["toggle"] = self.show_methodinstr_columns
+
+        self.columns["Method"]["toggle"] = False
+        self.columns["Instrument"]["toggle"] = False
 
         return items
 

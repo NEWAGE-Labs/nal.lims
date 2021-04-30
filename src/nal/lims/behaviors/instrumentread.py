@@ -6,7 +6,7 @@ from zope import schema
 from zope.interface import provider
 
 @provider(IFormFieldProvider)
-class IInstrumentResult(model.Schema):
+class IInstrumentRead(model.Schema):
 
     # directives.fieldset(
     #     'metrc',
@@ -14,17 +14,17 @@ class IInstrumentResult(model.Schema):
     #     fields=('rfid','room', 'cannabis'),
     # )
 
-    sample = schema.TextLine(
-        title=u'Sample Name',
+    instrument = schema.TextLine(
+        title=u'Instrument',
         required=False,
     )
 
-    analyte = schema.TextLine(
-        title=u'Analyte',
+    start = schema.Datetime(
+        title=u'Start of Read',
         required=False,
     )
 
-    result = schema.Float(
-        title=u'Result',
+    end = schema.Datetime(
+        title=u'End of Read',
         required=False,
     )

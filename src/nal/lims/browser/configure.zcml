@@ -53,6 +53,31 @@
       layer="nal.lims.interfaces.INalLimsLayer"
       />
 
+  <browser:page
+      name="instrumentreadfolder"
+      class=".instrumentreadfolder.InstrumentReadFolderView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="instrumentread"
+      class=".instrumentread.InstrumentReadView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="icptest"
+      class=".icptest.ICPTestView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/icptest.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
   <!-- <browser:page
       name="icp"
       class=".icp.ICPDisplayView"

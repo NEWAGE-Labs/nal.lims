@@ -22,6 +22,7 @@
  <property name="add_permission">cmf.AddPortalContent</property>
  <property name="klass">plone.dexterity.content.Container</property>
  <property name="behaviors">
+  <element value="plone.namefromtitle"/>
   <element value="nal.lims.instrumentread"/>
  </property>
  <property name="schema"></property>
