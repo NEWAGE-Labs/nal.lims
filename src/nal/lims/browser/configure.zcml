@@ -78,6 +78,15 @@
       layer="nal.lims.interfaces.INalLimsLayer"
       />
 
+  <browser:page
+      name="icptestadd"
+      class=".icptest.ICPTestAddView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/icptest.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
   <!-- <browser:page
       name="icp"
       class=".icp.ICPDisplayView"
