@@ -93,10 +93,161 @@ class ICPTestView(edit.DefaultEditForm):
         filtered_df = df[bool_series]
 
         for i in import_samples:
-            if i.sap_nickel and not i.sap_nickel.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')].empty:
-                i.sap_nickel.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')]['Formatted Result'].values[0].strip(), "utf-8")
-                i.sap_nickel.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')]['Test Date/Time'].values[0]
-                i.sap_nickel.reindexObject(idxs=['Result','AnalysisDateTime'])
+
+            try:
+                sap_nickel = i.sap_nickel
+            except AttributeError:
+                sap_nickel = None
+            try:
+                sap_aluminum = i.sap_aluminum
+            except AttributeError:
+                sap_aluminum = None
+            try:
+                sap_boron = i.sap_boron
+            except AttributeError:
+                sap_boron = None
+            try:
+                sap_calcium = i.sap_calcium
+            except AttributeError:
+                sap_calcium = None
+            try:
+                sap_cobalt = i.sap_cobalt
+            except AttributeError:
+                sap_cobalt = None
+            try:
+                sap_copper = i.sap_copper
+            except AttributeError:
+                sap_copper = None
+            try:
+                sap_iron = i.sap_iron
+            except AttributeError:
+                sap_iron = None
+            try:
+                sap_magnesium = i.sap_magnesium
+            except AttributeError:
+                sap_magnesium = None
+            try:
+                sap_manganese = i.sap_manganese
+            except AttributeError:
+                sap_manganese = None
+            try:
+                sap_molybdenum = i.sap_molybdenum
+            except AttributeError:
+                sap_molybdenum = None
+            try:
+                sap_phosphorous = i.sap_phosphorous
+            except AttributeError:
+                sap_phosphorous = None
+            try:
+                sap_potassium = i.sap_potassium
+            except AttributeError:
+                sap_potassium = None
+            try:
+                sap_selenium = i.sap_selenium
+            except AttributeError:
+                sap_selenium = None
+            try:
+                sap_silica = i.sap_silica
+            except AttributeError:
+                sap_silica = None
+            try:
+                sap_sodium = i.sap_sodium
+            except AttributeError:
+                sap_sodium = None
+            try:
+                sap_sulfur = i.sap_sulfur
+            except AttributeError:
+                sap_sulfur = None
+            try:
+                sap_zinc = i.sap_zinc
+            except AttributeError:
+                sap_zinc = None
+
+        #Nickel
+            if sap_nickel is not None and not sap_nickel.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')].empty:
+                sap_nickel.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')]['Formatted Result'].values[0].strip(), "utf-8")
+                sap_nickel.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')]['Test Date/Time'].values[0]
+                sap_nickel.reindexObject(idxs=['Result','AnalysisDateTime'])
+        #Aluminum
+            if sap_aluminum is not None and not sap_aluminum.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')].empty:
+                sap_aluminum.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')]['Formatted Result'].values[0].strip(), "utf-8")
+                sap_aluminum.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')]['Test Date/Time'].values[0]
+                sap_aluminum.reindexObject(idxs=['Result','AnalysisDateTime'])
+        #Boron
+            if sap_boron is not None and not sap_boron.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')].empty:
+                sap_boron.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')]['Formatted Result'].values[0].strip(), "utf-8")
+                sap_boron.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')]['Test Date/Time'].values[0]
+                sap_boron.reindexObject(idxs=['Result','AnalysisDateTime'])
+        #Calcium
+            if sap_calcium is not None and not sap_calcium.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')].empty:
+                sap_calcium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Formatted Result'].values[0].strip(), "utf-8")
+                sap_calcium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Test Date/Time'].values[0]
+                sap_calcium.reindexObject(idxs=['Result','AnalysisDateTime'])
+        #Cobalt
+            if sap_cobalt is not None and not sap_cobalt.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')].empty:
+                sap_cobalt.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')]['Formatted Result'].values[0].strip(), "utf-8")
+                sap_cobalt.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')]['Test Date/Time'].values[0]
+                sap_cobalt.reindexObject(idxs=['Result','AnalysisDateTime'])
+        #Copper
+            if sap_copper is not None and not sap_copper.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')].empty:
+                sap_copper.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')]['Formatted Result'].values[0].strip(), "utf-8")
+                sap_copper.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')]['Test Date/Time'].values[0]
+                sap_copper.reindexObject(idxs=['Result','AnalysisDateTime'])
+        #Iron
+            if sap_iron is not None and not sap_iron.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')].empty:
+                sap_iron.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')]['Formatted Result'].values[0].strip(), "utf-8")
+                sap_iron.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')]['Test Date/Time'].values[0]
+                sap_iron.reindexObject(idxs=['Result','AnalysisDateTime'])
+        #Magnesium
+            if sap_magnesium is not None and not sap_magnesium.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')].empty:
+                sap_magnesium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')]['Formatted Result'].values[0].strip(), "utf-8")
+                sap_magnesium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')]['Test Date/Time'].values[0]
+                sap_magnesium.reindexObject(idxs=['Result','AnalysisDateTime'])
+        #Manganese
+            if sap_manganese is not None and not sap_manganese.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')].empty:
+                sap_manganese.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')]['Formatted Result'].values[0].strip(), "utf-8")
+                sap_manganese.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')]['Test Date/Time'].values[0]
+                sap_manganese.reindexObject(idxs=['Result','AnalysisDateTime'])
+        #Molybdenum
+            if sap_molybdenum is not None and not sap_molybdenum.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')].empty:
+                sap_molybdenum.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')]['Formatted Result'].values[0].strip(), "utf-8")
+                sap_molybdenum.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')]['Test Date/Time'].values[0]
+                sap_molybdenum.reindexObject(idxs=['Result','AnalysisDateTime'])
+        #Phosphorus
+            if sap_phosphorous is not None and not sap_phosphorous.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')].empty:
+                sap_phosphorous.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Formatted Result'].values[0].strip(), "utf-8")
+                sap_phosphorous.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Test Date/Time'].values[0]
+                sap_phosphorous.reindexObject(idxs=['Result','AnalysisDateTime'])
+        #Potassium
+            if sap_potassium is not None and not sap_potassium.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')].empty:
+                sap_potassium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]['Formatted Result'].values[0].strip(), "utf-8")
+                sap_potassium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]['Test Date/Time'].values[0]
+                sap_potassium.reindexObject(idxs=['Result','AnalysisDateTime'])
+        #Selenium
+            if sap_selenium is not None and not sap_selenium.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')].empty:
+                sap_selenium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')]['Formatted Result'].values[0].strip(), "utf-8")
+                sap_selenium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')]['Test Date/Time'].values[0]
+                sap_selenium.reindexObject(idxs=['Result','AnalysisDateTime'])
+        #Silica
+            if sap_silica is not None and not sap_silica.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')].empty:
+                sap_silica.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')]['Formatted Result'].values[0].strip(), "utf-8")
+                sap_silica.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')]['Test Date/Time'].values[0]
+                sap_silica.reindexObject(idxs=['Result','AnalysisDateTime'])
+        #Sodium
+            if sap_sodium is not None and not sap_sodium.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')].empty:
+                sap_sodium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')]['Formatted Result'].values[0].strip(), "utf-8")
+                sap_sodium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')]['Test Date/Time'].values[0]
+                sap_sodium.reindexObject(idxs=['Result','AnalysisDateTime'])
+        #Sulfur
+            if sap_sulfur is not None and not sap_sulfur.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')].empty:
+                sap_sulfur.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')]['Formatted Result'].values[0].strip(), "utf-8")
+                sap_sulfur.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')]['Test Date/Time'].values[0]
+                sap_sulfur.reindexObject(idxs=['Result','AnalysisDateTime'])
+        #Zinc
+            if sap_zinc is not None and not sap_zinc.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')].empty:
+                sap_zinc.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')]['Formatted Result'].values[0].strip(), "utf-8")
+                sap_zinc.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')]['Test Date/Time'].values[0]
+                sap_zinc.reindexObject(idxs=['Result','AnalysisDateTime'])
 
 
         return filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')].values
