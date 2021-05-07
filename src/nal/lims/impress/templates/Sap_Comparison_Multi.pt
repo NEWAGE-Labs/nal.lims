@@ -86,6 +86,7 @@ EDITS:
       tr.row2 {height: 30pt;}
       tr.row3 {height: 30pt;}
       div.subrow {height: 20pt;}
+      div.header {margin-top: -2px;}
       div.header-detail {margin-left: 15pt; font-size: 7.5pt;}
       div.cover-page {height: 792pt;}
       div.cover-letter {margin-left: -60pt; margin-top: -60pt; height: 792pt; width: 612pt; background-size: 100% 100%; background-image: url(<tal:bg replace="letterhead"/>);}
@@ -422,13 +423,13 @@ EDITS:
       		    <!-- Parameter -->
       		    <col style="width: 21%;">
       		    <!-- Unit -->
-      		    <col style="width: 4%">
+      		    <col style="width: 3%">
               <!-- Optimal Range -->
-              <col style="width: 10%">
+              <col style="width: 12%">
       		    <!-- Result -->
       		    <col style="width: 10%;">
               <!-- Sample Order -->
-      		    <col style="width: 4%;">
+      		    <col style="width: 3%;">
               <!-- Graph -->
       		    <col style="width: 51%">
             </colgroup>
