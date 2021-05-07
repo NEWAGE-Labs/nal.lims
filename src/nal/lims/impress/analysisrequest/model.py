@@ -98,12 +98,12 @@ class SuperModel(BaseModel):
         """
         result = analysis.getResult()
         if analysis is None or result == "":
-            return "NT"
+            return "NT" #Only if Analysis Service is listed, but not filled out
         elif float(result) < float(analysis.getLowerDetectionLimit()):
             return "< " + "0.1"
         else:
             result = float(result)
-            result = round(result, digits-int(floor(log10(abs(result)))))
+            result = round(result, digits-int(floor(log10(abs(result))))-1)
             if result >= 10:
                 result = int(result)
             return result
