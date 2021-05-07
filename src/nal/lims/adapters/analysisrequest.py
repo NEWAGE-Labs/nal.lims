@@ -150,6 +150,10 @@ class AnalysisRequestSchemaModifier(object):
         schema['SubGroup'].widget.description = _("If this sample is part of a pair, assign both samples to the same Pair #")
         schema['DateSampled'].widget.required = False
         schema['Contact'].widget.required = False
+        schema['ClientSampleID'].widget.required = True
+        schema['CCContact'].widget.required = True
+        schema['SamplePoint'].widget.required = True
+        schema['Batch'].widget.required = True
 
         schema['Template'].widget.visible = False
         schema['Container'].widget.visible = False
@@ -172,14 +176,27 @@ class AnalysisRequestSchemaModifier(object):
         schema['Sampler'].widget.visible = False
         schema['ScheduledSamplingSampler'].widget.visible = False
         schema['StorageLocation'].widget.visible = False
-        # schema['Contact'].widget.visible = False
+        schema['Contact'].widget.visible = False
         schema['Invoice'].widget.visible = False
         schema['PublicationSpecification'].widget.visible = False
         schema['MemberDiscount'].widget.visible = False
         schema['DateReceived'].widget.visible = False
 
-        schema['CCEmails'].widget.label = "Email Contacts"
-        schema['CCEmails'].widget.description = "The contacts to email the sample to"
+        schema['CCEmails'].widget.visible={
+            'edit':'visible',
+            'view':'visible',
+            'add':'edit',
+            'header_table':'visible',
+        }
+
+        schema['CCContact'].widget.label = "Email Contacts"
+        schema['CCContact'].widget.description = "The Contacts to email the sample to"
+        schema['CCEmails'].widget.label = "Additional Emails"
+        schema['CCEmails'].widget.description = "Other emails to CC"
+        schema['Attachment'].widget.label = "COC and Attachments"
+        schema['Attachment'].widget.description = "Attach COC to one sample. .png and .jpeg files will show on report, but .pdfs will not."
+        schema['Remarks'].widget.label = "Comments"
+        schema['Remarks'].widget.description = "Additional remarks or comments about the sample."
 
         schema.moveField('CCEmails', after='CCContact')
         schema.moveField('SamplePoint', after='CCEmails')
@@ -197,6 +214,6 @@ class AnalysisRequestSchemaModifier(object):
         schema.moveField('Remarks', after='NewLeaf')
         schema.moveField('Attachment', after='Remarks')
 
-        schema.moveField('Batch', before='CCEmails')
+        schema.moveField('Batch', after='CCEmails')
         schema.moveField('Client', before='Batch')
         return schema
