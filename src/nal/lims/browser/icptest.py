@@ -276,20 +276,15 @@ class ICPTestView(edit.DefaultEditForm):
                 sap_zinc = api.do_transition_for(sap_zinc, "submit")
 
         #K/Ca Ratio
-            if sap_kcaratio is not None and not sap_kcaratio.Result and sap_potassium.Result is not None amd sap_calcium.Result is not None:
-                try:
-                    k_float = float(sap_potassium.Result)
-                    ca_float = float(sap_calcium.Result)
-                    sap_kcaratio.Result (k_float/ca_float)
-                    sap_kcaratio.AnalysisDateTime = sap_potassium.AnalysisDateTime or sap_calcium.AnalysisDateTime
-                    sap_kcaratio.reindexObject(idxs=['Result','AnalysisDateTime'])
-                    sap_kcaratio = api.do_transition_for(sap_kcaratio, "submit")
-                except:
-                    pass
+            if sap_kcaratio is not None and not sap_kcaratio.Result and sap_potassium.Result is not None and sap_calcium.Result is not None:
+                k_float = float(sap_potassium.Result)
+                ca_float = float(sap_calcium.Result)
+                sap_kcaratio.Result = unicode(k_float/ca_float)
+                sap_kcaratio.AnalysisDateTime = sap_potassium.AnalysisDateTime or sap_calcium.AnalysisDateTime
+                sap_kcaratio.reindexObject(idxs=['Result','AnalysisDateTime'])
+                sap_kcaratio = api.do_transition_for(sap_kcaratio, "submit")
 
-
-
-        return filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')].values
+        return ', '.join(ids)
 
     @button.buttonAndHandler(u'Import')
     def handleApply(self, action):
