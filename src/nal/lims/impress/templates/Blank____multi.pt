@@ -60,22 +60,6 @@ EDITS:
   <!-- BEGIN CSS Styling -->
   <tal:css>
     <style type="text/css">
-      .report-image {font-size: 8pt; height: auto; width: auto;}
-      .report-image div.body tr {border-top: 1pt black solid; border-bottom: 1pt black solid;}
-      .report-image div.body td {padding: 0; font-size: 6pt;}
-      .report-image div.body td div {font-size: 5.5pt;}
-      div.high-spec, div.low-spec, div.header-label, div.result {font-weight: bold;}
-      .report-image div.header {margin-left: -35pt; margin-top: -40pt; padding-left: 0; width: 102%;}
-      .report-image div.body {width: 118%; margin-left: -45pt}
-      .report-image div.footer {margin-left: -35pt; height: 20pt; width: 115%; margin-top: 2pt;}
-      .report-image div.header-table {height: 130pt;}
-      .report-image td.logo-frame {height: 130pt;
-                                  width: 150pt;
-                                  padding: 0;
-                                  margin: 0;
-                                  vertical-align: middle;
-                                  text-align: center;
-                                  display: table-cell;}
       div.cover-page {height: 792pt;}
       div.cover-letter {margin-left: -60pt; margin-top: -60pt; height: 792pt; width: 612pt; background-size: 100% 100%; background-image: url(<tal:bg replace="letterhead"/>);}
       div.cover-body {font-size: 8pt; padding-top: 140pt; padding-left: 40pt; width: 570pt;}
