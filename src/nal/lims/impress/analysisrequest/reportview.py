@@ -149,6 +149,18 @@ class ReportView(Base):
         Example: October 16th, 2020
         """
         return date.today().strftime("%B %d, %Y")
+
+    def get_analyses_by_keyword(self, model_or_collection, keyword=None):
+        """Groups the given analyses by their point of capture
+        """
+        analyses = self.get_analyses(model_or_collection)
+        if keyword is not None:
+            analyses = filter(lambda an: an.getKeyword() == keyword, analyses)
+
+        if len(analyses) > 0:
+            return analyses[0]
+        else:
+            return None
 #End Custom Methods
 
     @property
