@@ -81,7 +81,7 @@ EDITS:
      .report table td.label { font-weight: bold;}
      .report table td.detail { padding-left: 10px;}
      .report .section-header {padding-top: 0px; margin-top: 0px;}
-     .report .section-header img.logo { height: 100px; padding-top: 25px;}
+     .report .section-header img.logo { width: 250px; padding-top: 25px; margin-right: 20px;}
      .report .section-footer {
        position: absolute;
        width: 116%;
@@ -284,23 +284,13 @@ EDITS:
                         <td>
                           <table class="w-100 mb-0 noborder">
                             <tr>
-                              <td class="sample-submitted-by label">
-                                Sample Submitted By:
-                              </td>
-                            </tr>
-                            <tr>
-                              <td class="detail">
-                                <div tal:replace="model/Contact/Fullname|nothing"></div>
-                              </td>
-                            </tr>
-                            <tr>
                               <td class="label">
                                 Data Reported For:
                               </td>
                             </tr>
                             <tr>
                               <td class="detail">
-                                <div tal:replace="model/ReportContact|nothing"></div>
+                                <div tal:replace="model/Batch/ReportContact|model/Batch/ProjectContact/Fullname|nothing"></div>
                               </td>
                             </tr>
                             <tr>
@@ -334,20 +324,9 @@ EDITS:
                             </tr>
                               <tr>
                               <td class="detail">
-                                <div tal:replace="model/CollectedBy|nothing"></div>
+                                <div tal:replace="model/Batch/SamplerContact/Fullname|nothing"></div>
                               </td>
                             </tr>
-                            <tr>
-                              <td class="grower label">
-                                Grower #:
-                              </td>
-                            </tr>
-                            <tr>
-                              <td class="detail">
-                                <tal:span content="model/Client/TaxNumber|nothing"></tal:span>
-                                <tal:span condition="not: model/Client/TaxNumber">-</tal:span>
-                              </td>
-                              </tr>
                           </table>
                         </td>
                     </tr>
