@@ -165,8 +165,9 @@ class BatchSchemaModifier(object):
         schema['title'].widget.description = _("Optional field. If no value is entered,"
                                                " the SDG ID will be used instead.")
         schema['BatchDate'].widget.visible = False
+        schema['BatchDate'].widget.required = False
         schema['ClientBatchID'].widget.visible = False
-        schema['Client'].required = True
+        schema['Client'].required = False
         schema['description'].widget.label = "SDG Notes"
         schema['description'].widget.description = "Additional details about the SDG"
         schema['Remarks'].widget.visible = False
