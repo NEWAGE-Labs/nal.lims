@@ -390,7 +390,7 @@ class ICPTestView(edit.DefaultEditForm):
                 except:
                     pass
 
-            return ','.join(ids)
+        return ','.join(ids)
 
 
     @button.buttonAndHandler(u'Import')
