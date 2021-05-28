@@ -20,8 +20,8 @@ class AnalysisSchemaExtender(object):
     fields = [
         ExtStringField(
             'AnalysisDateTime',
+            write_permission=View,
             read_permission=View,
-            write_permission="Field: Edit Result",
             widget=StringWidget(
                 label=_("Analysis Date/Time"),
             ),

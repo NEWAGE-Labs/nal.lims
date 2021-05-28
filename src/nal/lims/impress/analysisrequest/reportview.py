@@ -91,6 +91,17 @@ class ReportView(Base):
         count = sample_pages + cover_letter + blank_page + COC
         return count
 
+    def get_hydro_report_count(self, model_or_collection):
+        """Returns the number of pages in a comparison sap report.
+        """
+        samples = self.get_sample_count(model_or_collection)
+        sample_pages = samples
+        cover_letter = 1
+        blank_page = 1
+        COC = 1 #Needs to be made dynamic
+        count = sample_pages + cover_letter + blank_page + COC
+        return count
+
     def get_subgroups(self, model_or_collection):
         """Returns the unique SubGroup Titles of all of the ARs
         """

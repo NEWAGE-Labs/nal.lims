@@ -108,6 +108,33 @@ class SuperModel(BaseModel):
                 result = int(result)
             return result
 
+    def get_hydro_sf(self, analysis, digits):
+        """Return formatted result or NT
+        """
+        result = analysis.getResult()
+        choices = analysis.getResultOptions()
+        if choices:
+            # Create a dict for easy mapping of result options
+            values_texts = dict(map(
+                lambda c: (str(c["ResultValue"]), c["ResultText"]), choices
+            ))
+
+            # Result might contain a single result option
+            match = values_texts.get(str(result))
+            if match:
+                return match
+
+        if analysis is None or result == "":
+            return "NT" #Only if Analysis Service is listed, but not filled out
+        elif float(result) < float(analysis.getLowerDetectionLimit()):
+            return "< " + str(analysis.getLowerDetectionLimit())
+        else:
+            result = float(result)
+            result = round(result, digits-int(floor(log10(abs(result))))-1)
+            if result >= 100:
+                result = int(result)
+            return result
+
     def get_received_date(self):
         """Returns the batch date formatted as [Month Day, Year]
         """

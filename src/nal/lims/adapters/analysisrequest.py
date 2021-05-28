@@ -80,6 +80,21 @@ class AnalysisRequestSchemaExtender(object):
             )
         ),
 
+        ExtStringField(
+            'InternalLabID',
+            widget=StringWidget(
+                label="Internal Lab Sample ID",
+                description="The Lab ID from a printed COC (Ex. '001')",
+                render_own_label=True,
+                visible={
+                    'edit':'visible',
+                    'view':'visible',
+                    'add':'edit',
+                    'header_table':'visible',
+                },
+            )
+        ),
+
         ExtDateTimeField(
             'DateOfSampling',
             required=1,
@@ -201,7 +216,8 @@ class AnalysisRequestSchemaModifier(object):
         schema.moveField('CCEmails', after='CCContact')
         schema.moveField('SamplePoint', after='CCEmails')
         schema.moveField('ClientSampleID', after='SamplePoint')
-        schema.moveField('DateOfSampling', after='ClientSampleID')
+        schema.moveField('InternalLabID', after='ClientSampleID')
+        schema.moveField('DateOfSampling', after='InternalLabID')
         schema.moveField('TimeOfSampling', after='DateOfSampling')
         schema.moveField('SampleType', after='TimeOfSampling')
         schema.moveField('Profiles', after='SampleType')

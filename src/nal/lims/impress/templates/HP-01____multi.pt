@@ -73,7 +73,7 @@ EDITS:
      .report .indented {padding-left: 8px;}
      .report .center {text-align: center;}
      .report .thead {font-size: 9pt;}
-     .report .result-bar {padding-bottom: 0; margin-bottom: -23px;}
+     .report .result-bar {padding-bottom: 0; margin-bottom: -3px;}
      .report .end-result-bar {padding-bottom: 0; margin-bottom: -10px; margin-top: -10px;}
      .report .comments {font-weight: bold; padding: 4px;}
      .report .comments p {padding-left: 10px;}
@@ -115,7 +115,7 @@ EDITS:
   </tal:css>
   <!-- END CSS Styling -->
   <!-- BEING Cover Letter -->
-  <div class="cover-page" tal:define="model python:view.get_one_model(collection); pages python:view.get_sap_report_count(collection);">
+  <div class="cover-page" tal:define="model python:view.get_one_model(collection); pages python:view.get_hydro_report_count(collection);">
     <div class="cover-letter">
       <div class="cover-body">
         <div class="cover-date">
@@ -290,7 +290,12 @@ EDITS:
                             </tr>
                             <tr>
                               <td class="detail">
-                                <div tal:replace="model/Batch/ReportContact|model/Batch/ProjectContact/Fullname|nothing"></div>
+                                <div tal:condition="model/Batch/ReportContact">
+                                  <div tal:replace="model/Batch/ReportContact"></div>
+                                </div>
+                                <div tal:condition="python: not model.Batch.ReportContact">
+                                  <div tal:replace="model/Batch/ProjectContact/Fullname|nothing"></div>
+                                </div>
                               </td>
                             </tr>
                             <tr>
@@ -382,12 +387,12 @@ EDITS:
               <table class="w-100 mb-0 noborder">
                 <colgroup>
                   <col style="width:30%"/>
-                  <col style="width:16%"/>
+                  <col style="width:11%"/>
                   <col style="width:8%"/>
                   <col style="width:5%"/>
                   <col style="width:19%"/>
                   <col style="width:9%"/>
-                  <col style="width:23%"/>
+                  <col style="width:28%"/>
                 </colgroup>
                 <thead class="thead">
                   <tr>
@@ -422,12 +427,12 @@ EDITS:
               <table class="w-100 mb-0 noborder">
                 <colgroup>
                   <col style="width:30%;"/>
-                  <col style="width:16%;"/>
+                  <col style="width:11%;"/>
                   <col style="width:8%;"/>
                   <col style="width:5%;"/>
                   <col style="width:19%;"/>
                   <col style="width:9%;"/>
-                  <col style="width:23%;"/>
+                  <col style="width:28%;"/>
                 </colgroup>
                 <tbody class="tbody">
                   <tr tal:define="soluablesalts python:view.get_analyses_by_keyword(model, 'hydro_soluablesalts');">
@@ -436,7 +441,7 @@ EDITS:
                         <strong><tal:soluablesalts_title replace="python:soluablesalts.title"></tal:soluablesalts_title></strong>
                       </td>
                       <td class="center">
-                        <tal:soluablesalts_result replace="python:soluablesalts.Result"></tal:soluablesalts_result>
+                        <tal:soluablesalts_result replace="python:model.get_hydro_sf(soluablesalts,3)"></tal:soluablesalts_result>
                       </td>
                       <td class="center">
                         <tal:soluablesalts_unit replace="python:soluablesalts.Unit"></tal:soluablesalts_unit>
@@ -447,11 +452,13 @@ EDITS:
                       <td class="center">
                         <tal:soluablesalts_title replace="python:soluablesalts.AnalysisDateTime"></tal:soluablesalts_title>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(soluablesalts)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:soluablesalts_initials replace="python:model.get_analyst_initials(soluablesalts)"></tal:soluablesalts_initials>
                       </td>
                       <td class="center">
-                        <tal:soluablesalts_title replace="python:soluablesalts.Method"></tal:soluablesalts_title>
+                        <div tal:condition="soluablesalts/Method">
+                          <tal:soluablesalts_title replace="python:soluablesalts.Method.title"></tal:soluablesalts_title>
+                        </div>
                       </td>
                     </tal:soluablesalts>
                   </tr>
@@ -461,7 +468,7 @@ EDITS:
                         <strong><tal:tds_title replace="python:tds.title"></tal:tds_title></strong>
                       </td>
                       <td class="center">
-                        <tal:tds_result replace="python:tds.Result"></tal:tds_result>
+                        <tal:tds_result replace="python:model.get_hydro_sf(tds,3)"></tal:tds_result>
                       </td>
                       <td class="center">
                         <tal:tds_unit replace="python:tds.Unit"></tal:tds_unit>
@@ -472,11 +479,13 @@ EDITS:
                       <td class="center">
                         <tal:tds_title replace="python:tds.AnalysisDateTime"></tal:tds_title>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(tds)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:soluablesalts_initials replace="python:model.get_analyst_initials(tds)"></tal:soluablesalts_initials>
                       </td>
                       <td class="center">
-                        <tal:tds_title replace="python:tds.Method"></tal:tds_title>
+                        <div tal:condition="tds/Method">
+                          <tal:tds_title replace="python:tds.Method.title"></tal:tds_title>
+                        </div>
                       </td>
                     </tal:tds>
                   </tr>
@@ -486,7 +495,7 @@ EDITS:
                         <strong><tal:ph_title replace="python:ph.title"></tal:ph_title></strong>
                       </td>
                       <td class="center">
-                        <tal:ph_result replace="python:ph.Result"></tal:ph_result>
+                        <tal:ph_result replace="python:model.get_hydro_sf(ph,2)"></tal:ph_result>
                       </td>
                       <td class="center">
                         <tal:ph_unit replace="python:ph.Unit"></tal:ph_unit>
@@ -497,15 +506,21 @@ EDITS:
                       <td class="center">
                         <tal:ph_title replace="python:ph.AnalysisDateTime"></tal:ph_title>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(ph)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:soluablesalts_initials replace="python:model.get_analyst_initials(ph)"></tal:soluablesalts_initials>
                       </td>
                       <td class="center">
-                        <tal:ph_title replace="python:ph.Method"></tal:ph_title>
+                        <div tal:condition="ph/Method">
+                          <tal:ph_title replace="python:ph.Method.title"></tal:ph_title>
+                        </div>
                       </td>
                     </tal:ph>
                   </tr>
-                  <br>
+                  <tr>
+                    <td>
+                      <br>
+                    </td>
+                  </tr>
                   <tr style="font-size: 9pt;">
                     <td>
                       <strong>ANIONS</strong>
@@ -517,7 +532,7 @@ EDITS:
                         <tal:chloride_title replace="python:chloride.title"></tal:chloride_title>
                       </td>
                       <td class="center">
-                        <tal:chloride_result replace="python:chloride.Result"></tal:chloride_result>
+                        <tal:chloride_result replace="python:model.get_hydro_sf(chloride,3)"></tal:chloride_result>
                       </td>
                       <td class="center">
                         <tal:chloride_unit replace="python:chloride.Unit"></tal:chloride_unit>
@@ -528,11 +543,13 @@ EDITS:
                       <td class="center">
                         <tal:chloride_datetime replace="python:chloride.AnalysisDateTime"></tal:chloride_datetime>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(chloride)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:soluablesalts_initials replace="python:model.get_analyst_initials(chloride)"></tal:soluablesalts_initials>
                       </td>
                       <td class="center">
-                        <tal:chloride_method replace="python:chloride.Method"></tal:chloride_method>
+                        <div tal:condition="chloride/Method">
+                          <tal:chloride_method replace="python:chloride.Method.title"></tal:chloride_method>
+                        </div>
                       </td>
                     </tal:chloride>
                   </tr>
@@ -542,7 +559,7 @@ EDITS:
                         <tal:sulfur_title replace="python:sulfur.title"></tal:sulfur_title>
                       </td>
                       <td class="center">
-                        <tal:sulfur_result replace="python:sulfur.Result"></tal:sulfur_result>
+                        <tal:sulfur_result replace="python:model.get_hydro_sf(sulfur,3)"></tal:sulfur_result>
                       </td>
                       <td class="center">
                         <tal:sulfur_unit replace="python:sulfur.Unit"></tal:sulfur_unit>
@@ -553,11 +570,13 @@ EDITS:
                       <td class="center">
                         <tal:sulfur_datetime replace="python:sulfur.AnalysisDateTime"></tal:sulfur_datetime>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(sulfur)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:soluablesalts_initials replace="python:model.get_analyst_initials(sulfur)"></tal:soluablesalts_initials>
                       </td>
                       <td class="center">
-                        <tal:sulfur_method replace="python:sulfur.Method"></tal:sulfur_method>
+                        <div tal:condition="sulfur/Method">
+                          <tal:sulfur_method replace="python:sulfur.Method.title"></tal:sulfur_method>
+                        </div>
                       </td>
                     </tal:sulfur>
                   </tr>
@@ -567,7 +586,7 @@ EDITS:
                         <tal:phosphorous_title replace="python:phosphorous.title"></tal:phosphorous_title>
                       </td>
                       <td class="center">
-                        <tal:phosphorous_result replace="python:phosphorous.Result"></tal:phosphorous_result>
+                        <tal:phosphorous_result replace="python:model.get_hydro_sf(phosphorous,3)"></tal:phosphorous_result>
                       </td>
                       <td class="center">
                         <tal:phosphorous_unit replace="python:phosphorous.Unit"></tal:phosphorous_unit>
@@ -578,11 +597,13 @@ EDITS:
                       <td class="center">
                         <tal:phosphorous_datetime replace="python:phosphorous.AnalysisDateTime"></tal:phosphorous_datetime>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(phosphorous)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:soluablesalts_initials replace="python:model.get_analyst_initials(phosphorous)"></tal:soluablesalts_initials>
                       </td>
                       <td class="center">
-                        <tal:phosphorous_method replace="python:phosphorous.Method"></tal:phosphorous_method>
+                        <div tal:condition="phosphorous/Method">
+                          <tal:phosphorous_method replace="python:phosphorous.Method.title"></tal:phosphorous_method>
+                        </div>
                       </td>
                     </tal:phosphorous>
                   </tr>
@@ -597,7 +618,7 @@ EDITS:
                         <tal:calcium_title replace="python:calcium.title"></tal:calcium_title>
                       </td>
                       <td class="center">
-                        <tal:calcium_result replace="python:calcium.Result"></tal:calcium_result>
+                        <tal:calcium_result replace="python:model.get_hydro_sf(calcium,3)"></tal:calcium_result>
                       </td>
                       <td class="center">
                         <tal:calcium_unit replace="python:calcium.Unit"></tal:calcium_unit>
@@ -608,11 +629,13 @@ EDITS:
                       <td class="center">
                         <tal:calcium_datetime replace="python:calcium.AnalysisDateTime"></tal:calcium_datetime>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(calcium)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:soluablesalts_initials replace="python:model.get_analyst_initials(calcium)"></tal:soluablesalts_initials>
                       </td>
                       <td class="center">
-                        <tal:calcium_method replace="python:calcium.Method"></tal:calcium_method>
+                        <div tal:condition="calcium/Method">
+                          <tal:calcium_method replace="python:calcium.Method.title"></tal:calcium_method>
+                        </div>
                       </td>
                     </tal:calcium>
                   </tr>
@@ -622,7 +645,7 @@ EDITS:
                         <tal:potassium_title replace="python:potassium.title"></tal:potassium_title>
                       </td>
                       <td class="center">
-                        <tal:potassium_result replace="python:potassium.Result"></tal:potassium_result>
+                        <tal:potassium_result replace="python:model.get_hydro_sf(potassium,3)"></tal:potassium_result>
                       </td>
                       <td class="center">
                         <tal:potassium_unit replace="python:potassium.Unit"></tal:potassium_unit>
@@ -633,11 +656,13 @@ EDITS:
                       <td class="center">
                         <tal:potassium_datetime replace="python:potassium.AnalysisDateTime"></tal:potassium_datetime>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(potassium)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:soluablesalts_initials replace="python:model.get_analyst_initials(potassium)"></tal:soluablesalts_initials>
                       </td>
                       <td class="center">
-                        <tal:potassium_method replace="python:potassium.Method"></tal:potassium_method>
+                        <div tal:condition="potassium/Method">
+                          <tal:potassium_method replace="python:potassium.Method.title"></tal:potassium_method>
+                        </div>
                       </td>
                     </tal:potassium>
                   </tr>
@@ -647,7 +672,7 @@ EDITS:
                         <tal:magnesium_title replace="python:magnesium.title"></tal:magnesium_title>
                       </td>
                       <td class="center">
-                        <tal:magnesium_result replace="python:magnesium.Result"></tal:magnesium_result>
+                        <tal:magnesium_result replace="python:model.get_hydro_sf(magnesium,3)"></tal:magnesium_result>
                       </td>
                       <td class="center">
                         <tal:magnesium_unit replace="python:magnesium.Unit"></tal:magnesium_unit>
@@ -658,11 +683,13 @@ EDITS:
                       <td class="center">
                         <tal:magnesium_datetime replace="python:magnesium.AnalysisDateTime"></tal:magnesium_datetime>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(magnesium)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:soluablesalts_initials replace="python:model.get_analyst_initials(magnesium)"></tal:soluablesalts_initials>
                       </td>
                       <td class="center">
-                        <tal:magnesium_method replace="python:magnesium.Method"></tal:magnesium_method>
+                        <div tal:condition="magnesium/Method">
+                          <tal:magnesium_method replace="python:magnesium.Method.title"></tal:magnesium_method>
+                        </div>
                       </td>
                     </tal:magnesium>
                   </tr>
@@ -672,7 +699,7 @@ EDITS:
                         <tal:sodium_title replace="python:sodium.title"></tal:sodium_title>
                       </td>
                       <td class="center">
-                        <tal:sodium_result replace="python:sodium.Result"></tal:sodium_result>
+                        <tal:sodium_result replace="python:model.get_hydro_sf(sodium,3)"></tal:sodium_result>
                       </td>
                       <td class="center">
                         <tal:sodium_unit replace="python:sodium.Unit"></tal:sodium_unit>
@@ -683,11 +710,13 @@ EDITS:
                       <td class="center">
                         <tal:sodium_datetime replace="python:sodium.AnalysisDateTime"></tal:sodium_datetime>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(sodium)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:sodium_initials replace="python:model.get_analyst_initials(sodium)"></tal:sodium_initials>
                       </td>
                       <td class="center">
-                        <tal:sodium_method replace="python:sodium.Method"></tal:sodium_method>
+                        <div tal:condition="sodium/Method">
+                          <tal:sodium_method replace="python:sodium.Method.title"></tal:sodium_method>
+                        </div>
                       </td>
                     </tal:sodium>
                   </tr>
@@ -702,7 +731,7 @@ EDITS:
                         <tal:aluminum_title replace="python:aluminum.title"></tal:aluminum_title>
                       </td>
                       <td class="center">
-                        <tal:aluminum_result replace="python:aluminum.Result"></tal:aluminum_result>
+                        <tal:aluminum_result replace="python:model.get_hydro_sf(aluminum,3)"></tal:aluminum_result>
                       </td>
                       <td class="center">
                         <tal:aluminum_unit replace="python:aluminum.Unit"></tal:aluminum_unit>
@@ -713,11 +742,13 @@ EDITS:
                       <td class="center">
                         <tal:aluminum_datetime replace="python:aluminum.AnalysisDateTime"></tal:aluminum_datetime>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(aluminum)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:aluminum_initials replace="python:model.get_analyst_initials(aluminum)"></tal:aluminum_initials>
                       </td>
                       <td class="center">
-                        <tal:aluminum_method replace="python:aluminum.Method"></tal:aluminum_method>
+                        <div tal:condition="aluminum/Method">
+                          <tal:aluminum_method replace="python:aluminum.Method.title"></tal:aluminum_method>
+                        </div>
                       </td>
                     </tal:aluminum>
                   </tr>
@@ -727,7 +758,7 @@ EDITS:
                         <tal:boron_title replace="python:boron.title"></tal:boron_title>
                       </td>
                       <td class="center">
-                        <tal:boron_result replace="python:boron.Result"></tal:boron_result>
+                        <tal:boron_result replace="python:model.get_hydro_sf(boron,3)"></tal:boron_result>
                       </td>
                       <td class="center">
                         <tal:boron_unit replace="python:boron.Unit"></tal:boron_unit>
@@ -738,11 +769,13 @@ EDITS:
                       <td class="center">
                         <tal:boron_datetime replace="python:boron.AnalysisDateTime"></tal:boron_datetime>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(boron)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:boron_initials replace="python:model.get_analyst_initials(boron)"></tal:boron_initials>
                       </td>
                       <td class="center">
-                        <tal:boron_method replace="python:boron.Method"></tal:boron_method>
+                        <div tal:condition="boron/Method">
+                          <tal:boron_method replace="python:boron.Method.title"></tal:boron_method>
+                        </div>
                       </td>
                     </tal:boron>
                   </tr>
@@ -752,7 +785,7 @@ EDITS:
                         <tal:cobalt_title replace="python:cobalt.title"></tal:cobalt_title>
                       </td>
                       <td class="center">
-                        <tal:cobalt_result replace="python:cobalt.Result"></tal:cobalt_result>
+                        <tal:cobalt_result replace="python:model.get_hydro_sf(cobalt,3)"></tal:cobalt_result>
                       </td>
                       <td class="center">
                         <tal:cobalt_unit replace="python:cobalt.Unit"></tal:cobalt_unit>
@@ -763,11 +796,13 @@ EDITS:
                       <td class="center">
                         <tal:cobalt_datetime replace="python:cobalt.AnalysisDateTime"></tal:cobalt_datetime>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(cobalt)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:cobalt_initials replace="python:model.get_analyst_initials(cobalt)"></tal:cobalt_initials>
                       </td>
                       <td class="center">
-                        <tal:cobalt_method replace="python:cobalt.Method"></tal:cobalt_method>
+                        <div tal:condition="cobalt/Method">
+                          <tal:cobalt_method replace="python:cobalt.Method.title"></tal:cobalt_method>
+                        </div>
                       </td>
                     </tal:cobalt>
                   </tr>
@@ -777,7 +812,7 @@ EDITS:
                         <tal:copper_title replace="python:copper.title"></tal:copper_title>
                       </td>
                       <td class="center">
-                        <tal:copper_result replace="python:copper.Result"></tal:copper_result>
+                        <tal:copper_result replace="python:model.get_hydro_sf(copper,3)"></tal:copper_result>
                       </td>
                       <td class="center">
                         <tal:copper_unit replace="python:copper.Unit"></tal:copper_unit>
@@ -788,11 +823,13 @@ EDITS:
                       <td class="center">
                         <tal:copper_datetime replace="python:copper.AnalysisDateTime"></tal:copper_datetime>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(copper)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:copper_initials replace="python:model.get_analyst_initials(copper)"></tal:copper_initials>
                       </td>
                       <td class="center">
-                        <tal:copper_method replace="python:copper.Method"></tal:copper_method>
+                        <div tal:condition="copper/Method">
+                          <tal:copper_method replace="python:copper.Method.title"></tal:copper_method>
+                        </div>
                       </td>
                     </tal:copper>
                   </tr>
@@ -802,7 +839,7 @@ EDITS:
                         <tal:iron_title replace="python:iron.title"></tal:iron_title>
                       </td>
                       <td class="center">
-                        <tal:iron_result replace="python:iron.Result"></tal:iron_result>
+                        <tal:iron_result replace="python:model.get_hydro_sf(iron,3)"></tal:iron_result>
                       </td>
                       <td class="center">
                         <tal:iron_unit replace="python:iron.Unit"></tal:iron_unit>
@@ -813,11 +850,13 @@ EDITS:
                       <td class="center">
                         <tal:iron_datetime replace="python:iron.AnalysisDateTime"></tal:iron_datetime>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(iron)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:iron_initials replace="python:model.get_analyst_initials(iron)"></tal:iron_initials>
                       </td>
                       <td class="center">
-                        <tal:iron_method replace="python:iron.Method"></tal:iron_method>
+                        <div tal:condition="iron/Method">
+                          <tal:iron_method replace="python:iron.Method.title"></tal:iron_method>
+                        </div>
                       </td>
                     </tal:iron>
                   </tr>
@@ -827,7 +866,7 @@ EDITS:
                         <tal:manganese_title replace="python:manganese.title"></tal:manganese_title>
                       </td>
                       <td class="center">
-                        <tal:manganese_result replace="python:manganese.Result"></tal:manganese_result>
+                        <tal:manganese_result replace="python:model.get_hydro_sf(manganese,3)"></tal:manganese_result>
                       </td>
                       <td class="center">
                         <tal:manganese_unit replace="python:manganese.Unit"></tal:manganese_unit>
@@ -838,11 +877,13 @@ EDITS:
                       <td class="center">
                         <tal:manganese_datetime replace="python:manganese.AnalysisDateTime"></tal:manganese_datetime>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(manganese)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:manganese_initials replace="python:model.get_analyst_initials(manganese)"></tal:manganese_initials>
                       </td>
                       <td class="center">
-                        <tal:manganese_method replace="python:manganese.Method"></tal:manganese_method>
+                        <div tal:condition="manganese/Method">
+                          <tal:manganese_method replace="python:manganese.Method.title"></tal:manganese_method>
+                        </div>
                       </td>
                     </tal:manganese>
                   </tr>
@@ -852,7 +893,7 @@ EDITS:
                         <tal:molybdenum_title replace="python:molybdenum.title"></tal:molybdenum_title>
                       </td>
                       <td class="center">
-                        <tal:molybdenum_result replace="python:molybdenum.Result"></tal:molybdenum_result>
+                        <tal:molybdenum_result replace="python:model.get_hydro_sf(molybdenum,3)"></tal:molybdenum_result>
                       </td>
                       <td class="center">
                         <tal:molybdenum_unit replace="python:molybdenum.Unit"></tal:molybdenum_unit>
@@ -863,11 +904,13 @@ EDITS:
                       <td class="center">
                         <tal:molybdenum_datetime replace="python:molybdenum.AnalysisDateTime"></tal:molybdenum_datetime>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(molybdenum)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:molybdenum_initials replace="python:model.get_analyst_initials(molybdenum)"></tal:molybdenum_initials>
                       </td>
                       <td class="center">
-                        <tal:molybdenum_method replace="python:molybdenum.Method"></tal:molybdenum_method>
+                        <div tal:condition="molybdenum/Method">
+                          <tal:molybdenum_method replace="python:molybdenum.Method.title"></tal:molybdenum_method>
+                        </div>
                       </td>
                     </tal:molybdenum>
                   </tr>
@@ -877,7 +920,7 @@ EDITS:
                         <tal:nickel_title replace="python:nickel.title"></tal:nickel_title>
                       </td>
                       <td class="center">
-                        <tal:nickel_result replace="python:nickel.Result"></tal:nickel_result>
+                        <tal:nickel_result replace="python:model.get_hydro_sf(nickel,3)"></tal:nickel_result>
                       </td>
                       <td class="center">
                         <tal:nickel_unit replace="python:nickel.Unit"></tal:nickel_unit>
@@ -888,11 +931,13 @@ EDITS:
                       <td class="center">
                         <tal:nickel_datetime replace="python:nickel.AnalysisDateTime"></tal:nickel_datetime>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(nickel)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:nickel_initials replace="python:model.get_analyst_initials(nickel)"></tal:nickel_initials>
                       </td>
                       <td class="center">
-                        <tal:nickel_method replace="python:nickel.Method"></tal:nickel_method>
+                        <div tal:condition="nickel/Method">
+                          <tal:nickel_method replace="python:nickel.Method.title"></tal:nickel_method>
+                        </div>
                       </td>
                     </tal:nickel>
                   </tr>
@@ -902,7 +947,7 @@ EDITS:
                         <tal:selenium_title replace="python:selenium.title"></tal:selenium_title>
                       </td>
                       <td class="center">
-                        <tal:selenium_result replace="python:selenium.Result"></tal:selenium_result>
+                        <tal:selenium_result replace="python:model.get_hydro_sf(selenium,3)"></tal:selenium_result>
                       </td>
                       <td class="center">
                         <tal:selenium_unit replace="python:selenium.Unit"></tal:selenium_unit>
@@ -913,11 +958,13 @@ EDITS:
                       <td class="center">
                         <tal:selenium_datetime replace="python:selenium.AnalysisDateTime"></tal:selenium_datetime>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(selenium)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:selenium_initials replace="python:model.get_analyst_initials(selenium)"></tal:selenium_initials>
                       </td>
                       <td class="center">
-                        <tal:selenium_method replace="python:selenium.Method"></tal:selenium_method>
+                        <div tal:condition="selenium/Method">
+                          <tal:selenium_method replace="python:selenium.Method.title"></tal:selenium_method>
+                        </div>
                       </td>
                     </tal:selenium>
                   </tr>
@@ -927,7 +974,7 @@ EDITS:
                         <tal:silica_title replace="python:silica.title"></tal:silica_title>
                       </td>
                       <td class="center">
-                        <tal:silica_result replace="python:silica.Result"></tal:silica_result>
+                        <tal:silica_result replace="python:model.get_hydro_sf(silica,3)"></tal:silica_result>
                       </td>
                       <td class="center">
                         <tal:silica_unit replace="python:silica.Unit"></tal:silica_unit>
@@ -938,11 +985,13 @@ EDITS:
                       <td class="center">
                         <tal:silica_datetime replace="python:silica.AnalysisDateTime"></tal:silica_datetime>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(silica)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:silica_initials replace="python:model.get_analyst_initials(silica)"></tal:silica_initials>
                       </td>
                       <td class="center">
-                        <tal:silica_method replace="python:silica.Method"></tal:silica_method>
+                        <div tal:condition="silica/Method">
+                          <tal:silica_method replace="python:silica.Method.title"></tal:silica_method>
+                        </div>
                       </td>
                     </tal:silica>
                   </tr>
@@ -952,7 +1001,7 @@ EDITS:
                         <tal:zinc_title replace="python:zinc.title"></tal:zinc_title>
                       </td>
                       <td class="center">
-                        <tal:zinc_result replace="python:zinc.Result"></tal:zinc_result>
+                        <tal:zinc_result replace="python:model.get_hydro_sf(zinc,3)"></tal:zinc_result>
                       </td>
                       <td class="center">
                         <tal:zinc_unit replace="python:zinc.Unit"></tal:zinc_unit>
@@ -963,11 +1012,13 @@ EDITS:
                       <td class="center">
                         <tal:zinc_datetime replace="python:zinc.AnalysisDateTime"></tal:zinc_datetime>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(zinc)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:zinc_initials replace="python:model.get_analyst_initials(zinc)"></tal:zinc_initials>
                       </td>
                       <td class="center">
-                        <tal:zinc_method replace="python:zinc.Method"></tal:zinc_method>
+                        <div tal:condition="zinc/Method">
+                          <tal:zinc_method replace="python:zinc.Method.title"></tal:zinc_method>
+                        </div>
                       </td>
                     </tal:zinc>
                   </tr>
@@ -982,7 +1033,7 @@ EDITS:
                         <tal:ammonia_title replace="python:ammonia.title"></tal:ammonia_title>
                       </td>
                       <td class="center">
-                        <tal:ammonia_result replace="python:ammonia.Result"></tal:ammonia_result>
+                        <tal:ammonia_result replace="python:model.get_hydro_sf(ammonia,3)"></tal:ammonia_result>
                       </td>
                       <td class="center">
                         <tal:ammonia_unit replace="python:ammonia.Unit"></tal:ammonia_unit>
@@ -993,11 +1044,13 @@ EDITS:
                       <td class="center">
                         <tal:ammonia_datetime replace="python:ammonia.AnalysisDateTime"></tal:ammonia_datetime>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(ammonia)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:ammonia_initials replace="python:model.get_analyst_initials(ammonia)"></tal:ammonia_initials>
                       </td>
                       <td class="center">
-                        <tal:ammonia_method replace="python:ammonia.Method"></tal:ammonia_method>
+                        <div tal:condition="ammonia/Method">
+                          <tal:ammonia_method replace="python:ammonia.Method.title"></tal:ammonia_method>
+                        </div>
                       </td>
                     </tal:ammonia>
                   </tr>
@@ -1007,7 +1060,7 @@ EDITS:
                         <tal:nitrate_title replace="python:nitrate.title"></tal:nitrate_title>
                       </td>
                       <td class="center">
-                        <tal:nitrate_result replace="python:nitrate.Result"></tal:nitrate_result>
+                        <tal:nitrate_result replace="python:model.get_hydro_sf(nitrate,3)"></tal:nitrate_result>
                       </td>
                       <td class="center">
                         <tal:nitrate_unit replace="python:nitrate.Unit"></tal:nitrate_unit>
@@ -1018,11 +1071,13 @@ EDITS:
                       <td class="center">
                         <tal:nitrate_datetime replace="python:nitrate.AnalysisDateTime"></tal:nitrate_datetime>
                       </td>
-                      <td class="center" define="initials python:model.get_analyst_initials(nitrate)">
-                        <span tal:content="initials|nothing"></span>
+                      <td class="center">
+                        <tal:nitrate_initials replace="python:model.get_analyst_initials(nitrate)"></tal:nitrate_initials>
                       </td>
                       <td class="center">
-                        <tal:nitrate_method replace="python:nitrate.Method"></tal:nitrate_method>
+                        <div tal:condition="nitrate/Method">
+                          <tal:nitrate_method replace="python:nitrate.Method.title"></tal:nitrate_method>
+                        </div>
                       </td>
                     </tal:nitrate>
                   </tr>
@@ -1060,8 +1115,7 @@ EDITS:
                 </tr>
                 <tr>
                   <td>
-                    <div>- NAL holds certification under NELAC:2009, ISO 17025:2017, and meets the AOAC International Guidelines for Laboratories Performing Microbiological and Chemical Analyses of Food Standards</div>
-                    <div>- * NAL (Lab#9977) is certified by the MDEQ for this parameter.</div>
+                    <div>- NAL holds certification under ISO 17025:2017 and meets the AOAC International Guidelines for Laboratories Performing Microbiological and Chemical Analyses of Food Standards</div>
                   </td>
                   <td>
                     <div class="sig-text">

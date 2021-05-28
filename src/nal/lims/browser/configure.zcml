@@ -13,7 +13,7 @@
 
   <include package=".samples" />
   <include package=".client" />
-  <include package=".analysisrequest" />
+  <!-- <include package=".analysisrequest" /> -->
   <!-- <include package=".analyses" /> -->
 
   <!-- Override View Classes -->
@@ -45,13 +45,13 @@
       />
 
   <!-- Sample Points from bika.lims-->
-  <browser:page
+  <!-- <browser:page
       name="folder_view"
       class=".samplepoints.SamplePointsView"
       permission="senaite.core.permissions.ManageBika"
       for="bika.lims.interfaces.ISamplePoints"
       layer="nal.lims.interfaces.INalLimsLayer"
-      />
+      /> -->
 
   <browser:page
       name="instrumentreadfolder"

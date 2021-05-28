@@ -379,12 +379,12 @@ class ICPTestView(edit.DefaultEditForm):
                 zinc = api.do_transition_for(zinc, "submit")
 
         #K/Ca Ratio
-            if sap_kcaratio is not None and not sap_kcaratio.Result and sap_potassium.Result is not None and sap_calcium.Result is not None:
+            if sap_kcaratio is not None and not sap_kcaratio.Result and potassium.Result is not None and calcium.Result is not None:
                 try:
-                    k_float = float(sap_potassium.Result)
-                    ca_float = float(sap_calcium.Result)
+                    k_float = float(potassium.Result)
+                    ca_float = float(calcium.Result)
                     sap_kcaratio.Result = unicode(k_float/ca_float)
-                    sap_kcaratio.AnalysisDateTime = sap_potassium.AnalysisDateTime or sap_calcium.AnalysisDateTime
+                    sap_kcaratio.AnalysisDateTime = potassium.AnalysisDateTime or calcium.AnalysisDateTime
                     sap_kcaratio.reindexObject(idxs=['Result','AnalysisDateTime'])
                     sap_kcaratio = api.do_transition_for(sap_kcaratio, "submit")
                 except:

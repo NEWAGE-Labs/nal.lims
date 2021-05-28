@@ -167,6 +167,7 @@ class BatchSchemaModifier(object):
         schema['BatchDate'].widget.visible = False
         schema['BatchDate'].widget.required = False
         schema['ClientBatchID'].widget.visible = False
+        schema['Client'].widget.visible = True
         schema['Client'].required = False
         schema['description'].widget.label = "SDG Notes"
         schema['description'].widget.description = "Additional details about the SDG"

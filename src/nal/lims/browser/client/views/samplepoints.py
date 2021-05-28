@@ -18,7 +18,7 @@
 # Copyright 2018-2021 by it's authors.
 # Some rights reserved, see README and LICENSE.
 
-from nal.lims.browser.samplepoints import SamplePointsView
+from bika.lims.controlpanel.bika_samplepoints import SamplePointsView
 
 
 class ClientSamplePointsView(SamplePointsView):
