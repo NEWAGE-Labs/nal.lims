@@ -6,3 +6,4 @@ portal = api.get_portal()
 me = UnrestrictedUser(getSecurityManager().getUser().getUserName(), '', ['LabManager'], '')
 me = me.__of__(portal.acl_users)
 newSecurityManager(None, me)
+
