@@ -4,11 +4,13 @@ from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
 from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
 from archetypes.schemaextender.interfaces import ISchemaModifier
 from bika.lims.fields import ExtStringField
+from bika.lims.fields import ExtBooleanField
 from bika.lims import bikaMessageFactory as _
 from zope.component import adapts
 from zope.interface import implements
 from nal.lims.interfaces import INalLimsLayer
 from Products.Archetypes.public import StringWidget
+from Products.Archetypes.public import BooleanWidget
 from Products.CMFCore.permissions import View
 from Products.Archetypes.Schema import Schema
 
@@ -24,6 +26,15 @@ class AnalysisSchemaExtender(object):
             read_permission=View,
             widget=StringWidget(
                 label=_("Analysis Date/Time"),
+            ),
+        ),
+
+        ExtBooleanField(
+            'Inconclusive',
+            write_permission=View,
+            read_permission=View,
+            widget=BooleanWidget(
+                label=_("Inconclusive"),
             ),
         )
     ]

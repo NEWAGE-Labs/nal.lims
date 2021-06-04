@@ -66,9 +66,15 @@ EDITS:
       .report-image div.body td div {font-size: 5.5pt;}
       div.high-spec, div.low-spec, div.header-label, div.result {font-weight: bold;}
       .report-image div.header {margin-left: -35pt; margin-top: -40pt; padding-left: 0; width: 102%;}
+      .report-image div.details {margin-left: -35pt; width: 102%;}
       .report-image div.body {width: 118%; margin-left: -45pt}
       .report-image div.footer {margin-left: -35pt; height: 20pt; width: 115%; margin-top: 2pt;}
-      .report-image div.header-table {height: 130pt;}
+      img.nal-logo {width:125px;}
+      table.header-detail-table {width: 115%;}
+      table.header-detail-table td {width: 26%; vertical-align: top;}
+      div.header-label {font-weight: bold;}
+      div.details {margin-top: 8px;}
+
       .report-image td.logo-frame {height: 130pt;
                                   width: 150pt;
                                   padding: 0;
@@ -87,7 +93,7 @@ EDITS:
       tr.row3 {height: 30pt;}
       div.subrow {height: 20pt;}
       div.header {margin-top: -2px;}
-      div.header-detail {margin-left: 15pt; font-size: 7.5pt;}
+      div.header-detail {margin-left: 15pt;}
       div.cover-page {height: 792pt;}
       div.cover-letter {margin-left: -60pt; margin-top: -60pt; height: 792pt; width: 612pt; background-size: 100% 100%; background-image: url(<tal:bg replace="letterhead"/>);}
       div.cover-body {font-size: 8pt; padding-top: 140pt; padding-left: 40pt; width: 570pt;}
@@ -232,190 +238,106 @@ EDITS:
       <div tal:define="newmodel python:view.get_new_model(subcollection);
                       oldmodel python:view.get_old_model(subcollection);" class="report-image">
         <div class="header row col-lg-12">
-          <strong style="font-size: 2em;">SAP ANALYSIS REPORT</strong>
-          <div class="header-table">
-            <table>
-              <colgroup>
-                <col style="width:25%">
-                <col style="width:75%">
-              </colgroup>
-              <tr>
-                <td class="logo-frame">
-                  <div>
-                  <img class="logo"
-                       tal:attributes="src string:++plone++nal.lims/images/logo.png"/>
-                     </div>
-                </td>
-                <td class="full-header-cell">
-                  <table>
-                    <colgroup>
-                      <col style="width: 34%">
-                      <col style="width: 33%">
-                      <col style="width: 33%">
-                    <colgroup>
-                    <tr class="row1">
-                      <td class="data-reported-to col1">
-                        <div class="header-label">Data Reported To:</div>
-                        <tal:model repeat="model subcollection">
-                          <tal:once condition="model/NewLeaf">
-                            <div class="header-detail">
-                              <div class="client-name">
-                                <div tal:replace="model/Client/Name|nothing"></div>
-                              </div>
-                              <div class="client-street">
-                                <div tal:replace="model/Client/PostalAddress/address|nothing"></div>
-                              </div>
-                              <div class="client-city">
-                                <div tal:replace="model/Client/PostalAddress/city|nothing"></div>
-                              </div>
-                              <span class="client-state">
-                                <div tal:replace="model/Client/PostalAddress/state|nothing"></div>
-                              </span>
-                              <span class="client-zip">
-                                <div tal:replace="model/Client/PostalAddress/zip|nothing"></div>
-                              </span>
-                            </div>
-                          </tal:once>
-                        </tal:model>
-                      </td>
-                      <td class="sample-submitted-for col2">
-                        <div class="header-label">Sample Submitted For:</div>
-                        <tal:model repeat="model subcollection">
-                          <tal:once condition="model/NewLeaf">
-                            <div class="header-detail">
-                              <div class="client-name">
-                                <div tal:replace="model/Contact/Name|nothing"></div>
-                              </div>
-                              <div class="client-street">
-                                <div tal:replace="model/Contact/PostalAddress/address|nothing"></div>
-                              </div>
-                              <div class="client-city">
-                                <div tal:replace="model/Contact/PostalAddress/city|nothing"></div>
-                              </div>
-                              <span class="client-state">
-                                <div tal:replace="model/Contact/PostalAddress/state|nothing"></div>
-                              </span>
-                              <span class="client-zip">
-                                <div tal:replace="model/Contact/PostalAddress/zip|nothing"></div>
-                              </span>
-                            </div>
-                          </tal:once>
-                        </tal:model>
-                      </td>
-                      <td class="col3">
-                        <tal:model repeat="model subcollection">
-                          <tal:once condition="model/NewLeaf">
-                            <div class="nal-acct-id subrow">
-                              <div class="header-label">NAL Acct. ID:</div>
-                              <div class="header-detail" style="margin-top: -1pt;">
-                                <div tal:replace="model/Client/ClientID|nothing"></div>
-                              </div>
-                            </div>
-                            <div class="plant-type subrow">
-                              <div class="header-label">Plant Type:</div>
-                              <div class="header-detail" style="margin-top: -1pt;">
-                                <div tal:replace="model/PlantType|nothing" class="header-detail"></div>
-                              </div>
-                            </div>
-                            <div class="variety subrow">
-                              <div class="header-label">Variety:</div>
-                              <div class="header-detail" style="margin-top: -1pt;">
-                                <div tal:replace="model/Variety|nothing" class="header-detail"></div>
-                              </div>
-                            </div>
-                          </tal:once>
-                        </tal:model>
-                      </td>
-                    </tr>
-                    <tr class="row2">
-                    <td class="sample-name col1">
-                      <div class="header-label">Sample Name:</div>
-                      <div class="header-detail" style="float: left; text-align: left;">
-                        <div style="font-weight: bold; margin-right: 2pt;">New: </div>
-                        <div style="font-weight: bold; margin-right: 2pt;">Old: </div>
-                      </div>
-                      <div>
-                        <div tal:content="newmodel/ClientSampleID|nothing"></div>
-                        <div tal:content="oldmodel/ClientSampleID|nothing"></div>
-                      </div>
-                      <!-- <tal:model repeat="model subcollection">
-                        <tal:new condition="model/NewLeaf">
-                          <div class="header-detail">
-                            <span style="font-weight: bold;">1: </span>
-                            <span tal:replace="model/ClientSampleID|nothing"></span>
-                          </div>
-                        </tal:new>
-                        <tal:old condition="not: model/NewLeaf">
-                          <div class="header-detail">
-                            <span style="font-weight: bold;">2: </span>
-                            <span tal:replace="model/ClientSampleID|nothing"></span>
-                          </div>
-                        </tal:old>
-                      </tal:model> -->
-                    </td>
-                    <td class="nal-sample-id col2">
-                      <div class="header-label">NAL Sample ID #:</div>
-                      <div class="header-detail" style="float: left; text-align: left;">
-                        <div style="font-weight: bold; margin-right: 2pt;">New: </div>
-                        <div style="font-weight: bold; margin-right: 2pt;">Old: </div>
-                      </div>
-                      <div>
-                        <div tal:content="newmodel/getId|nothing"></div>
-                        <div tal:content="oldmodel/getId|nothing"></div>
-                      </div>
-                      <!-- <tal:model repeat="model subcollection">
-                        <tal:new condition="model/NewLeaf">
-                          <div class="header-detail">
-                            <span style="font-weight: bold;">1: </span>
-                            <span tal:replace="model/getId|nothing"></span>
-                          </div>
-                        </tal:new>
-                        <tal:old condition="not: model/NewLeaf">
-                          <div class="header-detail">
-                            <span style="font-weight: bold;">2: </span>
-                            <span tal:replace="model/getId|nothing"></span>
-                          </div>
-                        </tal:old>
-                      </tal:model> -->
-                    </td>
-                    <td class="growth-stage col3">
-                      <div class="header-label">Growth Stage:</div>
-                        <div class="header-detail">
-                          <div tal:replace="newmodel/GrowthStage|oldmodel/GrowthStage|nothing"></div>
-                        </div>
-                    </td>
-                    </tr>
-                    <tr class="row3">
-                    <td class="date-time-sampled col1">
-                      <div class="header-label">Date/Time Sampled:</div>
-                      <div class="header-detail" style="float: left; text-align: left;">
-                        <div style="font-weight: bold; margin-right: 2pt;">New: </div>
-                        <div style="font-weight: bold; margin-right: 2pt;">Old: </div>
-                      </div>
-                      <div>
-                        <div tal:content="python:(newmodel.DateOfSampling.strftime('%m-%d-%Y') + ' ' + newmodel.TimeOfSampling)"></div>
-                        <div tal:content="python:(oldmodel.DateOfSampling.strftime('%m-%d-%Y') + ' ' + oldmodel.TimeOfSampling)"></div>
-                      </div>
-                    </td>
-                    <td class="date-time-received col2">
-                      <div class="header-label">Date/Time Received:</div>
-                          <tal:batch define="batch newmodel/Batch">
-                              <div tal:replace="python:(batch.SDGDate.strftime('%m-%d-%Y') + ' ' + batch.SDGTime)"></div>
-                          </tal:batch>
-                    </td>
-                    <td class="sample-location col3">
-                      <div class="header-label">Sample Location:</div>
-                      <div class="header-detail">
-                        <div tal:replace="newmodel/SamplePoint/title|oldmodel/SamplePoint/title|nothing"></div>
-                      </div>
-                    </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-            </table>
+            <div>
+              <img class="nal-logo" tal:attributes="src string:++plone++nal.lims/images/logo.png"/>
+            </div>
+        </div>
+        <div class="details row col-lg-12">
+          <div>
+            <div style="float: right;">
+              <table class="header-detail-table">
+                <tr>
+                  <td>
+                    <div class="header-label">Data Reported To:</div>
+                    <div class="header-detail" tal:content="newmodel/Batch/ProjectContact/Fullname|nothing"></div>
+                  </td>
+                  <td>
+                    <div class="header-label">Date/Time Sampled:</div>
+                    <div class="header-detail" tal:content="python:(newmodel.DateOfSampling.strftime('%m-%d-%Y') + ' ' + newmodel.TimeOfSampling)"></div>
+                  </td>
+                  <td>
+                    <div class="header-label">Date/Time Received:</div>
+                    <div class="header-detail" tal:content="python:(newmodel.Batch.SDGDate.strftime('%m-%d-%Y') + ' ' + newmodel.Batch.SDGTime)"></div>
+                  </td>
+                  <td>
+                    <div class="header-label">Plant Type:</div>
+                    <div class="header-detail" tal:content="newmodel/PlantType|nothing"></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="header-label">Collected By:</div>
+                    <div class="header-detail" tal:content="newmodel/Batch/SamplerContact/Fullname|nothing"></div>
+                  </td>
+                  <td>
+                    <div class="header-label">Sample Name:</div>
+                    <div class="header-detail" style="float: left; text-align: left;">
+                      <div style="font-weight: bold; margin-right: 2pt;">New: </div>
+                      <div style="font-weight: bold; margin-right: 2pt;">Old: </div>
+                    </div>
+                    <div>
+                      <div tal:content="newmodel/ClientSampleID|nothing"></div>
+                      <div tal:content="oldmodel/ClientSampleID|nothing"></div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="header-label">NAL Sample ID:</div>
+                    <div class="header-detail" style="float: left; text-align: left;">
+                      <div style="font-weight: bold; margin-right: 2pt;">New: </div>
+                      <div style="font-weight: bold; margin-right: 2pt;">Old: </div>
+                    </div>
+                    <div>
+                      <div tal:content="newmodel/getId|nothing"></div>
+                      <div tal:content="oldmodel/getId|nothing"></div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="header-label">Variety</div>
+                    <div class="header-detail" tal:content="newmodel/Variety|nothing"></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="margin-top: -18px;" class="header-label">Sample Location:</div>
+                    <div class="header-detail" tal:content="newmodel/SamplePoint/title|nothing"></div>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                    <div style="margin-top: -18px;" class="header-label">Growth Stage:</div>
+                    <div class="header-detail" tal:content="newmodel/GrowthStage|nothing"></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <div class="header-label">Client:</div>
+              <div class="client-name header-detail">
+                <div tal:replace="newmodel/Client/Name|nothing"></div>
+              </div>
+              <div>
+                <div class="header-detail" tal:content="newmodel/Client/ClientID|nothing"></div>
+              </div>
+              <div class="client-street header-detail">
+                <div tal:replace="newmodel/Client/PostalAddress/address|nothing"></div>
+              </div>
+              <div class="client-city header-detail">
+                <div tal:replace="newmodel/Client/PostalAddress/city|nothing"></div>
+              </div>
+              <div class="header-detail">
+                <span class="client-state ">
+                  <div tal:replace="newmodel/Client/PostalAddress/state|nothing"></div>
+                </span>
+                <span class="client-zip">
+                  <div tal:replace="newmodel/Client/PostalAddress/zip|nothing"></div>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
+        <!-- Results -->
 
         <div class="body row col-lg-12">
           <table>
@@ -654,7 +576,7 @@ EDITS:
               </tr>
               <tr class="chloride">
                 <td style="vertical-align: text-top;">
-                  <strong>Chloride (Cl)<tal:acc replace="accredited_symbol"/></strong>
+                  <strong>Chloride (Cl-)<tal:acc replace="accredited_symbol"/></strong>
                 </td>
                 <td>
                   <div>ppm</div>

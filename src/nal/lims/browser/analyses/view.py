@@ -209,6 +209,12 @@ class AnalysesView(BikaAnalysesView):
                 "sortable": False,
                 "ajax": True,
                 "type": "string"}),
+            ("Inconclusive", {
+                "title": _("Inconclusive"),
+                "toggle": True,
+                "sortable": False,
+                "ajax": True,
+                "type": "boolean"}),
         ))
 
         # Inject Remarks column for listing
@@ -805,6 +811,7 @@ class AnalysesView(BikaAnalysesView):
         # Get the analysis object
         obj = self.get_object(analysis_brain)
         item['AnalysisDateTime'] = obj.AnalysisDateTime
+        item['Inconclusive'] = obj.Inconclusive
 
         # Edit mode enabled of this Analysis
         if self.is_analysis_edition_allowed(analysis_brain):
@@ -816,6 +823,7 @@ class AnalysesView(BikaAnalysesView):
                 item["allow_edit"].append("Result")
                 item["allow_edit"].append("Analyst")
                 item["allow_edit"].append("AnalysisDateTime")
+                item["allow_edit"].append("Inconclusive")
 
             # Prepare result options
             choices = obj.getResultOptions()
