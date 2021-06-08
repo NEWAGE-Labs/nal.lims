@@ -11,7 +11,7 @@
       layer="nal.lims.interfaces.INalLimsLayer"
       />
 
-  <include package=".samples" />
+  <!-- <include package=".samples" /> -->
   <include package=".client" />
   <!-- <include package=".analysisrequest" /> -->
   <!-- <include package=".analyses" /> -->
