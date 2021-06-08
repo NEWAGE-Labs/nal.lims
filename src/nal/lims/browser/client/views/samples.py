@@ -19,7 +19,7 @@
 # Some rights reserved, see README and LICENSE.
 
 from bika.lims import api
-from nal.lims.browser.samples import SamplesView
+from bika.lims.browser.samples import SamplesView
 
 class ClientSamplesView(SamplesView):
 
