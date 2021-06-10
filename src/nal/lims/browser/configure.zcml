@@ -30,7 +30,7 @@
   <browser:page
       name="folder_view"
       class=".batchlabels.BatchLabelsView"
-      permission="senaite.core.permissions.ManageBika"
+      permission="cmf.ListFolderContents"
       for="bika.lims.interfaces.IBatchLabels"
       layer="nal.lims.interfaces.INalLimsLayer"
       />
