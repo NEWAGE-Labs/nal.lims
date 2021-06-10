@@ -161,7 +161,7 @@ class AnalysisRequestSchemaModifier(object):
              'label': _('Client'), 'align': 'left'},
         ]
 
-        schema['SubGroup'].widget.label = _("Sample Pairings")
+        schema['SubGroup'].widget.label = _("Sample Pairings (Sap Samples)")
         schema['SubGroup'].widget.description = _("If this sample is part of a pair, assign both samples to the same Pair #")
         schema['DateSampled'].widget.required = False
         schema['Contact'].widget.required = False
@@ -208,6 +208,8 @@ class AnalysisRequestSchemaModifier(object):
         schema['CCContact'].widget.description = "The Contacts to email the sample to"
         schema['CCEmails'].widget.label = "Additional Emails"
         schema['CCEmails'].widget.description = "Other emails to CC"
+        schema['Specification'].widget.label = "Optimal Levels (Sap Samples)"
+        schema['Specification'].widget.description = "Optimal Levels"
         schema['Attachment'].widget.label = "COC and Attachments"
         schema['Attachment'].widget.description = "Attach COC to one sample. .png and .jpeg files will show on report, but .pdfs will not."
         schema['Remarks'].widget.label = "Comments"
