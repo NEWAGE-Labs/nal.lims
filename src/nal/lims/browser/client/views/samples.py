@@ -19,7 +19,7 @@
 # Some rights reserved, see README and LICENSE.
 
 from bika.lims import api
-from bika.lims.browser.samples import SamplesView
+from senaite.core.browser.samples.view import SamplesView
 
 class ClientSamplesView(SamplesView):
 
