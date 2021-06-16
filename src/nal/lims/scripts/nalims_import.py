@@ -34,10 +34,16 @@ melissa = api.create(labcontacts, "LabContact", Firstname="Melissa", Surname="Ab
 kim = api.create(labcontacts, "LabContact", Firstname="Kim", Surname="Crago", EmailAddress="kcrago@newagelaboratories.com").UID()
 irish = api.create(labcontacts, "LabContact", Firstname="Irish", Surname="Gallagher", EmailAddress="igallagher@newagelaboratories.com").UID()
 tami = api.create(labcontacts, "LabContact", Firstname="Tami", Surname="Kruger", EmailAddress="tkruger@newagelaboratories.com").UID()
-jake = api.create(labcontacts, "LabContact", Firstname="Jake", Surname="Bordeux", EmailAddress="jbordeux@newagelaboratories.com").UID()
+taylor = api.create(labcontacts, "LabContact", Firstname="Taylor", Surname="Opolka", EmailAddress="topolka@newagelaboratories.com").UID()
+
+for i in api.search({'portal_type':'LabContact'}):
+    api.get_object(i).reindexObject()
 
 #Department
 newage = api.create(departments, "Department", title="NEW AGE Lab", DepartmentID="newage", Manager=scott).UID()
+
+for i in api.search({'portal_type':'Department'}):
+    api.get_object(i).reindexObject()
 
 #AnalysisCategories
 
@@ -53,133 +59,96 @@ aircategory = api.create(categories, "AnalysisCategory", title="Compressed Air")
 prepcategory = api.create(categories, "AnalysisCategory", title="Prep").UID()
 cleancategory = api.create(categories, "AnalysisCategory", title="Cleanup").UID()
 
+for i in api.search({'portal_type':'AnalysisCategory'}):
+    api.get_object(i).reindexObject()
+
 #Methods
 
-method1 = api.create(methods, "Method", title="Lab A", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Labs/Lab%20A/")
-method2 = api.create(methods, "Method", title="Lab B", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Labs/Lab%20B/")
-method3 = api.create(methods, "Method", title="Mobile Lab 1", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Labs/Mobile%20Lab%201/")
-method4 = api.create(methods, "Method", title="Mobile Lab 2", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Labs/Mobile%20Lab%202/")
-method5 = api.create(methods, "Method", title="Mobile Lab 3", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Labs/Mobile%20Lab%203/")
-method6 = api.create(methods, "Method", title="Mobile Lab 4", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Labs/Mobile%20Lab%204/")
-method7 = api.create(methods, "Method", title="Mobile Lab 5", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Labs/Mobile%20Lab%205/")
-method8 = api.create(methods, "Method", title="Mobile Lab 6", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Labs/Mobile%20Lab%206/")
-method9 = api.create(methods, "Method", title="AOAC #041701", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/3M%20PCR/AOAC%20#041701/")
-method10 = api.create(methods, "Method", title="AOAC 990.12", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/3M%20PCR/AOAC%20990.12/")
-method11 = api.create(methods, "Method", title="AOAC 991.14", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/3M%20PCR/AOAC%20991.14/")
-method12 = api.create(methods, "Method", title="AOAC 997.02", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/3M%20PCR/AOAC%20997.02/")
-method13 = api.create(methods, "Method", title="AOAC 2003.07", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/3M%20PCR/AOAC%202003.07/")
-method14 = api.create(methods, "Method", title="AOAC 041101", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/3M%20PCR/AOAC%20041101/")
-method15 = api.create(methods, "Method", title="EPA 3010", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/CVAA%20(Flameless)/EPA%203010/")
-method16 = api.create(methods, "Method", title="EPA 3031", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/CVAA%20(Flameless)/EPA%203031/")
-method17 = api.create(methods, "Method", title="EPA 3050", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/CVAA%20(Flameless)/EPA%203050/")
-method18 = api.create(methods, "Method", title="EPA 3051A", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/CVAA%20(Flameless)/EPA%203051A/")
-method19 = api.create(methods, "Method", title="EPA 3060A", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/CVAA%20(Flameless)/EPA%203060A/")
-method20 = api.create(methods, "Method", title="EPA 7470", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/CVAA%20(Flameless)/EPA%207470/")
-method21 = api.create(methods, "Method", title="EPA 7471B", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/CVAA%20(Flameless)/EPA%207471B/")
-method22 = api.create(methods, "Method", title="NEWAGE SOP Plant Tissue Acid Digestion 001", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/CVAA%20(Flameless)/NEWAGE%20SOP%20Plant%20Tissue%20Acid%20Digestion%20-%20001/")
-method23 = api.create(methods, "Method", title="SM4500D", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/Electrometer/SM4500D/")
-method24 = api.create(methods, "Method", title="AOAC 974.21", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-ECD/AOAC%20974.21/")
-method25 = api.create(methods, "Method", title="AOAC 983.21", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-ECD/AOAC%20983.21/")
-method26 = api.create(methods, "Method", title="AOAC 984.21", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-ECD/AOAC%20984.21/")
-method27 = api.create(methods, "Method", title="AOAC 990.06", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-ECD/AOAC%20990.06/")
-method28 = api.create(methods, "Method", title="AOAC 2004.01 QuEChERS", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-ECD/AOAC%202004.01%20QuEChERS/")
-method29 = api.create(methods, "Method", title="EPA 3510A", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-ECD/EPA%203510A/")
-method30 = api.create(methods, "Method", title="EPA 3535A", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-ECD/EPA%203535A/")
-method31 = api.create(methods, "Method", title="EPA 3546", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-ECD/EPA%203546/")
-method32 = api.create(methods, "Method", title="EPA 3550", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-ECD/EPA%203550/")
-method33 = api.create(methods, "Method", title="EPA 3610", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-ECD/EPA%203610/")
-method34 = api.create(methods, "Method", title="EPA 3611", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-ECD/EPA%203611/")
-method35 = api.create(methods, "Method", title="EPA 3630", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-ECD/EPA%203630/")
-method36 = api.create(methods, "Method", title="EPA 3650", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-ECD/EPA%203650/")
-method37 = api.create(methods, "Method", title="EPA 3660", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-ECD/EPA%203660/")
-method38 = api.create(methods, "Method", title="EPA 3665", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-ECD/EPA%203665/")
-method39 = api.create(methods, "Method", title="EPA 8081B", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-ECD/EPA%208081B/")
-method40 = api.create(methods, "Method", title="EPA 8082A", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-ECD/EPA%208082A/")
-method41 = api.create(methods, "Method", title="AOAC 2007.01", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-MS/AOAC%202007.01/")
-method42 = api.create(methods, "Method", title="EPA 5030B", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-MS/EPA%205030B/")
-method43 = api.create(methods, "Method", title="EPA 8260B", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-MS/EPA%208260B/")
-method44 = api.create(methods, "Method", title="EPA 8260C", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-MS/EPA%208260C/")
-method45 = api.create(methods, "Method", title="EPA 8260D", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-MS/EPA%208260D/")
-method46 = api.create(methods, "Method", title="EPA 8270D", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-MS/EPA%208270D/")
-method47 = api.create(methods, "Method", title="EPA 8270E", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/GC-MS/EPA%208270E/")
-method48 = api.create(methods, "Method", title="AOAC 990.08", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/ICP-OES/AOAC%20990.08/")
-method49 = api.create(methods, "Method", title="AOAC 993.14", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/ICP-OES/AOAC%20993.14/")
-method50 = api.create(methods, "Method", title="AOAC 2012.007", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/ICP-OES/AOAC%202012.007/")
-method51 = api.create(methods, "Method", title="EPA 200.5", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/ICP-OES/EPA%20200.5/")
-method52 = api.create(methods, "Method", title="EPA 6010C", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Methods/ICP-OES/EPA%206010C/")
-method53 = api.create(methods, "Method", title="Sap - Alfalfa", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Sap%20-%20Alfalfa.pdf")
-method54 = api.create(methods, "Method", title="Sap Sampling - Almond", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Sap%20-%20Almond.pdf")
-method55 = api.create(methods, "Method", title="Sap Sampling - Blueberry", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Sap%20-%20Blueberry.pdf")
-method56 = api.create(methods, "Method", title="Sap Sampling - Blackberry", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Sap%20-%20Blackberry.pdf")
-method57 = api.create(methods, "Method", title="Sap Sampling - Brassica", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Sap%20-%20Brassica.pdf")
-method58 = api.create(methods, "Method", title="Sap Sampling - Brocolli", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Sap%20-%20Broccoli.pdf")
-method59 = api.create(methods, "Method", title="Sap Sampling - Bulb Crops", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Sap%20-%20Bulb%20Crops.pdf")
-method60 = api.create(methods, "Method", title="Sap Sampling - Cannabis", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Sap%20-%20Cannabis.pdf")
-method61 = api.create(methods, "Method", title="Sap Sampling - Citrus", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Sap%20-%20Citrus.pdf")
-method62 = api.create(methods, "Method", title="Sap Sampling - Cucurbit", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Sap%20-%20Cucurbit.pdf")
-method63 = api.create(methods, "Method", title="Sap Sampling - General", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Sap%20-%20General.pdf")
-method64 = api.create(methods, "Method", title="Sap Sampling - Grapes", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Sap%20-%20Grapes.pdf")
-method65 = api.create(methods, "Method", title="Sap Sampling - Pepper", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Sap%20-%20Pepper.pdf")
-method66 = api.create(methods, "Method", title="Sap Sampling - Potato", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Sap%20-%20Potato.pdf")
-method67 = api.create(methods, "Method", title="Sap Sampling - Root Crops", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Sap%20-%20Root%20Crops.pdf")
-method68 = api.create(methods, "Method", title="Sap Sampling - Soybean", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Sap%20-%20Soybean.pdf")
-method69 = api.create(methods, "Method", title="Sap Sampling - Strawberry", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Sap%20-%20Strawberry.pdf")
-method70 = api.create(methods, "Method", title="Sap Sampling - Sugarcane and Sorghum", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Sap%20-%20Sugarcane%20and%20Sorghum.pdf")
-method71 = api.create(methods, "Method", title="Sap Sampling - Tomato", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Sap%20-%20Tomato.pdf")
-method72 = api.create(methods, "Method", title="Sap Sampling - Wheat", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Sap%20-%20Wheat.pdf")
-method73 = api.create(methods, "Method", title="Food Safety - Potable Water, Process Water, and Surface Swabs", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Food%20Safety.pdf")
-method74 = api.create(methods, "Method", title="Pnuematic Air Sponge", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Sampling/Pnuematic%20Air%20Sponge.pdf")
-# method75 = api.create(methods, "Method", title="3M PCR", Accredited=True, SOP="http://10.1.10.27/current%20release/SOPs/Instruments/3M%20PCR/")
-# method76 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method77 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method78 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method79 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method80 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method81 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method82 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method83 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method84 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method85 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method86 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method87 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method88 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method89 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method90 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method91 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method92 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method93 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method94 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method95 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method96 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method97 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method98 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method99 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method100 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method101 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method102 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method103 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method104 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method105 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method106 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method107 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method108 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method109 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method110 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method111 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method112 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method113 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method114 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method115 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method116 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method117 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method118 = api.create(methods, "Method", title="", Accredited=True, SOP="")
-# method119 = api.create(methods, "Method", title="", Accredited=True, SOP="")
+aoac974_21 = api.create(methods, "Method", title="AOAC 974.21", description="PCB").UID()
+aoac983_21 = api.create(methods, "Method", title="AOAC 983.21", description="Pesticide").UID()
+aoac984_21 = api.create(methods, "Method", title="AOAC 984.21", description="Pesticide").UID()
+aoac990_06 = api.create(methods, "Method", title="AOAC 990.06", description="Pesticide").UID()
+aoac2004_01 = api.create(methods, "Method", title="AOAC 2004.01 QuEChERS", description="Pesticide Food Residue").UID()
+aoac2007_01 = api.create(methods, "Method", title="AOAC 2007.01", description="VOC/SVOC/Pest").UID()
+epa3510a = api.create(methods, "Method", title="EPA 3510A", description="Funnel Liq-Liq").UID()
+epa3535a = api.create(methods, "Method", title="EPA 3535A", description="SPE").UID()
+epa3546 = api.create(methods, "Method", title="EPA 3546", description="Soluable Organic Compounds").UID()
+epa3541 = api.create(methods, "Method", title="EPA 3541", description="DRO").UID()
+epa3550 = api.create(methods, "Method", title="EPA 3550", description="Ultrasonic (Soil)").UID()
+epa3620b = api.create(methods, "Method", title="EPA 3620B", description="Sulfur-Cleanup").UID()
+epa3660b = api.create(methods, "Method", title="EPA 3660B", description="Sulfur-Cleanup").UID()
+epa3665a = api.create(methods, "Method", title="EPA 3665A", description="Sulfur/Permanganate").UID()
+epa5030c = api.create(methods, "Method", title="EPA 5030C", description="P+T VOC").UID()
+epa5035a = api.create(methods, "Method", title="EPA 5035A", description="Soil").UID()
+epa8081b = api.create(methods, "Method", title="EPA 8081B", description="Pesticide").UID()
+epa8082a = api.create(methods, "Method", title="EPA 8082A", description="PCB").UID()
+epa8260 = api.create(methods, "Method", title="EPA 8260B, C, D", description="VOC").UID()
+epa8270 = api.create(methods, "Method", title="EPA 8270 D,E", description="SVOC").UID()
+aoac932_14 = api.create(methods, "Method", title="AOAC 932.14", description="Brix").UID()
+aoac973_41 = api.create(methods, "Method", title="AOAC 973.41", description="pH").UID()
+aoac978_18 = api.create(methods, "Method", title="AOAC 978.18", description="Water Activity").UID()
+aoac994_16 = api.create(methods, "Method", title="AOAC 994.16", description="Soil pH").UID()
+sm1664a = api.create(methods, "Method", title="SM1664A", description="Oil/Grease").UID()
+sm2320b = api.create(methods, "Method", title="SM2320B", description="Phenolphthalein/Alkalinity").UID()
+sm2340a = api.create(methods, "Method", title="SM2340A", description="Hardness").UID()
+sm2510b = api.create(methods, "Method", title="SM2510B", description="Conductivity").UID()
+sm2540c = api.create(methods, "Method", title="SM2540C", description="TDS/Soluable Salts").UID()
+sm2540d = api.create(methods, "Method", title="SM2540D", description="TSS").UID()
+sm4500_modnh3 = api.create(methods, "Method", title="MOD.SM4500-NH3 G-2011", description="Ammonia (NH4)").UID()
+sm4500_nh3 = api.create(methods, "Method", title="SM4500 NH3-D", description="NH3D Ammonia").UID()
+sm4500_no3d = api.create(methods, "Method", title="SM4500 NO-3D", description="Nitrate").UID()
+sm4500_no2b = api.create(methods, "Method", title="SM4500 NO-2B", description="Nitrite").UID()
+sm4500_cl = api.create(methods, "Method", title="SM4500 Cl-", description="Chloride").UID()
+sm4500_hb = api.create(methods, "Method", title="SM4500-H+B", description="pH").UID()
+sm5210b = api.create(methods, "Method", title="SM5210B", description="BOD").UID()
+sm5220d = api.create(methods, "Method", title="SM5220D", description="COD").UID()
+astmd93 = api.create(methods, "Method", title="ASTM D93", description="Flash Point").UID()
+gallery = api.create(methods, "Method", title="GALLERY", description="Entire Gallery+Platform").UID()
+hach8043 = api.create(methods, "Method", title="HACH 8043", description="BOD").UID()
+hach8113 = api.create(methods, "Method", title="HACH 8113", description="Chlorine").UID()
+hach10208 = api.create(methods, "Method", title="HACH 10208", description="Total Nitrogen").UID()
+iso19822 = api.create(methods, "Method", title="ISO 19822:20181E", description="HA-FA").UID()
+aoac971_21 = api.create(methods, "Method", title="AOAC 971.21", description="Hg").UID()
+aoac990_08 = api.create(methods, "Method", title="AOAC 990.08", description="ICP").UID()
+aoac993_14 = api.create(methods, "Method", title="AOAC 993.14", description="ICP").UID()
+aoac2012_007 = api.create(methods, "Method", title="AOAC 2012.007", description="ICP (Food)").UID()
+epa3010a = api.create(methods, "Method", title="EPA 3010A", description="Liquids").UID()
+epa3050b = api.create(methods, "Method", title="EPA 3050B", description="Soil").UID()
+epa6010c = api.create(methods, "Method", title="EPA 6010C", description="Metals").UID()
+epa200_5 = api.create(methods, "Method", title="EPA 200.5", description="ICP Pb/Cu").UID()
+epa7470 = api.create(methods, "Method", title="EPA 7470", description="Hg-Water").UID()
+epa7471b = api.create(methods, "Method", title="EPA 7471B", description="Hg-Soil").UID()
+sp3050 = api.create(methods, "Method", title="SP-3050 (Metals)", description="Soil").UID()
+sp3010 = api.create(methods, "Method", title="SP-3010 (Metals)", description="Liquids").UID()
+aoac990_12 = api.create(methods, "Method", title="AOAC 990.12", description="APC").UID()
+aoac991_14 = api.create(methods, "Method", title="AOAC 991.14", description="E. coli Food P/A").UID()
+aoac997_02 = api.create(methods, "Method", title="AOAC 997.02", description="Yeast/Mold").UID()
+aoac2003_01 = api.create(methods, "Method", title="AOAC 2003.01", description="EB").UID()
+aoac2003_07 = api.create(methods, "Method", title="AOAC 2003.07", description="Staph.").UID()
+aoac2013_09 = api.create(methods, "Method", title="AOAC 2013.09", description="Salm. For Food").UID()
+aoac2014_01 = api.create(methods, "Method", title="AOAC 2014.01", description="Salm Spp. P/A").UID()
+aoac2014_06 = api.create(methods, "Method", title="AOAC 2014.06", description="Listeria Spp.").UID()
+aoac2014_07 = api.create(methods, "Method", title="AOAC 2014.07", description="Listeria Mono.").UID()
+aoac2017_01 = api.create(methods, "Method", title="AOAC 2017.01", description="E. coli 0157").UID()
+aoac041701 = api.create(methods, "Method", title="AOAC #041701", description="Lactic Acid").UID()
+aoac041101 = api.create(methods, "Method", title="AOAC #041101", description="Listeria 25g").UID()
+aoac960801 = api.create(methods, "Method", title="AOAC #960801", description="Salm 25g").UID()
+colilert_18pa = api.create(methods, "Method", title="Colilert-18 P/A (SM9223B)", description="P/A").UID()
+colilert_18qt = api.create(methods, "Method", title="Colilert-18 QT-2000 (SM9223B)", description="").UID()
+sm9223b = api.create(methods, "Method", title="SM9223B", description="MPN").UID()
+aoac972_32 = api.create(methods, "Method", title="AOAC 972.43", description="Total Nitrogen").UID()
+aoac985_09 = api.create(methods, "Method", title="AOAC 985.09", description="Total Sugar").UID()
+
+
+for i in api.search({'portal_type':'Method'}):
+    api.get_object(i).reindexObject()
+
 
 #InstrumentTypes
 
-pcr = api.create(instrumenttypes, "InstrumentType", title="3M PCR").UID()
+pcr3m = api.create(instrumenttypes, "InstrumentType", title="3M PCR").UID()
 autoclave = api.create(instrumenttypes, "InstrumentType", title="Autoclave").UID()
-blanace = api.create(instrumenttypes, "InstrumentType", title="Balance").UID()
+balance = api.create(instrumenttypes, "InstrumentType", title="Balance").UID()
 centri = api.create(instrumenttypes, "InstrumentType", title="Centrifuge").UID()
 coldpress = api.create(instrumenttypes, "InstrumentType", title="Cold Press").UID()
 cvaa = api.create(instrumenttypes, "InstrumentType", title="CVAA (Flameless)").UID()
@@ -198,99 +167,136 @@ pipette = api.create(instrumenttypes, "InstrumentType", title="Pipette").UID()
 thermometer = api.create(instrumenttypes, "InstrumentType", title="Thermometer").UID()
 weights = api.create(instrumenttypes, "InstrumentType", title="Weights").UID()
 
-#Calculations
+for i in api.search({'portal_type':'InstrumentType'}):
+    api.get_object(i).reindexObject()
 
 #AnalysisService
 
 ##Sap
-sap_al = api.create(analysisservices, "AnalysisService", title="Aluminum (Al)", Keyword = "sap_aluminum", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_b = api.create(analysisservices, "AnalysisService", title="Boron (B)", Keyword = "sap_boron", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_brix = api.create(analysisservices, "AnalysisService", title="Brix", Keyword = "sap_brix", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_sugar = api.create(analysisservices, "AnalysisService", title="Sugars, Total", Keyword = "sap_total_sugar", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_ca = api.create(analysisservices, "AnalysisService", title="Calcium (Ca)", Keyword = "sap_calcium", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_cl = api.create(analysisservices, "AnalysisService", title="Chloride (Cl-)", Keyword = "sap_chloride", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_co = api.create(analysisservices, "AnalysisService", title="Cobalt (Co)", Keyword = "sap_cobalt", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_cu = api.create(analysisservices, "AnalysisService", title="Copper (Cu)", Keyword = "sap_copper", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_ec = api.create(analysisservices, "AnalysisService", title="EC", Keyword = "sap_ec", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_fe = api.create(analysisservices, "AnalysisService", title="Iron (Fe)", Keyword = "sap_iron", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_kca = api.create(analysisservices, "AnalysisService", title="K/Ca Ratio", Keyword = "sap_kcaratio", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_mg = api.create(analysisservices, "AnalysisService", title="Magnesium (Mg)", Keyword = "sap_magnesium", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_mn = api.create(analysisservices, "AnalysisService", title="Manganese (Mn)", Keyword = "sap_manganese", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_mo = api.create(analysisservices, "AnalysisService", title="Molybdenum (Mo)", Keyword = "sap_molybdenum", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_ni = api.create(analysisservices, "AnalysisService", title="Nickel (Ni)", Keyword = "sap_nickel", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_no3 = api.create(analysisservices, "AnalysisService", title="Nitrate (NO3)", Keyword = "sap_nitrate", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_nnh4 = api.create(analysisservices, "AnalysisService", title="Nitrogen as Ammonium (NH4)", Keyword = "sap_nitrogen_as_ammonium", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_nno3 = api.create(analysisservices, "AnalysisService", title="Nitrogen as Nitrate (NO3)", Keyword = "sap_nitrogen_as_nitrate", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_totaln = api.create(analysisservices, "AnalysisService", title="Nitrogen (N), Total", Keyword = "sap_total_nitrogen", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_ph = api.create(analysisservices, "AnalysisService", title="pH", Keyword = "sap_ph", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_p = api.create(analysisservices, "AnalysisService", title="Phosphorous (P)", Keyword = "sap_phosphorous", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_k = api.create(analysisservices, "AnalysisService", title="Potassium (K)", Keyword = "sap_potassium", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_se = api.create(analysisservices, "AnalysisService", title="Selenium (Se)", Keyword = "sap_selenium", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_si = api.create(analysisservices, "AnalysisService", title="Silica (Si)", Keyword = "sap_silica", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_na = api.create(analysisservices, "AnalysisService", title="Sodium (Na)", Keyword = "sap_sodium", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_s = api.create(analysisservices, "AnalysisService", title="Sulfur (S)", Keyword = "sap_sulfur", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
-sap_zn = api.create(analysisservices, "AnalysisService", title="Zinc (Zn)", Keyword = "sap_zinc", Accredited=True, PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
+sap_al = api.create(analysisservices, "AnalysisService", title="Aluminum (Al)", Keyword = "sap_aluminum", Methods=[aoac993_14], Accredited=True, Unit="ppm" ,PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+sap_b = api.create(analysisservices, "AnalysisService", title="Boron (B)", Keyword = "sap_boron", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+sap_brix = api.create(analysisservices, "AnalysisService", title="Brix", Keyword = "sap_brix", Methods=aoac932_14, Accredited=True, Unit="-", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.01", ExponentialFormatPrecision=7).UID()
+sap_sugar = api.create(analysisservices, "AnalysisService", title="Sugars, Total", Keyword = "sap_total_sugar", Methods=aoac985_09, Accredited=True, Unit="%", PointOfCapture="lab", Category=sapcategory, ExponentialFormatPrecision=7).UID()
+sap_ca = api.create(analysisservices, "AnalysisService", title="Calcium (Ca)", Keyword = "sap_calcium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+sap_cl = api.create(analysisservices, "AnalysisService", title="Chloride (Cl-)", Keyword = "sap_chloride", Methods=sm4500_cl, Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+sap_co = api.create(analysisservices, "AnalysisService", title="Cobalt (Co)", Keyword = "sap_cobalt", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+sap_cu = api.create(analysisservices, "AnalysisService", title="Copper (Cu)", Keyword = "sap_copper", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+sap_ec = api.create(analysisservices, "AnalysisService", title="EC", Keyword = "sap_ec", Methods=sm2510b, Accredited=True, Unit="mS/cm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.001", ExponentialFormatPrecision=7).UID()
+sap_fe = api.create(analysisservices, "AnalysisService", title="Iron (Fe)", Keyword = "sap_iron", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+sap_kca = api.create(analysisservices, "AnalysisService", title="K/Ca Ratio", Keyword = "sap_kcaratio", Accredited=True, Unit="-", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.0001", ExponentialFormatPrecision=7).UID()
+sap_mg = api.create(analysisservices, "AnalysisService", title="Magnesium (Mg)", Keyword = "sap_magnesium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+sap_mn = api.create(analysisservices, "AnalysisService", title="Manganese (Mn)", Keyword = "sap_manganese", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+sap_mo = api.create(analysisservices, "AnalysisService", title="Molybdenum (Mo)", Keyword = "sap_molybdenum", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+sap_ni = api.create(analysisservices, "AnalysisService", title="Nickel (Ni)", Keyword = "sap_nickel", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+sap_no3 = api.create(analysisservices, "AnalysisService", title="Nitrate (NO3)", Keyword = "sap_nitrate", Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.001", ExponentialFormatPrecision=7).UID()
+sap_nnh4 = api.create(analysisservices, "AnalysisService", title="Nitrogen as Ammonium (NH4)", Keyword = "sap_nitrogen_as_ammonium", Methods=sm4500_nh3, Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+sap_nno3 = api.create(analysisservices, "AnalysisService", title="Nitrogen as Nitrate (NO3)", Keyword = "sap_nitrogen_as_nitrate", Methods=sm4500_no3d, Accredited=True, Unit="ppm", PointOfCapture="lab", LowerDetectionLimit="0.05", Category=sapcategory, ExponentialFormatPrecision=7).UID()
+sap_totaln = api.create(analysisservices, "AnalysisService", title="Nitrogen (N), Total", Keyword = "sap_total_nitrogen", Methods=aoac972_32, Accredited=True, Unit="ppm", PointOfCapture="lab", LowerDetectionLimit="0.05", Category=sapcategory, ExponentialFormatPrecision=7).UID()
+sap_ph = api.create(analysisservices, "AnalysisService", title="pH", Keyword = "sap_ph", Methods=aoac973_41, Accredited=True, Unit="-", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.01", ExponentialFormatPrecision=7).UID()
+sap_p = api.create(analysisservices, "AnalysisService", title="Phosphorous (P)", Keyword = "sap_phosphorous", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+sap_k = api.create(analysisservices, "AnalysisService", title="Potassium (K)", Keyword = "sap_potassium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+sap_se = api.create(analysisservices, "AnalysisService", title="Selenium (Se)", Keyword = "sap_selenium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+sap_si = api.create(analysisservices, "AnalysisService", title="Silica (Si)", Keyword = "sap_silica", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+sap_na = api.create(analysisservices, "AnalysisService", title="Sodium (Na)", Keyword = "sap_sodium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+sap_s = api.create(analysisservices, "AnalysisService", title="Sulfur (S)", Keyword = "sap_sulfur", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+sap_zn = api.create(analysisservices, "AnalysisService", title="Zinc (Zn)", Keyword = "sap_zinc", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
 
 ##Drinking Water
 
-drinking_f = api.create(analysisservices, "AnalysisService", title="Flouride (F)", Keyword = "drinking_flouride", Accredited=True, PointOfCapture="lab", Category=drinkingcategory, ExponentialFormatPrecision=7).UID()
-drinking_pb = api.create(analysisservices, "AnalysisService", title="Lead (Pb)", Keyword = "drinking_lead", Accredited=True, PointOfCapture="lab", Category=drinkingcategory, ExponentialFormatPrecision=7).UID()
-drinking_cu = api.create(analysisservices, "AnalysisService", title="Copper (Cu)", Keyword = "drinking_copper", Accredited=True, PointOfCapture="lab", Category=drinkingcategory, ExponentialFormatPrecision=7).UID()
-drinking_no2 = api.create(analysisservices, "AnalysisService", title="Nitrite (NO2)", Keyword = "drinking_nitrite", Accredited=True, PointOfCapture="lab", Category=drinkingcategory, ExponentialFormatPrecision=7).UID()
-drinking_no3 = api.create(analysisservices, "AnalysisService", title="Nitrate (NO3)", Keyword = "drinking_nitrate", Accredited=True, PointOfCapture="lab", Category=drinkingcategory, ExponentialFormatPrecision=7).UID()
-drinking_coliform_mpn = api.create(analysisservices, "AnalysisService", title="Coliform (MPN)", Keyword = "drinking_coliform_mpn", Accredited=True, PointOfCapture="lab", Category=drinkingcategory, ExponentialFormatPrecision=7).UID()
-drinking_ecoli_mpn = api.create(analysisservices, "AnalysisService", title="E.coli (MPN)", Keyword = "drinking_ecoli_mpn", Accredited=True, PointOfCapture="lab", Category=drinkingcategory, ExponentialFormatPrecision=7).UID()
-drinking_coliform_pa = api.create(analysisservices, "AnalysisService", title="Coliform (PA)", Keyword = "drinking_coliform_pa", Accredited=True, PointOfCapture="lab", Category=drinkingcategory, ExponentialFormatPrecision=7).UID()
-drinking_ecoli_pa = api.create(analysisservices, "AnalysisService", title="E.coli (PA)", Keyword = "drinking_ecoli_pa", Accredited=True, PointOfCapture="lab", Category=drinkingcategory, ExponentialFormatPrecision=7).UID()
-drinking_fecal = api.create(analysisservices, "AnalysisService", title="Fecal Coliform", Keyword = "drinking_fecal_coliform", Accredited=True, PointOfCapture="lab", Category=drinkingcategory, ExponentialFormatPrecision=7).UID()
+drinking_f = api.create(analysisservices, "AnalysisService", title="Flouride (F)", Keyword = "drinking_flouride", Accredited=True, Unit="mg/L", PointOfCapture="lab", Category=drinkingcategory, LowerDetectionLimit="0.01", ExponentialFormatPrecision=7).UID()
+drinking_pb = api.create(analysisservices, "AnalysisService", title="Lead (Pb)", Keyword = "drinking_lead", Methods=epa200_5, Accredited=True, Unit="µg/L", PointOfCapture="lab", Category=drinkingcategory, LowerDetectionLimit="5.0", ExponentialFormatPrecision=7).UID()
+drinking_cu = api.create(analysisservices, "AnalysisService", title="Copper (Cu)", Keyword = "drinking_copper", Methods=epa200_5, Accredited=True, Unit="µg/L", PointOfCapture="lab", Category=drinkingcategory, LowerDetectionLimit="5.0", ExponentialFormatPrecision=7).UID()
+drinking_no2 = api.create(analysisservices, "AnalysisService", title="Nitrite (NO2)", Keyword = "drinking_nitrite", Methods=sm4500_no2b, Accredited=False, Unit="mg/L", PointOfCapture="lab", Category=drinkingcategory, LowerDetectionLimit="0.1", ExponentialFormatPrecision=7).UID()
+drinking_no3 = api.create(analysisservices, "AnalysisService", title="Nitrate (NO3)", Keyword = "drinking_nitrate", Methods=sm4500_no3d, Accredited=True, Unit="mg/L", PointOfCapture="lab", Category=drinkingcategory, LowerDetectionLimit="0.001", ExponentialFormatPrecision=7).UID()
+drinking_coliform_pa = api.create(analysisservices, "AnalysisService", title="Coliform (PA)", Keyword = "drinking_coliform_pa", Methods=sm9223b, Accredited=True, Unit="-", PointOfCapture="lab", Category=drinkingcategory, LowerDetectionLimit="0", ExponentialFormatPrecision=7, ResultOptions=[{'ResultValue':'0','ResultText':'ABSENT'},{'ResultValue':'1','ResultText':'PRESENT'},{'ResultValue':'-1','ResultText':'INCONCLUSIVE'}]).UID()
+drinking_ecoli_pa = api.create(analysisservices, "AnalysisService", title="E.coli (PA)", Keyword = "drinking_ecoli_pa", Methods=sm9223b, Accredited=True, Unit="-", PointOfCapture="lab", Category=drinkingcategory, LowerDetectionLimit="0", ExponentialFormatPrecision=7, ResultOptions=[{'ResultValue':'0','ResultText':'ABSENT'},{'ResultValue':'1','ResultText':'PRESENT'},{'ResultValue':'-1','ResultText':'INCONCLUSIVE'}]).UID()
+drinking_fecal = api.create(analysisservices, "AnalysisService", title="Fecal Coliform", Keyword = "drinking_fecal_coliform", Methods=sm9223b, Accredited=True, Unit="-", PointOfCapture="lab", Category=drinkingcategory, LowerDetectionLimit="0", ExponentialFormatPrecision=7, ResultOptions=[{'ResultValue':'0','ResultText':'ABSENT'},{'ResultValue':'1','ResultText':'PRESENT'},{'ResultValue':'-1','ResultText':'INCONCLUSIVE'}]).UID()
+
+##Surface Water
+
+surface_coliform_mpn = api.create(analysisservices, "AnalysisService", title="Coliform (MPN)", Keyword = "surface_coliform_mpn", Methods=sm9223b, Accredited=True, Unit="mpn/100mL", PointOfCapture="lab", Category=surfacecategory, LowerDetectionLimit="1", ExponentialFormatPrecision=7).UID()
+surface_ecoli_mpn = api.create(analysisservices, "AnalysisService", title="E.coli (MPN)", Keyword = "surface_coli_mpn", Methods=sm9223b, Accredited=True, Unit="mpn/100mL", PointOfCapture="lab", Category=surfacecategory, LowerDetectionLimit="1", ExponentialFormatPrecision=7).UID()
+surface_coliform_mpn_10x = api.create(analysisservices, "AnalysisService", title="Coliform (MPN) - 10x", Keyword = "surface_coliform_mpn_10x", Methods=sm9223b, Accredited=True, Unit="mpn/10mL", PointOfCapture="lab", Category=surfacecategory, LowerDetectionLimit="1", ExponentialFormatPrecision=7).UID()
+surface_ecoli_mpn_10x = api.create(analysisservices, "AnalysisService", title="E.coli (MPN) - 10x", Keyword = "surface_ecoli_mpn_10x", Methods=sm9223b, Accredited=True, Unit="mpn/10mL", PointOfCapture="lab", Category=surfacecategory, LowerDetectionLimit="1", ExponentialFormatPrecision=7).UID()
+surface_coliform_mpn_fsma = api.create(analysisservices, "AnalysisService", title="Coliform (MPN) - FSMA", Keyword = "surface_oliform_mpn_fsma", Methods=sm9223b, Accredited=True, Unit="mpn/100mL", PointOfCapture="lab", Category=surfacecategory, LowerDetectionLimit="1", ExponentialFormatPrecision=7).UID()
+surface_ecoli_mpn_fsma = api.create(analysisservices, "AnalysisService", title="E.coli (MPN) - FSMA", Keyword = "surface_ecoli_mpn_fsma", Methods=sm9223b, Accredited=True, Unit="mpn/100mL", PointOfCapture="lab", Category=surfacecategory, LowerDetectionLimit="1", ExponentialFormatPrecision=7).UID()
 
 ##Hydro Water
 
-hydro_ph = api.create(analysisservices, "AnalysisService", title="pH", Keyword="hydro_ph", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_soluablesalts = api.create(analysisservices, "AnalysisService", title="Soluable Salts", Keyword="hydro_soluablesalts", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_tds = api.create(analysisservices, "AnalysisService", title="Total Dissolved Solids (TDS)", Keyword="hydro_tds", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_chloride = api.create(analysisservices, "AnalysisService", title="Chloride (Cl-)", Keyword="hydro_chloride", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_sulfur = api.create(analysisservices, "AnalysisService", title="Sulfur (S)", Keyword="hydro_sulfur", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_phosphorus = api.create(analysisservices, "AnalysisService", title="Phosphorous (P)", Keyword="hydro_phosphorous", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_calcium = api.create(analysisservices, "AnalysisService", title="Calcium (Ca)", Keyword="hydro_calcium", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_potassium = api.create(analysisservices, "AnalysisService", title="Potassium (K)", Keyword="hydro_potassium", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_magnesium = api.create(analysisservices, "AnalysisService", title="Magnesium (Mg)", Keyword="hydro_magnesium", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_sodium = api.create(analysisservices, "AnalysisService", title="Sodium (Na)", Keyword="hydro_sodium", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_aluminum = api.create(analysisservices, "AnalysisService", title="Aluminum (Al)", Keyword="hydro_aluminum", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_boron = api.create(analysisservices, "AnalysisService", title="Boron (B)", Keyword="hydro_boron", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_cobalt = api.create(analysisservices, "AnalysisService", title="Cobalt (Co)", Keyword="hydro_cobalt", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_copper = api.create(analysisservices, "AnalysisService", title="Copper (Cu)", Keyword="hydro_copper", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_iron = api.create(analysisservices, "AnalysisService", title="Iron (Fe)", Keyword="hydro_iron", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_manganese = api.create(analysisservices, "AnalysisService", title="Manganese (Mn)", Keyword="hydro_manganese", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_molybdenum = api.create(analysisservices, "AnalysisService", title="Molybdenum (Mo)", Keyword="hydro_molybdenum", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_nickel = api.create(analysisservices, "AnalysisService", title="Nickel (Ni)", Keyword="hydro_nickel", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_selenium = api.create(analysisservices, "AnalysisService", title="Selenium (Se)", Keyword="hydro_selenium", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_silica = api.create(analysisservices, "AnalysisService", title="Silica (Si)", Keyword="hydro_silica", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_zinc = api.create(analysisservices, "AnalysisService", title="Zinc (Zn)", Keyword="hydro_zinc", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_ammonia = api.create(analysisservices, "AnalysisService", title="Ammonia (NH4) as Nitrogen (N)", Keyword="hydro_ammonia", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
-hydro_nitrate = api.create(analysisservices, "AnalysisService", title="Nitrate (NO3) as Nitrogen (N)", Keyword="hydro_nitrate", Accredited=True, PointOfCapture="lab", Category=hydrocategory, ExponentialFormatPrecision=7).UID()
+hydro_ph = api.create(analysisservices, "AnalysisService", title="pH", Keyword="hydro_ph", Methods=aoac973_41, Accredited=True, Unit="-", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.01", ExponentialFormatPrecision=7).UID()
+hydro_soluablesalts = api.create(analysisservices, "AnalysisService", title="Soluable Salts", Keyword="hydro_soluablesalts", Methods=sm2540c, Accredited=True, Unit="mS/cm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.01", ExponentialFormatPrecision=7).UID()
+hydro_tds = api.create(analysisservices, "AnalysisService", title="Total Dissolved Solids (TDS)", Keyword="hydro_tds", Methods=sm2510b, Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.1", ExponentialFormatPrecision=7).UID()
+hydro_chloride = api.create(analysisservices, "AnalysisService", title="Chloride (Cl-)", Keyword="hydro_chloride", Methods=sm4500_cl, Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+hydro_sulfur = api.create(analysisservices, "AnalysisService", title="Sulfur (S)", Keyword="hydro_sulfur", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+hydro_phosphorus = api.create(analysisservices, "AnalysisService", title="Phosphorous (P)", Keyword="hydro_phosphorous", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+hydro_calcium = api.create(analysisservices, "AnalysisService", title="Calcium (Ca)", Keyword="hydro_calcium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+hydro_potassium = api.create(analysisservices, "AnalysisService", title="Potassium (K)", Keyword="hydro_potassium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+hydro_magnesium = api.create(analysisservices, "AnalysisService", title="Magnesium (Mg)", Keyword="hydro_magnesium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+hydro_sodium = api.create(analysisservices, "AnalysisService", title="Sodium (Na)", Keyword="hydro_sodium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+hydro_aluminum = api.create(analysisservices, "AnalysisService", title="Aluminum (Al)", Keyword="hydro_aluminum", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+hydro_boron = api.create(analysisservices, "AnalysisService", title="Boron (B)", Keyword="hydro_boron", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+hydro_cobalt = api.create(analysisservices, "AnalysisService", title="Cobalt (Co)", Keyword="hydro_cobalt", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+hydro_copper = api.create(analysisservices, "AnalysisService", title="Copper (Cu)", Keyword="hydro_copper", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+hydro_iron = api.create(analysisservices, "AnalysisService", title="Iron (Fe)", Keyword="hydro_iron", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+hydro_manganese = api.create(analysisservices, "AnalysisService", title="Manganese (Mn)", Keyword="hydro_manganese", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+hydro_molybdenum = api.create(analysisservices, "AnalysisService", title="Molybdenum (Mo)", Keyword="hydro_molybdenum", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+hydro_nickel = api.create(analysisservices, "AnalysisService", title="Nickel (Ni)", Keyword="hydro_nickel", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+hydro_selenium = api.create(analysisservices, "AnalysisService", title="Selenium (Se)", Keyword="hydro_selenium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+hydro_silica = api.create(analysisservices, "AnalysisService", title="Silica (Si)", Keyword="hydro_silica", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+hydro_zinc = api.create(analysisservices, "AnalysisService", title="Zinc (Zn)", Keyword="hydro_zinc", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.05", ExponentialFormatPrecision=7).UID()
+hydro_ammonia = api.create(analysisservices, "AnalysisService", title="Ammonia (NH4) as Nitrogen (N)", Keyword="hydro_ammonia", Methods=sm4500_no3d, Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.01", ExponentialFormatPrecision=7).UID()
+hydro_nitrate = api.create(analysisservices, "AnalysisService", title="Nitrate (NO3) as Nitrogen (N)", Keyword="hydro_nitrate", Methods=sm4500_modnh3, Accredited=True, Unit="ppm", PointOfCapture="lab", Category=hydrocategory, LowerDetectionLimit="0.01", ExponentialFormatPrecision=7).UID()
+
+#Calculations
+
+sap_nitrate_calc = api.create(calculations, "Calculation", title="Nitrate as N to Nitrate (Sap)", Formula="[sap_nitrogen_as_nitrate]*4.43")
+sap_kca_calc = api.create(calculations, "Calculation", title="K/Ca Ratio (Sap)", Formula="[sap_potassium]/[sap_calcium]")
+
+for i in api.search({'portal_type':'Calculation'}):
+    api.get_object(i).reindexObject()
+
+#Finalize AnalysisServices
+api.get_object(sap_nno3).Calculation = sap_nitrate_calc
+api.get_object(sap_kca).Calculation = sap_kca_calc
+
+for i in api.search({'portal_type':'AnalysisService'}):
+    api.get_object(i).reindexObject()
 
 #AnalysisProfiles
 
-profile_lead_copper = api.create(profiles, "AnalysisProfile", title="Lead/Copper - Drinking Water", Service=[drinking_pb,drinking_cu])
-profile_ecoli_coliform_mpn = api.create(profiles, "AnalysisProfile", title="E.coli/Coliform MPN", Service=[drinking_coliform_mpn,drinking_ecoli_mpn])
-profile_ecoli_coliform_pa = api.create(profiles, "AnalysisProfile", title="E.coli/Coliform PA", Service=[drinking_coliform_pa,drinking_ecoli_pa])
-profile_nitrate = api.create(profiles, "AnalysisProfile", title="Nitrate - Drinking Water", Service=[drinking_no3])
-profile_nitrite = api.create(profiles, "AnalysisProfile", title="Nitrite - Drinking Water", Service=[drinking_no3])
-profile_sap = api.create(profiles, "AnalysisProfile", title="Sap", Service=[sap_al,sap_b,sap_brix,sap_sugar,sap_ca,sap_cl,sap_co,sap_cu,sap_ec,sap_fe,sap_kca,sap_mg,sap_mn,sap_mo,sap_ni,sap_no3,sap_nnh4,sap_nno3,sap_totaln,sap_ph,sap_p,sap_k,sap_se,sap_si,sap_na,sap_s,sap_zn])
+profile_lead_copper = api.create(profiles, "AnalysisProfile", title="Lead/Copper - Drinking Water", Service=[drinking_pb,drinking_cu]).UID()
+profile_ecoli_coliform_pa = api.create(profiles, "AnalysisProfile", title="E.coli/Coliform PA", Service=[drinking_coliform_pa,drinking_ecoli_pa]).UID()
+profile_nitrate = api.create(profiles, "AnalysisProfile", title="Nitrate - Drinking Water", Service=[drinking_no3]).UID()
+profile_nitrite = api.create(profiles, "AnalysisProfile", title="Nitrite - Drinking Water", Service=[drinking_no3]).UID()
+profile_ecoli_coliform_mpn = api.create(profiles, "AnalysisProfile", title="E.coli/Coliform MPN", Service=[surface_coliform_mpn,surface_ecoli_mpn]).UID()
+profile_ecoli_coliform_mpn_FSMA = api.create(profiles, "AnalysisProfile", title="E.coli/Coliform MPN - FSMA", Service=[surface_coliform_mpn_fsma,surface_ecoli_mpn_fsma]).UID()
+profile_ecoli_coliform_mpn_10x = api.create(profiles, "AnalysisProfile", title="E.coli/Coliform MPN - 10x", Service=[surface_coliform_mpn_10x,surface_ecoli_mpn_10x]).UID()
+
+profile_sap = api.create(profiles, "AnalysisProfile", title="Sap", Service=[sap_al,sap_b,sap_brix,sap_sugar,sap_ca,sap_cl,sap_co,sap_cu,sap_ec,sap_fe,\
+sap_kca,sap_mg,sap_mn,sap_mo,sap_ni,sap_no3,sap_nnh4,sap_nno3,sap_totaln,sap_ph,sap_p,sap_k,sap_se,sap_si,sap_na,sap_s,sap_zn]).UID()
+
+profile_hp_01 = api.create(profiles, "AnalysisProfile", title="HP-01", Service=[hydro_ph,hydro_soluablesalts,hydro_tds,hydro_chloride,hydro_sulfur,\
+hydro_phosphorus,hydro_calcium,hydro_potassium,hydro_magnesium,hydro_sodium,hydro_aluminum,hydro_boron,hydro_cobalt,hydro_copper,hydro_iron,\
+hydro_manganese,hydro_molybdenum,hydro_selenium,hydro_nickel,hydro_silica,hydro_zinc,hydro_ammonia,hydro_nitrate]).UID()
+
+for i in api.search({'portal_type':'AnalysisProfile'}):
+    api.get_object(i).reindexObject()
 
 #SampleTypes
 saptype = api.create(sampletypes, "SampleType", title="Sap").UID()
-soiltype = api.create(sampletypes, "SampleType", title="Soil")
-canntype = api.create(sampletypes, "SampleType", title="Cannabis")
-drinkingtype = api.create(sampletypes, "SampleType", title="Drinking Water")
-surfacetype = api.create(sampletypes, "SampleType", title="Surface Water")
-hydrotype = api.create(sampletypes, "SampleType", title="Hydroponic Water")
-frozentype = api.create(sampletypes, "SampleType", title="Frozen Food")
-rawtype = api.create(sampletypes, "SampleType", title="Raw Food")
-airtype = api.create(sampletypes, "SampleType", title="Compressed Air")
-preptype = api.create(sampletypes, "SampleType", title="Prep")
-cleantype = api.create(sampletypes, "SampleType", title="Cleanup")
+soiltype = api.create(sampletypes, "SampleType", title="Soil").UID()
+canntype = api.create(sampletypes, "SampleType", title="Cannabis").UID()
+drinkingtype = api.create(sampletypes, "SampleType", title="Drinking Water").UID()
+surfacetype = api.create(sampletypes, "SampleType", title="Surface Water").UID()
+hydrotype = api.create(sampletypes, "SampleType", title="Hydroponic Water").UID()
+frozentype = api.create(sampletypes, "SampleType", title="Frozen Food").UID()
+rawtype = api.create(sampletypes, "SampleType", title="Raw Food").UID()
+airtype = api.create(sampletypes, "SampleType", title="Compressed Air").UID()
+preptype = api.create(sampletypes, "SampleType", title="Prep").UID()
+cleantype = api.create(sampletypes, "SampleType", title="Cleanup").UID()
+
+for i in api.search({'portal_type':'SampleType'}):
+    api.get_object(i).reindexObject()
 
 #AnalysisSpecifications
 
@@ -323,7 +329,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,  "min":"450",   "max
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"uid":sap_totaln,      "min":"1000",  "max":"2000"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"uid":sap_no3,             "min":"3000",  "max":"7000"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-hemp_spec = api.create(specs, "AnalysisSpec", title="Hemp Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+hemp_spec = api.create(specs, "AnalysisSpec", title="Hemp Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Alfalfa
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"",     "max":""}
@@ -354,7 +360,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,  "min":"900",     "m
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"uid":sap_totaln,      "min":"",     "max":""}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"uid":sap_no3,             "min":"4000",     "max":"5000"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-alfalfa_spec = api.create(specs, "AnalysisSpec", title="Alfalfa Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+alfalfa_spec = api.create(specs, "AnalysisSpec", title="Alfalfa Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Almond
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,                "min":"2.5",     "max":"4"}
@@ -385,7 +391,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,  "min":"40",     "ma
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"uid":sap_totaln,      "min":"750",     "max":"1500"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"uid":sap_no3,             "min":"180",     "max":"400"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-almond_spec = api.create(specs, "AnalysisSpec", title="Almond Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+almond_spec = api.create(specs, "AnalysisSpec", title="Almond Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Apple
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,                "min":"6",     "max":"7"}
@@ -416,7 +422,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,  "min":"7",     "max
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"uid":sap_totaln,      "min":"100",     "max":"150"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"uid":sap_no3,             "min":"31",     "max":"110"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-apple_spec = api.create(specs, "AnalysisSpec", title="Apple Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+apple_spec = api.create(specs, "AnalysisSpec", title="Apple Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Apricot
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,                "min":"1.5",     "max":"2"}
@@ -447,7 +453,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,  "min":"23",     "ma
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"uid":sap_totaln,      "min":"",     "max":""}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"uid":sap_no3,             "min":"100",     "max":"200"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-apricot_spec = api.create(specs, "AnalysisSpec", title="Apricot Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+apricot_spec = api.create(specs, "AnalysisSpec", title="Apricot Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Barley
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"","max":""}
@@ -478,7 +484,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"340","max":"79
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"","max":""}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"1500","max":"3500"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-barley_spec = api.create(specs, "AnalysisSpec", title="Barley Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+barley_spec = api.create(specs, "AnalysisSpec", title="Barley Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Bean
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"0.5","max":"1.1"}
@@ -509,7 +515,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"125","max":"25
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"3000","max":"6000"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"553.75","max":"1107.5"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-bean_spec = api.create(specs, "AnalysisSpec", title="Bean Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+bean_spec = api.create(specs, "AnalysisSpec", title="Bean Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Blackberry
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"5.5","max":"7.5"}
@@ -540,7 +546,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"35","max":"90"
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"550","max":"650"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"150","max":"400"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-blackberry_spec = api.create(specs, "AnalysisSpec", title="Blackberry Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+blackberry_spec = api.create(specs, "AnalysisSpec", title="Blackberry Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Blackberry Fruitfill
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"5.5","max":"7.5"}
@@ -602,7 +608,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"25","max":"400
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"300","max":"800"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"110","max":"1200"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-blueberry_spec = api.create(specs, "AnalysisSpec", title="Blueberry Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+blueberry_spec = api.create(specs, "AnalysisSpec", title="Blueberry Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Broccoli
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1","max":"3"}
@@ -633,7 +639,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"900","max":"12
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"2000","max":"3500"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"4000","max":"5500"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-broccoli_spec = api.create(specs, "AnalysisSpec", title="Broccoli Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+broccoli_spec = api.create(specs, "AnalysisSpec", title="Broccoli Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Canola
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"","max":""}
@@ -664,7 +670,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"340","max":"79
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"","max":""}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"1500","max":"3500"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-canola_spec = api.create(specs, "AnalysisSpec", title="Canola Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+canola_spec = api.create(specs, "AnalysisSpec", title="Canola Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Cauliflower
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1","max":"3"}
@@ -695,7 +701,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"225","max":"90
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"750","max":"2500"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"1000","max":"4000"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-cauliflower_spec = api.create(specs, "AnalysisSpec", title="Cauliflower Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+cauliflower_spec = api.create(specs, "AnalysisSpec", title="Cauliflower Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Cherry
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1.5","max":"3"}
@@ -726,7 +732,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"25","max":"55"
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"1000","max":"2500"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"100","max":"250"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-cherry_spec = api.create(specs, "AnalysisSpec", title="Cherry Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+cherry_spec = api.create(specs, "AnalysisSpec", title="Cherry Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Onion
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1","max":"3"}
@@ -757,7 +763,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"70","max":"225
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"250","max":"1000"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"300","max":"1000"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-onion_spec = api.create(specs, "AnalysisSpec", title="Onion Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+onion_spec = api.create(specs, "AnalysisSpec", title="Onion Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Carrot
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1","max":"3"}
@@ -788,7 +794,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"340","max":"79
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"1000","max":"2000"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"1500","max":"3500"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-carrot_spec = api.create(specs, "AnalysisSpec", title="Carrot Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+carrot_spec = api.create(specs, "AnalysisSpec", title="Carrot Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Chard
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1","max":"3"}
@@ -819,7 +825,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"900","max":"12
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"2000","max":"3500"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"4000","max":"5500"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-chard_spec = api.create(specs, "AnalysisSpec", title="Chard Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+chard_spec = api.create(specs, "AnalysisSpec", title="Chard Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Sugarbeet
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"2","max":"5"}
@@ -850,7 +856,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"900","max":"11
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"2500","max":"3500"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"4000","max":"5000"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-sugarbeet_spec = api.create(specs, "AnalysisSpec", title="Sugarbeet Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+sugarbeet_spec = api.create(specs, "AnalysisSpec", title="Sugarbeet Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Sorghum - Milo
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1.5","max":"2"}
@@ -881,7 +887,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"270","max":"56
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"1000","max":"2000"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"1200","max":"2500"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-sorghum_spec = api.create(specs, "AnalysisSpec", title="Sorghum Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+sorghum_spec = api.create(specs, "AnalysisSpec", title="Sorghum Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Cotton
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1","max":"3"}
@@ -912,7 +918,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"2145","max":"2
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"3000","max":"6000"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"9500","max":"13000"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-cotton_spec = api.create(specs, "AnalysisSpec", title="Cotton Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+cotton_spec = api.create(specs, "AnalysisSpec", title="Cotton Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Cowpeas
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"0.5","max":"1.1"}
@@ -943,7 +949,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"125","max":"25
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"3000","max":"6000"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"553.75","max":"1107.5"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-cowpeas_spec = api.create(specs, "AnalysisSpec", title="Cowpea Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+cowpeas_spec = api.create(specs, "AnalysisSpec", title="Cowpea Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Citrus (Grapefruit)
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1.5","max":"2"}
@@ -1160,7 +1166,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"670","max":"11
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"2000","max":"3500"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"3000","max":"5000"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-eggplant_spec = api.create(specs, "AnalysisSpec", title="Eggplant Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+eggplant_spec = api.create(specs, "AnalysisSpec", title="Eggplant Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Grape (Table)
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"6","max":"15"}
@@ -1191,7 +1197,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"135","max":"34
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"48","max":"142"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"600","max":"1500"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-grape_table_spec = api.create(specs, "AnalysisSpec", title="Grape (Table) Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+grape_table_spec = api.create(specs, "AnalysisSpec", title="Grape (Table) Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Grape (Wine) Post-Harvest
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"6","max":"15"}
@@ -1253,7 +1259,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"70","max":"300
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"48","max":"142"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"300","max":"1350"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-grape_wine_spec = api.create(specs, "AnalysisSpec", title="Grape (Wine) Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+grape_wine_spec = api.create(specs, "AnalysisSpec", title="Grape (Wine) Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Lettuce Pre-Early Harvest
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1","max":"3"}
@@ -1315,7 +1321,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"56","max":"80"
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"","max":""}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"250","max":"350"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-nectarine_spec = api.create(specs, "AnalysisSpec", title="Nectarine Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+nectarine_spec = api.create(specs, "AnalysisSpec", title="Nectarine Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Oat
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1.5","max":"2"}
@@ -1346,7 +1352,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"180","max":"45
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"","max":""}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"800","max":"2000"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-oat_spec = api.create(specs, "AnalysisSpec", title="Oat Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+oat_spec = api.create(specs, "AnalysisSpec", title="Oat Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Olive
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"0.5","max":"2"}
@@ -1377,7 +1383,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"35","max":"80"
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"500","max":"1500"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"150","max":"350"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-olive_spec = api.create(specs, "AnalysisSpec", title="Olive Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+olive_spec = api.create(specs, "AnalysisSpec", title="Olive Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Peach
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1.5","max":"2"}
@@ -1408,7 +1414,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"35","max":"80"
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"","max":""}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"150","max":"350"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-peach_spec = api.create(specs, "AnalysisSpec", title="Peach Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+peach_spec = api.create(specs, "AnalysisSpec", title="Peach Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Peanut
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1.5","max":"2.5"}
@@ -1439,7 +1445,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"1015","max":"1
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"3000","max":"4500"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"4500","max":"7000"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-peanut_spec = api.create(specs, "AnalysisSpec", title="Peanut Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+peanut_spec = api.create(specs, "AnalysisSpec", title="Peanut Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Pear
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"6","max":"7"}
@@ -1470,7 +1476,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"7","max":"25"}
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"100","max":"150"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"31.01","max":"110.75"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-pear_spec = api.create(specs, "AnalysisSpec", title="Pear Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+pear_spec = api.create(specs, "AnalysisSpec", title="Pear Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Pepper (Determinate)
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1","max":"3"}
@@ -1501,7 +1507,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"675","max":"11
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"2000","max":"3500"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"3000","max":"5000"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-pepper_determinate_spec = api.create(specs, "AnalysisSpec", title="Pepper (Determinate) Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+pepper_determinate_spec = api.create(specs, "AnalysisSpec", title="Pepper (Determinate) Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Pistachio
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"2.5","max":"4"}
@@ -1532,7 +1538,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"11","max":"55"
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"750","max":"1500"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"50","max":"250"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-pistachio_spec = api.create(specs, "AnalysisSpec", title="Pistachio Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+pistachio_spec = api.create(specs, "AnalysisSpec", title="Pistachio Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Plum
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1.5","max":"2"}
@@ -1563,7 +1569,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"35","max":"80"
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"","max":""}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"150","max":"350"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-plum_spec = api.create(specs, "AnalysisSpec", title="Plum Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+plum_spec = api.create(specs, "AnalysisSpec", title="Plum Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Potato
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1","max":"2.5"}
@@ -1594,7 +1600,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"340","max":"79
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"1000","max":"2500"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"1500","max":"3500"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-potato_spec = api.create(specs, "AnalysisSpec", title="Potato Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+potato_spec = api.create(specs, "AnalysisSpec", title="Potato Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Pumpkin
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"","max":""}
@@ -1625,7 +1631,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"1130","max":"1
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"","max":""}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"5000","max":"6000"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-pumpkin_spec = api.create(specs, "AnalysisSpec", title="Pumpkin Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+pumpkin_spec = api.create(specs, "AnalysisSpec", title="Pumpkin Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Soybean
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"0.5","max":"1.1"}
@@ -1656,7 +1662,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"125","max":"25
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"1250","max":"2500"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"550","max":"1100"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-soybean_spec = api.create(specs, "AnalysisSpec", title="Soybean Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+soybean_spec = api.create(specs, "AnalysisSpec", title="Soybean Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Squash, Winter
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"","max":""}
@@ -1687,7 +1693,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"1130","max":"1
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"","max":""}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"5000","max":"6000"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-squash_winter_spec = api.create(specs, "AnalysisSpec", title="Squash (Winter) Sap, General", SampleType=saptype, ResultsRange=rr)
+squash_winter_spec = api.create(specs, "AnalysisSpec", title="Squash (Winter) Sap", SampleType=saptype, ResultsRange=rr)
 
 ##Strawberry
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1","max":"3"}
@@ -1718,7 +1724,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"1015","max":"1
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"1000","max":"2000"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"4500","max":"6500"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-strawberry_spec = api.create(specs, "AnalysisSpec", title="Strawberry Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+strawberry_spec = api.create(specs, "AnalysisSpec", title="Strawberry Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Strawberry Fruitset
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"","max":"3"}
@@ -1811,7 +1817,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"340","max":"79
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"1000","max":"2500"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"1500","max":"3500"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-sweet_potato_spec = api.create(specs, "AnalysisSpec", title="Sweet Potato Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+sweet_potato_spec = api.create(specs, "AnalysisSpec", title="Sweet Potato Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Tangerine
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1.5","max":"2"}
@@ -1842,7 +1848,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"90","max":"180
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"500","max":"2000"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"400","max":"800"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-tangerine_spec = api.create(specs, "AnalysisSpec", title="Tangerine Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+tangerine_spec = api.create(specs, "AnalysisSpec", title="Tangerine Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Tomato (Cherry)
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1","max":"3"}
@@ -1873,7 +1879,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"790","max":"11
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"1000","max":"2000"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"3500","max":"5000"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-tomato_cherry_spec = api.create(specs, "AnalysisSpec", title="Tomato (Cherry) Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+tomato_cherry_spec = api.create(specs, "AnalysisSpec", title="Tomato (Cherry) Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Tomato (Determinate)
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1","max":"3"}
@@ -1904,7 +1910,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"1015","max":"1
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"1000","max":"2000"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"4500","max":"6500"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-tomato_determinate_spec = api.create(specs, "AnalysisSpec", title="Tomato (Determinate) Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+tomato_determinate_spec = api.create(specs, "AnalysisSpec", title="Tomato (Determinate) Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Tomato
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1","max":"3"}
@@ -1935,7 +1941,7 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"450","max":"90
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"1000","max":"2000"}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"1000","max":"4000"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-tomato_spec = api.create(specs, "AnalysisSpec", title="Tomato Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+tomato_spec = api.create(specs, "AnalysisSpec", title="Tomato Sap", SampleType=saptype, ResultsRange=rr).UID()
 
 ##Wheat
 rr27 = {"keyword":"sap_total_sugar","uid":sap_sugar,"min":"1.5","max":"2"}
@@ -1966,7 +1972,10 @@ rr17 = {"keyword":"sap_nitrogen_as_nitrate","uid":sap_nno3,"min":"180","max":"45
 rr18 = {"keyword":"sap_total_nitrogen","UID":sap_totaln,"min":"","max":""}
 rr15 = {"keyword":"sap_nitrate","UID":sap_no3,"min":"800","max":"2000"}
 rr = [rr1,rr2,rr3,rr4,rr5,rr6,rr7,rr8,rr9,rr10,rr11,rr12,rr13,rr14,rr14,rr15,rr16,rr17,rr18,rr19,rr20,rr21,rr22,rr23,rr24,rr25,rr26,rr27]
-wheat_spec = api.create(specs, "AnalysisSpec", title="Wheat Sap, General", SampleType=saptype, ResultsRange=rr).UID()
+wheat_spec = api.create(specs, "AnalysisSpec", title="Wheat Sap", SampleType=saptype, ResultsRange=rr).UID()
+
+for i in api.search({'portal_type':'AnalysisSpec'}):
+    api.get_object(i).reindexObject()
 
 #SampleMatrices
 
@@ -1993,11 +2002,31 @@ pair18 = api.create(subgroups, "SubGroup", title="Pair 18")
 pair19 = api.create(subgroups, "SubGroup", title="Pair 19")
 pair20 = api.create(subgroups, "SubGroup", title="Pair 20")
 
+for i in api.search({'portal_type':'SubGroup'}):
+    api.get_object(i).reindexObject()
+
 #Labels
 
 mbg = api.create(labels, "BatchLabel", title="Send to MBG")
 
+for i in api.search({'portal_type':'BatchLabel'}):
+    api.get_object(i).reindexObject()
+
+#Clients
+
+##Import from CSV
+
+#Contacts
+
+##Import from CSV
+
 #SamplePoints
+
+##Import from CSV
+
+#SDG and Sample Data
+
+##Import from CSV
 
 import transaction
 transaction.get().commit()
