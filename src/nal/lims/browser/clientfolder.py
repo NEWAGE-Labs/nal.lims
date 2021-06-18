@@ -62,8 +62,8 @@ class ClientFolderContentsView(BikaClientFolderContentsView):
         }
 
         self.show_select_row = False
-        self.show_select_all_checkbox = False
-        self.show_select_column = False
+        self.show_select_all_checkbox = True
+        self.show_select_column = True
         self.pagesize = 25
         self.icon = "{}/{}".format(
             self.portal_url, "++resource++bika.lims.images/client_big.png")
