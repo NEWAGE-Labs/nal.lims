@@ -83,7 +83,11 @@ class ICPTestView(edit.DefaultEditForm):
             #Log that we checked the sample
             logger.info("Sample {0} Checked".format(i))
             if api.get_id(i) in samples_names:
-                    import_samples.append(i)
+                import_samples.append(i)
+            nal_id = i.getBatch().title + '-' + i.InternalLabID
+            if nal_id in samples_names:
+                import_samples.append(i)
+                df.loc[df['Sample Name'] == nal_id,['Sample Name']] = api.get_id(i)
 
         #Get the list of Senaite Sample IDs that will be imported into.
         ids = map(api.get_id, import_samples)
