@@ -120,7 +120,6 @@ EDITS:
       <div tal:define="batch model/Batch">
         <div class="whole-page">
           <div class="row section-header no-gutters">
-            <h1>LABORATORY ANALYTICAL REPORT</h1>
               <table class="w-100 mb-0 noborder">
                 <colgroup>
                   <col style="width:30%"/>

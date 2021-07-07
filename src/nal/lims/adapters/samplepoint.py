@@ -24,6 +24,7 @@ class SamplePointSchemaExtender(object):
             widget=SelectionWidget(
                 label="MBG Location Type",
                 format="radio",
+                render_own_label=False,
             )
         ),
         ExtStringField(
