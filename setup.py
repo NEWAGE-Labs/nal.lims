@@ -32,11 +32,11 @@ setup(
     keywords='Python Plone CMS',
     author='Paul VanderWeele',
     author_email='PVanderWeele@newagelaboratories.com',
-    url='https://github.com/collective/nal.lims',
+    url='https://github.com/NEWAGE-Labs/nal.lims',
     project_urls={
         'PyPI': 'https://pypi.python.org/pypi/nal.lims',
-        'Source': 'https://github.com/collective/nal.lims',
-        'Tracker': 'https://github.com/collective/nal.lims/issues',
+        'Source': 'https://github.com/NEWAGE-Labs/nal.lims',
+        'Tracker': 'https://github.com/NEWAGE-Labs/nal.lims/issues',
         # 'Documentation': 'https://nal.lims.readthedocs.io/en/latest/',
     },
     license='GPL version 2',
@@ -45,7 +45,7 @@ setup(
     package_dir={'': 'src'},
     include_package_data=True,
     zip_safe=False,
-    python_requires="==2.7, >=3.6",
+    python_requires="==2.7",
     install_requires=[
         'setuptools',
         # -*- Extra requirements: -*-
@@ -55,10 +55,10 @@ setup(
         'plone.app.dexterity',
         'senaite.core>=2.0',
         'senaite.lims>=2.0',
-        'senaite.impress',
+        'senaite.impress>=2.0',
         'senaite.jsonapi',
-        'pandas',
-        'numpy',
+        'pandas==0.24.2',
+        'numpy==1.16.6',
         'pyodbc',
         #'Products.PDBDebugMode',
         #'ipdb'
