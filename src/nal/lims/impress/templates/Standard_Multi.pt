@@ -227,7 +227,6 @@ EDITS:
     <tal:batch define="batch model/Batch">
       <div class="whole-page">
         <div class="row section-header no-gutters">
-          <h1>LABORATORY ANALYTICAL REPORT</h1>
             <table class="w-100 mb-0 noborder">
               <colgroup>
                 <col style="width:30%"/>
@@ -449,7 +448,8 @@ EDITS:
                           <span tal:condition="python:not analysis.Accredited" tal:content="accredited_symbol"></span>
                         </td>
                         <td>
-                          <span tal:content="python:model.get_hydro_sf(analysis,3)"></span>
+                          <span tal:condition="python: not analysis.Inconclusive" tal:content="python:model.get_hydro_sf(analysis,3)"></span>
+                          <span tal:condition="python: analysis.Inconclusive" tal:content="string:INCONCLUSIVE"></span>
                         </td>
                         <td>
                          <span tal:content="python:analysis.Unit"></span>

@@ -234,7 +234,6 @@ EDITS:
       <div tal:define="batch model/Batch">
         <div class="whole-page">
           <div class="row section-header no-gutters">
-            <h1>LABORATORY ANALYTICAL REPORT</h1>
               <table class="w-100 mb-0 noborder">
                 <colgroup>
                   <col style="width:30%"/>
@@ -818,7 +817,8 @@ EDITS:
                         <tal:copper_unit replace="python:copper.Unit"></tal:copper_unit>
                       </td>
                       <td class="center">
-                        <tal:copper_loq replace="python:copper.getLowerDetectionLimit()"></tal:copper_loq>
+                        <tal:copper_loq condition="python:model.getClient().ClientID != 'NAL20-004'" replace="python:copper.getLowerDetectionLimit()"></tal:copper_loq>
+                        <tal:copper_loq condition="python:model.getClient().ClientID == 'NAL20-004'" replace="string:0.02"></tal:copper_loq>
                       </td>
                       <td class="center">
                         <tal:copper_datetime replace="python:copper.AnalysisDateTime"></tal:copper_datetime>
@@ -899,7 +899,8 @@ EDITS:
                         <tal:molybdenum_unit replace="python:molybdenum.Unit"></tal:molybdenum_unit>
                       </td>
                       <td class="center">
-                        <tal:molybdenum_loq replace="python:molybdenum.getLowerDetectionLimit()"></tal:molybdenum_loq>
+                        <tal:molybdenum_loq condition="python:model.getClient().ClientID != 'NAL20-004'" replace="python:molybdenum.getLowerDetectionLimit()"></tal:molybdenum_loq>
+                        <tal:molybdenum_loq condition="python:model.getClient().ClientID == 'NAL20-004'" replace="string:0.01"></tal:molybdenum_loq>
                       </td>
                       <td class="center">
                         <tal:molybdenum_datetime replace="python:molybdenum.AnalysisDateTime"></tal:molybdenum_datetime>
@@ -926,7 +927,8 @@ EDITS:
                         <tal:nickel_unit replace="python:nickel.Unit"></tal:nickel_unit>
                       </td>
                       <td class="center">
-                        <tal:nickel_loq replace="python:nickel.getLowerDetectionLimit()"></tal:nickel_loq>
+                        <tal:nickel_loq condition="python:model.getClient().ClientID != 'NAL20-004'" replace="python:nickel.getLowerDetectionLimit()"></tal:nickel_loq>
+                        <tal:nickel_loq condition="python:model.getClient().ClientID == 'NAL20-004'" replace="string:0.02"></tal:nickel_loq>
                       </td>
                       <td class="center">
                         <tal:nickel_datetime replace="python:nickel.AnalysisDateTime"></tal:nickel_datetime>
