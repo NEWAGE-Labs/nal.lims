@@ -61,12 +61,6 @@ class ICPTestView(edit.DefaultEditForm):
         #Get logger for output messages
         logger = logging.getLogger("Plone")
 
-        #Get list of samples in Senaite
-        samples = api.search({'portal_type':'AnalysisRequest'})
-        sample_names = []
-        for i in samples:
-            sample_names.append(api.get_object(i).getId())
-
         #Convert CSV data to a dataframe
         df = pd.read_csv(StringIO.StringIO(data))
         #Get a list of Unique sample names from the imported DataFrame
@@ -84,7 +78,15 @@ class ICPTestView(edit.DefaultEditForm):
             logger.info("Sample {0} Checked".format(i))
             if api.get_id(i) in samples_names:
                 import_samples.append(i)
-            nal_id = i.getBatch().title + '-' + i.InternalLabID
+            try:
+    		    sdg = i.getBatch().title
+    	    except AttributeError:
+                pass
+    	    try:
+    		    labID = i.InternalLabID
+    	    except AttributeError:
+                pass
+            nal_id = sdg + '-' + labID
             if nal_id in samples_names:
                 import_samples.append(i)
                 df.loc[df['Sample Name'] == nal_id,['Sample Name']] = api.get_id(i)
