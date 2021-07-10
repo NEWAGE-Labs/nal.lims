@@ -18,7 +18,7 @@ for i in contacts:
     thiscontact[cols[2]] = i.Firstname
     thiscontact[cols[3]] = i.Middlename
     thiscontact[cols[4]] = i.Surname
-    thiscontact[cols[5]] = i.Initial
+    thiscontact[cols[5]] = i.Initials
     thiscontact[cols[6]] = i.EmailAddress
     thiscontact[cols[7]] = i.BusinessPhone
     thiscontact[cols[8]] = i.HomePhone
