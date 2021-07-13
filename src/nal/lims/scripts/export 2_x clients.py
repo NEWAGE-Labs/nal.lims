@@ -8,7 +8,7 @@ me = UnrestrictedUser(getSecurityManager().getUser().getUserName(), '', ['LabMan
 me = me.__of__(portal.acl_users)
 newSecurityManager(None, me)
 
-clients = map(api.get_object, api.search({'portal_type':'Client'}))
+clients = map(api.get_object, api.search({'portal_type':'Client', "inactive_status": "active"}))
 data = []
 cols = ['NAL Number','Client ID','Email Address','Phone','MBG Grower Number','TrueBlue Grower Number','Grower List','Country','State','District','City','Zip','Address']
 for i in clients:

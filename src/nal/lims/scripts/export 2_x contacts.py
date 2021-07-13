@@ -8,7 +8,7 @@ me = UnrestrictedUser(getSecurityManager().getUser().getUserName(), '', ['LabMan
 me = me.__of__(portal.acl_users)
 newSecurityManager(None, me)
 
-contacts = map(api.get_object, api.search({'portal_type':'Contact'}))
+contacts = map(api.get_object, api.search({'portal_type':'Contact', "inactive_status": "active"}))
 data = []
 cols = ['Client Number','Client Name','First Name','Middle Name','Surname','Initials','Email Address','Business Phone', 'Home Phone', 'Mobile Phone']
 for i in contacts:

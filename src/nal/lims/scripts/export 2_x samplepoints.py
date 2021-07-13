@@ -8,7 +8,7 @@ me = UnrestrictedUser(getSecurityManager().getUser().getUserName(), '', ['LabMan
 me = me.__of__(portal.acl_users)
 newSecurityManager(None, me)
 
-points = map(api.get_object, api.search({'portal_type':'SamplePoint'}))
+points = map(api.get_object, api.search({'portal_type':'SamplePoint', "inactive_status": "active"}))
 data = []
 cols = ['Client Number','Client Name','Title', 'Description', 'Formatted Address', 'MBG Location Type', 'WSSN', 'Attachment Type', 'Attachment Name']
 for i in points:

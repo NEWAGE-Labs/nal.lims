@@ -8,7 +8,7 @@ me = UnrestrictedUser(getSecurityManager().getUser().getUserName(), '', ['LabMan
 me = me.__of__(portal.acl_users)
 newSecurityManager(None, me)
 
-sdgs = map(api.get_object, api.search({'portal_type':'Batch'}))
+sdgs = map(api.get_object, api.search({'portal_type':'Batch', "inactive_status": "active"}))
 data = []
 cols = ['Batch ID', 'ProjectName', 'Client Number', 'Client Name', 'SDG Received Date', 'SDG Received Time', 'Project Contact', 'Sampled By', 'Report Contact', 'Labels', 'Notes']
 for i in sdgs:
