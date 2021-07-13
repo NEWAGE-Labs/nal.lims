@@ -8,21 +8,47 @@ me = UnrestrictedUser(getSecurityManager().getUser().getUserName(), '', ['LabMan
 me = me.__of__(portal.acl_users)
 newSecurityManager(None, me)
 
-contacts = map(api.get_object, api.search({'portal_type':'Contact', "inactive_status": "active"}))
+contacts = map(api.get_object, api.search({'portal_type':'Contact'}))
 data = []
-cols = ['Client Number','Client Name','First Name','Middle Name','Surname','Initials','Email Address','Business Phone', 'Home Phone', 'Mobile Phone']
+cols = ['Status',
+        'Client Number',
+        'Client Name',
+        'Client Status',
+        'First Name',
+        'Middle Name',
+        'Surname',
+        'Initials',
+        'Email Address',
+        'Business Phone',
+        'Home Phone',
+        'Mobile Phone',
+
+]
 for i in contacts:
     thiscontact = {}
-    thiscontact[cols[0]] = api.get_parent(i).ClientID
-    thiscontact[cols[1]] = api.get_parent(i).Name
-    thiscontact[cols[2]] = i.Firstname
-    thiscontact[cols[3]] = i.Middlename
-    thiscontact[cols[4]] = i.Surname
-    thiscontact[cols[5]] = i.Initials
-    thiscontact[cols[6]] = i.EmailAddress
-    thiscontact[cols[7]] = i.BusinessPhone
-    thiscontact[cols[8]] = i.HomePhone
-    thiscontact[cols[9]] = i.MobilePhone
+    thiscontact[cols[0]] = api.get_workflow_status_of(i)
+    client = api.get_parent(i)
+    if client:
+        try:
+            thiscontact[cols[1]] = client.ClientID
+        except AttributeError:
+            thiscontact[cols[1]] = ''
+        try:
+            thiscontact[cols[2]] = client.Name
+        except AttributeError:
+            thiscontact[cols[2]] = ''
+        try:
+            thiscontact[cols[3]] = api.get_workflow_status_of(client)
+        except AttributeError:
+            thiscontact[cols[3]] = ''
+    thiscontact[cols[4]] = i.Firstname
+    thiscontact[cols[5]] = i.Middlename
+    thiscontact[cols[6]] = i.Surname
+    thiscontact[cols[7]] = i.Initials
+    thiscontact[cols[8]] = i.EmailAddress
+    thiscontact[cols[9]] = i.BusinessPhone
+    thiscontact[cols[10]] = i.HomePhone
+    thiscontact[cols[11]] = i.MobilePhone
     data.append(thiscontact)
 
 try:
