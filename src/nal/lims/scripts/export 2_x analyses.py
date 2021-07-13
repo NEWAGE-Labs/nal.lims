@@ -13,6 +13,7 @@ analyses = map(api.get_object, api.search({'portal_type':'Analysis'}))
 data = []
 cols = ['Status',
         'Sample ID',
+        'Sample Status'
         'Analysis Name',
         'Analysis Keyword',
         'Method',
@@ -25,15 +26,18 @@ cols = ['Status',
 for i in analyses:
     thisanalysis = {}
     thisanalysis[cols[0]] = api.get_workflow_status_of(i)
-    thisanalysis[cols[1]] = api.get_parent(i).id
-    thisanalysis[cols[2]] = i.title
-    thisanalysis[cols[3]] = i.id
+    sample = api.get_parent(i)
+    if sample:
+        thisanalysis[cols[1]] = sample.id
+        thisanalysis[cols[2]] = api.get_workflow_status_of(sample)
+    thisanalysis[cols[3]] = i.title
+    thisanalysis[cols[4]] = i.id
     method = i.getMethod()
     if method:
-        thisanalysis[cols[4]] = method.title
-    thisanalysis[cols[5]] = i.getAnalyst()
-    thisanalysis[cols[6]] = html.HTMLParser().unescape(i.getFormattedResult())
-    thisanalysis[cols[7]] = i.getUnit()
+        thisanalysis[cols[5]] = method.title
+    thisanalysis[cols[6]] = i.getAnalyst()
+    thisanalysis[cols[7]] = html.HTMLParser().unescape(i.getFormattedResult())
+    thisanalysis[cols[8]] = i.getUnit()
     try:
         thisanalysis[cols[8]] = i.Inconclusive
     except AttributeError:
