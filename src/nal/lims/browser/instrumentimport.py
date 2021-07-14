@@ -16,38 +16,38 @@ import codecs
 import pandas as pd
 import logging
 
-class ICPTestAddView(add.DefaultAddForm):
+# class ICPImportAddView(add.DefaultAddForm):
+#
+#     def __init__(self, context, request):
+#           self.context = context
+#           self.request = request
+#
+#     # Buttons
+#
+#     @button.buttonAndHandler(u'Save', name='save')
+#     def handleAdd(self, action):
+#         data, errors = self.extractData()
+#         if errors:
+#             self.status = self.formErrorsMessage
+#             return
+#
+#         # obj = self.createAndAdd(data)
+#         # if obj is not None:
+#         #     # mark only as finished if we get the new object
+#         #     self._finishedAdd = True
+#         #     IStatusMessage(self.request).addStatusMessage(
+#         #         self.success_message, "info"
+#         #     )
+#
+#     @button.buttonAndHandler(u'Cancel', name='cancel')
+#     def handleCancel(self, action):
+#         IStatusMessage(self.request).addStatusMessage(
+#             u"Add New Item operation cancelled", "info"
+#         )
+#         self.request.response.redirect(self.nextURL())
+#         notify(AddCancelledEvent(self.context))
 
-    def __init__(self, context, request):
-          self.context = context
-          self.request = request
-
-    # Buttons
-
-    @button.buttonAndHandler(u'Save', name='save')
-    def handleAdd(self, action):
-        data, errors = self.extractData()
-        if errors:
-            self.status = self.formErrorsMessage
-            return
-
-        # obj = self.createAndAdd(data)
-        # if obj is not None:
-        #     # mark only as finished if we get the new object
-        #     self._finishedAdd = True
-        #     IStatusMessage(self.request).addStatusMessage(
-        #         self.success_message, "info"
-        #     )
-
-    @button.buttonAndHandler(u'Cancel', name='cancel')
-    def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(
-            u"Add New Item operation cancelled", "info"
-        )
-        self.request.response.redirect(self.nextURL())
-        notify(AddCancelledEvent(self.context))
-
-class ICPTestView(edit.DefaultEditForm):
+class ICPImportView(edit.DefaultEditForm):
 
     def __init__(self, context, request):
           self.context = context
@@ -408,10 +408,10 @@ class ICPTestView(edit.DefaultEditForm):
         # Redirect back to the front page with a status message
 
         # get the actual data
-        file = data["IInstrumentReadFolder.sample"].data
-
-        # do the processing
-        number = self.processCSV(file)
+        if data["IInstrumentReadFolder.sample"] is not None:
+            file = data["IInstrumentReadFolder.sample"].data
+            # do the processing
+            number = self.processCSV(file)
 
         IStatusMessage(self.request).addStatusMessage(
                 u"Import Successful for Samples: "+str(number)
@@ -420,12 +420,138 @@ class ICPTestView(edit.DefaultEditForm):
         contextURL = self.context.absolute_url()
         self.request.response.redirect(contextURL)
 
+class GalleryImportView(edit.DefaultEditForm):
 
-# updated = 0
-# csvdata = ""
-# for row in reader:
-#     # process the data here as needed for the specific case
-#     for idx, name in enumerate(header):
-#         value = row[idx]
-#     updated += 1
-# csvdata.append(row)
+    def __init__(self, context, request):
+          self.context = context
+          self.request = request
+
+    def saveCSV(self, context, request):
+        return context.absolute_url_path()
+
+    def processCSV(self, data):
+        """Process the CSV"""
+        return ''
+
+    @button.buttonAndHandler(u'Import')
+    def handleApply(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        # Redirect back to the front page with a status message
+
+        # get the actual data
+        if data["IInstrumentReadFolder.sample"] is not None:
+            file = data["IInstrumentReadFolder.sample"].data
+            # do the processing
+            number = self.processCSV(file)
+
+        IStatusMessage(self.request).addStatusMessage(
+                u"Import Successful for Gallery"
+            )
+
+        contextURL = self.context.absolute_url()
+        self.request.response.redirect(contextURL)
+
+class pHImportView(edit.DefaultEditForm):
+
+    def __init__(self, context, request):
+          self.context = context
+          self.request = request
+
+    def saveCSV(self, context, request):
+        return context.absolute_url_path()
+
+    def processCSV(self, data):
+        """Process the CSV"""
+        return ''
+
+    @button.buttonAndHandler(u'Import')
+    def handleApply(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        # Redirect back to the front page with a status message
+
+        # get the actual data
+        if data["IInstrumentReadFolder.sample"] is not None:
+            file = data["IInstrumentReadFolder.sample"].data
+            # do the processing
+            number = self.processCSV(file)
+
+        IStatusMessage(self.request).addStatusMessage(
+                u"Import Successful for pH"
+            )
+
+        contextURL = self.context.absolute_url()
+        self.request.response.redirect(contextURL)
+
+class ECImportView(edit.DefaultEditForm):
+
+    def __init__(self, context, request):
+          self.context = context
+          self.request = request
+
+    def saveCSV(self, context, request):
+        return context.absolute_url_path()
+
+    def processCSV(self, data):
+        """Process the CSV"""
+        return ''
+
+    @button.buttonAndHandler(u'Import')
+    def handleApply(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        # Redirect back to the front page with a status message
+
+        # get the actual data
+        if data["IInstrumentReadFolder.sample"] is not None:
+            file = data["IInstrumentReadFolder.sample"].data
+            # do the processing
+            number = self.processCSV(file)
+
+        IStatusMessage(self.request).addStatusMessage(
+                u"Import Successful for EC"
+            )
+
+        contextURL = self.context.absolute_url()
+        self.request.response.redirect(contextURL)
+
+class TotalNitrogenImportView(edit.DefaultEditForm):
+
+    def __init__(self, context, request):
+          self.context = context
+          self.request = request
+
+    def saveCSV(self, context, request):
+        return context.absolute_url_path()
+
+    def processCSV(self, data):
+        """Process the CSV"""
+        return ''
+
+    @button.buttonAndHandler(u'Import')
+    def handleApply(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        # Redirect back to the front page with a status message
+
+        # get the actual data
+        if data["IInstrumentReadFolder.sample"] is not None:
+            file = data["IInstrumentReadFolder.sample"].data
+            # do the processing
+            number = self.processCSV(file)
+
+        IStatusMessage(self.request).addStatusMessage(
+                u"Import Successful for Total Nitrogen"
+            )
+
+        contextURL = self.context.absolute_url()
+        self.request.response.redirect(contextURL)
