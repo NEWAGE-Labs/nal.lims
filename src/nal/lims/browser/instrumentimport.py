@@ -718,7 +718,112 @@ class TotalNitrogenImportView(edit.DefaultEditForm):
 
     def processCSV(self, data):
         """Process the CSV"""
-        return ''
+        #Get logger for output messages
+        logger = logging.getLogger("Plone")
+
+        #Convert CSV data to a dataframe
+        dirty_df = pd.read_csv(StringIO.StringIO(data),keep_default_na=False, dtype=str)
+
+        #Convert Total Nitrogen CSV to Standard Import CSV format
+        sdg = '' #Unnecessary?
+        sid = '' #Unnecessary?
+        date = '' #Unnecessary?
+        zfill = '' #Unnecessary?
+        samples = []
+        results = []
+        dates = []
+        analysts = []
+        dict_to_df = {}
+        for i, row in dirty_df.iterrows():
+            if "Name" in row["Name"] or "Comments" in row["Name"]:
+                pass
+            elif "FL" in row["Name"]:
+                sdg = row["Name"]
+                date = row["Analysis Date"]
+            elif row["Name"].isdigit():
+                zfill = row["Name"].zfill(3)
+                sid = sdg + '-' + zfill
+                samples.append(sid)
+
+                dirty_result = row["Nitrogen Average"] # '1234 ppm'
+                # unit = dirty_result[-3:] # 'ppm'
+                result = dirty_result[:-4] # '1234'
+                results.append(result)
+
+                #Analyst
+                if 'Analyst' in row:
+                    analysts.append(row['Analyst'])
+                else:
+                    analysts.append('')
+
+                #Date
+                dates.append(date)
+            else:
+                pass
+
+        dict_to_df['Sample Name'] = samples
+        dict_to_df['Result'] = results
+        dict_to_df['Analyst'] = analysts
+        dict_to_df['Analysis Date/Time'] = dates
+
+        df = pd.DataFrame.from_dict(dict_to_df)
+
+        #Get a list of Unique sample names from the imported DataFrame
+        samples_names = df['Sample Name'].unique()
+        #Get a brain of all Samples
+        sample_brain = api.search({'portal_type':'AnalysisRequest'})
+        #Map the brain to a list of sample objects
+        sample_objs = map(api.get_object, sample_brain)
+        #Instantiate an empty list to fill with Senaite samples that will be imported into
+        import_samples = []
+
+        #Get the list of Senaite Sample Objects that have IDs in the CSV
+        for i in sample_objs:
+            #Log that we checked the sample
+            logger.info("Sample {0} Checked for pH".format(i))
+            if api.get_id(i) in samples_names:
+                import_samples.append(i)
+            try:
+    		    sdg = i.getBatch().title
+    	    except AttributeError:
+                pass
+    	    try:
+    		    labID = i.InternalLabID
+    	    except AttributeError:
+                pass
+            nal_id = sdg + '-' + labID
+            if nal_id in samples_names:
+                import_samples.append(i)
+                df.loc[df['Sample Name'] == nal_id,['Sample Name']] = api.get_id(i)
+
+        #Get the list of Senaite Sample IDs that will be imported into.
+        ids = map(api.get_id, import_samples)
+
+        #Get a filter dataframe for only the samples that exist
+        bool_series = df['Sample Name'].isin(ids)
+        filtered_df = df[bool_series]
+        clean_ids = []
+        for i in import_samples:
+
+            #Total Nitrogen
+            try:
+                total_n = i.sap_total_nitrogen
+            except AttributeError:
+                total_n = None
+
+            if total_n is not None and not total_n.Result:
+                clean_ids.append(api.get_id(i))
+                #pH
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
+                    total_n.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
+                    total_n.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
+                    total_n.reindexObject(idxs=['Result','AnalysisDateTime'])
+                    total_n = api.do_transition_for(total_n, "submit")
+                    if not filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].empty:
+                        total_n.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].values[0]
+                        total_n.reindexObject(idxs=['Analyst'])
+
+        return ','.join(clean_ids)
 
     @button.buttonAndHandler(u'Import')
     def handleApply(self, action):
