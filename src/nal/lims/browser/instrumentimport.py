@@ -683,10 +683,6 @@ class ECImportView(edit.DefaultEditForm):
             IStatusMessage(self.request).addStatusMessage(
                     u"No .CSV File for EC Data"
                 )
-        else:
-            IStatusMessage(self.request).addStatusMessage(
-                    u"No .CSV File for EC Data"
-                )
 
         contextURL = self.context.absolute_url()
         self.request.response.redirect(contextURL)
