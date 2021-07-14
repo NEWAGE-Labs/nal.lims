@@ -516,7 +516,7 @@ class pHImportView(edit.DefaultEditForm):
         #Get a filter dataframe for only the samples that exist
         bool_series = df['Sample Name'].isin(ids)
         filtered_df = df[bool_series]
-
+        clean_ids = []
         for i in import_samples:
 
             #pH
@@ -530,17 +530,19 @@ class pHImportView(edit.DefaultEditForm):
                 except AttributeError:
                     ph = None
 
-            #pH
-            if ph is not None and not ph.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
-                ph.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
-                ph.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
-                ph.reindexObject(idxs=['Result','AnalysisDateTime'])
-                ph = api.do_transition_for(ph, "submit")
-                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].empty:
-                    ph.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].values[0]
-                    ph.reindexObject(idxs=['Analyst'])
+            if ph is not None and not ph.Result:
+                clean_ids.append(api.get_id(i))
+                #pH
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
+                    ph.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
+                    ph.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
+                    ph.reindexObject(idxs=['Result','AnalysisDateTime'])
+                    ph = api.do_transition_for(ph, "submit")
+                    if not filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].empty:
+                        ph.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].values[0]
+                        ph.reindexObject(idxs=['Analyst'])
 
-        return ','.join(ids)
+        return ','.join(clean_ids)
 
     @button.buttonAndHandler(u'Import')
     def handleApply(self, action):
@@ -556,9 +558,14 @@ class pHImportView(edit.DefaultEditForm):
             # do the processing
             number = self.processCSV(file)
 
-            IStatusMessage(self.request).addStatusMessage(
-                    u"pH Successfully imported for Samples: "+str(number)
-                )
+            if not number:
+                IStatusMessage(self.request).addStatusMessage(
+                        u"The .CSV file was successfully read, but there were no new samples to import."
+                    )
+            else:
+                IStatusMessage(self.request).addStatusMessage(
+                        u"pH Successfully imported for Samples: "+str(number)
+                    )
         else:
             IStatusMessage(self.request).addStatusMessage(
                     u"No .CSV File for pH Data"
@@ -611,6 +618,7 @@ class ECImportView(edit.DefaultEditForm):
                 import_samples.append(i)
                 df.loc[df['Sample Name'] == nal_id,['Sample Name']] = api.get_id(i)
 
+
         #Get the list of Senaite Sample IDs that will be imported into.
         ids = map(api.get_id, import_samples)
 
@@ -618,6 +626,7 @@ class ECImportView(edit.DefaultEditForm):
         bool_series = df['Sample Name'].isin(ids)
         filtered_df = df[bool_series]
 
+        clean_ids = []
         for i in import_samples:
 
             #EC
@@ -637,6 +646,8 @@ class ECImportView(edit.DefaultEditForm):
             except AttributeError:
                 hydro_tds = None
 
+            if ec is not None and not ec.Result and not hydro_tds.Result:
+                clean_ids.append(i)
             #EC
             if ec is not None and not ec.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
                 ec.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
@@ -659,8 +670,7 @@ class ECImportView(edit.DefaultEditForm):
                         hydro_tds.reindexObject(idxs=['Analyst'])
                     except:
                         pass
-
-        return ','.join(ids)
+        return ','.join(clean_ids)
 
     @button.buttonAndHandler(u'Import')
     def handleApply(self, action):
@@ -676,9 +686,14 @@ class ECImportView(edit.DefaultEditForm):
             # do the processing
             number = self.processCSV(file)
 
-            IStatusMessage(self.request).addStatusMessage(
-                    u"EC Successfully imported for Samples: "+str(number)
-                )
+            if not number:
+                IStatusMessage(self.request).addStatusMessage(
+                        u"The .CSV file was successfully read, but there were no new samples to import."
+                    )
+            else:
+                IStatusMessage(self.request).addStatusMessage(
+                        u"EC Successfully imported for Samples: "+str(number)
+                    )
         else:
             IStatusMessage(self.request).addStatusMessage(
                     u"No .CSV File for EC Data"
