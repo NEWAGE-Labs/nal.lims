@@ -455,12 +455,17 @@ class GalleryImportView(edit.DefaultEditForm):
             # do the processing
             number = self.processCSV(file)
 
-            IStatusMessage(self.request).addStatusMessage(
-                    u"Import Successful for Gallery"
-                )
+            if not number:
+                IStatusMessage(self.request).addStatusMessage(
+                        u"The .CSV file was successfully read, but there were no new samples to import."
+                    )
+            else:
+                IStatusMessage(self.request).addStatusMessage(
+                        u"Gallery data successfully imported for Samples: "+str(number)
+                    )
         else:
             IStatusMessage(self.request).addStatusMessage(
-                    u"No .CSV File for Gallery Data"
+                    u"No .CSV File for Gallery data"
                 )
 
         contextURL = self.context.absolute_url()
@@ -564,11 +569,11 @@ class pHImportView(edit.DefaultEditForm):
                     )
             else:
                 IStatusMessage(self.request).addStatusMessage(
-                        u"pH Successfully imported for Samples: "+str(number)
+                        u"pH data successfully imported for Samples: "+str(number)
                     )
         else:
             IStatusMessage(self.request).addStatusMessage(
-                    u"No .CSV File for pH Data"
+                    u"No .CSV File for pH data"
                 )
 
         contextURL = self.context.absolute_url()
@@ -692,11 +697,11 @@ class ECImportView(edit.DefaultEditForm):
                     )
             else:
                 IStatusMessage(self.request).addStatusMessage(
-                        u"EC Successfully imported for Samples: "+str(number)
+                        u"EC data successfully imported for Samples: "+str(number)
                     )
         else:
             IStatusMessage(self.request).addStatusMessage(
-                    u"No .CSV File for EC Data"
+                    u"No .CSV File for EC data"
                 )
 
         contextURL = self.context.absolute_url()
@@ -729,12 +734,17 @@ class TotalNitrogenImportView(edit.DefaultEditForm):
             # do the processing
             number = self.processCSV(file)
 
-            IStatusMessage(self.request).addStatusMessage(
-                    u"Import Successful for Total Nitrogen"
-                )
+            if not number:
+                IStatusMessage(self.request).addStatusMessage(
+                        u"The .CSV file was successfully read, but there were no new samples to import."
+                    )
+            else:
+                IStatusMessage(self.request).addStatusMessage(
+                        u"Total Nitrogen data successfully imported for Samples: "+str(number)
+                    )
         else:
             IStatusMessage(self.request).addStatusMessage(
-                    u"No .CSV File for Total Nitrogen Data"
+                    u"No .CSV File for Total Nitrogen data"
                 )
 
         contextURL = self.context.absolute_url()
