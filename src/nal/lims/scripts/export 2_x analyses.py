@@ -13,7 +13,7 @@ analyses = map(api.get_object, api.search({'portal_type':'Analysis'}))
 data = []
 cols = ['Status',
         'Sample ID',
-        'Sample Status'
+        'Sample Status',
         'Analysis Name',
         'Analysis Keyword',
         'Method',
