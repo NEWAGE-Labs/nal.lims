@@ -411,11 +411,16 @@ class ICPImportView(edit.DefaultEditForm):
         if data["IInstrumentReadFolder.sample"] is not None:
             file = data["IInstrumentReadFolder.sample"].data
             # do the processing
-            number = self.processCSV(file)
+            try:
+                number = self.processCSV(file)
 
-            IStatusMessage(self.request).addStatusMessage(
-                    u"Import Successful for Samples: "+str(number)
-                )
+                IStatusMessage(self.request).addStatusMessage(
+                        u"Import Successful for Samples: "+str(number)
+                    )
+            except KeyError:
+                IStatusMessage(self.request).addStatusMessage(
+                        u"Incorrectly formatted .CSV File. Cannot Import"
+                    )
         else:
             IStatusMessage(self.request).addStatusMessage(
                     u"No .CSV File for ICP Data"
