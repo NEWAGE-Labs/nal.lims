@@ -413,10 +413,13 @@ class ICPImportView(edit.DefaultEditForm):
             # do the processing
             number = self.processCSV(file)
 
-        IStatusMessage(self.request).addStatusMessage(
-                u"Import Successful for Samples: "+str(number)
-            )
-
+            IStatusMessage(self.request).addStatusMessage(
+                    u"Import Successful for Samples: "+str(number)
+                )
+        else:
+            IStatusMessage(self.request).addStatusMessage(
+                    u"No .CSV File for ICP Data"
+                )
         contextURL = self.context.absolute_url()
         self.request.response.redirect(contextURL)
 
@@ -447,9 +450,13 @@ class GalleryImportView(edit.DefaultEditForm):
             # do the processing
             number = self.processCSV(file)
 
-        IStatusMessage(self.request).addStatusMessage(
-                u"Import Successful for Gallery"
-            )
+            IStatusMessage(self.request).addStatusMessage(
+                    u"Import Successful for Gallery"
+                )
+        else:
+            IStatusMessage(self.request).addStatusMessage(
+                    u"No .CSV File for Gallery Data"
+                )
 
         contextURL = self.context.absolute_url()
         self.request.response.redirect(contextURL)
@@ -481,9 +488,13 @@ class pHImportView(edit.DefaultEditForm):
             # do the processing
             number = self.processCSV(file)
 
-        IStatusMessage(self.request).addStatusMessage(
-                u"Import Successful for pH"
-            )
+            IStatusMessage(self.request).addStatusMessage(
+                    u"Import Successful for pH"
+                )
+        else:
+            IStatusMessage(self.request).addStatusMessage(
+                    u"No .CSV File for pH Data"
+                )
 
         contextURL = self.context.absolute_url()
         self.request.response.redirect(contextURL)
@@ -515,9 +526,13 @@ class ECImportView(edit.DefaultEditForm):
             # do the processing
             number = self.processCSV(file)
 
-        IStatusMessage(self.request).addStatusMessage(
-                u"Import Successful for EC"
-            )
+            IStatusMessage(self.request).addStatusMessage(
+                    u"Import Successful for EC"
+                )
+        else:
+            IStatusMessage(self.request).addStatusMessage(
+                    u"No .CSV File for EC Data"
+                )
 
         contextURL = self.context.absolute_url()
         self.request.response.redirect(contextURL)
@@ -549,9 +564,13 @@ class TotalNitrogenImportView(edit.DefaultEditForm):
             # do the processing
             number = self.processCSV(file)
 
-        IStatusMessage(self.request).addStatusMessage(
-                u"Import Successful for Total Nitrogen"
-            )
+            IStatusMessage(self.request).addStatusMessage(
+                    u"Import Successful for Total Nitrogen"
+                )
+        else:
+            IStatusMessage(self.request).addStatusMessage(
+                    u"No .CSV File for Total Nitrogen Data"
+                )
 
         contextURL = self.context.absolute_url()
         self.request.response.redirect(contextURL)
