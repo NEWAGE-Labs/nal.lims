@@ -62,7 +62,7 @@ class ICPImportView(edit.DefaultEditForm):
         logger = logging.getLogger("Plone")
 
         #Convert CSV data to a dataframe
-        df = pd.read_csv(StringIO.StringIO(data))
+        df = pd.read_csv(StringIO.StringIO(data),keep_default_na=False, dtype=str)
         #Get a list of Unique sample names from the imported DataFrame
         samples_names = df['Sample Name'].unique()
         #Get a brain of all Samples
@@ -477,7 +477,70 @@ class pHImportView(edit.DefaultEditForm):
 
     def processCSV(self, data):
         """Process the CSV"""
-        return ''
+        #Get logger for output messages
+        logger = logging.getLogger("Plone")
+
+        #Convert CSV data to a dataframe
+        df = pd.read_csv(StringIO.StringIO(data),keep_default_na=False, dtype=str)
+        #Get a list of Unique sample names from the imported DataFrame
+        samples_names = df['Sample Name'].unique()
+        #Get a brain of all Samples
+        sample_brain = api.search({'portal_type':'AnalysisRequest'})
+        #Map the brain to a list of sample objects
+        sample_objs = map(api.get_object, sample_brain)
+        #Instantiate an empty list to fill with Senaite samples that will be imported into
+        import_samples = []
+
+        #Get the list of Senaite Sample Objects that have IDs in the CSV
+        for i in sample_objs:
+            #Log that we checked the sample
+            logger.info("Sample {0} Checked for pH".format(i))
+            if api.get_id(i) in samples_names:
+                import_samples.append(i)
+            try:
+    		    sdg = i.getBatch().title
+    	    except AttributeError:
+                pass
+    	    try:
+    		    labID = i.InternalLabID
+    	    except AttributeError:
+                pass
+            nal_id = sdg + '-' + labID
+            if nal_id in samples_names:
+                import_samples.append(i)
+                df.loc[df['Sample Name'] == nal_id,['Sample Name']] = api.get_id(i)
+
+        #Get the list of Senaite Sample IDs that will be imported into.
+        ids = map(api.get_id, import_samples)
+
+        #Get a filter dataframe for only the samples that exist
+        bool_series = df['Sample Name'].isin(ids)
+        filtered_df = df[bool_series]
+
+        for i in import_samples:
+
+            #pH
+            try:
+                ph = i.sap_ph
+            except AttributeError:
+                ph = None
+            if ph == None:
+                try:
+                    ph = i.hydro_ph
+                except AttributeError:
+                    ph = None
+
+            #pH
+            if ph is not None and not ph.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
+                ph.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
+                ph.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
+                ph.reindexObject(idxs=['Result','AnalysisDateTime'])
+                ph = api.do_transition_for(ph, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].empty:
+                    ph.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].values[0]
+                    ph.reindexObject(idxs=['Analyst'])
+
+        return ','.join(ids)
 
     @button.buttonAndHandler(u'Import')
     def handleApply(self, action):
@@ -494,7 +557,7 @@ class pHImportView(edit.DefaultEditForm):
             number = self.processCSV(file)
 
             IStatusMessage(self.request).addStatusMessage(
-                    u"Import Successful for pH"
+                    u"pH Successfully imported for Samples: "+str(number)
                 )
         else:
             IStatusMessage(self.request).addStatusMessage(
@@ -515,7 +578,89 @@ class ECImportView(edit.DefaultEditForm):
 
     def processCSV(self, data):
         """Process the CSV"""
-        return ''
+        #Get logger for output messages
+        logger = logging.getLogger("Plone")
+
+        #Convert CSV data to a dataframe
+        df = pd.read_csv(StringIO.StringIO(data),keep_default_na=False, dtype=str)
+        #Get a list of Unique sample names from the imported DataFrame
+        samples_names = df['Sample Name'].unique()
+        #Get a brain of all Samples
+        sample_brain = api.search({'portal_type':'AnalysisRequest'})
+        #Map the brain to a list of sample objects
+        sample_objs = map(api.get_object, sample_brain)
+        #Instantiate an empty list to fill with Senaite samples that will be imported into
+        import_samples = []
+
+        #Get the list of Senaite Sample Objects that have IDs in the CSV
+        for i in sample_objs:
+            #Log that we checked the sample
+            logger.info("Sample {0} Checked for pH".format(i))
+            if api.get_id(i) in samples_names:
+                import_samples.append(i)
+            try:
+    		    sdg = i.getBatch().title
+    	    except AttributeError:
+                pass
+    	    try:
+    		    labID = i.InternalLabID
+    	    except AttributeError:
+                pass
+            nal_id = sdg + '-' + labID
+            if nal_id in samples_names:
+                import_samples.append(i)
+                df.loc[df['Sample Name'] == nal_id,['Sample Name']] = api.get_id(i)
+
+        #Get the list of Senaite Sample IDs that will be imported into.
+        ids = map(api.get_id, import_samples)
+
+        #Get a filter dataframe for only the samples that exist
+        bool_series = df['Sample Name'].isin(ids)
+        filtered_df = df[bool_series]
+
+        for i in import_samples:
+
+            #EC
+            try:
+                ec = i.sap_ec
+            except AttributeError:
+                ec = None
+            if ec == None:
+                try:
+                    ec = i.hydro_soluablesalts
+                except AttributeError:
+                    ec = None
+
+            #Calculations
+            try:
+                hydro_tds = i.hydro_tds
+            except AttributeError:
+                hydro_tds = None
+
+            #EC
+            if ec is not None and not ec.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
+                ec.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
+                ec.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
+                ec.reindexObject(idxs=['Result','AnalysisDateTime'])
+                ec = api.do_transition_for(ec, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].empty:
+                    ec.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].values[0]
+                    ec.reindexObject(idxs=['Analyst'])
+
+            #TDS
+                if hydro_tds is not None and not hydro_tds.Result and ec.Result is not None:
+                    try:
+                        ec_float = float(ec.Result)
+                        hydro_tds.Result = unicode(ec_float*650)
+                        hydro_tds.AnalysisDateTime = ec.AnalysisDateTime
+                        hydro_tds.reindexObject(idxs=['Result','AnalysisDateTime'])
+                        hydro_tds = api.do_transition_for(hydro_tds, "submit")
+                        hydro_tds.Analyst = ec.Analyst
+                        hydro_tds.reindexObject(idxs=['Analyst'])
+                    except:
+                        pass
+
+        return ','.join(ids)
 
     @button.buttonAndHandler(u'Import')
     def handleApply(self, action):
@@ -532,7 +677,11 @@ class ECImportView(edit.DefaultEditForm):
             number = self.processCSV(file)
 
             IStatusMessage(self.request).addStatusMessage(
-                    u"Import Successful for EC"
+                    u"EC Successfully imported for Samples: "+str(number)
+                )
+        else:
+            IStatusMessage(self.request).addStatusMessage(
+                    u"No .CSV File for EC Data"
                 )
         else:
             IStatusMessage(self.request).addStatusMessage(
