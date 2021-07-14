@@ -39,9 +39,9 @@ for i in analyses:
     thisanalysis[cols[7]] = html.HTMLParser().unescape(i.getFormattedResult())
     thisanalysis[cols[8]] = i.getUnit()
     try:
-        thisanalysis[cols[8]] = i.Inconclusive
+        thisanalysis[cols[9]] = i.Inconclusive
     except AttributeError:
-        thisanalysis[cols[8]] = False
+        thisanalysis[cols[9]] = False
     data.append(thisanalysis)
 
 try:
