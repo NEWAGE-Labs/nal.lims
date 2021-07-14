@@ -85,7 +85,7 @@ class InstrumentReadFolderView(BikaListingView):
                 "permission": AddBatch,
                 "icon": "++resource++bika.lims.images/add.png"
             },
-            _("Import EC"): {
+            _("Import EC or SS/TDS"): {
                 "url": "@@ecimport/",
                 "permission": AddBatch,
                 "icon": "++resource++bika.lims.images/add.png"
