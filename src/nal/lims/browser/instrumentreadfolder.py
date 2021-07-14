@@ -36,13 +36,13 @@ class InstrumentReadFolderView(BikaListingView):
 
 
         self.columns = collections.OrderedDict((
-            ("instrument", {
-                "title": _("Instrument"),
-                "index": "title", }),
-            ("start", {
-                "title": _("Start of Read"),}),
-            ("end", {
-                "title": _("End of Read"),}),
+            # ("instrument", {
+            #     "title": _("Instrument"),
+            #     "index": "title", }),
+            # ("start", {
+            #     "title": _("Start of Read"),}),
+            # ("end", {
+            #     "title": _("End of Read"),}),
         ))
 
         self.review_states = [
@@ -52,12 +52,12 @@ class InstrumentReadFolderView(BikaListingView):
                 "transitions": [],
                 "columns": self.columns.keys(),
             },
-            {
-                "id": "all",
-                "title": _("All"),
-                "transitions": [],
-                "columns": self.columns.keys(),
-            },
+            # {
+            #     "id": "all",
+            #     "title": _("All"),
+            #     "transitions": [],
+            #     "columns": self.columns.keys(),
+            # },
         ]
 
     def update(self):
@@ -68,25 +68,44 @@ class InstrumentReadFolderView(BikaListingView):
         if self.context.portal_type == "InstrumentReadFolder":
             self.request.set("disable_border", 1)
 
-        # By default, only users with AddBatch permissions for the current
-        # context can add batches.
+        #Fix permissions
         self.context_actions = {
-            _("Import"): {
-                "url": "@@icptest/",
+            _("Import ICP"): {
+                "url": "@@icpimport/",
+                "permission": AddBatch,
+                "icon": "++resource++bika.lims.images/add.png"
+            },
+            _("Import Gallery"): {
+                "url": "@@galleryimport/",
+                "permission": AddBatch,
+                "icon": "++resource++bika.lims.images/add.png"
+            },
+            _("Import pH"): {
+                "url": "@@phimport/",
+                "permission": AddBatch,
+                "icon": "++resource++bika.lims.images/add.png"
+            },
+            _("Import EC"): {
+                "url": "@@ecimport/",
+                "permission": AddBatch,
+                "icon": "++resource++bika.lims.images/add.png"
+            },
+            _("Import Total Nitrogen"): {
+                "url": "@@totalnitrogenimport/",
                 "permission": AddBatch,
                 "icon": "++resource++bika.lims.images/add.png"
             }
         }
 
     def folderitem(self, obj, item, index):
-        obj = api.get_object(obj)
-        url = api.get_url(obj)
-        instrument = obj.instrument
-        desc = api.get_description(obj)
-        item['instrument'] = instrument
-        item["replace"]["instrument"] = get_link(url, instrument)
-        item['start'] = obj.start
-        item['end'] = obj.end
+        # obj = api.get_object(obj)
+        # url = api.get_url(obj)
+        # instrument = obj.instrument
+        # desc = api.get_description(obj)
+        # item['instrument'] = instrument
+        # item["replace"]["instrument"] = get_link(url, instrument)
+        # item['start'] = obj.start
+        # item['end'] = obj.end
         return item
     #
     # def before_render(self):
