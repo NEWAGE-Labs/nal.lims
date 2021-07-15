@@ -70,22 +70,58 @@
       />
 
   <browser:page
-      name="icptest"
-      class=".icptest.ICPTestView"
+      name="icpimport"
+      class=".instrumentimport.ICPImportView"
       permission="cmf.ListFolderContents"
       for="*"
-      template="templates/icptest.pt"
+      template="templates/instrumentimport.pt"
       layer="nal.lims.interfaces.INalLimsLayer"
       />
 
   <browser:page
-      name="icptestadd"
-      class=".icptest.ICPTestAddView"
+      name="galleryimport"
+      class=".instrumentimport.GalleryImportView"
       permission="cmf.ListFolderContents"
       for="*"
-      template="templates/icptest.pt"
+      template="templates/instrumentimport.pt"
       layer="nal.lims.interfaces.INalLimsLayer"
       />
+
+  <browser:page
+      name="phimport"
+      class=".instrumentimport.pHImportView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/instrumentimport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="ecimport"
+      class=".instrumentimport.ECImportView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/instrumentimport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="totalnitrogenimport"
+      class=".instrumentimport.TotalNitrogenImportView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/instrumentimport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <!-- <browser:page
+      name="icptestadd"
+      class=".instrumentimport.ICPTestAddView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/instrumentimport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      /> -->
 
   <!-- <browser:page
       name="icp"
