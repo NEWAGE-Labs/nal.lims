@@ -97,9 +97,9 @@ class ICPImportView(edit.DefaultEditForm):
         #Get a filter dataframe for only the samples that exist
         bool_series = df['Sample Name'].isin(ids)
         filtered_df = df[bool_series]
-
+        clean_ids = []
         for i in import_samples:
-
+            imported = []
             #Aluminum
             try:
                 aluminum = i.sap_aluminum
@@ -141,13 +141,21 @@ class ICPImportView(edit.DefaultEditForm):
                 except AttributeError:
                     cobalt = None
             #Copper
+            ##Sap
             try:
                 copper = i.sap_copper
             except AttributeError:
                 copper = None
+            ##Liquid Fertilizer
             if copper == None:
                 try:
                     copper = i.hydro_copper
+                except AttributeError:
+                    copper = None
+            ##Drinking Water
+            if copper == None:
+                try:
+                    copper = i.drinking_copper
                 except AttributeError:
                     copper = None
             #Iron
@@ -160,6 +168,11 @@ class ICPImportView(edit.DefaultEditForm):
                     iron = i.hydro_iron
                 except AttributeError:
                     iron = None
+            #Lead
+            try:
+                lead = i.drinking_lead
+            except AttributeError:
+                lead = None
             #Magnesium
             try:
                 magnesium = i.sap_magnesium
@@ -276,10 +289,6 @@ class ICPImportView(edit.DefaultEditForm):
                 sap_kcaratio = i.sap_kcaratio
             except AttributeError:
                 sap_kcaratio = None
-            try:
-                sap_nitrate = i.sap_nitrate
-            except AttributeError:
-                sap_nitrate = None
 
         #Aluminum
             if aluminum is not None and not aluminum.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')].empty:
@@ -287,102 +296,180 @@ class ICPImportView(edit.DefaultEditForm):
                 aluminum.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')]['Test Date/Time'].values[0]
                 aluminum.reindexObject(idxs=['Result','AnalysisDateTime'])
                 aluminum = api.do_transition_for(aluminum, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')]['Analyst'].empty:
+                    aluminum.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')]['Analyst'].values[0]
+                    aluminum.reindexObject(idxs=['Analyst'])
+                imported.append(True)
         #Boron
             if boron is not None and not boron.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')].empty:
                 boron.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')]['Formatted Result'].values[0].strip(), "utf-8")
                 boron.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')]['Test Date/Time'].values[0]
                 boron.reindexObject(idxs=['Result','AnalysisDateTime'])
                 boron = api.do_transition_for(boron, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')]['Analyst'].empty:
+                    boron.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')]['Analyst'].values[0]
+                    boron.reindexObject(idxs=['Analyst'])
+                imported.append(True)
         #Calcium
             if calcium  is not None and not calcium .Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')].empty:
                 calcium .Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Formatted Result'].values[0].strip(), "utf-8")
                 calcium .AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Test Date/Time'].values[0]
                 calcium .reindexObject(idxs=['Result','AnalysisDateTime'])
                 calcium  = api.do_transition_for(calcium , "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Analyst'].empty:
+                    calcium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Analyst'].values[0]
+                    calcium.reindexObject(idxs=['Analyst'])
+                imported.append(True)
         #Cobalt
             if cobalt is not None and not cobalt.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')].empty:
                 cobalt.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')]['Formatted Result'].values[0].strip(), "utf-8")
                 cobalt.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')]['Test Date/Time'].values[0]
                 cobalt.reindexObject(idxs=['Result','AnalysisDateTime'])
                 cobalt = api.do_transition_for(cobalt, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')]['Analyst'].empty:
+                    cobalt.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')]['Analyst'].values[0]
+                    cobalt.reindexObject(idxs=['Analyst'])
+                imported.append(True)
         #Copper
             if copper is not None and not copper.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')].empty:
                 copper.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')]['Formatted Result'].values[0].strip(), "utf-8")
                 copper.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')]['Test Date/Time'].values[0]
                 copper.reindexObject(idxs=['Result','AnalysisDateTime'])
                 copper = api.do_transition_for(copper, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')]['Analyst'].empty:
+                    copper.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')]['Analyst'].values[0]
+                    copper.reindexObject(idxs=['Analyst'])
+                imported.append(True)
         #Iron
             if iron is not None and not iron.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')].empty:
                 iron.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')]['Formatted Result'].values[0].strip(), "utf-8")
                 iron.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')]['Test Date/Time'].values[0]
                 iron.reindexObject(idxs=['Result','AnalysisDateTime'])
                 iron = api.do_transition_for(iron, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')]['Analyst'].empty:
+                    iron.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')]['Analyst'].values[0]
+                    iron.reindexObject(idxs=['Analyst'])
+                imported.append(True)
+        #Lead
+            if lead is not None and not lead.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Pb')].empty:
+                lead.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Pb')]['Formatted Result'].values[0].strip(), "utf-8")
+                lead.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Pb')]['Test Date/Time'].values[0]
+                lead.reindexObject(idxs=['Result','AnalysisDateTime'])
+                lead = api.do_transition_for(lead, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Pb')]['Analyst'].empty:
+                    lead.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Pb')]['Analyst'].values[0]
+                    lead.reindexObject(idxs=['Analyst'])
+                imported.append(True)
         #Magnesium
             if magnesium is not None and not magnesium.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')].empty:
                 magnesium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')]['Formatted Result'].values[0].strip(), "utf-8")
                 magnesium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')]['Test Date/Time'].values[0]
                 magnesium.reindexObject(idxs=['Result','AnalysisDateTime'])
                 magnesium = api.do_transition_for(magnesium, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')]['Analyst'].empty:
+                    magnesium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')]['Analyst'].values[0]
+                    magnesium.reindexObject(idxs=['Analyst'])
+                imported.append(True)
         #Manganese
             if manganese is not None and not manganese.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')].empty:
                 manganese.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')]['Formatted Result'].values[0].strip(), "utf-8")
                 manganese.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')]['Test Date/Time'].values[0]
                 manganese.reindexObject(idxs=['Result','AnalysisDateTime'])
                 manganese = api.do_transition_for(manganese, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')]['Analyst'].empty:
+                    manganese.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')]['Analyst'].values[0]
+                    manganese.reindexObject(idxs=['Analyst'])
+                imported.append(True)
         #Molybdenum
             if molybdenum is not None and not molybdenum.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')].empty:
                 molybdenum.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')]['Formatted Result'].values[0].strip(), "utf-8")
                 molybdenum.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')]['Test Date/Time'].values[0]
                 molybdenum.reindexObject(idxs=['Result','AnalysisDateTime'])
                 molybdenum = api.do_transition_for(molybdenum, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')]['Analyst'].empty:
+                    molybdenum.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')]['Analyst'].values[0]
+                    molybdenum.reindexObject(idxs=['Analyst'])
+                imported.append(True)
         #Nickel
             if nickel is not None and not nickel.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')].empty:
                 nickel.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')]['Formatted Result'].values[0].strip(), "utf-8")
                 nickel.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')]['Test Date/Time'].values[0]
                 nickel.reindexObject(idxs=['Result','AnalysisDateTime'])
                 nickel = api.do_transition_for(nickel, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')]['Analyst'].empty:
+                    nickel.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')]['Analyst'].values[0]
+                    nickel.reindexObject(idxs=['Analyst'])
+                imported.append(True)
         #Phosphorus
             if phosphorous is not None and not phosphorous.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')].empty:
                 phosphorous.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Formatted Result'].values[0].strip(), "utf-8")
                 phosphorous.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Test Date/Time'].values[0]
                 phosphorous.reindexObject(idxs=['Result','AnalysisDateTime'])
                 phosphorous = api.do_transition_for(phosphorous, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Analyst'].empty:
+                    phosphorous.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Analyst'].values[0]
+                    phosphorous.reindexObject(idxs=['Analyst'])
+                imported.append(True)
         #Potassium
             if potassium is not None and not potassium.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')].empty:
                 potassium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]['Formatted Result'].values[0].strip(), "utf-8")
                 potassium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]['Test Date/Time'].values[0]
                 potassium.reindexObject(idxs=['Result','AnalysisDateTime'])
                 potassium = api.do_transition_for(potassium, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]['Analyst'].empty:
+                    potassium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]['Analyst'].values[0]
+                    potassium.reindexObject(idxs=['Analyst'])
+                imported.append(True)
         #Selenium
             if selenium is not None and not selenium.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')].empty:
                 selenium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')]['Formatted Result'].values[0].strip(), "utf-8")
                 selenium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')]['Test Date/Time'].values[0]
                 selenium.reindexObject(idxs=['Result','AnalysisDateTime'])
                 selenium = api.do_transition_for(selenium, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')]['Analyst'].empty:
+                    selenium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')]['Analyst'].values[0]
+                    selenium.reindexObject(idxs=['Analyst'])
+                imported.append(True)
         #Silica
             if silica is not None and not silica.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')].empty:
                 silica.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')]['Formatted Result'].values[0].strip(), "utf-8")
                 silica.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')]['Test Date/Time'].values[0]
                 silica.reindexObject(idxs=['Result','AnalysisDateTime'])
                 silica = api.do_transition_for(silica, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')]['Analyst'].empty:
+                    silica.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')]['Analyst'].values[0]
+                    silica.reindexObject(idxs=['Analyst'])
+                imported.append(True)
         #Sodium
             if sodium is not None and not sodium.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')].empty:
                 sodium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')]['Formatted Result'].values[0].strip(), "utf-8")
                 sodium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')]['Test Date/Time'].values[0]
                 sodium.reindexObject(idxs=['Result','AnalysisDateTime'])
                 sodium = api.do_transition_for(sodium, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')]['Analyst'].empty:
+                    sodium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')]['Analyst'].values[0]
+                    sodium.reindexObject(idxs=['Analyst'])
+                imported.append(True)
         #Sulfur
             if sulfur is not None and not sulfur.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')].empty:
                 sulfur.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')]['Formatted Result'].values[0].strip(), "utf-8")
                 sulfur.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')]['Test Date/Time'].values[0]
                 sulfur.reindexObject(idxs=['Result','AnalysisDateTime'])
                 sulfur = api.do_transition_for(sulfur, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')]['Analyst'].empty:
+                    sulfur.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')]['Analyst'].values[0]
+                    sulfur.reindexObject(idxs=['Analyst'])
+                imported.append(True)
         #Zinc
             if zinc is not None and not zinc.Result and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')].empty:
                 zinc.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')]['Formatted Result'].values[0].strip(), "utf-8")
                 zinc.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')]['Test Date/Time'].values[0]
                 zinc.reindexObject(idxs=['Result','AnalysisDateTime'])
                 zinc = api.do_transition_for(zinc, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')]['Analyst'].empty:
+                    zinc.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')]['Analyst'].values[0]
+                    zinc.reindexObject(idxs=['Analyst'])
+                imported.append(True)
 
         #K/Ca Ratio
             if sap_kcaratio is not None and not sap_kcaratio.Result and potassium.Result is not None and calcium.Result is not None:
@@ -393,10 +480,16 @@ class ICPImportView(edit.DefaultEditForm):
                     sap_kcaratio.AnalysisDateTime = potassium.AnalysisDateTime or calcium.AnalysisDateTime
                     sap_kcaratio.reindexObject(idxs=['Result','AnalysisDateTime'])
                     sap_kcaratio = api.do_transition_for(sap_kcaratio, "submit")
+                    sap_kcaratio.Analyst = potassium.Analyst or calcium.Analyst
+                    sap_kcaratio.reindexObject(idxs=['Analyst'])
+                    imported.append(True)
                 except:
                     pass
 
-        return ','.join(ids)
+            if imported:
+                clean_ids.append(api.get_id(i))
+
+        return ','.join(clean_ids)
 
 
     @button.buttonAndHandler(u'Import')
@@ -411,19 +504,19 @@ class ICPImportView(edit.DefaultEditForm):
         if data["IInstrumentReadFolder.sample"] is not None:
             file = data["IInstrumentReadFolder.sample"].data
             # do the processing
-            try:
-                number = self.processCSV(file)
+            number = self.processCSV(file)
 
+            if not number:
                 IStatusMessage(self.request).addStatusMessage(
-                        u"Import Successful for Samples: "+str(number)
+                        u"The .CSV file was successfully read, but there were no new samples to import."
                     )
-            except KeyError:
+            else:
                 IStatusMessage(self.request).addStatusMessage(
-                        u"Incorrectly formatted .CSV File. Cannot Import"
+                        u"ICP data successfully imported for Samples: "+str(number)
                     )
         else:
             IStatusMessage(self.request).addStatusMessage(
-                    u"No .CSV File for ICP Data"
+                    u"No .CSV File for ICP data"
                 )
         contextURL = self.context.absolute_url()
         self.request.response.redirect(contextURL)
@@ -439,7 +532,269 @@ class GalleryImportView(edit.DefaultEditForm):
 
     def processCSV(self, data):
         """Process the CSV"""
-        return ''
+        #Get logger for output messages
+        logger = logging.getLogger("Plone")
+
+        #Convert CSV data to a dataframe
+        csv_coded = codecs.decode(data, 'UTF-16')
+        csv_doc = StringIO.StringIO(csv_coded)
+        dirty_df = pd.read_csv(csv_doc,sep='\t', keep_default_na=False, dtype=str, skiprows=(0,1,2,3,4,5,6,7,8,10))
+
+        #Convert Gallery CSV to Standard Import CSV format
+        samples = []
+        results = []
+        tests = []
+        dates = []
+        analysts = []
+        dict_to_df = {}
+        for i, row in dirty_df.iterrows():
+            if 'x' not in row["Sample/ctrl ID"].lower():
+                pass
+            elif 'x' in row["Sample/ctrl ID"].lower():
+                dirty_sample = row["Sample/ctrl ID"] # '1234 ppm'
+                radix = dirty_sample.lower().find('x')
+                dilution = dirty_sample[radix+1:]
+                sid = dirty_sample[:radix] # '1234'
+                #Result
+                try:
+                    float_result = float(row['Result'])
+                    float_dilution = float(dilution)
+                except ValueError:
+                    float_result = None
+                    float_dilution = None
+                if float_dilution is not None and float_result is not None:
+                    #Sample
+                    samples.append(sid)
+
+                    calculated_result = str(float_dilution * float_result)
+                    results.append(calculated_result)
+
+                    #Test
+                    if row['Test name'] in ['WWCl', 'Cl Low']:
+                        tests.append('Chloride')
+                    else:
+                        tests.append(row['Test name'])
+                    #Analyst
+                    if 'Analyst' in row:
+                        analysts.append(row['Analyst'])
+                    else:
+                        analysts.append('')
+                    #Date
+                    dates.append(row["Result time"])
+            else:
+                pass
+
+        dict_to_df['Sample Name'] = samples
+        dict_to_df['Result'] = results
+        dict_to_df['Test'] = tests
+        dict_to_df['Analyst'] = analysts
+        dict_to_df['Analysis Date/Time'] = dates
+
+
+        df = pd.DataFrame.from_dict(dict_to_df)
+
+        logger.info("Printing Datafram")
+        logger.info("{0}".format(df[(df['Sample Name']=='0602211538FL-006') & (df['Test']=='Chloride')]))
+
+        #Get a list of Unique sample names from the imported DataFrame
+        samples_names = df['Sample Name'].unique()
+        #Get a brain of all Samples
+        sample_brain = api.search({'portal_type':'AnalysisRequest'})
+        #Map the brain to a list of sample objects
+        sample_objs = map(api.get_object, sample_brain)
+        #Instantiate an empty list to fill with Senaite samples that will be imported into
+        import_samples = []
+
+        #Get the list of Senaite Sample Objects that have IDs in the CSV
+        for i in sample_objs:
+
+            if api.get_workflow_status_of(i) not in ['cancelled','invalid']:
+
+                if api.get_id(i) in samples_names:
+                    import_samples.append(i)
+
+                try:
+                    sdg = i.getBatch().title
+                except AttributeError:
+                    pass
+
+                try:
+                    labID = i.InternalLabID
+                except AttributeError:
+                    pass
+
+                nal_id = sdg + '-' + labID
+                if nal_id in samples_names:
+                    import_samples.append(i)
+                    df.loc[df['Sample Name'] == nal_id,['Sample Name']] = api.get_id(i)
+
+        #Get the list of Senaite Sample IDs that will be imported into.
+        ids = map(api.get_id, import_samples)
+        logger.info("IDs: {0}".format(ids))
+
+        #Get a filter dataframe for only the samples that exist
+        bool_series = df['Sample Name'].isin(ids)
+        filtered_df = df[bool_series]
+
+        clean_ids = []
+
+        for i in import_samples:
+
+            imported = []
+
+            #Ammonium
+            try:
+                ammonium = i.sap_nitrogen_as_ammonium
+            except AttributeError:
+                ammonium = None
+            if ammonium == None:
+                try:
+                    ammonium = i.hydro_ammonia
+                except AttributeError:
+                    ammonium = None
+
+            #Total Sugar
+            try:
+                total_sugar = i.sap_total_sugar
+            except AttributeError:
+                total_sugar = None
+
+            #Chloride
+            try:
+                chloride = i.sap_chloride
+            except AttributeError:
+                chloride = None
+            if chloride is None:
+                try:
+                    chloride = i.hydro_chloride
+                except AttributeError:
+                    chloride = None
+
+            #Nitrate
+            try:
+                nitrate = i.sap_nitrate
+            except AttributeError:
+                nitrate = None
+            if nitrate is None:
+                try:
+                    nitrate = i.hydro_nitrate
+                except AttributeError:
+                    nitrate = None
+            if nitrate is None:
+                try:
+                    nitrate = i.drinking_nitrate
+                except AttributeError:
+                    nitrate = None
+
+            #Nitrite
+            try:
+                nitrite = i.drinking_nitrite
+            except AttributeError:
+                nitrite = None
+
+            #Nitrogen as Nitrate
+            try:
+                n_as_nitrate = i.sap_nitrogen_as_nitrate
+            except AttributeError:
+                n_as_nitrate = None
+
+            # #Total Organic Nitrogen
+            # try:
+            #     total_n = i.sap_total_nitrogen
+            # except AttributeError:
+            #     total_n = None
+            #
+            # #Fructose
+            # try:
+            #     total_n = i.sap_total_nitrogen
+            # except AttributeError:
+            #     total_n = None
+            #
+            # #Glucose
+            # try:
+            #     total_n = i.sap_total_nitrogen
+            # except AttributeError:
+            #     total_n = None
+
+            #Ammonium
+            if ammonium is not None and api.get_workflow_status_of(ammonium) == 'unassigned' and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')].empty:
+                logger.info("Importing Ammonium for {0}".format(i))
+                ammonium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')]['Result'].values[0].strip(), "utf-8")
+                ammonium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')]['Analysis Date/Time'].values[0]
+                ammonium.reindexObject(idxs=['Result','AnalysisDateTime'])
+                ammonium = api.do_transition_for(ammonium, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')]['Analyst'].empty:
+                    ammonium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')]['Analyst'].values[0]
+                    ammonium.reindexObject(idxs=['Analyst'])
+                imported.append(True)
+
+            #Total Sugar
+            if total_sugar is not None and api.get_workflow_status_of(total_sugar) == 'unassigned' and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')].empty:
+                logger.info("Importing Total Sugar for {0}".format(i))
+                total_sugar.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')]['Result'].values[0].strip(), "utf-8")
+                total_sugar.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')]['Analysis Date/Time'].values[0]
+                total_sugar.reindexObject(idxs=['Result','AnalysisDateTime'])
+                total_sugar = api.do_transition_for(total_sugar, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')]['Analyst'].empty:
+                    total_sugar.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')]['Analyst'].values[0]
+                    total_sugar.reindexObject(idxs=['Analyst'])
+                imported.append(True)
+
+            #Chloride
+            if chloride is not None and api.get_workflow_status_of(chloride) == 'unassigned' and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')].empty:
+                logger.info("Importing Chloride for {0}".format(i))
+                chloride.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Result'].values[0].strip(), "utf-8")
+                chloride.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Analysis Date/Time'].values[0]
+                chloride.reindexObject(idxs=['Result','AnalysisDateTime'])
+                chloride = api.do_transition_for(chloride, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Analyst'].empty:
+                    chloride.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Analyst'].values[0]
+                    chloride.reindexObject(idxs=['Analyst'])
+                imported.append(True)
+
+            #Nitrate
+            if nitrate is not None and api.get_workflow_status_of(nitrate) == 'unassigned' and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')].empty:
+                logger.info("Importing Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")))
+                nitrate.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")
+                nitrate.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analysis Date/Time'].values[0]
+                nitrate.reindexObject(idxs=['Result','AnalysisDateTime'])
+                nitrate = api.do_transition_for(nitrate, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analyst'].empty:
+                    nitrate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analyst'].values[0]
+                    nitrate.reindexObject(idxs=['Analyst'])
+                imported.append(True)
+
+            #Nitrite
+            if nitrite is not None and api.get_workflow_status_of(nitrite) == 'unassigned' and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')].empty:
+                logger.info("Importing Nitrite for {0}".format(i))
+                nitrite.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')]['Result'].values[0].strip(), "utf-8")
+                nitrite.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')]['Analysis Date/Time'].values[0]
+                nitrite.reindexObject(idxs=['Result','AnalysisDateTime'])
+                nitrite = api.do_transition_for(nitrite, "submit")
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')]['Analyst'].empty:
+                    nitrite.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')]['Analyst'].values[0]
+                    nitrite.reindexObject(idxs=['Analyst'])
+                imported.append(True)
+
+            #Nitrogen as Nitrate
+            if n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) == 'unassigned' and nitrate.Result is not None:
+                try:
+                    logger.info("Calculating Nitrogen as Nitrate for {0}".format(i))
+                    nitrate_float = float(nitrate.Result)
+                    n_as_nitrate.Result = unicode(nitrate*4.43)
+                    n_as_nitrate.AnalysisDateTime = nitrate.AnalysisDateTime
+                    n_as_nitrate.reindexObject(idxs=['Result','AnalysisDateTime'])
+                    n_as_nitrate = api.do_transition_for(n_as_nitrate, "submit")
+                    n_as_nitrate.Analyst = nitrate.Analyst
+                    n_as_nitrate.reindexObject(idxs=['Analyst'])
+                    imported.append(True)
+                except:
+                    pass
+
+            if imported:
+                clean_ids.append(api.get_id(i))
+
+        return ','.join(clean_ids)
 
     @button.buttonAndHandler(u'Import')
     def handleApply(self, action):
