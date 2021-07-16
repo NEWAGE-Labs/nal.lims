@@ -1209,3 +1209,112 @@ class TotalNitrogenImportView(edit.DefaultEditForm):
 
         contextURL = self.context.absolute_url()
         self.request.response.redirect(contextURL)
+
+class BrixImportView(edit.DefaultEditForm):
+
+    def __init__(self, context, request):
+          self.context = context
+          self.request = request
+
+    def saveCSV(self, context, request):
+        return context.absolute_url_path()
+
+    def processCSV(self, data):
+        """Process the CSV"""
+        #Get logger for output messages
+        logger = logging.getLogger("Plone")
+
+        #Convert CSV data to a dataframe
+        df = pd.read_csv(StringIO.StringIO(data),keep_default_na=False, dtype=str)
+        #Get a list of Unique sample names from the imported DataFrame
+        samples_names = df['Sample Name'].unique()
+        #Get a brain of all Samples
+        sample_brain = api.search({'portal_type':'AnalysisRequest'})
+        #Map the brain to a list of sample objects
+        sample_objs = map(api.get_object, sample_brain)
+        #Instantiate an empty list to fill with Senaite samples that will be imported into
+        import_samples = []
+
+        #Get the list of Senaite Sample Objects that have IDs in the CSV
+        for i in sample_objs:
+
+            if api.get_workflow_status_of(i) not in ['cancelled','invalid']:
+
+                if api.get_id(i) in samples_names:
+                    import_samples.append(i)
+
+                try:
+                    sdg = i.getBatch().title
+                except AttributeError:
+                    pass
+
+                try:
+                    labID = i.InternalLabID
+                except AttributeError:
+                    pass
+
+                nal_id = sdg + '-' + labID
+                if nal_id in samples_names:
+                    import_samples.append(i)
+                    df.loc[df['Sample Name'] == nal_id,['Sample Name']] = api.get_id(i)
+
+        #Get the list of Senaite Sample IDs that will be imported into.
+        ids = map(api.get_id, import_samples)
+        logger.info("IDs: {0}".format(ids))
+
+        #Get a filter dataframe for only the samples that exist
+        bool_series = df['Sample Name'].isin(ids)
+        filtered_df = df[bool_series]
+        clean_ids = []
+        for i in import_samples:
+
+            #Brix
+            try:
+                brix = i.sap_brix
+            except AttributeError:
+                brix = None
+
+            if brix is not None and api.get_workflow_status_of(brix) in ['unassigned','retracted']:
+                clean_ids.append(api.get_id(i))
+                #Brix
+                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
+                    logger.info("Importing Brix for: ".format(i))
+                    brix.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
+                    brix.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
+                    brix.reindexObject(idxs=['Result','AnalysisDateTime'])
+                    brix = api.do_transition_for(brix, "submit")
+                    if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].empty:
+                        brix.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].values[0]
+                        brix.reindexObject(idxs=['Analyst'])
+
+        return ','.join(clean_ids)
+
+    @button.buttonAndHandler(u'Import')
+    def handleApply(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        # Redirect back to the front page with a status message
+
+        # get the actual data
+        if data["IInstrumentReadFolder.sample"] is not None:
+            file = data["IInstrumentReadFolder.sample"].data
+            # do the processing
+            number = self.processCSV(file)
+
+            if not number:
+                IStatusMessage(self.request).addStatusMessage(
+                        u"The .CSV file was successfully read, but there were no new samples to import."
+                    )
+            else:
+                IStatusMessage(self.request).addStatusMessage(
+                        u"pH data successfully imported for Samples: "+str(number)
+                    )
+        else:
+            IStatusMessage(self.request).addStatusMessage(
+                    u"No .CSV File for pH data"
+                )
+
+        contextURL = self.context.absolute_url()
+        self.request.response.redirect(contextURL)
