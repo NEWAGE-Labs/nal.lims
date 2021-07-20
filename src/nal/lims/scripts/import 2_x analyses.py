@@ -2,6 +2,7 @@ from AccessControl import getSecurityManager
 from AccessControl.User import UnrestrictedUser
 from AccessControl.SecurityManagement import newSecurityManager
 from bika.lims import api
+import pandas as pd
 import csv
 import HTMLParser as html
 portal = api.get_portal()
