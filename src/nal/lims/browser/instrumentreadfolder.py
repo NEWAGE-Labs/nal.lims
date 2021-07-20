@@ -94,6 +94,11 @@ class InstrumentReadFolderView(BikaListingView):
                 "url": "@@totalnitrogenimport/",
                 "permission": AddBatch,
                 "icon": "++resource++bika.lims.images/add.png"
+            },
+            _("Import Brix"): {
+                "url": "@@briximport/",
+                "permission": AddBatch,
+                "icon": "++resource++bika.lims.images/add.png"
             }
         }
 

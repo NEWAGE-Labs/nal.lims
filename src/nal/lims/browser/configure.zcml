@@ -114,6 +114,15 @@
       layer="nal.lims.interfaces.INalLimsLayer"
       />
 
+  <browser:page
+      name="briximport"
+      class=".instrumentimport.BrixImportView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/instrumentimport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
   <!-- <browser:page
       name="icptestadd"
       class=".instrumentimport.ICPTestAddView"
