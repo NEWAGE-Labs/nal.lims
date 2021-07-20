@@ -12,7 +12,7 @@ clients = map(api.get_object, api.search({'portal_type':'Client'}))
 data = []
 cols = ['Status',
         'NAL Number',
-        'Client ID',
+        'Client Name',
         'Email Address',
         'Phone',
         'MBG Grower Number',
@@ -24,7 +24,7 @@ cols = ['Status',
         'City',
         'Zip',
         'Address',
-        
+
 ]
 for i in clients:
     thisclient = {}
