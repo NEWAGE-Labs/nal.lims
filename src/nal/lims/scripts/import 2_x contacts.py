@@ -68,7 +68,7 @@ contacts = pd.read_csv('migration data/clients_export.csv')
 
 for i, row in contacts.itterrows():
     client = ''
-    client_objs = map(api.get_object,api.search({'portal_type':'Client'}))
+    client_objs = map(api.get_object,api.search({'portal_type':'Client', ClientID = row['Client Number'], Name=row['Client Name']}))
     if len(client_objs) < 1:
         print('No client found for: {0} {1}'.format(row['Client Number'], row['Client Name']))
         return
