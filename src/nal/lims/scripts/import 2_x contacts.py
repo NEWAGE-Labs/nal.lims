@@ -8,6 +8,8 @@ portal = api.get_portal()
 me = UnrestrictedUser(getSecurityManager().getUser().getUserName(), '', ['LabManager'], '')
 me = me.__of__(portal.acl_users)
 newSecurityManager(None, me)
+
+contacts = pd.read_csv('migration data/clients_export.csv')
 #
 # contacts = map(api.get_object, api.search({'portal_type':'Contact'}))
 # data = []
@@ -63,3 +65,27 @@ newSecurityManager(None, me)
 #                 print(acontact)
 # except IOError:
 #     print("I/O Error")
+
+for i, row in contacts.itterrows():
+    client = ''
+    client_objs = map(api.get_object,api.search({'portal_type':'Client'}))
+    if len(client_objs) < 1:
+        print('No client found for: {0} {1}'.format(row['Client Number'], row['Client Name']))
+        return
+    elif len(client_objs) > 1:
+        print('Multiple Clients found for: {0} {1}'.format(row['Client Number'], row['Client Name']))
+        return
+    else:
+        client = client_objs[0]
+
+    client_path = api.get_path(client)
+
+    thiscontact = api.create(
+                client_path, #Location in site
+                "Contact", #Content Type
+                #Content-Type specific fields:
+                Firstname=row['First Name'],
+                Surname=row['Surname'],
+                Phone=row['Phone'],
+    )
+    thiscontact.reindexObject()
