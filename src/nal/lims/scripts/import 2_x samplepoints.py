@@ -8,6 +8,8 @@ portal = api.get_portal()
 me = UnrestrictedUser(getSecurityManager().getUser().getUserName(), '', ['LabManager'], '')
 me = me.__of__(portal.acl_users)
 newSecurityManager(None, me)
+
+locations = pd.read_csv('migration data/samplepoints_export.csv')
 #
 # points = map(api.get_object, api.search({'portal_type':'SamplePoint'}))
 # data = []
@@ -61,3 +63,26 @@ newSecurityManager(None, me)
 #                 print(apoint)
 # except IOError:
 #     print("I/O Error")
+
+for i, row in locations.itterrows():
+    client = ''
+    client_objs = map(api.get_object,api.search({'portal_type':'Client', ClientID = row['Client Number'], Name=row['Client Name']}))
+    if len(client_objs) < 1:
+        print('No client found for: {0} {1}'.format(row['Client Number'], row['Client Name']))
+        return
+    elif len(client_objs) > 1:
+        print('Multiple Clients found for: {0} {1}'.format(row['Client Number'], row['Client Name']))
+        return
+    else:
+        client = client_objs[0]
+
+    client_path = api.get_path(client)
+
+    thislocation = api.create(
+                client_path, #Location in site
+                "SamplePoint", #Content Type
+                #Content-Type specific fields:
+                id=row['id'],
+                title=row['title']
+    )
+    thislocation.reindexObject()
