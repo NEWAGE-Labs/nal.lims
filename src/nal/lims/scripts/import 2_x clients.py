@@ -9,63 +9,22 @@ me = UnrestrictedUser(getSecurityManager().getUser().getUserName(), '', ['LabMan
 me = me.__of__(portal.acl_users)
 newSecurityManager(None, me)
 
-clients = pd.read_csv('migration data/clients_export.csv')
+path = '/home/naladmin/pregithub/nalims/src/nal.lims/src/nal/lims/scripts/migration data/'
+clients = pd.read_csv(path + 'clients_export.csv', keep_default_na=False, dtype=str)
 
-#Needs Status added in
-# raw_cols = ['NAL Number',
-#             'Client Name',
-#             'Email Address',
-#             'Phone',
-#             'Grower Number',
-#             'Country',
-#             'State',
-#             'District',
-#             'City',
-#             'Zip',
-#             'Address',
-#
-# ]
-#
-# clean_cols = [  'Status',
-#                 'NAL Number',
-#                 'Client ID',
-#                 'Email Address',
-#                 'Phone',
-#                 'MBG Grower Number',
-#                 'TrueBlue Grower Number',
-#                 'Grower List',
-#                 'Country',
-#                 'State',
-#                 'District',
-#                 'City',
-#                 'Zip',
-#                 'Address',
-#
-# ]
-for i, row in clients.itterrows():
-    thisclient = api.create( portal.clients,
+for i, row in clients.iterrows():
+    address = {'country':row['Country'], 'state':row['State'], 'district':row['District'],'city':row['City'],'zip':row['Zip'],'address':row['Address']}
+    thisclient = api.create(portal.clients,
                 "Client",
+                id='importclient'+str(i),
                 ClientID=row['NAL Number'],
+                title=row['Client ID'],
+                Name=row['Client ID'],
                 EmailAddress=row['Email Address'],
                 Phone=row['Phone'],
                 MBGGrowerNumber=row['Grower Number'],
-                PhysicalAddress['country']=row['Country'],
-                PostalAddress['country']=row['Country'],
-                BillingAddress['country']=row['Country'],
-                PhysicalAddress['state']=row['State'],
-                PostalAddress['state']=row['State'],
-                BillingAddress['state']=row['State'],
-                PhysicalAddress['district']=row['District'],
-                PostalAddress['district']=row['District'],
-                BillingAddress['district']=row['District'],
-                PhysicalAddress['city']=row['City'],
-                PostalAddress['city']=row['City'],
-                BillingAddress['city']=row['City'],
-                PhysicalAddress['zip']=row['Zip'],
-                PostalAddress['zip']=row['Zip'],
-                BillingAddress['zip']=row['Zip'],
-                PhysicalAddress['address']=row['Address'],
-                PostalAddress['address']=row['Address'],
-                BillingAddress['address']=row['Address']
-    )
+                PhysicalAddress = address,
+                PostalAddress = address,
+                BillingAddress = address
+                )
     thisclient.reindexObject()
