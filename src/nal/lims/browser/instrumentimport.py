@@ -73,9 +73,11 @@ class ICPImportView(edit.DefaultEditForm):
         import_samples = []
 
         #Get the list of Senaite Sample Objects that have IDs in the CSV
+        print(samples_names)
         for i in sample_objs:
-
+            # print('Sample {0} is {1}'.format(i,api.get_workflow_status_of(i)))
             if api.get_workflow_status_of(i) not in ['cancelled','invalid']:
+                # print('VALID - Sample {0}. ID: {1}'.format(i,i.getBatch().title + '-' + i.InternalLabID))
 
                 if api.get_id(i) in samples_names:
                     import_samples.append(i)
@@ -83,15 +85,20 @@ class ICPImportView(edit.DefaultEditForm):
                 try:
                     sdg = i.getBatch().title
                 except AttributeError:
+                    # print('Failed to get an SDG')
                     pass
 
                 try:
                     labID = i.InternalLabID
                 except AttributeError:
+                    # print('Failed to get an Internal Lab ID')
                     pass
 
                 nal_id = sdg + '-' + labID
+                # print('NAL ID is: {0}'.format(nal_id))
+                # print('Is ID in Sample Names? {0}'.format(nal_id in samples_names))
                 if nal_id in samples_names:
+                    # print('FOUND - Sample {0}'.format(i))
                     import_samples.append(i)
                     df.loc[df['Sample Name'] == nal_id,['Sample Name']] = api.get_id(i)
 
@@ -1333,7 +1340,7 @@ class BrixImportView(edit.DefaultEditForm):
                     )
             else:
                 IStatusMessage(self.request).addStatusMessage(
-                        u"pH data successfully imported for Samples: "+str(number)
+                        u"Brix data successfully imported for Samples: "+str(number)
                     )
         else:
             IStatusMessage(self.request).addStatusMessage(
