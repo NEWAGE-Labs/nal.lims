@@ -13,6 +13,7 @@ from zope.interface import implements
 from nal.lims.interfaces import INalLimsLayer
 from Products.Archetypes.public import StringWidget
 from Products.Archetypes.public import BooleanWidget
+from Products.CMFCore.permissions import View
 
 class AnalysisRequestSchemaExtender(object):
     adapts(IAnalysisRequest)
@@ -209,6 +210,7 @@ class AnalysisRequestSchemaModifier(object):
             'add':'edit',
             'header_table':'visible',
         }
+        schema['SampleType'].write_permission = View
 
         schema['CCContact'].widget.label = "Email Contacts"
         schema['CCContact'].widget.description = "The Contacts to email the sample to"
