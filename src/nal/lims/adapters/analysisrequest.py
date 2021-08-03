@@ -203,6 +203,12 @@ class AnalysisRequestSchemaModifier(object):
             'add':'edit',
             'header_table':'visible',
         }
+        schema['SampleType'].widget.visible={
+            'edit':'visible',
+            'view':'visible',
+            'add':'edit',
+            'header_table':'visible',
+        }
 
         schema['CCContact'].widget.label = "Email Contacts"
         schema['CCContact'].widget.description = "The Contacts to email the sample to"
