@@ -169,7 +169,7 @@ EDITS:
         </div>
         <br>
         <div class="cover-first-paragraph">
-          The following is the final report containing the analytical result for the plant sap samples delivered on <tal:date replace="python:model.get_received_date()"/>. The report consists of <tal:pages replace="pages"/> pages inclusive of all sample results, chain of custodies, and this cover letter.
+          The following is the final report containing the analytical result for the plant sap samples delivered on <tal:date replace="python:model.get_received_date()"/>. The report consists of all sample results, chain of custodies, and this cover letter.
         </div>
         <br>
         <div class="cover-second-paragraph">
@@ -1715,7 +1715,7 @@ EDITS:
             <tr>
               <td style="font-size: 5pt;">
                 <div>
-                  - NAL holds certification under NELAC:2009, ISO 17025:2017, and meets the AOAC International Guidelines for Laboratories Performing Microbiological and Chemical Analyses of Food Standards
+                  - NAL holds certification under ISO 17025:2017 and meets the AOAC International Guidelines for Laboratories Performing Microbiological and Chemical Analyses of Food Standards
                 </div>
                 <div>
                   - The results reported apply only to the two (2) samples listed
