@@ -75,9 +75,9 @@ class ICPImportView(edit.DefaultEditForm):
         #Get the list of Senaite Sample Objects that have IDs in the CSV
         print(samples_names)
         for i in sample_objs:
-            # print('Sample {0} is {1}'.format(i,api.get_workflow_status_of(i)))
+            print('Sample {0} is {1}'.format(i,api.get_workflow_status_of(i)))
             if api.get_workflow_status_of(i) not in ['cancelled','invalid']:
-                # print('VALID - Sample {0}. ID: {1}'.format(i,i.getBatch().title + '-' + i.InternalLabID))
+                print('VALID - Sample {0}. ID: {1}'.format(i,i.getBatch().title + '-' + i.InternalLabID))
 
                 if api.get_id(i) in samples_names:
                     import_samples.append(i)
@@ -85,21 +85,22 @@ class ICPImportView(edit.DefaultEditForm):
                 try:
                     sdg = i.getBatch().title
                 except AttributeError:
-                    # print('Failed to get an SDG')
+                    print('Failed to get an SDG')
                     pass
 
                 try:
                     labID = i.InternalLabID
                 except AttributeError:
-                    # print('Failed to get an Internal Lab ID')
+                    print('Failed to get an Internal Lab ID')
                     pass
 
                 nal_id = sdg + '-' + labID
-                # print('NAL ID is: {0}'.format(nal_id))
-                # print('Is ID in Sample Names? {0}'.format(nal_id in samples_names))
+
                 if nal_id in samples_names:
-                    # print('FOUND - Sample {0}'.format(i))
+                    print('FOUND - Sample {0}. NAL ID: {1}'.format(i, nal_id))
                     import_samples.append(i)
+                    print(nal_id in samples_names)
+                    print(df[df['Sample Name'].str.match(nal_id)])
                     df.loc[df['Sample Name'] == nal_id,['Sample Name']] = api.get_id(i)
 
         #Get the list of Senaite Sample IDs that will be imported into.
@@ -110,6 +111,7 @@ class ICPImportView(edit.DefaultEditForm):
         filtered_df = df[bool_series]
         clean_ids = []
         for i in import_samples:
+            print('IMPORTING - Sample {0} ID: {1}'.format(i,api.get_id(i)))
             imported = []
             #Aluminum
             try:
@@ -322,11 +324,19 @@ class ICPImportView(edit.DefaultEditForm):
                     boron.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Calcium
+            # print("Calcium is: {0}".format(calcium))
+            # print("Dataframe is: {0}".format(filtered_df))
+            # print("Dataframe row is: ")
+            # print(filtered_df.loc[filtered_df['Sample Name'] == api.get_id(i)])
+            # print("Dataframe cell by loc is: {0}".format(filtered_df.loc((filtered_df['Sample Name']==api.get_id(i)),['Formatted Result'])))
+            # print("Dataframe cell is: {0}".format(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Formatted Result']))
+            # print("Dataframe value is: {0}".format(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Formatted Result'].values))
             if calcium  is not None and api.get_workflow_status_of(calcium) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')].empty:
-                calcium .Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Formatted Result'].values[0].strip(), "utf-8")
-                calcium .AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Test Date/Time'].values[0]
-                calcium .reindexObject(idxs=['Result','AnalysisDateTime'])
-                calcium  = api.do_transition_for(calcium , "submit")
+                # print("Calcium should be: {0}".format(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]))
+                calcium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Formatted Result'].values[0].strip(), "utf-8")
+                calcium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Test Date/Time'].values[0]
+                calcium.reindexObject(idxs=['Result','AnalysisDateTime'])
+                calcium = api.do_transition_for(calcium , "submit")
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Analyst'].empty:
                     calcium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Analyst'].values[0]
                     calcium.reindexObject(idxs=['Analyst'])
@@ -423,6 +433,7 @@ class ICPImportView(edit.DefaultEditForm):
                 imported.append(True)
         #Potassium
             if potassium is not None and api.get_workflow_status_of(potassium) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')].empty:
+                print("Potassium should be: {0}".format(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]))
                 potassium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]['Formatted Result'].values[0].strip(), "utf-8")
                 potassium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]['Test Date/Time'].values[0]
                 potassium.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -494,8 +505,11 @@ class ICPImportView(edit.DefaultEditForm):
                     sap_kcaratio.Analyst = potassium.Analyst or calcium.Analyst
                     sap_kcaratio.reindexObject(idxs=['Analyst'])
                     imported.append(True)
-                except:
-                    pass
+                except ValueError:
+                    print("--FLOAT CONVERSION ERROR--")
+                    print("Sample is: {0}".format(i))
+                    print("Potassium is: {0}".format(potassium.Result))
+                    print("Calcium is: {0}".format(calcium.Result))
 
             if imported:
                 clean_ids.append(api.get_id(i))
@@ -603,9 +617,6 @@ class GalleryImportView(edit.DefaultEditForm):
 
 
         df = pd.DataFrame.from_dict(dict_to_df)
-
-        logger.info("Printing Datafram")
-        logger.info("{0}".format(df[(df['Sample Name']=='0602211538FL-006') & (df['Test']=='Chloride')]))
 
         #Get a list of Unique sample names from the imported DataFrame
         samples_names = df['Sample Name'].unique()

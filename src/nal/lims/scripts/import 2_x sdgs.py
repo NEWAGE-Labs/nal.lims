@@ -8,7 +8,9 @@ portal = api.get_portal()
 me = UnrestrictedUser(getSecurityManager().getUser().getUserName(), '', ['LabManager'], '')
 me = me.__of__(portal.acl_users)
 newSecurityManager(None, me)
-#
+
+sdgs = pd.read_csv('migration data/sdg_export.csv')
+
 # sdgs = map(api.get_object, api.search({'portal_type':'Batch'}))
 # data = []
 # cols = ['Status',

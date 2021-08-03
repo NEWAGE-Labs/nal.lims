@@ -38,4 +38,18 @@
       provides=".readresult.IReadResult"
       />
 
+  <plone:behavior
+      title="timeclockfolder"
+      name="nal.lims.timeclockfolder"
+      description="Special Folder for TimeClocks"
+      provides=".timeclockfolder.ITimeclockFolder"
+      />
+
+  <plone:behavior
+      title="timeclock"
+      name="nal.lims.timeclock"
+      description="Individual Clock In/Out Timestamps"
+      provides=".timeclock.ITimeclock"
+      />
+
 </configure>

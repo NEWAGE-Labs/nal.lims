@@ -70,6 +70,23 @@
       />
 
   <browser:page
+      name="timeclockfolder"
+      class=".timeclockfolder.TimeclockFolderView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="timeclock"
+      class=".timeclock.TimeclockView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/timeclock.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
       name="icpimport"
       class=".instrumentimport.ICPImportView"
       permission="cmf.ListFolderContents"

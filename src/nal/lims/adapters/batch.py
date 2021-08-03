@@ -116,6 +116,37 @@ class BatchSchemaExtender(object):
                 ui_item='Fullname',
             ),
         ),
+
+        ExtReferenceField(
+            'GrowerContact',
+            required=False,
+            default_method='getContactUIDForUser',
+            allowed_types=('Contact',),
+            referenceClass=HoldingReference,
+            relationship="SDGGrowerContact",
+            mode="rw",
+            widget=ReferenceWidget(
+                label=_("Grower Contact"),
+                size=20,
+                helper_js=("bika_widgets/referencewidget.js",
+                           "++resource++bika.lims.js/contact.js"),
+                description=_("Optional. Independant grower testing via a consultation client."),
+                catalog_name="portal_catalog",
+                base_query={"is_active": True,
+                            "sort_limit": 50,
+                            "sort_on": "sortable_title",
+                            "sort_order": "ascending"},
+                showOn=True,
+                popup_width='400px',
+                colModel=[
+                    {'columnName': 'Fullname', 'width': '50',
+                     'label': _('Name')},
+                    {'columnName': 'EmailAddress', 'width': '50',
+                     'label': _('Email Address')},
+                ],
+                ui_item='Fullname',
+            ),
+        ),
         ExtFileField(
             'COC',
             widget=FileWidget(
@@ -177,7 +208,8 @@ class BatchSchemaModifier(object):
         schema.moveField('SDGTime', after='SDGDate')
         schema.moveField('ProjectContact', after='SDGTime')
         schema.moveField('SamplerContact', after='ProjectContact')
-        schema.moveField('title', after='SamplerContact')
+        schema.moveField('GrowerContact', after='SamplerContact')
+        schema.moveField('title', after='GrowerContact')
         schema.moveField('ReportContact', after='title')
         schema.moveField('BatchLabels', after='ReportContact')
         schema.moveField('COC', after='BatchLabels')
