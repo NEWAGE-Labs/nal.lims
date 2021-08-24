@@ -134,7 +134,7 @@ class AnalysesView(BikaAnalysesView):
                 "title": _("Method"),
                 "sortable": False,
                 "ajax": True,
-                "toggle": False}),
+                "toggle": True}),
             ("Instrument", {
                 "title": _("Instrument"),
                 "ajax": True,
@@ -266,7 +266,7 @@ class AnalysesView(BikaAnalysesView):
         # This is used to display method and instrument columns if there is at
         # least one analysis to be rendered that allows the assignment of
         # method and/or instrument
-        self.show_methodinstr_columns = False
+        self.show_methodinstr_columns = True
 
     def update(self):
         """Update hook
@@ -717,7 +717,7 @@ class AnalysesView(BikaAnalysesView):
         # a value reassignment to the other (one method can be performed
         # by different instruments)
 
-        self.columns["Method"]["toggle"] = False
+        self.columns["Method"]["toggle"] = True
         self.columns["Instrument"]["toggle"] = False
 
         return items
