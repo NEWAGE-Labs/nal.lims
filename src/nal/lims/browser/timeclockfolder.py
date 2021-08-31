@@ -43,6 +43,8 @@ class TimeclockFolderView(BikaListingView):
                 "title": _("Clock In/Out"),}),
             ("date", {
                 "title": _("Date/Time"),}),
+            ("hours", {
+                "title": _("Hours"),}),
         ))
 
         self.review_states = [
@@ -83,6 +85,7 @@ class TimeclockFolderView(BikaListingView):
         desc = api.get_description(obj)
         item['personnel'] = obj.personnel
         item['type'] = obj.type
+        item['hours'] = obj.hours
         item['date'] = api.get_creation_date(obj).strftime('%m/%d/%Y %H:%M')
         return item
     #

@@ -3,7 +3,7 @@
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <property name="title" i18n:translate="">Timeclock</property>
  <property name="icon_expr">string:${portal_url}/document_icon.png</property>
- <property name="factory">instrumentread</property>
+ <property name="factory">timeclock</property>
  <property name="add_view_expr">string:${folder_url}/++add++timeclock</property>
  <property name="link_target"></property>
  <property name="immediate_view">view</property>

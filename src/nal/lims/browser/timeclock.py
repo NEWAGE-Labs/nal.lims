@@ -5,6 +5,9 @@ from bika.lims import bikaMessageFactory as _
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 
+from DateTime import DateTime
+import math
+
 class TimeclockView(BrowserView):
 
     def __init__(self, context, request):
@@ -20,10 +23,13 @@ class TimeclockView(BrowserView):
         contact = api.get_user_contact(current_user)
         contact_name = contact.Firstname + ' ' + contact.Surname
         if contact.is_clocked_in:
-            api.create(timeclockfolder,'Timeclock', personnel=contact_name, type='Clocked Out')
+            clockin = map(api.get_object,api.search({'portal_type':'Timeclock','sort_on':'created', 'sort_order':'descending'}))[0]
+            shifttime = DateTime() - api.get_creation_date(clockin)
+            shift_hours = shifttime*24
+            api.create(timeclockfolder,'Timeclock', personnel=contact_name, type='Clocked Out', hours=shift_hours)
             contact.is_clocked_in = False
         else:
-            api.create(timeclockfolder,'Timeclock', personnel=contact_name, type='Clocked In')
+            api.create(timeclockfolder,'Timeclock', personnel=contact_name, type='Clocked In', hours=0)
             contact.is_clocked_in = True
 
         tcf_url = api.get_url(timeclockfolder)

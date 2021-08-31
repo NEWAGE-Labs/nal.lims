@@ -23,3 +23,8 @@ class ITimeclock(model.Schema):
         title=u'Type',
         required=False,
     )
+
+    hours = schema.Int(
+        title=u'Hours',
+        required=False,
+    )
