@@ -87,6 +87,23 @@
       />
 
   <browser:page
+      name="mbgexportfolder"
+      class=".mbgexportfolder.MBGExportFolderView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="mbgexport"
+      class=".mbgexport.MBGExportView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/mbgexport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
       name="icpimport"
       class=".instrumentimport.ICPImportView"
       permission="cmf.ListFolderContents"

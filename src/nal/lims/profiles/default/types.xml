@@ -4,6 +4,8 @@
   <object name="InstrumentRead"  meta_type="Dexterity FTI"/>
   <object name="TimeclockFolder"  meta_type="Dexterity FTI"/>
   <object name="Timeclock"  meta_type="Dexterity FTI"/>
+  <object name="MBGExportFolder"  meta_type="Dexterity FTI"/>
+  <object name="MBGExport"  meta_type="Dexterity FTI"/>
   <object name="ReadSample"  meta_type="Dexterity FTI"/>
   <object name="ReadResult"  meta_type="Dexterity FTI"/>
   <object name="Batch" meta_type="Factory-based Type Information with dynamic views"/>
