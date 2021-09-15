@@ -87,4 +87,6 @@ class ClientSchemaModifier(object):
         schema["MemberDiscountApplies"].widget.visible = False
         schema["TaxNumber"].widget.visible = False
         schema["ClientID"].widget.label = "NAL Number"
+        schema["PhysicalAddress"].required = True
+        # schema["PhysicalAddress"].schemata = "default"
         return schema
