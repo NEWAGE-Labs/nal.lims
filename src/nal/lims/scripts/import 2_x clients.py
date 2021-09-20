@@ -9,7 +9,7 @@ me = UnrestrictedUser(getSecurityManager().getUser().getUserName(), '', ['LabMan
 me = me.__of__(portal.acl_users)
 newSecurityManager(None, me)
 
-path = '/home/naladmin/NALIMS/NALIMS/src/nal.lims/src/nal/lims/scripts/migration data/'
+path = '/home/naladmin/NAL/LIMS/src/nal.lims/src/nal/lims/scripts/migration data/'
 clients = pd.read_csv(path + 'basic_clients_export.csv', keep_default_na=False, dtype=str)
 
 for i, row in clients.iterrows():
