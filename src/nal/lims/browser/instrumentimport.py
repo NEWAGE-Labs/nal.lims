@@ -775,7 +775,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 imported.append(True)
 
             #Nitrate
-            if nitrate is not None and api.get_workflow_status_of(nitrate) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')].empty:
+            if nitrate is not None and api.get_workflow_status_of(nitrate) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test'] in ('SAPNO3','SAPTON1S'))].empty:
                 logger.info("Importing Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")))
                 NO3_result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")
                 if NO3_result is not None:
@@ -815,11 +815,7 @@ class GalleryImportView(edit.DefaultEditForm):
 
             #Nitrogen as Nitrate
             logger.info("N_as_Nitrate is {0}, Status is {1}, Nitrate Result is {2}".format(n_as_nitrate,api.get_workflow_status_of(n_as_nitrate),nitrate.Result))
-            if n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned','retracted'] and nitrate.Result is not None:
-                if nitrate.Result is None or nitrate.Result == "":
-                    print("Nitrate is None")
-                else:
-                    print("Nitrate is: " + nitrate.Result)
+            if n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned','retracted'] and nitrate.Result is not None and nitrate.Result != "":
                 logger.info("Calculating Nitrogen as Nitrate for {0}".format(i))
                 nitrate_float = float(nitrate.Result)
                 n_as_nitrate.Result = unicode(str(nitrate_float*4.43))
