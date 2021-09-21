@@ -783,6 +783,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 logger.info("Importing Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")))
                 NO3_result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")
                 if NO3_result is not None:
+                    print("Assigning Nitrate value from SAPNO3")
                     nitrate.Result = NO3_result
                     nitrate.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analysis Date/Time'].values[0]
                     nitrate.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -791,8 +792,10 @@ class GalleryImportView(edit.DefaultEditForm):
                     N02_result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')]['Result'].values[0].strip(), "utf-8")
                     TON_result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Result'].values[0].strip(), "utf-8")
                     if N02_result.isdigit() and float(N02_result) > 0:
+                        print("Subtracting SAPNO2 from SAPTON1S")
                         nitrate.Result = str(float(TON_result) - float(NO2_result))
                     else:
+                        print("Assigning Nitrate value from SAPTON1S")
                         nitrate.Result = TON_result
                     nitrate.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analysis Date/Time'].values[0]
                     nitrate.reindexObject(idxs=['Result','AnalysisDateTime'])
