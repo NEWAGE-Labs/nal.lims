@@ -254,6 +254,7 @@ liqfert_nitrate = api.create(analysisservices, "AnalysisService", title="Nitrate
 
 sap_nitrate_calc = api.create(calculations, "Calculation", title="Nitrate as N to Nitrate (Sap)", Formula="[sap_nitrogen_as_nitrate]*4.43")
 sap_kca_calc = api.create(calculations, "Calculation", title="K/Ca Ratio (Sap)", Formula="[sap_potassium]/[sap_calcium]")
+sap_nitrogen_conversion_ratio = api.create(calculations, "Calculation", title="Nitrogen Conversion Ratio", Formula="1 - ( ( [sap_nitrogen_as_nitrate] + [sap_nitrogen_as_ammonium] ) / [sap_total_nitrogen] )")
 
 for i in api.search({'portal_type':'Calculation'}):
     api.get_object(i).reindexObject()
