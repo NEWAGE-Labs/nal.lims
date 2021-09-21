@@ -580,15 +580,11 @@ class GalleryImportView(edit.DefaultEditForm):
                 radix = dirty_sample.lower().find('x')
                 dilution = dirty_sample[radix+1:]
                 sid = dirty_sample[:radix] # '1234'
-                print("Sample ID is: " + sid)
-                print("Dilution is: " + dilution)
                 #Result
                 try:
                     float_result = float(row['Result'])
                     float_dilution = float(dilution)
                 except ValueError:
-                    print("Couldnt Convert "+row['Result']+"into float")
-                    print("Couldnt Convert "+dilution+"into float")
                     float_result = None
                     float_dilution = None
                 if float_dilution is not None and float_result is not None:
@@ -820,7 +816,10 @@ class GalleryImportView(edit.DefaultEditForm):
             #Nitrogen as Nitrate
             logger.info("N_as_Nitrate is {0}, Status is {1}, Nitrate Result is {2}".format(n_as_nitrate,api.get_workflow_status_of(n_as_nitrate),nitrate.Result))
             if n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned','retracted'] and nitrate.Result is not None:
-                if nitrate.Result is None: print("Nitrate is None")
+                if nitrate.Result is None or nitrate.Result == "":
+                    print("Nitrate is None")
+                else:
+                    print("Nitrate is: " + nitrate.Result)
                 logger.info("Calculating Nitrogen as Nitrate for {0}".format(i))
                 nitrate_float = float(nitrate.Result)
                 n_as_nitrate.Result = unicode(str(nitrate_float*4.43))
