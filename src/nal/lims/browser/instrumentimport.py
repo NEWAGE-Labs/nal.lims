@@ -775,7 +775,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 imported.append(True)
 
             #Nitrate
-            if nitrate is not None and api.get_workflow_status_of(nitrate) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')].empty and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')].empty:
+            if nitrate is not None and api.get_workflow_status_of(nitrate) in ['unassigned','retracted'] and (not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')].empty or not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')].empty):
                 logger.info("Importing Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")))
                 NO3_result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")
                 if NO3_result is not None:
