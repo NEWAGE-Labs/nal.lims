@@ -580,11 +580,15 @@ class GalleryImportView(edit.DefaultEditForm):
                 radix = dirty_sample.lower().find('x')
                 dilution = dirty_sample[radix+1:]
                 sid = dirty_sample[:radix] # '1234'
+                print("Sample ID is: " + sid)
+                print("Dilution is: " + dilution)
                 #Result
                 try:
                     float_result = float(row['Result'])
                     float_dilution = float(dilution)
                 except ValueError:
+                    print("Couldnt Convert "+row['Result']+"into float")
+                    print("Couldnt Convert "+dilution+"into float")
                     float_result = None
                     float_dilution = None
                 if float_dilution is not None and float_result is not None:
