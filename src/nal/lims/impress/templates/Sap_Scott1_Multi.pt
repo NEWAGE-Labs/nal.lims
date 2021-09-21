@@ -322,20 +322,23 @@ EDITS:
                 <div tal:replace="newmodel/Client/Name|nothing"></div>
               </div>
               <div>
-                <div class="header-detail" tal:content="newmodel/Client/ClientID|nothing"></div>
+                <span>
+                  <div class="header-label" tal:content="string:Acct #:"></div>
+                  <div class="header-detail" tal:content="newmodel/Client/ClientID|nothing"></div>
+                </span>
               </div>
               <div class="client-street header-detail">
-                <div tal:replace="newmodel/Client/PostalAddress/address|nothing"></div>
+                <div tal:replace="newmodel/Client/PhysicalAddress/address|nothing"></div>
               </div>
               <div class="client-city header-detail">
-                <div tal:replace="newmodel/Client/PostalAddress/city|nothing"></div>
+                <div tal:replace="newmodel/Client/PhysicalAddress/city|nothing"></div>
               </div>
               <div class="header-detail">
                 <span class="client-state ">
-                  <div tal:replace="newmodel/Client/PostalAddress/state|nothing"></div>
+                  <div tal:replace="newmodel/Client/PhysicalAddress/state|nothing"></div>
                 </span>
                 <span class="client-zip">
-                  <div tal:replace="newmodel/Client/PostalAddress/zip|nothing"></div>
+                  <div tal:replace="newmodel/Client/PhysicalAddress/zip|nothing"></div>
                 </span>
               </div>
             </div>
@@ -1659,13 +1662,13 @@ EDITS:
                   </tal:oldbar>
                 </td>
               </tr>
-              <tr class="nitrate">
+              <tr class="nitrogen_conversion_ratio">
                 <td style="vertical-align: text-top;">
-                  <strong>Nitrate (NO3)</strong>
+                  <strong>Nitrogen Conversion Ratio</strong>
                 </td>
                 <td>
-                  <div>ppm</div>
-                  <div>ppm</div>
+                  <div>%</div>
+                  <div>%</div>
                 </td>
                 <td style="padding-left: 25px;">
                   <div style="float: left; margin-right: 2pt;">
@@ -1673,28 +1676,28 @@ EDITS:
                     <div class="low-ol">Low:</div>
                   </div>
                   <div>
-                    <tal:high repeat="analysis python:view.get_analyses_by(newmodel, title='Nitrate (NO3)');">
+                    <!-- <tal:high repeat="analysis python:view.get_analyses_by(newmodel, title='Nitrate (NO3)');">
                       <div tal:content="python:newmodel.get_optimal_high_level(analysis)" class="high-spec"></div>
                     </tal:high>
                     <tal:low repeat="analysis python:view.get_analyses_by(newmodel, title='Nitrate (NO3)');">
                       <div tal:content="python:newmodel.get_optimal_low_level(analysis)" class="low-spec"></div>
-                    </tal:low>
+                    </tal:low> -->
                   </div>
                 </td>
                 <td style="text-align: center;">
-                  <tal:newresult repeat="new python:view.get_analyses_by(newmodel, title='Nitrate (NO3)');">
+                  <!-- <tal:newresult repeat="new python:view.get_analyses_by(newmodel, title='Nitrate (NO3)');">
                     <div tal:content="structure python:newmodel.get_formatted_result_or_NT(new,2)" style="font-weight: bold;">NT</div>
                   </tal:newresult>
                   <tal:oldresult repeat="old python:view.get_analyses_by(oldmodel, title='Nitrate (NO3)');">
                     <div tal:content="structure python:oldmodel.get_formatted_result_or_NT(old,2)" style="font-weight: bold;">NT</div>
-                  </tal:oldresult>
+                  </tal:oldresult> -->
                 </td>
                 <td style="border-right: 1pt black solid; text-align: Right; padding-right: 5pt;">
                   <div>New</div>
                   <div>Old</div>
                 </td>
                 <td>
-                  <tal:newbar repeat="new python:view.get_analyses_by(newmodel, title='Nitrate (NO3)');">
+                  <!-- <tal:newbar repeat="new python:view.get_analyses_by(newmodel, title='Nitrate (NO3)');">
                     <div tal:define="perc python:newmodel.get_result_bar_percentage(new)">
                       <div tal:attributes="style string:width:${perc}%;;margin-bottom:3px;;height:5pt;;background: rgb(100,212,70);;"></div>
                     </div>
@@ -1703,7 +1706,7 @@ EDITS:
                     <div tal:define="perc python:oldmodel.get_result_bar_percentage(old)">
                       <div tal:attributes="style string:width:${perc}%;;margin-top:3px;;height:5pt;;background: rgb(46,99,29);;padding-left: 1;;"></div>
                     </div>
-                  </tal:oldbar>
+                  </tal:oldbar> -->
                 </td>
               </tr>
             </tbody>
