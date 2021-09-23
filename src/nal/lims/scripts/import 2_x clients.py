@@ -16,10 +16,10 @@ for i, row in clients.iterrows():
     # address = {'country':row['Country'], 'state':row['State'], 'district':row['District'],'city':row['City'],'zip':row['Zip'],'address':row['Address']}
     thisclient = api.create(portal.clients,
                 "Client",
-                id='importclient'+str(i),
+                id='importedclient-'+str(i),
                 ClientID=row['NAL Number'],
-                title=row['Client ID'],
-                Name=row['Client ID'],
+                title=row['Client Name'],
+                Name=row['Client Name'],
                 # EmailAddress=row['Email Address'],
                 # Phone=row['Phone'],
                 # MBGGrowerNumber=row['Grower Number'],
