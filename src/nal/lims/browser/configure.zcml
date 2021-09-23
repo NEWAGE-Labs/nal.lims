@@ -13,6 +13,7 @@
 
   <!-- <include package=".samples" /> -->
   <include package=".client" />
+  <include package=".batch" />
   <!-- <include package=".analysisrequest" /> -->
   <!-- <include package=".analyses" /> -->
 
@@ -100,6 +101,15 @@
       permission="cmf.ListFolderContents"
       for="*"
       template="templates/mbgexport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="sdgcsvexport"
+      class=".sdgcsvexport.SDGCSVExportView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/sdgcsvexport.pt"
       layer="nal.lims.interfaces.INalLimsLayer"
       />
 

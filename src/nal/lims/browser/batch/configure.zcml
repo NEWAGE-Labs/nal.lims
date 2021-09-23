@@ -1,0 +1,31 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="nal.lims">
+
+    <!-- <browser:page
+      for="bika.lims.interfaces.IBatch"
+      name="batches"
+      class="nal.lims.browser.batch.ClientBatchesView"
+      permission="zope2.View"
+      layer="nal.lims.interfaces.INalLimsLayer"
+    /> -->
+
+    <browser:page
+      for="bika.lims.interfaces.IBatch"
+      name="analysisrequests"
+      class="nal.lims.browser.batch.BatchSamplesView"
+      permission="zope2.View"
+      layer="nal.lims.interfaces.INalLimsLayer"
+    />
+
+    <!-- <browser:page
+      for="bika.lims.interfaces.IBatch"
+      name="samplepoints"
+      class="nal.lims.browser.client.ClientSamplePointsView"
+      permission="zope2.View"
+      layer="nal.lims.interfaces.INalLimsLayer"
+    /> -->
+
+</configure>
