@@ -191,7 +191,7 @@ sap_mg = api.create(analysisservices, "AnalysisService", title="Magnesium (Mg)",
 sap_mn = api.create(analysisservices, "AnalysisService", title="Manganese (Mn)", Keyword = "sap_manganese", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
 sap_mo = api.create(analysisservices, "AnalysisService", title="Molybdenum (Mo)", Keyword = "sap_molybdenum", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
 sap_ni = api.create(analysisservices, "AnalysisService", title="Nickel (Ni)", Keyword = "sap_nickel", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
-sap_ncr = api.create(analysisservices, "AnalysisService", title="Nitrogen Conversion Ratio", Keyword = "sap_nitratogen_conversion_ratio", Accredited=True, Unit="%", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.001", Precision=3, ExponentialFormatPrecision=7).UID()
+sap_ncr = api.create(analysisservices, "AnalysisService", title="Nitrogen Conversion Effeciency", Keyword = "sap_nitratogen_conversion_ratio", Accredited=True, Unit="%", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.001", Precision=3, ExponentialFormatPrecision=7).UID()
 sap_no3 = api.create(analysisservices, "AnalysisService", title="Nitrate (NO3)", Keyword = "sap_nitrate", Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.001", Precision=3, ExponentialFormatPrecision=7).UID()
 sap_nnh4 = api.create(analysisservices, "AnalysisService", title="Nitrogen as Ammonium (NH4)", Keyword = "sap_nitrogen_as_ammonium", Methods=sm4500_nh3, Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
 sap_nno3 = api.create(analysisservices, "AnalysisService", title="Nitrogen as Nitrate (NO3)", Keyword = "sap_nitrogen_as_nitrate", Methods=sm4500_no3d, Accredited=True, Unit="ppm", PointOfCapture="lab", LowerDetectionLimit="0.05", Precision=2, Category=sapcategory, ExponentialFormatPrecision=7).UID()
@@ -278,7 +278,7 @@ profile_ecoli_coliform_mpn_FSMA = api.create(profiles, "AnalysisProfile", title=
 profile_ecoli_coliform_mpn_10x = api.create(profiles, "AnalysisProfile", title="E.coli/Coliform MPN - 10x", Service=[surface_coliform_mpn_10x,surface_ecoli_mpn_10x]).UID()
 
 profile_sap = api.create(profiles, "AnalysisProfile", title="Sap", Service=[sap_al,sap_b,sap_brix,sap_sugar,sap_ca,sap_cl,sap_co,sap_cu,sap_ec,sap_fe,\
-sap_kca,sap_mg,sap_mn,sap_mo,sap_ni,sap_no3,sap_nnh4,sap_nno3,sap_totaln,sap_ph,sap_p,sap_k,sap_se,sap_si,sap_na,sap_s,sap_zn]).UID()
+sap_kca,sap_mg,sap_mn,sap_mo,sap_ncr,sap_ni,sap_no3,sap_nnh4,sap_nno3,sap_totaln,sap_ph,sap_p,sap_k,sap_se,sap_si,sap_na,sap_s,sap_zn]).UID()
 
 profile_hp_01 = api.create(profiles, "AnalysisProfile", title="HP-01", Service=[liqfert_ph,liqfert_soluablesalts,liqfert_tds,liqfert_chloride,liqfert_sulfur,\
 liqfert_phosphorus,liqfert_calcium,liqfert_potassium,liqfert_magnesium,liqfert_sodium,liqfert_aluminum,liqfert_boron,liqfert_cobalt,liqfert_copper,liqfert_iron,\
