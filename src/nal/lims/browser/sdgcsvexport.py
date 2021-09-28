@@ -61,7 +61,7 @@ class SDGCSVExportView(BrowserView):
         for i in range(len(cols)):
             export_dict[cols[i]] = []
         for i in self.context.getAnalysisRequests():
-            if api.is_active(i):
+            if api.is_active(i) and i.getSampleType() == 'Sap':
                 export_dict[cols[0]].append(i.id)
 
                 received = self.context.SDGDate.strftime('%m-%d-%Y') + " " + self.context.SDGTime
