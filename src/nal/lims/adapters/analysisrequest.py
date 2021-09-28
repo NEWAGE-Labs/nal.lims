@@ -218,6 +218,12 @@ class AnalysisRequestSchemaModifier(object):
         schema['CCEmails'].widget.description = "Other emails to CC"
         schema['Specification'].widget.label = "Optimal Levels (Sap Samples)"
         schema['Specification'].widget.description = "Optimal Levels"
+        schema['Specification'].widget.visible={
+            'edit':'visible',
+            'view':'visible',
+            'add':'edit',
+            'header_table':'visible',
+        }
         schema['Attachment'].widget.label = "COC and Attachments"
         schema['Attachment'].widget.description = "Attach COC to one sample. .png and .jpeg files will show on report, but .pdfs will not."
         schema['Remarks'].widget.label = "Comments"
