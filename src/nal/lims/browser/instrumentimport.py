@@ -1162,6 +1162,23 @@ class TotalNitrogenImportView(edit.DefaultEditForm):
 
                 #Date
                 dates.append(date)
+            elif row["Name"][:-1].isdigit():
+                sid = sdg + '-' + row["Name"]
+                samples.append(sid)
+
+                dirty_result = row["Nitrogen Average"] # '1234 ppm'
+                # unit = dirty_result[-3:] # 'ppm'
+                result = dirty_result[:-4] # '1234'
+                results.append(result)
+
+                #Analyst
+                if 'Analyst' in row:
+                    analysts.append(row['Analyst'])
+                else:
+                    analysts.append('')
+
+                #Date
+                dates.append(date)
             else:
                 pass
 
@@ -1221,7 +1238,7 @@ class TotalNitrogenImportView(edit.DefaultEditForm):
 
             if total_n is not None and api.get_workflow_status_of(total_n)=='unassigned':
                 clean_ids.append(api.get_id(i))
-                #pH
+                #Total N
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
                     total_n.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
                     total_n.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
