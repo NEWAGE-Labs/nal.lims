@@ -61,7 +61,7 @@ class SDGCSVExportView(BrowserView):
         for i in range(len(cols)):
             export_dict[cols[i]] = []
         for i in self.context.getAnalysisRequests():
-            if api.is_active(i) and i.getSampleType() == 'Sap':
+            if api.is_active(i) and i.getSampleType().title == 'Sap':
                 export_dict[cols[0]].append(i.id)
 
                 received = self.context.SDGDate.strftime('%m-%d-%Y') + " " + self.context.SDGTime
@@ -79,7 +79,10 @@ class SDGCSVExportView(BrowserView):
                 export_dict[cols[6]].append(i.getClient().Name)
 
                 export_dict[cols[7]].append(i.getSamplePoint().title)
-                export_dict[cols[8]].append(i.CropType)
+                crop = i.CropType
+                if crop is None:
+                    crop = ''
+                export_dict[cols[8]].append(crop)
                 export_dict[cols[9]].append(i.getClientSampleID())
                 export_dict[cols[10]].append('')
 
@@ -503,8 +506,6 @@ class SDGCSVExportView(BrowserView):
                     nce = (1 - ((n_nh4 + n_no3) / tn))*100
 
                 export_dict[cols[35]].append(nce)
-
-
 
         df = pd.DataFrame()
         for i in range(len(cols)):
