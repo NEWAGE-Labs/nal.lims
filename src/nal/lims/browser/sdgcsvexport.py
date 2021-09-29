@@ -97,6 +97,8 @@ class SDGCSVExportView(BrowserView):
 
                 if ec <= 0.01:
                     ec = -0.01
+                else:
+                    ec = round(ec, 2-int(floor(log10(abs(ec))))-1)
 
                 export_dict[cols[11]].append(ec)
 
@@ -114,6 +116,9 @@ class SDGCSVExportView(BrowserView):
 
                 if phosphorus <= 0.01:
                     phosphorus = -0.01
+                else:
+                    phosphorus = round(phosphorus, 2-int(floor(log10(abs(phosphorus))))-1)
+
                 export_dict[cols[12]].append(phosphorus)
 
                 #calcium
@@ -130,6 +135,8 @@ class SDGCSVExportView(BrowserView):
 
                 if calcium <= 0.01:
                     calcium = -0.01
+                else:
+                    calcium = round(calcium, 2-int(floor(log10(abs(calcium))))-1)
 
                 export_dict[cols[13]].append(calcium)
 
@@ -147,6 +154,8 @@ class SDGCSVExportView(BrowserView):
 
                 if manganese <= 0.01:
                     manganese = -0.01
+                else:
+                    manganese = round(manganese, 2-int(floor(log10(abs(manganese))))-1)
 
                 export_dict[cols[14]].append(manganese)
 
@@ -164,6 +173,8 @@ class SDGCSVExportView(BrowserView):
 
                 if zinc <= 0.01:
                     zinc = -0.01
+                else:
+                    zinc = round(zinc, 2-int(floor(log10(abs(zinc))))-1)
 
                 export_dict[cols[15]].append(zinc)
 
@@ -181,6 +192,8 @@ class SDGCSVExportView(BrowserView):
 
                 if sulfur <= 0.01:
                     sulfur = -0.01
+                else:
+                    sulfur = round(sulfur, 2-int(floor(log10(abs(sulfur))))-1)
 
                 export_dict[cols[16]].append(sulfur)
 
@@ -198,6 +211,8 @@ class SDGCSVExportView(BrowserView):
 
                 if copper <= 0.01:
                     copper = -0.01
+                else:
+                    copper = round(copper, 2-int(floor(log10(abs(copper))))-1)
 
                 export_dict[cols[17]].append(copper)
 
@@ -215,6 +230,8 @@ class SDGCSVExportView(BrowserView):
 
                 if magnesium <= 0.01:
                     magnesium = -0.01
+                else:
+                    magnesium = round(magnesium, 2-int(floor(log10(abs(magnesium))))-1)
 
                 export_dict[cols[18]].append(magnesium)
 
@@ -232,6 +249,8 @@ class SDGCSVExportView(BrowserView):
 
                 if iron <= 0.01:
                     iron = -0.01
+                else:
+                    iron = round(iron, 2-int(floor(log10(abs(iron))))-1)
 
                 export_dict[cols[19]].append(iron)
 
@@ -249,6 +268,8 @@ class SDGCSVExportView(BrowserView):
 
                 if boron <= 0.01:
                     boron = -0.01
+                else:
+                    boron = round(boron, 2-int(floor(log10(abs(boron))))-1)
 
                 export_dict[cols[20]].append(boron)
 
@@ -266,6 +287,8 @@ class SDGCSVExportView(BrowserView):
 
                 if brix <= 0.01:
                     brix = -0.01
+                else:
+                    brix = round(brix, 3-int(floor(log10(abs(brix))))-1)
 
                 export_dict[cols[21]].append(brix)
 
@@ -283,6 +306,8 @@ class SDGCSVExportView(BrowserView):
 
                 if ph <= 0.01:
                     ph = -0.01
+                else:
+                    ph = round(ph, 2-int(floor(log10(abs(ph))))-1)
 
                 export_dict[cols[22]].append(ph)
 
@@ -300,6 +325,8 @@ class SDGCSVExportView(BrowserView):
 
                 if chloride <= 0.01:
                     chloride = -0.01
+                else:
+                    chloride = round(chloride, 2-int(floor(log10(abs(chloride))))-1)
 
                 export_dict[cols[23]].append(chloride)
 
@@ -317,6 +344,8 @@ class SDGCSVExportView(BrowserView):
 
                 if sodium <= 0.01:
                     sodium = -0.01
+                else:
+                    sodium = round(sodium, 2-int(floor(log10(abs(sodium))))-1)
 
                 export_dict[cols[24]].append(sodium)
 
@@ -334,6 +363,8 @@ class SDGCSVExportView(BrowserView):
 
                 if silicon <= 0.01:
                     silicon = -0.01
+                else:
+                    silicon = round(silicon, 2-int(floor(log10(abs(silicon))))-1)
 
                 export_dict[cols[25]].append(silicon)
 
@@ -351,6 +382,8 @@ class SDGCSVExportView(BrowserView):
 
                 if aluminium <= 0.01:
                     aluminium = -0.01
+                else:
+                    aluminium = round(aluminium, 2-int(floor(log10(abs(aluminium))))-1)
 
                 export_dict[cols[26]].append(aluminium)
 
@@ -368,6 +401,8 @@ class SDGCSVExportView(BrowserView):
 
                 if cobalt <= 0.01:
                     cobalt = -0.01
+                else:
+                    cobalt = round(cobalt, 2-int(floor(log10(abs(cobalt))))-1)
 
                 export_dict[cols[27]].append(cobalt)
 
@@ -385,6 +420,8 @@ class SDGCSVExportView(BrowserView):
 
                 if molybdenum <= 0.01:
                     molybdenum = -0.01
+                else:
+                    molybdenum = round(molybdenum, 2-int(floor(log10(abs(molybdenum))))-1)
 
                 export_dict[cols[28]].append(molybdenum)
 
@@ -402,6 +439,8 @@ class SDGCSVExportView(BrowserView):
 
                 if n_nh4 <= 0.01:
                     n_nh4 = -0.01
+                else:
+                    n_nh4 = round(n_nh4, 2-int(floor(log10(abs(n_nh4))))-1)
 
                 export_dict[cols[29]].append(n_nh4)
 
@@ -419,6 +458,8 @@ class SDGCSVExportView(BrowserView):
 
                 if tn <= 0.01:
                     tn = -0.01
+                else:
+                    tn = round(tn, 2-int(floor(log10(abs(tn))))-1)
 
                 export_dict[cols[30]].append(tn)
 
@@ -436,6 +477,8 @@ class SDGCSVExportView(BrowserView):
 
                 if ts <= 0.01:
                     ts = -0.01
+                else:
+                    ts = round(ts, 2-int(floor(log10(abs(ts))))-1)
 
                 export_dict[cols[31]].append(ts)
 
@@ -470,6 +513,8 @@ class SDGCSVExportView(BrowserView):
 
                 if n_no3 <= 0.01:
                     n_no3 = -0.01
+                else:
+                    n_no3 = round(ec, 2-int(floor(log10(abs(n_no3))))-1)
 
                 export_dict[cols[33]].append(n_no3)
 
@@ -487,6 +532,8 @@ class SDGCSVExportView(BrowserView):
 
                 if kca <= 0.01:
                     kca = -0.01
+                else:
+                    kca = round(ec, 2-int(floor(log10(abs(kca))))-1)
 
                 export_dict[cols[34]].append(kca)
 
@@ -500,7 +547,9 @@ class SDGCSVExportView(BrowserView):
                     if n_no3 < 0.01:
                         n_no3 = 0
 
-                    nce = (1 - ((n_nh4 + n_no3) / tn))*100
+                    nce = (1 - (n_nh4 + n_no3) / tn))*100
+
+                    nce = round(nce, 3-int(floor(log10(abs(nce))))-1)
 
                 export_dict[cols[35]].append(nce)
 
