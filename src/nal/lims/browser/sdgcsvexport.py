@@ -105,12 +105,12 @@ class SDGCSVExportView(BrowserView):
                 found = False
                 for j in range(20, 0, -1):
                     if found==False:
-                        version = 'sap_phosphorus-'+str(j)
+                        version = 'sap_phosphorous-'+str(j)
                         if hasattr(self,version):
                             found = True
                             phosphorus = float(self[version].Result)
-                if found == False and hasattr(i,'sap_phosphorus'):
-                    phosphorus = float(self.sap_phosphorus.Result)
+                if found == False and hasattr(i,'sap_phosphorous'):
+                    phosphorus = float(self.sap_phosphorous.Result)
 
                 if phosphorus <= 0.01:
                     phosphorus = -0.01
@@ -505,10 +505,14 @@ class SDGCSVExportView(BrowserView):
                 export_dict[cols[35]].append(nce)
 
         df = pd.DataFrame()
+        
         for i in range(len(cols)):
             df[cols[i]] = export_dict[cols[i]]
+
         df.to_csv(fullpath)
+
         IStatusMessage(self.request).addStatusMessage(
                 u"{} Successfully Exported to: {}".format(self.context.title, filepath)
             )
+
         self.request.response.redirect(api.get_url(self.context))
