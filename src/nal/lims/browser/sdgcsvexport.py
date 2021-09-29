@@ -5,6 +5,8 @@ from bika.lims import bikaMessageFactory as _
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 import pandas as pd
+from math import floor
+from math import log10
 
 class SDGCSVExportView(BrowserView):
 
