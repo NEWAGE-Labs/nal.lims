@@ -366,7 +366,7 @@ class SDGCSVExportView(BrowserView):
                 if silica <= 0.01:
                     silica = -0.01
                 else:
-                    silica = round(silicon, 2-int(floor(log10(abs(silica))))-1)
+                    silica = round(silica, 2-int(floor(log10(abs(silica))))-1)
 
                 export_dict[cols[25]].append(silica)
 
