@@ -352,23 +352,23 @@ class SDGCSVExportView(BrowserView):
                 export_dict[cols[24]].append(sodium)
 
                 #silicon
-                silicon = -0.01
+                silica = -0.01
                 found = False
                 for j in range(20, 0, -1):
                     if found==False:
-                        version = 'sap_silicon-'+str(j)
+                        version = 'sap_silica-'+str(j)
                         if hasattr(i,version):
                             found = True
-                            silicon = float(i[version].Result)
-                if found == False and hasattr(i,'sap_silicon'):
-                    silicon = float(i.sap_silicon.Result)
+                            silica = float(i[version].Result)
+                if found == False and hasattr(i,'sap_silica'):
+                    silica = float(i.sap_silica.Result)
 
-                if silicon <= 0.01:
-                    silicon = -0.01
+                if silica <= 0.01:
+                    silica = -0.01
                 else:
-                    silicon = round(silicon, 2-int(floor(log10(abs(silicon))))-1)
+                    silica = round(silicon, 2-int(floor(log10(abs(silica))))-1)
 
-                export_dict[cols[25]].append(silicon)
+                export_dict[cols[25]].append(silica)
 
                 #aluminium
                 aluminium = -0.01
