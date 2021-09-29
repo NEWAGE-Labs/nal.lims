@@ -547,7 +547,7 @@ class SDGCSVExportView(BrowserView):
                     if n_no3 < 0.01:
                         n_no3 = 0
 
-                    nce = (1 - (n_nh4 + n_no3) / tn))*100
+                    nce = (1 - ((n_nh4 + n_no3) / tn))*100
 
                     nce = round(nce, 3-int(floor(log10(abs(nce))))-1)
 
