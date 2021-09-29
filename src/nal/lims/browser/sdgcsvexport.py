@@ -93,7 +93,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_ec-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            ec = float(self[version].Result)
+                            ec = float(i[version].Result)
                 if found == False and hasattr(i,'sap_ec'):
                     ec = float(i.sap_ec.Result)
 
@@ -112,7 +112,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_phosphorous-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            phosphorus = float(self[version].Result)
+                            phosphorus = float(i[version].Result)
                 if found == False and hasattr(i,'sap_phosphorous'):
                     phosphorus = float(i.sap_phosphorous.Result)
 
@@ -131,7 +131,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_calcium-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            calcium = float(self[version].Result)
+                            calcium = float(i[version].Result)
                 if found == False and hasattr(i,'sap_calcium'):
                     calcium = float(i.sap_calcium.Result)
 
@@ -150,7 +150,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_manganese-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            manganese = float(self[version].Result)
+                            manganese = float(i[version].Result)
                 if found == False and hasattr(i,'sap_manganese'):
                     manganese = float(i.sap_manganese.Result)
 
@@ -169,7 +169,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_zinc-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            zinc = float(self[version].Result)
+                            zinc = float(i[version].Result)
                 if found == False and hasattr(i,'sap_zinc'):
                     zinc = float(i.sap_zinc.Result)
 
@@ -188,7 +188,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_sulfur-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            sulfur = float(self[version].Result)
+                            sulfur = float(i[version].Result)
                 if found == False and hasattr(i,'sap_sulfur'):
                     sulfur = float(i.sap_sulfur.Result)
 
@@ -207,7 +207,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_copper-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            copper = float(self[version].Result)
+                            copper = float(i[version].Result)
                 if found == False and hasattr(i,'sap_copper'):
                     copper = float(i.sap_copper.Result)
 
@@ -226,7 +226,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_magnesium-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            magnesium = float(self[version].Result)
+                            magnesium = float(i[version].Result)
                 if found == False and hasattr(i,'sap_magnesium'):
                     magnesium = float(i.sap_magnesium.Result)
 
@@ -245,7 +245,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_iron-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            iron = float(self[version].Result)
+                            iron = float(i[version].Result)
                 if found == False and hasattr(i,'sap_iron'):
                     iron = float(i.sap_iron.Result)
 
@@ -264,7 +264,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_boron-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            boron = float(self[version].Result)
+                            boron = float(i[version].Result)
                 if found == False and hasattr(i,'sap_boron'):
                     boron = float(i.sap_boron.Result)
 
@@ -283,7 +283,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_brix-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            brix = float(self[version].Result)
+                            brix = float(i[version].Result)
                 if found == False and hasattr(i,'sap_brix'):
                     brix = float(i.sap_brix.Result)
 
@@ -302,7 +302,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_ph-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            ph = float(self[version].Result)
+                            ph = float(i[version].Result)
                 if found == False and hasattr(i,'sap_ph'):
                     ph = float(i.sap_ph.Result)
 
@@ -321,7 +321,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_chloride-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            manganese = float(self[version].Result)
+                            manganese = float(i[version].Result)
                 if found == False and hasattr(i,'sap_chloride'):
                     chloride = float(i.sap_chloride.Result)
 
@@ -340,7 +340,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_sodium-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            sodium = float(self[version].Result)
+                            sodium = float(i[version].Result)
                 if found == False and hasattr(i,'sap_sodium'):
                     sodium = float(i.sap_sodium.Result)
 
@@ -359,7 +359,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_silicon-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            silicon = float(self[version].Result)
+                            silicon = float(i[version].Result)
                 if found == False and hasattr(i,'sap_silicon'):
                     silicon = float(i.sap_silicon.Result)
 
@@ -378,7 +378,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_aluminum-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            aluminium = float(self[version].Result)
+                            aluminium = float(i[version].Result)
                 if found == False and hasattr(i,'sap_aluminum'):
                     aluminium = float(i.sap_aluminum.Result)
 
@@ -397,7 +397,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_cobalt-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            cobalt = float(self[version].Result)
+                            cobalt = float(i[version].Result)
                 if found == False and hasattr(i,'sap_cobalt'):
                     cobalt = float(i.sap_cobalt.Result)
 
@@ -416,7 +416,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_molybdenum-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            molybdenum = float(self[version].Result)
+                            molybdenum = float(i[version].Result)
                 if found == False and hasattr(i,'sap_molybdenum'):
                     molybdenum = float(i.sap_molybdenum.Result)
 
@@ -435,7 +435,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_nitrogen_as_ammonium-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            n_nh4 = float(self[version].Result)
+                            n_nh4 = float(i[version].Result)
                 if found == False and hasattr(i,'sap_nitrogen_as_ammonium'):
                     n_nh4 = float(i.sap_nitrogen_as_ammonium.Result)
 
@@ -454,7 +454,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_total_nitrogen-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            tn = float(self[version].Result)
+                            tn = float(i[version].Result)
                 if found == False and hasattr(i,'sap_total_nitrogen'):
                     tn = float(i.sap_total_nitrogen.Result)
 
@@ -473,7 +473,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_total_sugar-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            ts = float(self[version].Result)
+                            ts = float(i[version].Result)
                 if found == False and hasattr(i,'sap_total_sugar'):
                     ts = float(i.sap_total_sugar.Result)
 
@@ -492,7 +492,7 @@ class SDGCSVExportView(BrowserView):
                 #         version = 'sap_manganese-'+str(j)
                 #         if hasattr(self,version):
                 #             found = True
-                #             manganese = float(self[version].Result)
+                #             manganese = float(i[version].Result)
                 # if found == False and hasattr(i,'sap_manganese'):
                 #     manganese = float(i.sap_manganese.Result)
                 #
@@ -509,7 +509,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_nitrogen_as_nitrate-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            n_no3 = float(self[version].Result)
+                            n_no3 = float(i[version].Result)
                 if found == False and hasattr(i,'sap_nitrogen_as_nitrate'):
                     n_no3 = float(i.sap_nitrogen_as_nitrate.Result)
 
@@ -528,7 +528,7 @@ class SDGCSVExportView(BrowserView):
                         version = 'sap_kcaratio-'+str(j)
                         if hasattr(self,version):
                             found = True
-                            kca = float(self[version].Result)
+                            kca = float(i[version].Result)
                 if found == False and hasattr(i,'sap_kcaratio'):
                     kca = float(i.sap_kcaratio.Result)
 
