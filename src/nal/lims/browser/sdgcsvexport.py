@@ -93,7 +93,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             ec = float(self[version].Result)
                 if found == False and hasattr(i,'sap_ec'):
-                    ec = float(self.sap_ec.Result)
+                    ec = float(i.sap_ec.Result)
 
                 if ec <= 0.01:
                     ec = -0.01
@@ -110,7 +110,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             phosphorus = float(self[version].Result)
                 if found == False and hasattr(i,'sap_phosphorous'):
-                    phosphorus = float(self.sap_phosphorous.Result)
+                    phosphorus = float(i.sap_phosphorous.Result)
 
                 if phosphorus <= 0.01:
                     phosphorus = -0.01
@@ -126,7 +126,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             calcium = float(self[version].Result)
                 if found == False and hasattr(i,'sap_calcium'):
-                    calcium = float(self.sap_calcium.Result)
+                    calcium = float(i.sap_calcium.Result)
 
                 if calcium <= 0.01:
                     calcium = -0.01
@@ -143,7 +143,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             manganese = float(self[version].Result)
                 if found == False and hasattr(i,'sap_manganese'):
-                    manganese = float(self.sap_manganese.Result)
+                    manganese = float(i.sap_manganese.Result)
 
                 if manganese <= 0.01:
                     manganese = -0.01
@@ -160,7 +160,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             zinc = float(self[version].Result)
                 if found == False and hasattr(i,'sap_zinc'):
-                    zinc = float(self.sap_zinc.Result)
+                    zinc = float(i.sap_zinc.Result)
 
                 if zinc <= 0.01:
                     zinc = -0.01
@@ -177,7 +177,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             sulfur = float(self[version].Result)
                 if found == False and hasattr(i,'sap_sulfur'):
-                    sulfur = float(self.sap_sulfur.Result)
+                    sulfur = float(i.sap_sulfur.Result)
 
                 if sulfur <= 0.01:
                     sulfur = -0.01
@@ -194,7 +194,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             copper = float(self[version].Result)
                 if found == False and hasattr(i,'sap_copper'):
-                    copper = float(self.sap_copper.Result)
+                    copper = float(i.sap_copper.Result)
 
                 if copper <= 0.01:
                     copper = -0.01
@@ -211,7 +211,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             magnesium = float(self[version].Result)
                 if found == False and hasattr(i,'sap_magnesium'):
-                    magnesium = float(self.sap_magnesium.Result)
+                    magnesium = float(i.sap_magnesium.Result)
 
                 if magnesium <= 0.01:
                     magnesium = -0.01
@@ -228,7 +228,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             iron = float(self[version].Result)
                 if found == False and hasattr(i,'sap_iron'):
-                    iron = float(self.sap_iron.Result)
+                    iron = float(i.sap_iron.Result)
 
                 if iron <= 0.01:
                     iron = -0.01
@@ -245,7 +245,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             boron = float(self[version].Result)
                 if found == False and hasattr(i,'sap_boron'):
-                    boron = float(self.sap_boron.Result)
+                    boron = float(i.sap_boron.Result)
 
                 if boron <= 0.01:
                     boron = -0.01
@@ -262,7 +262,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             brix = float(self[version].Result)
                 if found == False and hasattr(i,'sap_brix'):
-                    brix = float(self.sap_brix.Result)
+                    brix = float(i.sap_brix.Result)
 
                 if brix <= 0.01:
                     brix = -0.01
@@ -279,7 +279,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             ph = float(self[version].Result)
                 if found == False and hasattr(i,'sap_ph'):
-                    ph = float(self.sap_ph.Result)
+                    ph = float(i.sap_ph.Result)
 
                 if ph <= 0.01:
                     ph = -0.01
@@ -296,7 +296,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             manganese = float(self[version].Result)
                 if found == False and hasattr(i,'sap_chloride'):
-                    chloride = float(self.sap_chloride.Result)
+                    chloride = float(i.sap_chloride.Result)
 
                 if chloride <= 0.01:
                     chloride = -0.01
@@ -313,7 +313,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             sodium = float(self[version].Result)
                 if found == False and hasattr(i,'sap_sodium'):
-                    sodium = float(self.sap_sodium.Result)
+                    sodium = float(i.sap_sodium.Result)
 
                 if sodium <= 0.01:
                     sodium = -0.01
@@ -330,7 +330,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             silicon = float(self[version].Result)
                 if found == False and hasattr(i,'sap_silicon'):
-                    silicon = float(self.sap_silicon.Result)
+                    silicon = float(i.sap_silicon.Result)
 
                 if silicon <= 0.01:
                     silicon = -0.01
@@ -347,7 +347,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             aluminium = float(self[version].Result)
                 if found == False and hasattr(i,'sap_aluminum'):
-                    aluminium = float(self.sap_aluminum.Result)
+                    aluminium = float(i.sap_aluminum.Result)
 
                 if aluminium <= 0.01:
                     aluminium = -0.01
@@ -364,7 +364,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             cobalt = float(self[version].Result)
                 if found == False and hasattr(i,'sap_cobalt'):
-                    cobalt = float(self.sap_cobalt.Result)
+                    cobalt = float(i.sap_cobalt.Result)
 
                 if cobalt <= 0.01:
                     cobalt = -0.01
@@ -381,7 +381,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             molybdenum = float(self[version].Result)
                 if found == False and hasattr(i,'sap_molybdenum'):
-                    molybdenum = float(self.sap_molybdenum.Result)
+                    molybdenum = float(i.sap_molybdenum.Result)
 
                 if molybdenum <= 0.01:
                     molybdenum = -0.01
@@ -398,7 +398,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             n_nh4 = float(self[version].Result)
                 if found == False and hasattr(i,'sap_nitrogen_as_ammonium'):
-                    n_nh4 = float(self.sap_nitrogen_as_ammonium.Result)
+                    n_nh4 = float(i.sap_nitrogen_as_ammonium.Result)
 
                 if n_nh4 <= 0.01:
                     n_nh4 = -0.01
@@ -415,7 +415,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             tn = float(self[version].Result)
                 if found == False and hasattr(i,'sap_total_nitrogen'):
-                    tn = float(self.sap_total_nitrogen.Result)
+                    tn = float(i.sap_total_nitrogen.Result)
 
                 if tn <= 0.01:
                     tn = -0.01
@@ -432,7 +432,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             ts = float(self[version].Result)
                 if found == False and hasattr(i,'sap_total_sugar'):
-                    ts = float(self.sap_total_sugar.Result)
+                    ts = float(i.sap_total_sugar.Result)
 
                 if ts <= 0.01:
                     ts = -0.01
@@ -449,7 +449,7 @@ class SDGCSVExportView(BrowserView):
                 #             found = True
                 #             manganese = float(self[version].Result)
                 # if found == False and hasattr(i,'sap_manganese'):
-                #     manganese = float(self.sap_manganese.Result)
+                #     manganese = float(i.sap_manganese.Result)
                 #
                 # if manganese <= 0.01:
                 #     manganese = -0.01
@@ -466,7 +466,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             n_no3 = float(self[version].Result)
                 if found == False and hasattr(i,'sap_nitrogen_as_nitrate'):
-                    n_no3 = float(self.sap_nitrogen_as_nitrate.Result)
+                    n_no3 = float(i.sap_nitrogen_as_nitrate.Result)
 
                 if n_no3 <= 0.01:
                     n_no3 = -0.01
@@ -483,7 +483,7 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             kca = float(self[version].Result)
                 if found == False and hasattr(i,'sap_kcaratio'):
-                    kca = float(self.sap_kcaratio.Result)
+                    kca = float(i.sap_kcaratio.Result)
 
                 if kca <= 0.01:
                     kca = -0.01
@@ -505,7 +505,7 @@ class SDGCSVExportView(BrowserView):
                 export_dict[cols[35]].append(nce)
 
         df = pd.DataFrame()
-        
+
         for i in range(len(cols)):
             df[cols[i]] = export_dict[cols[i]]
 
