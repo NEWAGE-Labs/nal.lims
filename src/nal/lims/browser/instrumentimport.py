@@ -666,60 +666,152 @@ class GalleryImportView(edit.DefaultEditForm):
             imported = []
 
             #Ammonium
-            try:
-                ammonium = i.sap_nitrogen_as_ammonium
-            except AttributeError:
-                ammonium = None
-            if ammonium == None:
-                try:
-                    ammonium = i.hydro_ammonia
-                except AttributeError:
-                    ammonium = None
+            found = False
+            ammonium = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_nitrogen_as_ammonium-'+str(j)
+                    hydro_version = 'hydro_ammonia-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        ammonium = float(i[sap_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        ammonium = float(i[hydro_version].Result)
+            if found == False and hasattr(i,'sap_nitrogen_as_ammonium'):
+                ammonium = float(i.sap_nitrogen_as_ammonium.Result)
+            elif found == False and hasattr(i,'hydro_ammonia'):
+                ammonium = float(i.hydro_ammonia.Result)
+
+            # try:
+            #     ammonium = i.sap_nitrogen_as_ammonium
+            # except AttributeError:
+            #     ammonium = None
+            # if ammonium == None:
+            #     try:
+            #         ammonium = i.hydro_ammonia
+            #     except AttributeError:
+            #         ammonium = None
 
             #Total Sugar
-            try:
-                total_sugar = i.sap_total_sugar
-            except AttributeError:
-                total_sugar = None
+            found = False
+            total_sugar = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_total_sugar-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        total_sugar = float(i[sap_version].Result)
+            if found == False and hasattr(i,'sap_total_sugar'):
+                total_sugar = float(i.sap_total_sugar.Result)
+
+            # try:
+            #     total_sugar = i.sap_total_sugar
+            # except AttributeError:
+            #     total_sugar = None
 
             #Chloride
-            try:
-                chloride = i.sap_chloride
-            except AttributeError:
-                chloride = None
-            if chloride is None:
-                try:
-                    chloride = i.hydro_chloride
-                except AttributeError:
-                    chloride = None
+            found = False
+            chloride = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_chloride-'+str(j)
+                    hydro_version = 'hydro_chloride-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        chloride = float(i[sap_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        chloride = float(i[hydro_version].Result)
+            if found == False and hasattr(i,'sap_chloride'):
+                chloride = float(i.sap_chloride.Result)
+            elif found == False and hasattr(i,'hydro_chloride'):
+                chloride = float(i.hydro_chloride.Result)
+
+            # try:
+            #     chloride = i.sap_chloride
+            # except AttributeError:
+            #     chloride = None
+            # if chloride is None:
+            #     try:
+            #         chloride = i.hydro_chloride
+            #     except AttributeError:
+            #         chloride = None
 
             #Nitrate
-            try:
-                nitrate = i.sap_nitrate
-            except AttributeError:
-                nitrate = None
-            if nitrate is None:
-                try:
-                    nitrate = i.hydro_nitrate
-                except AttributeError:
-                    nitrate = None
-            if nitrate is None:
-                try:
-                    nitrate = i.drinking_nitrate
-                except AttributeError:
-                    nitrate = None
+            found = False
+            nitrate = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_nitrate-'+str(j)
+                    hydro_version = 'hydro_nitrate-'+str(j)
+                    drinking_version = 'drinking_nitrate-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        nitrate = float(i[sap_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        nitrate = float(i[hydro_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        nitrate = float(i[drinking_version].Result)
+            if found == False and hasattr(i,'sap_nitrate'):
+                nitrate = float(i.sap_nitrate.Result)
+            elif found == False and hasattr(i,'hydro_nitrate'):
+                nitrate = float(i.hydro_nitrate.Result)
+            elif found == False and hasattr(i,'drinking_nitrate'):
+                nitrate = float(i.drinking_nitrate.Result)
+
+            # try:
+            #     nitrate = i.sap_nitrate
+            # except AttributeError:
+            #     nitrate = None
+            # if nitrate is None:
+            #     try:
+            #         nitrate = i.hydro_nitrate
+            #     except AttributeError:
+            #         nitrate = None
+            # if nitrate is None:
+            #     try:
+            #         nitrate = i.drinking_nitrate
+            #     except AttributeError:
+            #         nitrate = None
 
             #Nitrite
-            try:
-                nitrite = i.drinking_nitrite
-            except AttributeError:
-                nitrite = None
+            found = False
+            nitrite = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    drinking_version = 'drinking_nitrite-'+str(j)
+                    if hasattr(i,drinking_version):
+                        found = True
+                        nitrite = float(i[drinking_version].Result)
+            if found == False and hasattr(i,'drinking_nitrite'):
+                nitrite = float(i.drinking_nitrite.Result)
+
+
+            # try:
+            #     nitrite = i.drinking_nitrite
+            # except AttributeError:
+            #     nitrite = None
 
             #Nitrogen as Nitrate
-            try:
-                n_as_nitrate = i.sap_nitrogen_as_nitrate
-            except AttributeError:
-                n_as_nitrate = None
+            found = False
+            n_as_nitrate = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_nitrogen_as_nitrate-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        n_as_nitrate = float(i[sap_version].Result)
+            if found == False and hasattr(i,'sap_nitrogen_as_nitrate'):
+                n_as_nitrate = float(i.sap_nitrogen_as_nitrate.Result)
+
+
+            # try:
+            #     n_as_nitrate = i.sap_nitrogen_as_nitrate
+            # except AttributeError:
+            #     n_as_nitrate = None
 
             # #Total Organic Nitrogen
             # try:
@@ -740,7 +832,7 @@ class GalleryImportView(edit.DefaultEditForm):
             #     total_n = None
 
             #Ammonium
-            if ammonium is not None and api.get_workflow_status_of(ammonium) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')].empty:
+            if ammonium is not None and api.get_workflow_status_of(ammonium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')].empty:
                 logger.info("Importing Ammonium for {0}".format(i))
                 ammonium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')]['Result'].values[0].strip(), "utf-8")
                 ammonium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')]['Analysis Date/Time'].values[0]
@@ -752,7 +844,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 imported.append(True)
 
             #Total Sugar
-            if total_sugar is not None and api.get_workflow_status_of(total_sugar) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')].empty:
+            if total_sugar is not None and api.get_workflow_status_of(total_sugar) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')].empty:
                 logger.info("Importing Total Sugar for {0}".format(i))
                 total_sugar.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')]['Result'].values[0].strip(), "utf-8")
                 total_sugar.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')]['Analysis Date/Time'].values[0]
@@ -764,7 +856,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 imported.append(True)
 
             #Chloride
-            if chloride is not None and api.get_workflow_status_of(chloride) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')].empty:
+            if chloride is not None and api.get_workflow_status_of(chloride) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')].empty:
                 logger.info("Importing Chloride for {0}".format(i))
                 chloride.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Result'].values[0].strip(), "utf-8")
                 chloride.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Analysis Date/Time'].values[0]
@@ -776,7 +868,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 imported.append(True)
 
             #Nitrogen as Nitrate
-            if n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')].empty:
+            if n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')].empty:
                 logger.info("Importing N from Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")))
                 n_as_nitrate.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")
                 n_as_nitrate.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analysis Date/Time'].values[0]
@@ -787,7 +879,7 @@ class GalleryImportView(edit.DefaultEditForm):
                     n_as_nitrate.reindexObject(idxs=['Analyst'])
                 imported.append(True)
 
-            if n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')].empty:
+            if n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')].empty:
                 logger.info("Importing N from Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Result'].values[0].strip(), "utf-8")))
                 n_as_nitrate.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Result'].values[0].strip(), "utf-8")
                 n_as_nitrate.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Analysis Date/Time'].values[0]
@@ -799,7 +891,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 imported.append(True)
 
             #Nitrite
-            if nitrite is not None and api.get_workflow_status_of(nitrite) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')].empty:
+            if nitrite is not None and api.get_workflow_status_of(nitrite) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')].empty:
                 logger.info("Importing Nitrite for {0}".format(i))
                 nitrite.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')]['Result'].values[0].strip(), "utf-8")
                 nitrite.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')]['Analysis Date/Time'].values[0]
