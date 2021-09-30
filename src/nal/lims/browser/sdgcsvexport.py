@@ -83,7 +83,10 @@ class SDGCSVExportView(BrowserView):
                 export_dict[cols[7]].append(i.getSamplePoint().title)
                 export_dict[cols[8]].append(i.PlantType)
                 export_dict[cols[9]].append(i.getClientSampleID())
-                export_dict[cols[10]].append('')
+                newold = 'old'
+                if i.NewLeaf is True:
+                    newold = 'new'
+                export_dict[cols[10]].append(newold)
 
                 #EC
                 ec = -0.01
