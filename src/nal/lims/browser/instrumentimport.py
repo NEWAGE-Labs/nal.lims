@@ -774,27 +774,27 @@ class GalleryImportView(edit.DefaultEditForm):
                     chloride.reindexObject(idxs=['Analyst'])
                 imported.append(True)
 
-            #Nitrate
-            if nitrate is not None and api.get_workflow_status_of(nitrate) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')].empty:
-                logger.info("Importing Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")))
-                nitrate.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")
-                nitrate.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analysis Date/Time'].values[0]
-                nitrate.reindexObject(idxs=['Result','AnalysisDateTime'])
-                nitrate = api.do_transition_for(nitrate, "submit")
+            #Nitrogen as Nitrate
+            if n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')].empty:
+                logger.info("Importing N from Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")))
+                n_as_nitrate.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")
+                n_as_nitrate.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analysis Date/Time'].values[0]
+                n_as_nitrate.reindexObject(idxs=['Result','AnalysisDateTime'])
+                n_as_nitrate = api.do_transition_for(n_as_nitrate, "submit")
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analyst'].empty:
-                    nitrate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analyst'].values[0]
-                    nitrate.reindexObject(idxs=['Analyst'])
+                    n_as_nitrate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analyst'].values[0]
+                    n_as_nitrate.reindexObject(idxs=['Analyst'])
                 imported.append(True)
 
-            if nitrate is not None and api.get_workflow_status_of(nitrate) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')].empty:
-                logger.info("Importing Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Result'].values[0].strip(), "utf-8")))
-                nitrate.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Result'].values[0].strip(), "utf-8")
-                nitrate.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Analysis Date/Time'].values[0]
-                nitrate.reindexObject(idxs=['Result','AnalysisDateTime'])
-                nitrate = api.do_transition_for(nitrate, "submit")
+            if n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')].empty:
+                logger.info("Importing N from Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Result'].values[0].strip(), "utf-8")))
+                n_as_nitrate.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Result'].values[0].strip(), "utf-8")
+                n_as_nitrate.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Analysis Date/Time'].values[0]
+                n_as_nitrate.reindexObject(idxs=['Result','AnalysisDateTime'])
+                n_as_nitrate = api.do_transition_for(n_as_nitrate, "submit")
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Analyst'].empty:
-                    nitrate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Analyst'].values[0]
-                    nitrate.reindexObject(idxs=['Analyst'])
+                    n_as_nitrate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Analyst'].values[0]
+                    n_as_nitrate.reindexObject(idxs=['Analyst'])
                 imported.append(True)
 
             #Nitrite
@@ -810,17 +810,17 @@ class GalleryImportView(edit.DefaultEditForm):
                 imported.append(True)
 
             #Nitrogen as Nitrate
-            logger.info("N_as_Nitrate is {0}, Status is {1}, Nitrate Result is {2}".format(n_as_nitrate,api.get_workflow_status_of(n_as_nitrate),nitrate.Result))
-            if n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned','retracted'] and nitrate.Result is not None and nitrate.Result != "":
-                logger.info("Calculating Nitrogen as Nitrate for {0}".format(i))
-                nitrate_float = float(nitrate.Result)
-                n_as_nitrate.Result = unicode(str(nitrate_float*4.43))
-                n_as_nitrate.AnalysisDateTime = nitrate.AnalysisDateTime
-                n_as_nitrate.reindexObject(idxs=['Result','AnalysisDateTime'])
-                n_as_nitrate = api.do_transition_for(n_as_nitrate, "submit")
-                n_as_nitrate.Analyst = nitrate.Analyst
-                n_as_nitrate.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+            # logger.info("N_as_Nitrate is {0}, Status is {1}, Nitrate Result is {2}".format(n_as_nitrate,api.get_workflow_status_of(n_as_nitrate),nitrate.Result))
+            # if n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned','retracted'] and nitrate.Result is not None and nitrate.Result != "":
+            #     logger.info("Calculating Nitrogen as Nitrate for {0}".format(i))
+            #     nitrate_float = float(nitrate.Result)
+            #     n_as_nitrate.Result = unicode(str(nitrate_float*4.43))
+            #     n_as_nitrate.AnalysisDateTime = nitrate.AnalysisDateTime
+            #     n_as_nitrate.reindexObject(idxs=['Result','AnalysisDateTime'])
+            #     n_as_nitrate = api.do_transition_for(n_as_nitrate, "submit")
+            #     n_as_nitrate.Analyst = nitrate.Analyst
+            #     n_as_nitrate.reindexObject(idxs=['Analyst'])
+            #     imported.append(True)
 
             if imported:
                 clean_ids.append(api.get_id(i))
