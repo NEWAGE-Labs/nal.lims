@@ -573,13 +573,14 @@ class GalleryImportView(edit.DefaultEditForm):
         analysts = []
         dict_to_df = {}
         for i, row in dirty_df.iterrows():
-            if 'x' not in row["Sample/ctrl ID"].lower():
-                pass
-            elif 'x' in row["Sample/ctrl ID"].lower():
+            if 'fl-0' in row["Sample/ctrl ID"].lower():
                 dirty_sample = row["Sample/ctrl ID"] # '1234 ppm'
-                radix = dirty_sample.lower().find('x')
-                dilution = dirty_sample[radix+1:]
-                sid = dirty_sample[:radix] # '1234'
+                if 'x' in row["Sample/ctrl ID"].lower()""
+                    radix = dirty_sample.lower().find('x')
+                    dilution = dirty_sample[radix+1:]
+                    sid = dirty_sample[:radix] # '1234'
+                else:
+                    sid = dirty_sample
                 #Result
                 try:
                     float_result = float(row['Result'])
