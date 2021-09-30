@@ -575,7 +575,7 @@ class GalleryImportView(edit.DefaultEditForm):
         for i, row in dirty_df.iterrows():
             if 'fl-0' in row["Sample/ctrl ID"].lower():
                 dirty_sample = row["Sample/ctrl ID"] # '1234 ppm'
-                if 'x' in row["Sample/ctrl ID"].lower()""
+                if 'x' in row["Sample/ctrl ID"].lower():
                     radix = dirty_sample.lower().find('x')
                     dilution = dirty_sample[radix+1:]
                     sid = dirty_sample[:radix] # '1234'
