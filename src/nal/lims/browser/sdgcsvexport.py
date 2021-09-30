@@ -516,7 +516,7 @@ class SDGCSVExportView(BrowserView):
                 if n_no3 <= 0.01:
                     n_no3 = -0.01
                 else:
-                    n_no3 = round(ec, 2-int(floor(log10(abs(n_no3))))-1)
+                    n_no3 = round(n_no3, 2-int(floor(log10(abs(n_no3))))-1)
 
                 export_dict[cols[33]].append(n_no3)
 
@@ -535,7 +535,7 @@ class SDGCSVExportView(BrowserView):
                 if kca <= 0.01:
                     kca = -0.01
                 else:
-                    kca = round(ec, 2-int(floor(log10(abs(kca))))-1)
+                    kca = round(kca, 2-int(floor(log10(abs(kca))))-1)
 
                 export_dict[cols[34]].append(kca)
 
