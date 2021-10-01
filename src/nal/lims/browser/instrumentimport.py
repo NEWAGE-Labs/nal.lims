@@ -692,7 +692,10 @@ class ICPImportView(edit.DefaultEditForm):
                 print("Checking if Submit is viable")
                 if [i for i in api.get_transitions_for(aluminum) if 'submit' in i.values()]:
                     print("Submitting")
-                    aluminum = api.do_transition_for(aluminum, "submit")
+                    try:
+                        aluminum = api.do_transition_for(aluminum, "submit")
+                    except AttributeError:
+                        pass
                 print("Checking for Analyst")
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')]['Analyst'].empty:
                     print("Obtaining Analyst")
