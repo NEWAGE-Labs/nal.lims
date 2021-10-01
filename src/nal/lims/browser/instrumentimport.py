@@ -727,7 +727,7 @@ class ICPImportView(edit.DefaultEditForm):
                 calcium.reindexObject(idxs=['Result','AnalysisDateTime'])
                 if [j for j in api.get_transitions_for(calcium) if 'submit' in j.values()]:
                     try:
-                        api.do_transition_for(aluminum, "submit")
+                        api.do_transition_for(calcium, "submit")
                     except AttributeError:
                         pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Analyst'].empty:
