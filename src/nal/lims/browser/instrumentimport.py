@@ -122,14 +122,14 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_aluminum-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        aluminum = float(i[sap_version])
+                        aluminum = i[sap_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        aluminum = float(i[hydro_version])
+                        aluminum = i[hydro_version]
             if found == False and hasattr(i,'sap_aluminum'):
-                aluminum = float(i.sap_aluminum.Result)
+                aluminum = i.sap_aluminum
             elif found == False and hasattr(i,'hydro_aluminum'):
-                aluminum = float(i.hydro_aluminum.Result)
+                aluminum = i.hydro_aluminum
 
 
             # try:
@@ -151,14 +151,14 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_boron-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        boron = float(i[sap_version])
+                        boron = i[sap_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        boron = float(i[hydro_version])
+                        boron = i[hydro_version]
             if found == False and hasattr(i,'sap_boron'):
-                boron = float(i.sap_boron.Result)
+                boron = i.sap_boron
             elif found == False and hasattr(i,'hydro_boron'):
-                boron = float(i.hydro_boron.Result)
+                boron = i.hydro_boron
 
 
             # try:
@@ -180,14 +180,14 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_calcium-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        calcium = float(i[sap_version])
+                        calcium = i[sap_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        calcium = float(i[hydro_version])
+                        calcium = i[hydro_version]
             if found == False and hasattr(i,'sap_calcium'):
-                calcium = float(i.sap_calcium.Result)
+                calcium = i.sap_calcium
             elif found == False and hasattr(i,'hydro_calcium'):
-                calcium = float(i.hydro_calcium.Result)
+                calcium = i.hydro_calcium
 
             # try:
             #     calcium = i.sap_calcium
@@ -208,14 +208,14 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_cobalt-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        cobalt = float(i[sap_version])
+                        cobalt = i[sap_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        cobalt = float(i[hydro_version])
+                        cobalt = i[hydro_version]
             if found == False and hasattr(i,'sap_cobalt'):
-                cobalt = float(i.sap_cobalt.Result)
+                cobalt = i.sap_cobalt
             elif found == False and hasattr(i,'hydro_cobalt'):
-                cobalt = float(i.hydro_cobalt.Result)
+                cobalt = i.hydro_cobalt
 
             # try:
             #     cobalt = i.sap_cobalt
@@ -237,19 +237,19 @@ class ICPImportView(edit.DefaultEditForm):
                     drinking_version = 'drinking_copper-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        copper = float(i[sap_version])
+                        copper = i[sap_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        copper = float(i[hydro_version])
+                        copper = i[hydro_version]
                     elif hasattr(i,drinking_version):
                         found = True
-                        copper = float(i[drinking_version])
+                        copper = i[drinking_version]
             if found == False and hasattr(i,'sap_copper'):
-                copper = float(i.sap_copper.Result)
+                copper = i.sap_copper
             elif found == False and hasattr(i,'hydro_copper'):
-                copper = float(i.hydro_copper.Result)
+                copper = i.hydro_copper
             elif found == False and hasattr(i,'drinking_copper'):
-                copper = float(i.drinking_copper.Result)
+                copper = i.drinking_copper
 
             # ##Sap
             # try:
@@ -279,14 +279,14 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_iron-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        iron = float(i[sap_version])
+                        iron = i[sap_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        iron = float(i[hydro_version])
+                        iron = i[hydro_version]
             if found == False and hasattr(i,'sap_iron'):
-                iron = float(i.sap_iron.Result)
+                iron = i.sap_iron
             elif found == False and hasattr(i,'hydro_iron'):
-                iron = float(i.hydro_iron.Result)
+                iron = i.hydro_iron
 
             # try:
             #     iron = i.sap_iron
@@ -306,9 +306,9 @@ class ICPImportView(edit.DefaultEditForm):
                     drinking_version = 'drinking_lead-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        lead = float(i[sap_version])
+                        lead = i[sap_version]
             if found == False and hasattr(i,'drinking_lead'):
-                lead = float(i.drinking_lead.Result)
+                lead = i.drinking_lead
 
             # try:
             #     lead = i.drinking_lead
@@ -324,14 +324,14 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_magnesium-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        magnesium = float(i[sap_version])
+                        magnesium = i[sap_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        magnesium = float(i[hydro_version])
+                        magnesium = i[hydro_version]
             if found == False and hasattr(i,'sap_magnesium'):
-                magnesium = float(i.sap_magnesium.Result)
+                magnesium = i.sap_magnesium
             elif found == False and hasattr(i,'hydro_magnesium'):
-                magnesium = float(i.hydro_magnesium.Result)
+                magnesium = i.hydro_magnesium
 
             # try:
             #     magnesium = i.sap_magnesium
@@ -352,14 +352,14 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_manganese-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        manganese = float(i[sap_version])
+                        manganese = i[sap_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        manganese = float(i[hydro_version])
+                        manganese = i[hydro_version]
             if found == False and hasattr(i,'sap_manganese'):
-                manganese = float(i.sap_manganese.Result)
+                manganese = i.sap_manganese
             elif found == False and hasattr(i,'hydro_manganese'):
-                manganese = float(i.hydro_manganese.Result)
+                manganese = i.hydro_manganese
 
             # try:
             #     manganese = i.sap_manganese
@@ -380,14 +380,14 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_molybdenum-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        molybdenum = float(i[sap_version])
+                        molybdenum = i[sap_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        molybdenum = float(i[hydro_version])
+                        molybdenum = i[hydro_version]
             if found == False and hasattr(i,'sap_molybdenum'):
-                molybdenum = float(i.sap_molybdenum.Result)
+                molybdenum = i.sap_molybdenum
             elif found == False and hasattr(i,'hydro_molybdenum'):
-                molybdenum = float(i.hydro_molybdenum.Result)
+                molybdenum = i.hydro_molybdenum
 
             # try:
             #     molybdenum = i.sap_molybdenum
@@ -408,14 +408,14 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_nickel-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        nickel = float(i[sap_version])
+                        nickel = i[sap_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        nickel = float(i[hydro_version])
+                        nickel = i[hydro_version]
             if found == False and hasattr(i,'sap_nickel'):
-                nickel = float(i.sap_nickel.Result)
+                nickel = i.sap_nickel
             elif found == False and hasattr(i,'hydro_nickel'):
-                nickel = float(i.hydro_nickel.Result)
+                nickel = i.hydro_nickel
 
             # try:
             #     nickel = i.sap_nickel
@@ -436,14 +436,14 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_phosphorous-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        phosphorous = float(i[sap_version])
+                        phosphorous = i[sap_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        phosphorous = float(i[hydro_version])
+                        phosphorous = i[hydro_version]
             if found == False and hasattr(i,'sap_phosphorous'):
-                phosphorous = float(i.sap_phosphorous.Result)
+                phosphorous = i.sap_phosphorous
             elif found == False and hasattr(i,'hydro_phosphorous'):
-                phosphorous = float(i.hydro_phosphorous.Result)
+                phosphorous = i.hydro_phosphorous
 
             # try:
             #     phosphorous = i.sap_phosphorous
@@ -464,14 +464,14 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_potassium-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        potassium = float(i[sap_version])
+                        potassium = i[sap_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        potassium = float(i[hydro_version])
+                        potassium = i[hydro_version]
             if found == False and hasattr(i,'sap_potassium'):
-                potassium = float(i.sap_potassium.Result)
+                potassium = i.sap_potassium
             elif found == False and hasattr(i,'hydro_potassium'):
-                potassium = float(i.hydro_potassium.Result)
+                potassium = i.hydro_potassium
 
             # try:
             #     potassium = i.sap_potassium
@@ -492,14 +492,14 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_selenium-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        selenium = float(i[sap_version])
+                        selenium = i[sap_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        selenium = float(i[hydro_version])
+                        selenium = i[hydro_version]
             if found == False and hasattr(i,'sap_selenium'):
-                selenium = float(i.sap_selenium.Result)
+                selenium = i.sap_selenium
             elif found == False and hasattr(i,'hydro_selenium'):
-                selenium = float(i.hydro_selenium.Result)
+                selenium = i.hydro_selenium
 
             # try:
             #     selenium = i.sap_selenium
@@ -520,14 +520,14 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_silica-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        silica = float(i[sap_version])
+                        silica = i[sap_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        silica = float(i[hydro_version])
+                        silica = i[hydro_version]
             if found == False and hasattr(i,'sap_silica'):
-                silica = float(i.sap_silica.Result)
+                silica = i.sap_silica
             elif found == False and hasattr(i,'hydro_silica'):
-                silica = float(i.hydro_silica.Result)
+                silica = i.hydro_silica
 
             # try:
             #     silica = i.sap_silica
@@ -548,14 +548,14 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_sodium-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        sodium = float(i[sap_version])
+                        sodium = i[sap_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        sodium = float(i[hydro_version])
+                        sodium = i[hydro_version]
             if found == False and hasattr(i,'sap_sodium'):
-                sodium = float(i.sap_sodium.Result)
+                sodium = i.sap_sodium
             elif found == False and hasattr(i,'hydro_sodium'):
-                sodium = float(i.hydro_sodium.Result)
+                sodium = i.hydro_sodium
 
             # try:
             #     sodium = i.sap_sodium
@@ -576,14 +576,14 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_sulfur-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        sulfur = float(i[sap_version])
+                        sulfur = i[sap_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        sulfur = float(i[hydro_version])
+                        sulfur = i[hydro_version]
             if found == False and hasattr(i,'sap_sulfur'):
-                sulfur = float(i.sap_sulfur.Result)
+                sulfur = i.sap_sulfur
             elif found == False and hasattr(i,'hydro_sulfur'):
-                sulfur = float(i.hydro_sulfur.Result)
+                sulfur = i.hydro_sulfur
 
             # try:
             #     sulfur = i.sap_sulfur
@@ -604,14 +604,14 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_zinc-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        zinc = float(i[sap_version])
+                        zinc = i[sap_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        zinc = float(i[hydro_version])
+                        zinc = i[hydro_version]
             if found == False and hasattr(i,'sap_zinc'):
-                zinc = float(i.sap_zinc.Result)
+                zinc = i.sap_zinc
             elif found == False and hasattr(i,'hydro_zinc'):
-                zinc = float(i.hydro_zinc.Result)
+                zinc = i.hydro_zinc
 
             # try:
             #     zinc = i.sap_zinc
@@ -631,9 +631,9 @@ class ICPImportView(edit.DefaultEditForm):
                     sap_version = 'sap_kcaratio-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        sap_kcaratio = float(i[sap_version])
+                        sap_kcaratio = i[sap_version]
             if found == False and hasattr(i,'sap_kcaratio'):
-                sap_kcaratio = float(i.sap_kcaratio.Result)
+                sap_kcaratio = i.sap_kcaratio
 
             # try:
             #     sap_kcaratio = i.sap_kcaratio
@@ -833,8 +833,8 @@ class ICPImportView(edit.DefaultEditForm):
         #K/Ca Ratio
             if sap_kcaratio is not None and api.get_workflow_status_of(sap_kcaratio) in ['unassigned'] and potassium.Result is not None and calcium.Result is not None:
                 try:
-                    k_float = float(potassium.Result)
-                    ca_float = float(calcium.Result)
+                    k_float = potassium
+                    ca_float = calcium
                     sap_kcaratio.Result = unicode(k_float/ca_float)
                     sap_kcaratio.AnalysisDateTime = potassium.AnalysisDateTime or calcium.AnalysisDateTime
                     sap_kcaratio.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -845,8 +845,8 @@ class ICPImportView(edit.DefaultEditForm):
                 except ValueError:
                     print("--FLOAT CONVERSION ERROR--")
                     print("Sample is: {0}".format(i))
-                    print("Potassium is: {0}".format(potassium.Result))
-                    print("Calcium is: {0}".format(calcium.Result))
+                    print("Potassium is: {0}".format(potassium)
+                    print("Calcium is: {0}".format(calcium)
 
             if imported:
                 clean_ids.append(api.get_id(i))
@@ -920,8 +920,8 @@ class GalleryImportView(edit.DefaultEditForm):
                     sid = dirty_sample
                 #Result
                 try:
-                    float_result = float(row['Result'])
-                    float_dilution = float(dilution)
+                    float_result = row['Result'])
+                    float_dilution = dilution)
                 except ValueError:
                     float_result = None
                     float_dilution = None
@@ -1011,14 +1011,14 @@ class GalleryImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_ammonia-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        ammonium = float(i[sap_version])
+                        ammonium = i[sap_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        ammonium = float(i[hydro_version])
+                        ammonium = i[hydro_version]
             if found == False and hasattr(i,'sap_nitrogen_as_ammonium'):
-                ammonium = float(i.sap_nitrogen_as_ammonium.Result)
+                ammonium = i.sap_nitrogen_as_ammonium
             elif found == False and hasattr(i,'hydro_ammonia'):
-                ammonium = float(i.hydro_ammonia.Result)
+                ammonium = i.hydro_ammonia
 
             # try:
             #     ammonium = i.sap_nitrogen_as_ammonium
@@ -1038,9 +1038,9 @@ class GalleryImportView(edit.DefaultEditForm):
                     sap_version = 'sap_total_sugar-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        total_sugar = float(i[sap_version])
+                        total_sugar = i[sap_version]
             if found == False and hasattr(i,'sap_total_sugar'):
-                total_sugar = float(i.sap_total_sugar.Result)
+                total_sugar = i.sap_total_sugar
 
             # try:
             #     total_sugar = i.sap_total_sugar
@@ -1056,14 +1056,14 @@ class GalleryImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_chloride-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        chloride = float(i[sap_version])
+                        chloride = i[sap_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        chloride = float(i[hydro_version])
+                        chloride = i[hydro_version]
             if found == False and hasattr(i,'sap_chloride'):
-                chloride = float(i.sap_chloride.Result)
+                chloride = i.sap_chloride
             elif found == False and hasattr(i,'hydro_chloride'):
-                chloride = float(i.hydro_chloride.Result)
+                chloride = i.hydro_chloride
 
             # try:
             #     chloride = i.sap_chloride
@@ -1085,19 +1085,19 @@ class GalleryImportView(edit.DefaultEditForm):
                     drinking_version = 'drinking_nitrate-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        nitrate = float(i[sap_version])
+                        nitrate = i[sap_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        nitrate = float(i[hydro_version])
+                        nitrate = i[hydro_version]
                     elif hasattr(i,hydro_version):
                         found = True
-                        nitrate = float(i[drinking_version])
+                        nitrate = i[drinking_version]
             if found == False and hasattr(i,'sap_nitrate'):
-                nitrate = float(i.sap_nitrate.Result)
+                nitrate = i.sap_nitrate
             elif found == False and hasattr(i,'hydro_nitrate'):
-                nitrate = float(i.hydro_nitrate.Result)
+                nitrate = i.hydro_nitrate
             elif found == False and hasattr(i,'drinking_nitrate'):
-                nitrate = float(i.drinking_nitrate.Result)
+                nitrate = i.drinking_nitrate
 
             # try:
             #     nitrate = i.sap_nitrate
@@ -1122,9 +1122,9 @@ class GalleryImportView(edit.DefaultEditForm):
                     drinking_version = 'drinking_nitrite-'+str(j)
                     if hasattr(i,drinking_version):
                         found = True
-                        nitrite = float(i[drinking_version])
+                        nitrite = i[drinking_version]
             if found == False and hasattr(i,'drinking_nitrite'):
-                nitrite = float(i.drinking_nitrite.Result)
+                nitrite = i.drinking_nitrite
 
 
             # try:
@@ -1140,9 +1140,9 @@ class GalleryImportView(edit.DefaultEditForm):
                     sap_version = 'sap_nitrogen_as_nitrate-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        n_as_nitrate = float(i[sap_version])
+                        n_as_nitrate = i[sap_version]
             if found == False and hasattr(i,'sap_nitrogen_as_nitrate'):
-                n_as_nitrate = float(i.sap_nitrogen_as_nitrate.Result)
+                n_as_nitrate = i.sap_nitrogen_as_nitrate
 
 
             # try:
@@ -1240,10 +1240,10 @@ class GalleryImportView(edit.DefaultEditForm):
                 imported.append(True)
 
             #Nitrogen as Nitrate
-            # logger.info("N_as_Nitrate is {0}, Status is {1}, Nitrate Result is {2}".format(n_as_nitrate,api.get_workflow_status_of(n_as_nitrate),nitrate.Result))
+            # logger.info("N_as_Nitrate is {0}, Status is {1}, Nitrate Result is {2}".format(n_as_nitrate,api.get_workflow_status_of(n_as_nitrate),nitrate)
             # if n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned'] and nitrate.Result is not None and nitrate.Result != "":
             #     logger.info("Calculating Nitrogen as Nitrate for {0}".format(i))
-            #     nitrate_float = float(nitrate.Result)
+            #     nitrate_float = nitrate
             #     n_as_nitrate.Result = unicode(str(nitrate_float*4.43))
             #     n_as_nitrate.AnalysisDateTime = nitrate.AnalysisDateTime
             #     n_as_nitrate.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -1495,7 +1495,7 @@ class ECImportView(edit.DefaultEditForm):
             #TDS
             if hydro_tds is not None and api.get_workflow_status_of(hydro_tds)=='unassigned' and ec.Result is not None:
                 try:
-                    ec_float = float(ec.Result)
+                    ec_float = ec
                     hydro_tds.Result = unicode(ec_float*650)
                     hydro_tds.AnalysisDateTime = ec.AnalysisDateTime
                     hydro_tds.reindexObject(idxs=['Result','AnalysisDateTime'])
