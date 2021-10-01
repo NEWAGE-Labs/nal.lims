@@ -687,6 +687,8 @@ class ICPImportView(edit.DefaultEditForm):
                 aluminum.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')]['Test Date/Time'].values[0]
                 print("Reindexing Result and AnalysisDateTime")
                 aluminum.reindexObject(idxs=['Result','AnalysisDateTime'])
+                print("Result is {0}".format(aluminum.Result))
+                print("AnalysisDateTime is {0}".format(aluminum.AnalysisDateTime))
                 print("Checking if Submit is viable")
                 if [i for i in api.get_transitions_for(aluminum) if 'submit' in i.values()]:
                     print("Submitting")
