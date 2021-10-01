@@ -113,6 +113,7 @@ class ICPImportView(edit.DefaultEditForm):
         for i in import_samples:
             print('IMPORTING - Sample {0} ID: {1}'.format(i,api.get_id(i)))
             imported = []
+
             #Aluminum
             found = False
             aluminum = None
@@ -130,6 +131,8 @@ class ICPImportView(edit.DefaultEditForm):
                 aluminum = i.sap_aluminum
             elif found == False and hasattr(i,'hydro_aluminum'):
                 aluminum = i.hydro_aluminum
+
+            print('Aluminum is - {0}'.format(aluminum))
 
 
             # try:
@@ -160,6 +163,8 @@ class ICPImportView(edit.DefaultEditForm):
             elif found == False and hasattr(i,'hydro_boron'):
                 boron = i.hydro_boron
 
+            print('Boron is - {0}'.format(boron))
+
 
             # try:
             #     boron = i.sap_boron
@@ -189,6 +194,8 @@ class ICPImportView(edit.DefaultEditForm):
             elif found == False and hasattr(i,'hydro_calcium'):
                 calcium = i.hydro_calcium
 
+            print('Calcium is - {0}'.format(calcium))
+
             # try:
             #     calcium = i.sap_calcium
             # except AttributeError:
@@ -216,6 +223,8 @@ class ICPImportView(edit.DefaultEditForm):
                 cobalt = i.sap_cobalt
             elif found == False and hasattr(i,'hydro_cobalt'):
                 cobalt = i.hydro_cobalt
+
+            print('Cobalt is - {0}'.format(cobalt))
 
             # try:
             #     cobalt = i.sap_cobalt
@@ -250,6 +259,8 @@ class ICPImportView(edit.DefaultEditForm):
                 copper = i.hydro_copper
             elif found == False and hasattr(i,'drinking_copper'):
                 copper = i.drinking_copper
+
+            print('Copper is - {0}'.format(copper))
 
             # ##Sap
             # try:
@@ -288,6 +299,8 @@ class ICPImportView(edit.DefaultEditForm):
             elif found == False and hasattr(i,'hydro_iron'):
                 iron = i.hydro_iron
 
+            print('Iron is - {0}'.format(iron))
+
             # try:
             #     iron = i.sap_iron
             # except AttributeError:
@@ -309,6 +322,8 @@ class ICPImportView(edit.DefaultEditForm):
                         lead = i[sap_version]
             if found == False and hasattr(i,'drinking_lead'):
                 lead = i.drinking_lead
+
+            print('Lead is - {0}'.format(lead))
 
             # try:
             #     lead = i.drinking_lead
@@ -332,6 +347,8 @@ class ICPImportView(edit.DefaultEditForm):
                 magnesium = i.sap_magnesium
             elif found == False and hasattr(i,'hydro_magnesium'):
                 magnesium = i.hydro_magnesium
+
+            print('magnesium is - {0}'.format(magnesium))
 
             # try:
             #     magnesium = i.sap_magnesium
@@ -361,6 +378,8 @@ class ICPImportView(edit.DefaultEditForm):
             elif found == False and hasattr(i,'hydro_manganese'):
                 manganese = i.hydro_manganese
 
+            print('manganese is - {0}'.format(manganese))
+
             # try:
             #     manganese = i.sap_manganese
             # except AttributeError:
@@ -388,6 +407,8 @@ class ICPImportView(edit.DefaultEditForm):
                 molybdenum = i.sap_molybdenum
             elif found == False and hasattr(i,'hydro_molybdenum'):
                 molybdenum = i.hydro_molybdenum
+
+            print('molybdenum is - {0}'.format(molybdenum))
 
             # try:
             #     molybdenum = i.sap_molybdenum
@@ -417,6 +438,8 @@ class ICPImportView(edit.DefaultEditForm):
             elif found == False and hasattr(i,'hydro_nickel'):
                 nickel = i.hydro_nickel
 
+            print('nickel is - {0}'.format(nickel))
+
             # try:
             #     nickel = i.sap_nickel
             # except AttributeError:
@@ -444,6 +467,8 @@ class ICPImportView(edit.DefaultEditForm):
                 phosphorous = i.sap_phosphorous
             elif found == False and hasattr(i,'hydro_phosphorous'):
                 phosphorous = i.hydro_phosphorous
+
+            print('phosphorous is - {0}'.format(phosphorous))
 
             # try:
             #     phosphorous = i.sap_phosphorous
@@ -473,6 +498,8 @@ class ICPImportView(edit.DefaultEditForm):
             elif found == False and hasattr(i,'hydro_potassium'):
                 potassium = i.hydro_potassium
 
+            print('potassium is - {0}'.format(potassium))
+
             # try:
             #     potassium = i.sap_potassium
             # except AttributeError:
@@ -500,6 +527,8 @@ class ICPImportView(edit.DefaultEditForm):
                 selenium = i.sap_selenium
             elif found == False and hasattr(i,'hydro_selenium'):
                 selenium = i.hydro_selenium
+
+            print('selenium is - {0}'.format(selenium))
 
             # try:
             #     selenium = i.sap_selenium
@@ -529,6 +558,8 @@ class ICPImportView(edit.DefaultEditForm):
             elif found == False and hasattr(i,'hydro_silica'):
                 silica = i.hydro_silica
 
+            print('silica is - {0}'.format(silica))
+
             # try:
             #     silica = i.sap_silica
             # except AttributeError:
@@ -556,6 +587,8 @@ class ICPImportView(edit.DefaultEditForm):
                 sodium = i.sap_sodium
             elif found == False and hasattr(i,'hydro_sodium'):
                 sodium = i.hydro_sodium
+
+            print('sodium is - {0}'.format(sodium))
 
             # try:
             #     sodium = i.sap_sodium
@@ -585,6 +618,8 @@ class ICPImportView(edit.DefaultEditForm):
             elif found == False and hasattr(i,'hydro_sulfur'):
                 sulfur = i.hydro_sulfur
 
+            print('Sulfur is - {0}'.format(sulfur))
+
             # try:
             #     sulfur = i.sap_sulfur
             # except AttributeError:
@@ -613,6 +648,8 @@ class ICPImportView(edit.DefaultEditForm):
             elif found == False and hasattr(i,'hydro_zinc'):
                 zinc = i.hydro_zinc
 
+            print('Zinc is - {0}'.format(zinc))
+
             # try:
             #     zinc = i.sap_zinc
             # except AttributeError:
@@ -635,13 +672,16 @@ class ICPImportView(edit.DefaultEditForm):
             if found == False and hasattr(i,'sap_kcaratio'):
                 sap_kcaratio = i.sap_kcaratio
 
+            print('KCA is - {0}'.format(sap_kcaratio))
+
             # try:
             #     sap_kcaratio = i.sap_kcaratio
             # except AttributeError:
             #     sap_kcaratio = None
-
+            print("Importing Aluminum")
         #Aluminum
             if aluminum is not None and api.get_workflow_status_of(aluminum) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')].empty:
+                print("Importing Aluminum")
                 aluminum.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')]['Formatted Result'].values[0].strip(), "utf-8")
                 aluminum.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')]['Test Date/Time'].values[0]
                 aluminum.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -653,6 +693,7 @@ class ICPImportView(edit.DefaultEditForm):
                 imported.append(True)
         #Boron
             if boron is not None and api.get_workflow_status_of(boron) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')].empty:
+                print("Importing Boron")
                 boron.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')]['Formatted Result'].values[0].strip(), "utf-8")
                 boron.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')]['Test Date/Time'].values[0]
                 boron.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -664,6 +705,7 @@ class ICPImportView(edit.DefaultEditForm):
                 imported.append(True)
         #Calcium:
             if calcium  is not None and api.get_workflow_status_of(calcium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')].empty:
+                print("Importing Calcium")
                 calcium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Formatted Result'].values[0].strip(), "utf-8")
                 calcium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Test Date/Time'].values[0]
                 calcium.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -675,6 +717,7 @@ class ICPImportView(edit.DefaultEditForm):
                 imported.append(True)
         #Cobalt
             if cobalt is not None and api.get_workflow_status_of(cobalt) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')].empty:
+                print("Importing Cobalt")
                 cobalt.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')]['Formatted Result'].values[0].strip(), "utf-8")
                 cobalt.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')]['Test Date/Time'].values[0]
                 cobalt.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -686,6 +729,7 @@ class ICPImportView(edit.DefaultEditForm):
                 imported.append(True)
         #Copper
             if copper is not None and api.get_workflow_status_of(copper) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')].empty:
+                print("Importing Copper")
                 copper.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')]['Formatted Result'].values[0].strip(), "utf-8")
                 copper.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')]['Test Date/Time'].values[0]
                 copper.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -697,6 +741,7 @@ class ICPImportView(edit.DefaultEditForm):
                 imported.append(True)
         #Iron
             if iron is not None and api.get_workflow_status_of(iron) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')].empty:
+                print("Importing Iron")
                 iron.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')]['Formatted Result'].values[0].strip(), "utf-8")
                 iron.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')]['Test Date/Time'].values[0]
                 iron.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -708,6 +753,7 @@ class ICPImportView(edit.DefaultEditForm):
                 imported.append(True)
         #Lead
             if lead is not None and api.get_workflow_status_of(lead) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Pb')].empty:
+                print("Importing Lead")
                 lead.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Pb')]['Formatted Result'].values[0].strip(), "utf-8")
                 lead.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Pb')]['Test Date/Time'].values[0]
                 lead.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -719,6 +765,7 @@ class ICPImportView(edit.DefaultEditForm):
                 imported.append(True)
         #Magnesium
             if magnesium is not None and api.get_workflow_status_of(magnesium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')].empty:
+                print("Importing Magnesium")
                 magnesium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')]['Formatted Result'].values[0].strip(), "utf-8")
                 magnesium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')]['Test Date/Time'].values[0]
                 magnesium.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -730,6 +777,7 @@ class ICPImportView(edit.DefaultEditForm):
                 imported.append(True)
         #Manganese
             if manganese is not None and api.get_workflow_status_of(manganese) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')].empty:
+                print("Importing Manganese")
                 manganese.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')]['Formatted Result'].values[0].strip(), "utf-8")
                 manganese.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')]['Test Date/Time'].values[0]
                 manganese.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -741,6 +789,7 @@ class ICPImportView(edit.DefaultEditForm):
                 imported.append(True)
         #Molybdenum
             if molybdenum is not None and api.get_workflow_status_of(molybdenum) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')].empty:
+                print("Importing Molybdenum")
                 molybdenum.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')]['Formatted Result'].values[0].strip(), "utf-8")
                 molybdenum.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')]['Test Date/Time'].values[0]
                 molybdenum.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -752,6 +801,7 @@ class ICPImportView(edit.DefaultEditForm):
                 imported.append(True)
         #Nickel
             if nickel is not None and api.get_workflow_status_of(nickel) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')].empty:
+                print("Importing Nickel")
                 nickel.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')]['Formatted Result'].values[0].strip(), "utf-8")
                 nickel.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')]['Test Date/Time'].values[0]
                 nickel.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -763,6 +813,7 @@ class ICPImportView(edit.DefaultEditForm):
                 imported.append(True)
         #Phosphorus
             if phosphorous is not None and api.get_workflow_status_of(phosphorous) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')].empty:
+                print("Importing Phosphorus")
                 phosphorous.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Formatted Result'].values[0].strip(), "utf-8")
                 phosphorous.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Test Date/Time'].values[0]
                 phosphorous.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -774,6 +825,7 @@ class ICPImportView(edit.DefaultEditForm):
                 imported.append(True)
         #Potassium
             if potassium is not None and api.get_workflow_status_of(potassium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')].empty:
+                print("Importing Potassium")
                 print("Potassium should be: {0}".format(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]))
                 potassium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]['Formatted Result'].values[0].strip(), "utf-8")
                 potassium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]['Test Date/Time'].values[0]
@@ -786,6 +838,7 @@ class ICPImportView(edit.DefaultEditForm):
                 imported.append(True)
         #Selenium
             if selenium is not None and api.get_workflow_status_of(selenium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')].empty:
+                print("Importing Selenium")
                 selenium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')]['Formatted Result'].values[0].strip(), "utf-8")
                 selenium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')]['Test Date/Time'].values[0]
                 selenium.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -797,6 +850,7 @@ class ICPImportView(edit.DefaultEditForm):
                 imported.append(True)
         #Silica
             if silica is not None and api.get_workflow_status_of(silica) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')].empty:
+                print("Importing Silica")
                 silica.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')]['Formatted Result'].values[0].strip(), "utf-8")
                 silica.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')]['Test Date/Time'].values[0]
                 silica.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -808,6 +862,7 @@ class ICPImportView(edit.DefaultEditForm):
                 imported.append(True)
         #Sodium
             if sodium is not None and api.get_workflow_status_of(sodium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')].empty:
+                print("Importing Sodium")
                 sodium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')]['Formatted Result'].values[0].strip(), "utf-8")
                 sodium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')]['Test Date/Time'].values[0]
                 sodium.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -819,6 +874,7 @@ class ICPImportView(edit.DefaultEditForm):
                 imported.append(True)
         #Sulfur
             if sulfur is not None and api.get_workflow_status_of(sulfur) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')].empty:
+                print("Importing Sulfur")
                 sulfur.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')]['Formatted Result'].values[0].strip(), "utf-8")
                 sulfur.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')]['Test Date/Time'].values[0]
                 sulfur.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -830,6 +886,7 @@ class ICPImportView(edit.DefaultEditForm):
                 imported.append(True)
         #Zinc
             if zinc is not None and api.get_workflow_status_of(zinc) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')].empty:
+                print("Importing Zinc")
                 zinc.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')]['Formatted Result'].values[0].strip(), "utf-8")
                 zinc.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')]['Test Date/Time'].values[0]
                 zinc.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -842,6 +899,7 @@ class ICPImportView(edit.DefaultEditForm):
 
         #K/Ca Ratio
             if sap_kcaratio is not None and api.get_workflow_status_of(sap_kcaratio) in ['unassigned'] and potassium.Result is not None and calcium.Result is not None:
+                print("Importing KCA")
                 try:
                     k_float = float(potassium.Result)
                     ca_float = float(calcium.Result)
