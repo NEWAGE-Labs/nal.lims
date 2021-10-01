@@ -114,11 +114,11 @@ class SDGCSVExportView(BrowserView):
                         ec = ''
                     else:
                         ec = float(i.sap_ec.Result)
-
-                if ec <= 0.01:
-                    ec = -0.01
-                else:
-                    ec = round(ec, 3-int(floor(log10(abs(ec))))-1)
+                if ec != '':
+                    if ec <= 0.01:
+                        ec = -0.01
+                    else:
+                        ec = round(ec, 3-int(floor(log10(abs(ec))))-1)
 
                 export_dict[cols[11]].append(ec)
 
@@ -330,10 +330,11 @@ class SDGCSVExportView(BrowserView):
                     else:
                         ph = float(i.sap_ph.Result)
 
-                if ph <= 0.01:
-                    ph = -0.01
-                else:
-                    ph = round(ph, 3-int(floor(log10(abs(ph))))-1)
+                if ph != '':
+                    if ph <= 0.01:
+                        ph = -0.01
+                    else:
+                        ph = round(ph, 3-int(floor(log10(abs(ph))))-1)
 
                 export_dict[cols[22]].append(ph)
 
