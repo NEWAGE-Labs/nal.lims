@@ -91,7 +91,7 @@ class SDGCSVExportView(BrowserView):
                 if CSID is None:
                     CSID = ''
                 export_dict[cols[9]].append(CSID)
-                
+
                 newold = 'old'
                 if i.NewLeaf is True:
                     newold = 'new'
@@ -103,11 +103,17 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_ec-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
-                            ec = float(i[version].Result)
+                            if i[version].Result is None:
+                                ec = ''
+                            else:
+                                ec = float(i[version].Result)
                 if found == False and hasattr(i,'sap_ec'):
-                    ec = float(i.sap_ec.Result)
+                    if i.sap_ec.Result is None:
+                        ec = ''
+                    else:
+                        ec = float(i.sap_ec.Result)
 
                 if ec <= 0.01:
                     ec = -0.01
@@ -122,7 +128,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_phosphorous-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             phosphorus = float(i[version].Result)
                 if found == False and hasattr(i,'sap_phosphorous'):
@@ -141,7 +147,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_calcium-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             calcium = float(i[version].Result)
                 if found == False and hasattr(i,'sap_calcium'):
@@ -160,7 +166,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_manganese-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             manganese = float(i[version].Result)
                 if found == False and hasattr(i,'sap_manganese'):
@@ -179,7 +185,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_zinc-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             zinc = float(i[version].Result)
                 if found == False and hasattr(i,'sap_zinc'):
@@ -198,7 +204,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_sulfur-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             sulfur = float(i[version].Result)
                 if found == False and hasattr(i,'sap_sulfur'):
@@ -217,7 +223,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_copper-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             copper = float(i[version].Result)
                 if found == False and hasattr(i,'sap_copper'):
@@ -236,7 +242,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_magnesium-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             magnesium = float(i[version].Result)
                 if found == False and hasattr(i,'sap_magnesium'):
@@ -255,7 +261,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_iron-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             iron = float(i[version].Result)
                 if found == False and hasattr(i,'sap_iron'):
@@ -274,7 +280,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_boron-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             boron = float(i[version].Result)
                 if found == False and hasattr(i,'sap_boron'):
@@ -293,7 +299,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_brix-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             brix = float(i[version].Result)
                 if found == False and hasattr(i,'sap_brix'):
@@ -312,11 +318,17 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_ph-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
-                            ph = float(i[version].Result)
+                            if i[version].Result is None:
+                                ph = ''
+                            else:
+                                ph = float(i[version].Result)
                 if found == False and hasattr(i,'sap_ph'):
-                    ph = float(i.sap_ph.Result)
+                    if i.sap_ph.Result is None:
+                        ph = ''
+                    else:
+                        ph = float(i.sap_ph.Result)
 
                 if ph <= 0.01:
                     ph = -0.01
@@ -331,7 +343,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_chloride-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             manganese = float(i[version].Result)
                 if found == False and hasattr(i,'sap_chloride'):
@@ -350,7 +362,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_sodium-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             sodium = float(i[version].Result)
                 if found == False and hasattr(i,'sap_sodium'):
@@ -369,7 +381,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_silica-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             silica = float(i[version].Result)
                 if found == False and hasattr(i,'sap_silica'):
@@ -388,7 +400,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_aluminum-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             aluminium = float(i[version].Result)
                 if found == False and hasattr(i,'sap_aluminum'):
@@ -407,7 +419,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_cobalt-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             cobalt = float(i[version].Result)
                 if found == False and hasattr(i,'sap_cobalt'):
@@ -426,7 +438,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_molybdenum-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             molybdenum = float(i[version].Result)
                 if found == False and hasattr(i,'sap_molybdenum'):
@@ -445,7 +457,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_nitrogen_as_ammonium-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             n_nh4 = float(i[version].Result)
                 if found == False and hasattr(i,'sap_nitrogen_as_ammonium'):
@@ -464,7 +476,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_total_nitrogen-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             tn = float(i[version].Result)
                 if found == False and hasattr(i,'sap_total_nitrogen'):
@@ -483,7 +495,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_total_sugar-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             ts = float(i[version].Result)
                 if found == False and hasattr(i,'sap_total_sugar'):
@@ -502,7 +514,7 @@ class SDGCSVExportView(BrowserView):
                 # for j in range(20, 0, -1):
                 #     if found==False:
                 #         version = 'sap_manganese-'+str(j)
-                #         if hasattr(i,version):
+                #         if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                 #             found = True
                 #             manganese = float(i[version].Result)
                 # if found == False and hasattr(i,'sap_manganese'):
@@ -519,7 +531,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_nitrogen_as_nitrate-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             n_no3 = float(i[version].Result)
                 if found == False and hasattr(i,'sap_nitrogen_as_nitrate'):
@@ -538,7 +550,7 @@ class SDGCSVExportView(BrowserView):
                 for j in range(20, 0, -1):
                     if found==False:
                         version = 'sap_kcaratio-'+str(j)
-                        if hasattr(i,version):
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
                             found = True
                             kca = float(i[version].Result)
                 if found == False and hasattr(i,'sap_kcaratio'):
