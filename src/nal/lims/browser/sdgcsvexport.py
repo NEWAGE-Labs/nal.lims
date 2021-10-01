@@ -110,7 +110,7 @@ class SDGCSVExportView(BrowserView):
                             else:
                                 ec = float(i[version].Result)
                 if found == False and hasattr(i,'sap_ec'):
-                    if i.sap_ec.Result is None:
+                    if i.sap_ec.Result is None or i.sap_ec.Result == '':
                         ec = ''
                     else:
                         ec = float(i.sap_ec.Result)
@@ -325,7 +325,7 @@ class SDGCSVExportView(BrowserView):
                             else:
                                 ph = float(i[version].Result)
                 if found == False and hasattr(i,'sap_ph'):
-                    if i.sap_ph.Result is None:
+                    if i.sap_ph.Result is None or i.sap_ph.Result == '':
                         ph = ''
                     else:
                         ph = float(i.sap_ph.Result)
