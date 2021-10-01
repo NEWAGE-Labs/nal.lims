@@ -951,7 +951,7 @@ class ICPImportView(edit.DefaultEditForm):
                 zinc.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')]['Formatted Result'].values[0].strip(), "utf-8")
                 zinc.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')]['Test Date/Time'].values[0]
                 zinc.reindexObject(idxs=['Result','AnalysisDateTime'])
-                if [j for j in api.get_transitions_for(nickel) if 'submit' in j.values()]:
+                if [j for j in api.get_transitions_for(zinc) if 'submit' in j.values()]:
                     try:
                         api.do_transition_for(zinc, "submit")
                     except AttributeError:
