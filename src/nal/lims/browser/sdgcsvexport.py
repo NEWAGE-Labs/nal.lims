@@ -86,7 +86,12 @@ class SDGCSVExportView(BrowserView):
                     location = ''
                 export_dict[cols[7]].append(location)
                 export_dict[cols[8]].append(i.PlantType)
-                export_dict[cols[9]].append(i.getClientSampleID())
+
+                CSID = i.getClientSampleID()
+                if CSID is None:
+                    CSID = ''
+                export_dict[cols[9]].append(CSID)
+                
                 newold = 'old'
                 if i.NewLeaf is True:
                     newold = 'new'
