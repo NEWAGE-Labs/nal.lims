@@ -693,7 +693,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if [i for i in api.get_transitions_for(aluminum) if 'submit' in i.values()]:
                     print("Submitting")
                     try:
-                        aluminum = api.do_transition_for(aluminum, "submit")
+                        api.do_transition_for(aluminum, "submit")
                     except AttributeError:
                         pass
                 print("Checking for Analyst")
