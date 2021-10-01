@@ -678,7 +678,6 @@ class ICPImportView(edit.DefaultEditForm):
             #     sap_kcaratio = i.sap_kcaratio
             # except AttributeError:
             #     sap_kcaratio = None
-            print("Importing Aluminum")
         #Aluminum
             if aluminum is not None and api.get_workflow_status_of(aluminum) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')].empty:
                 print("Importing Aluminum")
