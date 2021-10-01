@@ -711,7 +711,10 @@ class ICPImportView(edit.DefaultEditForm):
                 boron.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')]['Test Date/Time'].values[0]
                 boron.reindexObject(idxs=['Result','AnalysisDateTime'])
                 if [j for j in api.get_transitions_for(boron) if 'submit' in j.values()]:
-                    api.do_transition_for(boron, "submit")
+                    try:
+                        api.do_transition_for(boron, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')]['Analyst'].empty:
                     boron.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')]['Analyst'].values[0]
                     boron.reindexObject(idxs=['Analyst'])
@@ -723,7 +726,10 @@ class ICPImportView(edit.DefaultEditForm):
                 calcium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Test Date/Time'].values[0]
                 calcium.reindexObject(idxs=['Result','AnalysisDateTime'])
                 if [j for j in api.get_transitions_for(calcium) if 'submit' in j.values()]:
-                    api.do_transition_for(calcium, "submit")
+                    try:
+                        api.do_transition_for(aluminum, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Analyst'].empty:
                     calcium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Analyst'].values[0]
                     calcium.reindexObject(idxs=['Analyst'])
@@ -735,7 +741,10 @@ class ICPImportView(edit.DefaultEditForm):
                 cobalt.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')]['Test Date/Time'].values[0]
                 cobalt.reindexObject(idxs=['Result','AnalysisDateTime'])
                 if [j for j in api.get_transitions_for(cobalt) if 'submit' in j.values()]:
-                    api.do_transition_for(cobalt, "submit")
+                    try:
+                        api.do_transition_for(cobalt, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')]['Analyst'].empty:
                     cobalt.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')]['Analyst'].values[0]
                     cobalt.reindexObject(idxs=['Analyst'])
@@ -747,7 +756,10 @@ class ICPImportView(edit.DefaultEditForm):
                 copper.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')]['Test Date/Time'].values[0]
                 copper.reindexObject(idxs=['Result','AnalysisDateTime'])
                 if [j for j in api.get_transitions_for(copper) if 'submit' in j.values()]:
-                    api.do_transition_for(copper, "submit")
+                    try:
+                        api.do_transition_for(copper, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')]['Analyst'].empty:
                     copper.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')]['Analyst'].values[0]
                     copper.reindexObject(idxs=['Analyst'])
@@ -759,7 +771,10 @@ class ICPImportView(edit.DefaultEditForm):
                 iron.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')]['Test Date/Time'].values[0]
                 iron.reindexObject(idxs=['Result','AnalysisDateTime'])
                 if [j for j in api.get_transitions_for(iron) if 'submit' in j.values()]:
-                    api.do_transition_for(iron, "submit")
+                    try:
+                        api.do_transition_for(iron, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')]['Analyst'].empty:
                     iron.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')]['Analyst'].values[0]
                     iron.reindexObject(idxs=['Analyst'])
@@ -771,7 +786,10 @@ class ICPImportView(edit.DefaultEditForm):
                 lead.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Pb')]['Test Date/Time'].values[0]
                 lead.reindexObject(idxs=['Result','AnalysisDateTime'])
                 if [j for j in api.get_transitions_for(lead) if 'submit' in j.values()]:
-                    api.do_transition_for(lead, "submit")
+                    try:
+                        api.do_transition_for(lead, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Pb')]['Analyst'].empty:
                     lead.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Pb')]['Analyst'].values[0]
                     lead.reindexObject(idxs=['Analyst'])
@@ -783,7 +801,10 @@ class ICPImportView(edit.DefaultEditForm):
                 magnesium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')]['Test Date/Time'].values[0]
                 magnesium.reindexObject(idxs=['Result','AnalysisDateTime'])
                 if [j for j in api.get_transitions_for(magnesium) if 'submit' in j.values()]:
-                    api.do_transition_for(magnesium, "submit")
+                    try:
+                        api.do_transition_for(magnesium, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')]['Analyst'].empty:
                     magnesium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')]['Analyst'].values[0]
                     magnesium.reindexObject(idxs=['Analyst'])
@@ -795,7 +816,10 @@ class ICPImportView(edit.DefaultEditForm):
                 manganese.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')]['Test Date/Time'].values[0]
                 manganese.reindexObject(idxs=['Result','AnalysisDateTime'])
                 if [j for j in api.get_transitions_for(manganese) if 'submit' in j.values()]:
-                    api.do_transition_for(manganese, "submit")
+                    try:
+                        api.do_transition_for(manganese, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')]['Analyst'].empty:
                     manganese.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')]['Analyst'].values[0]
                     manganese.reindexObject(idxs=['Analyst'])
@@ -807,7 +831,10 @@ class ICPImportView(edit.DefaultEditForm):
                 molybdenum.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')]['Test Date/Time'].values[0]
                 molybdenum.reindexObject(idxs=['Result','AnalysisDateTime'])
                 if [j for j in api.get_transitions_for(molybdenum) if 'submit' in j.values()]:
-                    api.do_transition_for(molybdenum, "submit")
+                    try:
+                        api.do_transition_for(molybdenum, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')]['Analyst'].empty:
                     molybdenum.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')]['Analyst'].values[0]
                     molybdenum.reindexObject(idxs=['Analyst'])
@@ -819,7 +846,10 @@ class ICPImportView(edit.DefaultEditForm):
                 nickel.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')]['Test Date/Time'].values[0]
                 nickel.reindexObject(idxs=['Result','AnalysisDateTime'])
                 if [j for j in api.get_transitions_for(nickel) if 'submit' in j.values()]:
-                    api.do_transition_for(nickel, "submit")
+                    try:
+                        api.do_transition_for(nickel, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')]['Analyst'].empty:
                     nickel.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')]['Analyst'].values[0]
                     nickel.reindexObject(idxs=['Analyst'])
@@ -831,7 +861,10 @@ class ICPImportView(edit.DefaultEditForm):
                 phosphorous.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Test Date/Time'].values[0]
                 phosphorous.reindexObject(idxs=['Result','AnalysisDateTime'])
                 if [j for j in api.get_transitions_for(phosphorous) if 'submit' in j.values()]:
-                    api.do_transition_for(phosphorous, "submit")
+                    try:
+                        api.do_transition_for(phosphorous, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Analyst'].empty:
                     phosphorous.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Analyst'].values[0]
                     phosphorous.reindexObject(idxs=['Analyst'])
@@ -844,7 +877,10 @@ class ICPImportView(edit.DefaultEditForm):
                 potassium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]['Test Date/Time'].values[0]
                 potassium.reindexObject(idxs=['Result','AnalysisDateTime'])
                 if [j for j in api.get_transitions_for(potassium) if 'submit' in j.values()]:
-                    api.do_transition_for(potassium, "submit")
+                    try:
+                        api.do_transition_for(potassium, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]['Analyst'].empty:
                     potassium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]['Analyst'].values[0]
                     potassium.reindexObject(idxs=['Analyst'])
@@ -856,7 +892,10 @@ class ICPImportView(edit.DefaultEditForm):
                 selenium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')]['Test Date/Time'].values[0]
                 selenium.reindexObject(idxs=['Result','AnalysisDateTime'])
                 if [j for j in api.get_transitions_for(selenium) if 'submit' in j.values()]:
-                    api.do_transition_for(selenium, "submit")
+                    try:
+                        api.do_transition_for(selenium, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')]['Analyst'].empty:
                     selenium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')]['Analyst'].values[0]
                     selenium.reindexObject(idxs=['Analyst'])
@@ -868,7 +907,10 @@ class ICPImportView(edit.DefaultEditForm):
                 silica.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')]['Test Date/Time'].values[0]
                 silica.reindexObject(idxs=['Result','AnalysisDateTime'])
                 if [j for j in api.get_transitions_for(silica) if 'submit' in j.values()]:
-                    api.do_transition_for(silica, "submit")
+                    try:
+                        api.do_transition_for(silica, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')]['Analyst'].empty:
                     silica.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')]['Analyst'].values[0]
                     silica.reindexObject(idxs=['Analyst'])
@@ -880,7 +922,10 @@ class ICPImportView(edit.DefaultEditForm):
                 sodium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')]['Test Date/Time'].values[0]
                 sodium.reindexObject(idxs=['Result','AnalysisDateTime'])
                 if [j for j in api.get_transitions_for(sodium) if 'submit' in j.values()]:
-                    api.do_transition_for(sodium, "submit")
+                    try:
+                        api.do_transition_for(sodium, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')]['Analyst'].empty:
                     sodium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')]['Analyst'].values[0]
                     sodium.reindexObject(idxs=['Analyst'])
@@ -892,7 +937,10 @@ class ICPImportView(edit.DefaultEditForm):
                 sulfur.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')]['Test Date/Time'].values[0]
                 sulfur.reindexObject(idxs=['Result','AnalysisDateTime'])
                 if [j for j in api.get_transitions_for(sulfur) if 'submit' in j.values()]:
-                    api.do_transition_for(sulfur, "submit")
+                    try:
+                        api.do_transition_for(sulfur, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')]['Analyst'].empty:
                     sulfur.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')]['Analyst'].values[0]
                     sulfur.reindexObject(idxs=['Analyst'])
@@ -904,7 +952,10 @@ class ICPImportView(edit.DefaultEditForm):
                 zinc.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')]['Test Date/Time'].values[0]
                 zinc.reindexObject(idxs=['Result','AnalysisDateTime'])
                 if [j for j in api.get_transitions_for(nickel) if 'submit' in j.values()]:
-                    api.do_transition_for(nickel, "submit")
+                    try:
+                        api.do_transition_for(zinc, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')]['Analyst'].empty:
                     zinc.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')]['Analyst'].values[0]
                     zinc.reindexObject(idxs=['Analyst'])
@@ -920,7 +971,10 @@ class ICPImportView(edit.DefaultEditForm):
                     sap_kcaratio.AnalysisDateTime = potassium.AnalysisDateTime or calcium.AnalysisDateTime
                     sap_kcaratio.reindexObject(idxs=['Result','AnalysisDateTime'])
                     if [j for j in api.get_transitions_for(sap_kcaratio) if 'submit' in j.values()]:
-                        api.do_transition_for(sap_kcaratio, "submit")
+                        try:
+                            api.do_transition_for(sap_kcaratio, "submit")
+                        except AttributeError:
+                            pass
                     sap_kcaratio.Analyst = potassium.Analyst or calcium.Analyst
                     sap_kcaratio.reindexObject(idxs=['Analyst'])
                     imported.append(True)
