@@ -681,14 +681,23 @@ class ICPImportView(edit.DefaultEditForm):
         #Aluminum
             if aluminum is not None and api.get_workflow_status_of(aluminum) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')].empty:
                 print("Importing Aluminum")
+                print("Obtaining Result")
                 aluminum.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')]['Formatted Result'].values[0].strip(), "utf-8")
+                print("Obtaining Date/Time")
                 aluminum.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')]['Test Date/Time'].values[0]
+                print("Reindexing Result and AnalysisDateTime")
                 aluminum.reindexObject(idxs=['Result','AnalysisDateTime'])
+                print("Checking if Submit is viable")
                 if [i for i in api.get_transitions_for(aluminum) if 'submit' in i.values()]:
+                    print("Submitting")
                     aluminum = api.do_transition_for(aluminum, "submit")
+                print("Checking for Analyst")
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')]['Analyst'].empty:
+                    print("Obtaining Analyst")
                     aluminum.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')]['Analyst'].values[0]
+                    print("Reindexing Analyst")
                     aluminum.reindexObject(idxs=['Analyst'])
+                print("Setting Imported to True")
                 imported.append(True)
         #Boron
             if boron is not None and api.get_workflow_status_of(boron) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')].empty:
