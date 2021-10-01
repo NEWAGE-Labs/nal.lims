@@ -122,10 +122,10 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_aluminum-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        aluminum = float(i[sap_version].Result)
+                        aluminum = float(i[sap_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        aluminum = float(i[hydro_version].Result)
+                        aluminum = float(i[hydro_version])
             if found == False and hasattr(i,'sap_aluminum'):
                 aluminum = float(i.sap_aluminum.Result)
             elif found == False and hasattr(i,'hydro_aluminum'):
@@ -151,10 +151,10 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_boron-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        boron = float(i[sap_version].Result)
+                        boron = float(i[sap_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        boron = float(i[hydro_version].Result)
+                        boron = float(i[hydro_version])
             if found == False and hasattr(i,'sap_boron'):
                 boron = float(i.sap_boron.Result)
             elif found == False and hasattr(i,'hydro_boron'):
@@ -180,10 +180,10 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_calcium-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        calcium = float(i[sap_version].Result)
+                        calcium = float(i[sap_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        calcium = float(i[hydro_version].Result)
+                        calcium = float(i[hydro_version])
             if found == False and hasattr(i,'sap_calcium'):
                 calcium = float(i.sap_calcium.Result)
             elif found == False and hasattr(i,'hydro_calcium'):
@@ -208,10 +208,10 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_cobalt-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        cobalt = float(i[sap_version].Result)
+                        cobalt = float(i[sap_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        cobalt = float(i[hydro_version].Result)
+                        cobalt = float(i[hydro_version])
             if found == False and hasattr(i,'sap_cobalt'):
                 cobalt = float(i.sap_cobalt.Result)
             elif found == False and hasattr(i,'hydro_cobalt'):
@@ -237,13 +237,13 @@ class ICPImportView(edit.DefaultEditForm):
                     drinking_version = 'drinking_copper-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        copper = float(i[sap_version].Result)
+                        copper = float(i[sap_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        copper = float(i[hydro_version].Result)
+                        copper = float(i[hydro_version])
                     elif hasattr(i,drinking_version):
                         found = True
-                        copper = float(i[drinking_version].Result)
+                        copper = float(i[drinking_version])
             if found == False and hasattr(i,'sap_copper'):
                 copper = float(i.sap_copper.Result)
             elif found == False and hasattr(i,'hydro_copper'):
@@ -279,10 +279,10 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_iron-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        iron = float(i[sap_version].Result)
+                        iron = float(i[sap_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        iron = float(i[hydro_version].Result)
+                        iron = float(i[hydro_version])
             if found == False and hasattr(i,'sap_iron'):
                 iron = float(i.sap_iron.Result)
             elif found == False and hasattr(i,'hydro_iron'):
@@ -306,7 +306,7 @@ class ICPImportView(edit.DefaultEditForm):
                     drinking_version = 'drinking_lead-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        lead = float(i[sap_version].Result)
+                        lead = float(i[sap_version])
             if found == False and hasattr(i,'drinking_lead'):
                 lead = float(i.drinking_lead.Result)
 
@@ -324,10 +324,10 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_magnesium-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        magnesium = float(i[sap_version].Result)
+                        magnesium = float(i[sap_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        magnesium = float(i[hydro_version].Result)
+                        magnesium = float(i[hydro_version])
             if found == False and hasattr(i,'sap_magnesium'):
                 magnesium = float(i.sap_magnesium.Result)
             elif found == False and hasattr(i,'hydro_magnesium'):
@@ -352,10 +352,10 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_manganese-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        manganese = float(i[sap_version].Result)
+                        manganese = float(i[sap_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        manganese = float(i[hydro_version].Result)
+                        manganese = float(i[hydro_version])
             if found == False and hasattr(i,'sap_manganese'):
                 manganese = float(i.sap_manganese.Result)
             elif found == False and hasattr(i,'hydro_manganese'):
@@ -380,10 +380,10 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_molybdenum-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        molybdenum = float(i[sap_version].Result)
+                        molybdenum = float(i[sap_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        molybdenum = float(i[hydro_version].Result)
+                        molybdenum = float(i[hydro_version])
             if found == False and hasattr(i,'sap_molybdenum'):
                 molybdenum = float(i.sap_molybdenum.Result)
             elif found == False and hasattr(i,'hydro_molybdenum'):
@@ -408,10 +408,10 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_nickel-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        nickel = float(i[sap_version].Result)
+                        nickel = float(i[sap_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        nickel = float(i[hydro_version].Result)
+                        nickel = float(i[hydro_version])
             if found == False and hasattr(i,'sap_nickel'):
                 nickel = float(i.sap_nickel.Result)
             elif found == False and hasattr(i,'hydro_nickel'):
@@ -436,10 +436,10 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_phosphorous-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        phosphorous = float(i[sap_version].Result)
+                        phosphorous = float(i[sap_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        phosphorous = float(i[hydro_version].Result)
+                        phosphorous = float(i[hydro_version])
             if found == False and hasattr(i,'sap_phosphorous'):
                 phosphorous = float(i.sap_phosphorous.Result)
             elif found == False and hasattr(i,'hydro_phosphorous'):
@@ -464,10 +464,10 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_potassium-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        potassium = float(i[sap_version].Result)
+                        potassium = float(i[sap_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        potassium = float(i[hydro_version].Result)
+                        potassium = float(i[hydro_version])
             if found == False and hasattr(i,'sap_potassium'):
                 potassium = float(i.sap_potassium.Result)
             elif found == False and hasattr(i,'hydro_potassium'):
@@ -492,10 +492,10 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_selenium-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        selenium = float(i[sap_version].Result)
+                        selenium = float(i[sap_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        selenium = float(i[hydro_version].Result)
+                        selenium = float(i[hydro_version])
             if found == False and hasattr(i,'sap_selenium'):
                 selenium = float(i.sap_selenium.Result)
             elif found == False and hasattr(i,'hydro_selenium'):
@@ -520,10 +520,10 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_silica-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        silica = float(i[sap_version].Result)
+                        silica = float(i[sap_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        silica = float(i[hydro_version].Result)
+                        silica = float(i[hydro_version])
             if found == False and hasattr(i,'sap_silica'):
                 silica = float(i.sap_silica.Result)
             elif found == False and hasattr(i,'hydro_silica'):
@@ -548,10 +548,10 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_sodium-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        sodium = float(i[sap_version].Result)
+                        sodium = float(i[sap_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        sodium = float(i[hydro_version].Result)
+                        sodium = float(i[hydro_version])
             if found == False and hasattr(i,'sap_sodium'):
                 sodium = float(i.sap_sodium.Result)
             elif found == False and hasattr(i,'hydro_sodium'):
@@ -576,10 +576,10 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_sulfur-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        sulfur = float(i[sap_version].Result)
+                        sulfur = float(i[sap_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        sulfur = float(i[hydro_version].Result)
+                        sulfur = float(i[hydro_version])
             if found == False and hasattr(i,'sap_sulfur'):
                 sulfur = float(i.sap_sulfur.Result)
             elif found == False and hasattr(i,'hydro_sulfur'):
@@ -604,10 +604,10 @@ class ICPImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_zinc-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        zinc = float(i[sap_version].Result)
+                        zinc = float(i[sap_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        zinc = float(i[hydro_version].Result)
+                        zinc = float(i[hydro_version])
             if found == False and hasattr(i,'sap_zinc'):
                 zinc = float(i.sap_zinc.Result)
             elif found == False and hasattr(i,'hydro_zinc'):
@@ -631,7 +631,7 @@ class ICPImportView(edit.DefaultEditForm):
                     sap_version = 'sap_kcaratio-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        sap_kcaratio = float(i[sap_version].Result)
+                        sap_kcaratio = float(i[sap_version])
             if found == False and hasattr(i,'sap_kcaratio'):
                 sap_kcaratio = float(i.sap_kcaratio.Result)
 
@@ -641,7 +641,7 @@ class ICPImportView(edit.DefaultEditForm):
             #     sap_kcaratio = None
 
         #Aluminum
-            if aluminum is not None and api.get_workflow_status_of(aluminum) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')].empty:
+            if aluminum is not None and api.get_workflow_status_of(aluminum) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')].empty:
                 aluminum.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')]['Formatted Result'].values[0].strip(), "utf-8")
                 aluminum.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')]['Test Date/Time'].values[0]
                 aluminum.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -651,7 +651,7 @@ class ICPImportView(edit.DefaultEditForm):
                     aluminum.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Boron
-            if boron is not None and api.get_workflow_status_of(boron) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')].empty:
+            if boron is not None and api.get_workflow_status_of(boron) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')].empty:
                 boron.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')]['Formatted Result'].values[0].strip(), "utf-8")
                 boron.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')]['Test Date/Time'].values[0]
                 boron.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -668,7 +668,7 @@ class ICPImportView(edit.DefaultEditForm):
             # print("Dataframe cell by loc is: {0}".format(filtered_df.loc((filtered_df['Sample Name']==api.get_id(i)),['Formatted Result'])))
             # print("Dataframe cell is: {0}".format(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Formatted Result']))
             # print("Dataframe value is: {0}".format(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Formatted Result'].values))
-            if calcium  is not None and api.get_workflow_status_of(calcium) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')].empty:
+            if calcium  is not None and api.get_workflow_status_of(calcium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')].empty:
                 # print("Calcium should be: {0}".format(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]))
                 calcium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Formatted Result'].values[0].strip(), "utf-8")
                 calcium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Test Date/Time'].values[0]
@@ -679,7 +679,7 @@ class ICPImportView(edit.DefaultEditForm):
                     calcium.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Cobalt
-            if cobalt is not None and api.get_workflow_status_of(cobalt) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')].empty:
+            if cobalt is not None and api.get_workflow_status_of(cobalt) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')].empty:
                 cobalt.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')]['Formatted Result'].values[0].strip(), "utf-8")
                 cobalt.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')]['Test Date/Time'].values[0]
                 cobalt.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -689,7 +689,7 @@ class ICPImportView(edit.DefaultEditForm):
                     cobalt.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Copper
-            if copper is not None and api.get_workflow_status_of(copper) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')].empty:
+            if copper is not None and api.get_workflow_status_of(copper) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')].empty:
                 copper.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')]['Formatted Result'].values[0].strip(), "utf-8")
                 copper.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')]['Test Date/Time'].values[0]
                 copper.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -699,7 +699,7 @@ class ICPImportView(edit.DefaultEditForm):
                     copper.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Iron
-            if iron is not None and api.get_workflow_status_of(iron) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')].empty:
+            if iron is not None and api.get_workflow_status_of(iron) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')].empty:
                 iron.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')]['Formatted Result'].values[0].strip(), "utf-8")
                 iron.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')]['Test Date/Time'].values[0]
                 iron.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -709,7 +709,7 @@ class ICPImportView(edit.DefaultEditForm):
                     iron.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Lead
-            if lead is not None and api.get_workflow_status_of(lead) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Pb')].empty:
+            if lead is not None and api.get_workflow_status_of(lead) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Pb')].empty:
                 lead.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Pb')]['Formatted Result'].values[0].strip(), "utf-8")
                 lead.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Pb')]['Test Date/Time'].values[0]
                 lead.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -719,7 +719,7 @@ class ICPImportView(edit.DefaultEditForm):
                     lead.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Magnesium
-            if magnesium is not None and api.get_workflow_status_of(magnesium) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')].empty:
+            if magnesium is not None and api.get_workflow_status_of(magnesium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')].empty:
                 magnesium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')]['Formatted Result'].values[0].strip(), "utf-8")
                 magnesium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')]['Test Date/Time'].values[0]
                 magnesium.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -729,7 +729,7 @@ class ICPImportView(edit.DefaultEditForm):
                     magnesium.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Manganese
-            if manganese is not None and api.get_workflow_status_of(manganese) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')].empty:
+            if manganese is not None and api.get_workflow_status_of(manganese) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')].empty:
                 manganese.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')]['Formatted Result'].values[0].strip(), "utf-8")
                 manganese.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')]['Test Date/Time'].values[0]
                 manganese.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -739,7 +739,7 @@ class ICPImportView(edit.DefaultEditForm):
                     manganese.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Molybdenum
-            if molybdenum is not None and api.get_workflow_status_of(molybdenum) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')].empty:
+            if molybdenum is not None and api.get_workflow_status_of(molybdenum) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')].empty:
                 molybdenum.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')]['Formatted Result'].values[0].strip(), "utf-8")
                 molybdenum.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')]['Test Date/Time'].values[0]
                 molybdenum.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -749,7 +749,7 @@ class ICPImportView(edit.DefaultEditForm):
                     molybdenum.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Nickel
-            if nickel is not None and api.get_workflow_status_of(nickel) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')].empty:
+            if nickel is not None and api.get_workflow_status_of(nickel) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')].empty:
                 nickel.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')]['Formatted Result'].values[0].strip(), "utf-8")
                 nickel.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')]['Test Date/Time'].values[0]
                 nickel.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -759,7 +759,7 @@ class ICPImportView(edit.DefaultEditForm):
                     nickel.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Phosphorus
-            if phosphorous is not None and api.get_workflow_status_of(phosphorous) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')].empty:
+            if phosphorous is not None and api.get_workflow_status_of(phosphorous) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')].empty:
                 phosphorous.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Formatted Result'].values[0].strip(), "utf-8")
                 phosphorous.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Test Date/Time'].values[0]
                 phosphorous.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -769,7 +769,7 @@ class ICPImportView(edit.DefaultEditForm):
                     phosphorous.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Potassium
-            if potassium is not None and api.get_workflow_status_of(potassium) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')].empty:
+            if potassium is not None and api.get_workflow_status_of(potassium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')].empty:
                 print("Potassium should be: {0}".format(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]))
                 potassium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]['Formatted Result'].values[0].strip(), "utf-8")
                 potassium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]['Test Date/Time'].values[0]
@@ -780,7 +780,7 @@ class ICPImportView(edit.DefaultEditForm):
                     potassium.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Selenium
-            if selenium is not None and api.get_workflow_status_of(selenium) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')].empty:
+            if selenium is not None and api.get_workflow_status_of(selenium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')].empty:
                 selenium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')]['Formatted Result'].values[0].strip(), "utf-8")
                 selenium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')]['Test Date/Time'].values[0]
                 selenium.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -790,7 +790,7 @@ class ICPImportView(edit.DefaultEditForm):
                     selenium.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Silica
-            if silica is not None and api.get_workflow_status_of(silica) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')].empty:
+            if silica is not None and api.get_workflow_status_of(silica) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')].empty:
                 silica.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')]['Formatted Result'].values[0].strip(), "utf-8")
                 silica.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')]['Test Date/Time'].values[0]
                 silica.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -800,7 +800,7 @@ class ICPImportView(edit.DefaultEditForm):
                     silica.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Sodium
-            if sodium is not None and api.get_workflow_status_of(sodium) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')].empty:
+            if sodium is not None and api.get_workflow_status_of(sodium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')].empty:
                 sodium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')]['Formatted Result'].values[0].strip(), "utf-8")
                 sodium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')]['Test Date/Time'].values[0]
                 sodium.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -810,7 +810,7 @@ class ICPImportView(edit.DefaultEditForm):
                     sodium.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Sulfur
-            if sulfur is not None and api.get_workflow_status_of(sulfur) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')].empty:
+            if sulfur is not None and api.get_workflow_status_of(sulfur) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')].empty:
                 sulfur.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')]['Formatted Result'].values[0].strip(), "utf-8")
                 sulfur.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')]['Test Date/Time'].values[0]
                 sulfur.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -820,7 +820,7 @@ class ICPImportView(edit.DefaultEditForm):
                     sulfur.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Zinc
-            if zinc is not None and api.get_workflow_status_of(zinc) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')].empty:
+            if zinc is not None and api.get_workflow_status_of(zinc) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')].empty:
                 zinc.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')]['Formatted Result'].values[0].strip(), "utf-8")
                 zinc.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')]['Test Date/Time'].values[0]
                 zinc.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -831,7 +831,7 @@ class ICPImportView(edit.DefaultEditForm):
                 imported.append(True)
 
         #K/Ca Ratio
-            if sap_kcaratio is not None and api.get_workflow_status_of(sap_kcaratio) in ['unassigned','retracted'] and potassium.Result is not None and calcium.Result is not None:
+            if sap_kcaratio is not None and api.get_workflow_status_of(sap_kcaratio) in ['unassigned'] and potassium.Result is not None and calcium.Result is not None:
                 try:
                     k_float = float(potassium.Result)
                     ca_float = float(calcium.Result)
@@ -1011,10 +1011,10 @@ class GalleryImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_ammonia-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        ammonium = float(i[sap_version].Result)
+                        ammonium = float(i[sap_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        ammonium = float(i[hydro_version].Result)
+                        ammonium = float(i[hydro_version])
             if found == False and hasattr(i,'sap_nitrogen_as_ammonium'):
                 ammonium = float(i.sap_nitrogen_as_ammonium.Result)
             elif found == False and hasattr(i,'hydro_ammonia'):
@@ -1038,7 +1038,7 @@ class GalleryImportView(edit.DefaultEditForm):
                     sap_version = 'sap_total_sugar-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        total_sugar = float(i[sap_version].Result)
+                        total_sugar = float(i[sap_version])
             if found == False and hasattr(i,'sap_total_sugar'):
                 total_sugar = float(i.sap_total_sugar.Result)
 
@@ -1056,10 +1056,10 @@ class GalleryImportView(edit.DefaultEditForm):
                     hydro_version = 'hydro_chloride-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        chloride = float(i[sap_version].Result)
+                        chloride = float(i[sap_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        chloride = float(i[hydro_version].Result)
+                        chloride = float(i[hydro_version])
             if found == False and hasattr(i,'sap_chloride'):
                 chloride = float(i.sap_chloride.Result)
             elif found == False and hasattr(i,'hydro_chloride'):
@@ -1085,13 +1085,13 @@ class GalleryImportView(edit.DefaultEditForm):
                     drinking_version = 'drinking_nitrate-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        nitrate = float(i[sap_version].Result)
+                        nitrate = float(i[sap_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        nitrate = float(i[hydro_version].Result)
+                        nitrate = float(i[hydro_version])
                     elif hasattr(i,hydro_version):
                         found = True
-                        nitrate = float(i[drinking_version].Result)
+                        nitrate = float(i[drinking_version])
             if found == False and hasattr(i,'sap_nitrate'):
                 nitrate = float(i.sap_nitrate.Result)
             elif found == False and hasattr(i,'hydro_nitrate'):
@@ -1122,7 +1122,7 @@ class GalleryImportView(edit.DefaultEditForm):
                     drinking_version = 'drinking_nitrite-'+str(j)
                     if hasattr(i,drinking_version):
                         found = True
-                        nitrite = float(i[drinking_version].Result)
+                        nitrite = float(i[drinking_version])
             if found == False and hasattr(i,'drinking_nitrite'):
                 nitrite = float(i.drinking_nitrite.Result)
 
@@ -1140,7 +1140,7 @@ class GalleryImportView(edit.DefaultEditForm):
                     sap_version = 'sap_nitrogen_as_nitrate-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        n_as_nitrate = float(i[sap_version].Result)
+                        n_as_nitrate = float(i[sap_version])
             if found == False and hasattr(i,'sap_nitrogen_as_nitrate'):
                 n_as_nitrate = float(i.sap_nitrogen_as_nitrate.Result)
 
@@ -1241,7 +1241,7 @@ class GalleryImportView(edit.DefaultEditForm):
 
             #Nitrogen as Nitrate
             # logger.info("N_as_Nitrate is {0}, Status is {1}, Nitrate Result is {2}".format(n_as_nitrate,api.get_workflow_status_of(n_as_nitrate),nitrate.Result))
-            # if n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned','retracted'] and nitrate.Result is not None and nitrate.Result != "":
+            # if n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned'] and nitrate.Result is not None and nitrate.Result != "":
             #     logger.info("Calculating Nitrogen as Nitrate for {0}".format(i))
             #     nitrate_float = float(nitrate.Result)
             #     n_as_nitrate.Result = unicode(str(nitrate_float*4.43))
@@ -1356,7 +1356,7 @@ class pHImportView(edit.DefaultEditForm):
                 except AttributeError:
                     ph = None
             logger.info("pH for {0} is {1}".format(i, ph))
-            if ph is not None and api.get_workflow_status_of(ph) in ['unassigned','retracted']:
+            if ph is not None and api.get_workflow_status_of(ph) in ['unassigned']:
                 logger.info("pH Clean for {0}".format(i))
                 logger.info("Dataframe {0}".format(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]))
                 logger.info("Dataframe is: {0}, Sample Name Series is {1}, ID is {2}".format(filtered_df,filtered_df['Sample Name'],api.get_id(i)))
@@ -1774,7 +1774,7 @@ class BrixImportView(edit.DefaultEditForm):
             except AttributeError:
                 brix = None
 
-            if brix is not None and api.get_workflow_status_of(brix) in ['unassigned','retracted']:
+            if brix is not None and api.get_workflow_status_of(brix) in ['unassigned']:
                 clean_ids.append(api.get_id(i))
                 #Brix
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
