@@ -848,7 +848,8 @@ class ICPImportView(edit.DefaultEditForm):
                     sap_kcaratio.Result = unicode(k_float/ca_float)
                     sap_kcaratio.AnalysisDateTime = potassium.AnalysisDateTime or calcium.AnalysisDateTime
                     sap_kcaratio.reindexObject(idxs=['Result','AnalysisDateTime'])
-                    sap_kcaratio = api.do_transition_for(sap_kcaratio, "submit")
+                    if [i for i in api.get_transitions_for(sap_kcaratio) if 'submit' in i.values()]:
+                        sap_kcaratio = api.do_transition_for(sap_kcaratio, "submit")
                     sap_kcaratio.Analyst = potassium.Analyst or calcium.Analyst
                     sap_kcaratio.reindexObject(idxs=['Analyst'])
                     imported.append(True)
