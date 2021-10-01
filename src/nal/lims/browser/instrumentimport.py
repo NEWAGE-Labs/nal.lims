@@ -825,8 +825,8 @@ class ICPImportView(edit.DefaultEditForm):
         #K/Ca Ratio
             if sap_kcaratio is not None and api.get_workflow_status_of(sap_kcaratio) in ['unassigned'] and potassium.Result is not None and calcium.Result is not None:
                 try:
-                    k_float = potassium
-                    ca_float = calcium
+                    k_float = float(potassium.Result)
+                    ca_float = float(calcium.Result)
                     sap_kcaratio.Result = unicode(k_float/ca_float)
                     sap_kcaratio.AnalysisDateTime = potassium.AnalysisDateTime or calcium.AnalysisDateTime
                     sap_kcaratio.reindexObject(idxs=['Result','AnalysisDateTime'])
@@ -837,8 +837,8 @@ class ICPImportView(edit.DefaultEditForm):
                 except ValueError:
                     print("--FLOAT CONVERSION ERROR--")
                     print("Sample is: {0}".format(i))
-                    print("Potassium is: {0}".format(potassium)
-                    print("Calcium is: {0}".format(calcium)
+                    print("Potassium is: {0}".format(potassium.Result))
+                    print("Calcium is: {0}".format(calcium.Result))
 
             if imported:
                 clean_ids.append(api.get_id(i))
@@ -912,8 +912,8 @@ class GalleryImportView(edit.DefaultEditForm):
                     sid = dirty_sample
                 #Result
                 try:
-                    float_result = row['Result'])
-                    float_dilution = dilution)
+                    float_result = float(row['Result'])
+                    float_dilution = float(dilution)
                 except ValueError:
                     float_result = None
                     float_dilution = None
@@ -1487,7 +1487,7 @@ class ECImportView(edit.DefaultEditForm):
             #TDS
             if hydro_tds is not None and api.get_workflow_status_of(hydro_tds)=='unassigned' and ec.Result is not None:
                 try:
-                    ec_float = ec
+                    ec_float = float(ec.Result)
                     hydro_tds.Result = unicode(ec_float*650)
                     hydro_tds.AnalysisDateTime = ec.AnalysisDateTime
                     hydro_tds.reindexObject(idxs=['Result','AnalysisDateTime'])
