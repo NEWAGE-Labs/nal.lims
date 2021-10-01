@@ -660,16 +660,8 @@ class ICPImportView(edit.DefaultEditForm):
                     boron.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')]['Analyst'].values[0]
                     boron.reindexObject(idxs=['Analyst'])
                 imported.append(True)
-        #Calcium
-            # print("Calcium is: {0}".format(calcium))
-            # print("Dataframe is: {0}".format(filtered_df))
-            # print("Dataframe row is: ")
-            # print(filtered_df.loc[filtered_df['Sample Name'] == api.get_id(i)])
-            # print("Dataframe cell by loc is: {0}".format(filtered_df.loc((filtered_df['Sample Name']==api.get_id(i)),['Formatted Result'])))
-            # print("Dataframe cell is: {0}".format(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Formatted Result']))
-            # print("Dataframe value is: {0}".format(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Formatted Result'].values))
+        #Calcium:
             if calcium  is not None and api.get_workflow_status_of(calcium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')].empty:
-                # print("Calcium should be: {0}".format(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]))
                 calcium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Formatted Result'].values[0].strip(), "utf-8")
                 calcium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Test Date/Time'].values[0]
                 calcium.reindexObject(idxs=['Result','AnalysisDateTime'])
