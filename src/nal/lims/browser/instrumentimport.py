@@ -114,194 +114,531 @@ class ICPImportView(edit.DefaultEditForm):
             print('IMPORTING - Sample {0} ID: {1}'.format(i,api.get_id(i)))
             imported = []
             #Aluminum
-            try:
-                aluminum = i.sap_aluminum
-            except AttributeError:
-                aluminum = None
-            if aluminum == None:
-                try:
-                    aluminum = i.hydro_aluminum
-                except AttributeError:
-                    aluminum = None
+            found = False
+            aluminum = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_aluminum-'+str(j)
+                    hydro_version = 'hydro_aluminum-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        aluminum = float(i[sap_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        aluminum = float(i[hydro_version].Result)
+            if found == False and hasattr(i,'sap_aluminum'):
+                aluminum = float(i.sap_aluminum.Result)
+            elif found == False and hasattr(i,'hydro_aluminum'):
+                aluminum = float(i.hydro_aluminum.Result)
+
+
+            # try:
+            #     aluminum = i.sap_aluminum
+            # except AttributeError:
+            #     aluminum = None
+            # if aluminum == None:
+            #     try:
+            #         aluminum = i.hydro_aluminum
+            #     except AttributeError:
+            #         aluminum = None
+
             #Boron
-            try:
-                boron = i.sap_boron
-            except AttributeError:
-                boron = None
-            if boron == None:
-                try:
-                    boron = i.hydro_boron
-                except AttributeError:
-                    boron = None
+            found = False
+            boron = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_boron-'+str(j)
+                    hydro_version = 'hydro_boron-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        boron = float(i[sap_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        boron = float(i[hydro_version].Result)
+            if found == False and hasattr(i,'sap_boron'):
+                boron = float(i.sap_boron.Result)
+            elif found == False and hasattr(i,'hydro_boron'):
+                boron = float(i.hydro_boron.Result)
+
+
+            # try:
+            #     boron = i.sap_boron
+            # except AttributeError:
+            #     boron = None
+            # if boron == None:
+            #     try:
+            #         boron = i.hydro_boron
+            #     except AttributeError:
+            #         boron = None
+
             #Calcium
-            try:
-                calcium = i.sap_calcium
-            except AttributeError:
-                calcium = None
-            if calcium == None:
-                try:
-                    calcium = i.hydro_calcium
-                except AttributeError:
-                    calcium = None
+            found = False
+            calcium = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_calcium-'+str(j)
+                    hydro_version = 'hydro_calcium-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        calcium = float(i[sap_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        calcium = float(i[hydro_version].Result)
+            if found == False and hasattr(i,'sap_calcium'):
+                calcium = float(i.sap_calcium.Result)
+            elif found == False and hasattr(i,'hydro_calcium'):
+                calcium = float(i.hydro_calcium.Result)
+
+            # try:
+            #     calcium = i.sap_calcium
+            # except AttributeError:
+            #     calcium = None
+            # if calcium == None:
+            #     try:
+            #         calcium = i.hydro_calcium
+            #     except AttributeError:
+            #         calcium = None
+
             #Cobalt
-            try:
-                cobalt = i.sap_cobalt
-            except AttributeError:
-                cobalt = None
-            if cobalt == None:
-                try:
-                    cobalt = i.hydro_cobalt
-                except AttributeError:
-                    cobalt = None
+            found = False
+            cobalt = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_cobalt-'+str(j)
+                    hydro_version = 'hydro_cobalt-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        cobalt = float(i[sap_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        cobalt = float(i[hydro_version].Result)
+            if found == False and hasattr(i,'sap_cobalt'):
+                cobalt = float(i.sap_cobalt.Result)
+            elif found == False and hasattr(i,'hydro_cobalt'):
+                cobalt = float(i.hydro_cobalt.Result)
+
+            # try:
+            #     cobalt = i.sap_cobalt
+            # except AttributeError:
+            #     cobalt = None
+            # if cobalt == None:
+            #     try:
+            #         cobalt = i.hydro_cobalt
+            #     except AttributeError:
+            #         cobalt = None
+
             #Copper
-            ##Sap
-            try:
-                copper = i.sap_copper
-            except AttributeError:
-                copper = None
-            ##Liquid Fertilizer
-            if copper == None:
-                try:
-                    copper = i.hydro_copper
-                except AttributeError:
-                    copper = None
-            ##Drinking Water
-            if copper == None:
-                try:
-                    copper = i.drinking_copper
-                except AttributeError:
-                    copper = None
+            found = False
+            copper = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_copper-'+str(j)
+                    hydro_version = 'hydro_copper-'+str(j)
+                    drinking_version = 'drinking_copper-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        copper = float(i[sap_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        copper = float(i[hydro_version].Result)
+                    elif hasattr(i,drinking_version):
+                        found = True
+                        copper = float(i[drinking_version].Result)
+            if found == False and hasattr(i,'sap_copper'):
+                copper = float(i.sap_copper.Result)
+            elif found == False and hasattr(i,'hydro_copper'):
+                copper = float(i.hydro_copper.Result)
+            elif found == False and hasattr(i,'drinking_copper'):
+                copper = float(i.drinking_copper.Result)
+
+            # ##Sap
+            # try:
+            #     copper = i.sap_copper
+            # except AttributeError:
+            #     copper = None
+            # ##Liquid Fertilizer
+            # if copper == None:
+            #     try:
+            #         copper = i.hydro_copper
+            #     except AttributeError:
+            #         copper = None
+            # ##Drinking Water
+            # if copper == None:
+            #     try:
+            #         copper = i.drinking_copper
+            #     except AttributeError:
+            #         copper = None
+
+
             #Iron
-            try:
-                iron = i.sap_iron
-            except AttributeError:
-                iron = None
-            if iron == None:
-                try:
-                    iron = i.hydro_iron
-                except AttributeError:
-                    iron = None
+            found = False
+            iron = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_iron-'+str(j)
+                    hydro_version = 'hydro_iron-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        iron = float(i[sap_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        iron = float(i[hydro_version].Result)
+            if found == False and hasattr(i,'sap_iron'):
+                iron = float(i.sap_iron.Result)
+            elif found == False and hasattr(i,'hydro_iron'):
+                iron = float(i.hydro_iron.Result)
+
+            # try:
+            #     iron = i.sap_iron
+            # except AttributeError:
+            #     iron = None
+            # if iron == None:
+            #     try:
+            #         iron = i.hydro_iron
+            #     except AttributeError:
+            #         iron = None
+
             #Lead
-            try:
-                lead = i.drinking_lead
-            except AttributeError:
-                lead = None
+            found = False
+            lead = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    drinking_version = 'drinking_lead-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        lead = float(i[sap_version].Result)
+            if found == False and hasattr(i,'drinking_lead'):
+                lead = float(i.drinking_lead.Result)
+
+            # try:
+            #     lead = i.drinking_lead
+            # except AttributeError:
+            #     lead = None
+
             #Magnesium
-            try:
-                magnesium = i.sap_magnesium
-            except AttributeError:
-                magnesium = None
-            if magnesium == None:
-                try:
-                    magnesium = i.hydro_magnesium
-                except AttributeError:
-                    magnesium = None
+            found = False
+            magnesium = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_magnesium-'+str(j)
+                    hydro_version = 'hydro_magnesium-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        magnesium = float(i[sap_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        magnesium = float(i[hydro_version].Result)
+            if found == False and hasattr(i,'sap_magnesium'):
+                magnesium = float(i.sap_magnesium.Result)
+            elif found == False and hasattr(i,'hydro_magnesium'):
+                magnesium = float(i.hydro_magnesium.Result)
+
+            # try:
+            #     magnesium = i.sap_magnesium
+            # except AttributeError:
+            #     magnesium = None
+            # if magnesium == None:
+            #     try:
+            #         magnesium = i.hydro_magnesium
+            #     except AttributeError:
+            #         magnesium = None
+
             #Manganese
-            try:
-                manganese = i.sap_manganese
-            except AttributeError:
-                manganese = None
-            if manganese == None:
-                try:
-                    manganese = i.hydro_manganese
-                except AttributeError:
-                    manganese = None
+            found = False
+            manganese = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_manganese-'+str(j)
+                    hydro_version = 'hydro_manganese-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        manganese = float(i[sap_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        manganese = float(i[hydro_version].Result)
+            if found == False and hasattr(i,'sap_manganese'):
+                manganese = float(i.sap_manganese.Result)
+            elif found == False and hasattr(i,'hydro_manganese'):
+                manganese = float(i.hydro_manganese.Result)
+
+            # try:
+            #     manganese = i.sap_manganese
+            # except AttributeError:
+            #     manganese = None
+            # if manganese == None:
+            #     try:
+            #         manganese = i.hydro_manganese
+            #     except AttributeError:
+            #         manganese = None
+
             #Molybdenum
-            try:
-                molybdenum = i.sap_molybdenum
-            except AttributeError:
-                molybdenum = None
-            if molybdenum == None:
-                try:
-                    molybdenum = i.hydro_molybdenum
-                except AttributeError:
-                    molybdenum = None
+            found = False
+            molybdenum = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_molybdenum-'+str(j)
+                    hydro_version = 'hydro_molybdenum-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        molybdenum = float(i[sap_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        molybdenum = float(i[hydro_version].Result)
+            if found == False and hasattr(i,'sap_molybdenum'):
+                molybdenum = float(i.sap_molybdenum.Result)
+            elif found == False and hasattr(i,'hydro_molybdenum'):
+                molybdenum = float(i.hydro_molybdenum.Result)
+
+            # try:
+            #     molybdenum = i.sap_molybdenum
+            # except AttributeError:
+            #     molybdenum = None
+            # if molybdenum == None:
+            #     try:
+            #         molybdenum = i.hydro_molybdenum
+            #     except AttributeError:
+            #         molybdenum = None
+
             #Nickel
-            try:
-                nickel = i.sap_nickel
-            except AttributeError:
-                nickel = None
-            if nickel == None:
-                try:
-                    nickel = i.hydro_nickel
-                except AttributeError:
-                    nickel = None
+            found = False
+            nickel = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_nickel-'+str(j)
+                    hydro_version = 'hydro_nickel-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        nickel = float(i[sap_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        nickel = float(i[hydro_version].Result)
+            if found == False and hasattr(i,'sap_nickel'):
+                nickel = float(i.sap_nickel.Result)
+            elif found == False and hasattr(i,'hydro_nickel'):
+                nickel = float(i.hydro_nickel.Result)
+
+            # try:
+            #     nickel = i.sap_nickel
+            # except AttributeError:
+            #     nickel = None
+            # if nickel == None:
+            #     try:
+            #         nickel = i.hydro_nickel
+            #     except AttributeError:
+            #         nickel = None
+
             #Phosphorous
-            try:
-                phosphorous = i.sap_phosphorous
-            except AttributeError:
-                phosphorous = None
-            if phosphorous == None:
-                try:
-                    phosphorous = i.hydro_phosphorous
-                except AttributeError:
-                    phosphorous = None
+            found = False
+            phosphorous = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_phosphorous-'+str(j)
+                    hydro_version = 'hydro_phosphorous-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        phosphorous = float(i[sap_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        phosphorous = float(i[hydro_version].Result)
+            if found == False and hasattr(i,'sap_phosphorous'):
+                phosphorous = float(i.sap_phosphorous.Result)
+            elif found == False and hasattr(i,'hydro_phosphorous'):
+                phosphorous = float(i.hydro_phosphorous.Result)
+
+            # try:
+            #     phosphorous = i.sap_phosphorous
+            # except AttributeError:
+            #     phosphorous = None
+            # if phosphorous == None:
+            #     try:
+            #         phosphorous = i.hydro_phosphorous
+            #     except AttributeError:
+            #         phosphorous = None
+
             #Potassium
-            try:
-                potassium = i.sap_potassium
-            except AttributeError:
-                potassium = None
-            if potassium == None:
-                try:
-                    potassium = i.hydro_potassium
-                except AttributeError:
-                    potassium = None
+            found = False
+            potassium = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_potassium-'+str(j)
+                    hydro_version = 'hydro_potassium-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        potassium = float(i[sap_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        potassium = float(i[hydro_version].Result)
+            if found == False and hasattr(i,'sap_potassium'):
+                potassium = float(i.sap_potassium.Result)
+            elif found == False and hasattr(i,'hydro_potassium'):
+                potassium = float(i.hydro_potassium.Result)
+
+            # try:
+            #     potassium = i.sap_potassium
+            # except AttributeError:
+            #     potassium = None
+            # if potassium == None:
+            #     try:
+            #         potassium = i.hydro_potassium
+            #     except AttributeError:
+            #         potassium = None
+
             #Selenium
-            try:
-                selenium = i.sap_selenium
-            except AttributeError:
-                selenium = None
-            if selenium == None:
-                try:
-                    selenium = i.hydro_selenium
-                except AttributeError:
-                    selenium = None
+            found = False
+            selenium = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_selenium-'+str(j)
+                    hydro_version = 'hydro_selenium-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        selenium = float(i[sap_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        selenium = float(i[hydro_version].Result)
+            if found == False and hasattr(i,'sap_selenium'):
+                selenium = float(i.sap_selenium.Result)
+            elif found == False and hasattr(i,'hydro_selenium'):
+                selenium = float(i.hydro_selenium.Result)
+
+            # try:
+            #     selenium = i.sap_selenium
+            # except AttributeError:
+            #     selenium = None
+            # if selenium == None:
+            #     try:
+            #         selenium = i.hydro_selenium
+            #     except AttributeError:
+            #         selenium = None
+
             #Silica
-            try:
-                silica = i.sap_silica
-            except AttributeError:
-                silica = None
-            if silica == None:
-                try:
-                    silica = i.hydro_silica
-                except AttributeError:
-                    silica = None
+            found = False
+            silica = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_silica-'+str(j)
+                    hydro_version = 'hydro_silica-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        silica = float(i[sap_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        silica = float(i[hydro_version].Result)
+            if found == False and hasattr(i,'sap_silica'):
+                silica = float(i.sap_silica.Result)
+            elif found == False and hasattr(i,'hydro_silica'):
+                silica = float(i.hydro_silica.Result)
+
+            # try:
+            #     silica = i.sap_silica
+            # except AttributeError:
+            #     silica = None
+            # if silica == None:
+            #     try:
+            #         silica = i.hydro_silica
+            #     except AttributeError:
+            #         silica = None
+
             #Sodium
-            try:
-                sodium = i.sap_sodium
-            except AttributeError:
-                sodium = None
-            if sodium == None:
-                try:
-                    sodium = i.hydro_sodium
-                except AttributeError:
-                    sodium = None
+            found = False
+            sodium = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_sodium-'+str(j)
+                    hydro_version = 'hydro_sodium-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        sodium = float(i[sap_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        sodium = float(i[hydro_version].Result)
+            if found == False and hasattr(i,'sap_sodium'):
+                sodium = float(i.sap_sodium.Result)
+            elif found == False and hasattr(i,'hydro_sodium'):
+                sodium = float(i.hydro_sodium.Result)
+
+            # try:
+            #     sodium = i.sap_sodium
+            # except AttributeError:
+            #     sodium = None
+            # if sodium == None:
+            #     try:
+            #         sodium = i.hydro_sodium
+            #     except AttributeError:
+            #         sodium = None
+
             #Sulfur
-            try:
-                sulfur = i.sap_sulfur
-            except AttributeError:
-                sulfur = None
-            if sulfur == None:
-                try:
-                    sulfur = i.hydro_sulfur
-                except AttributeError:
-                    sulfur = None
+            found = False
+            sulfur = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_sulfur-'+str(j)
+                    hydro_version = 'hydro_sulfur-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        sulfur = float(i[sap_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        sulfur = float(i[hydro_version].Result)
+            if found == False and hasattr(i,'sap_sulfur'):
+                sulfur = float(i.sap_sulfur.Result)
+            elif found == False and hasattr(i,'hydro_sulfur'):
+                sulfur = float(i.hydro_sulfur.Result)
+
+            # try:
+            #     sulfur = i.sap_sulfur
+            # except AttributeError:
+            #     sulfur = None
+            # if sulfur == None:
+            #     try:
+            #         sulfur = i.hydro_sulfur
+            #     except AttributeError:
+            #         sulfur = None
+
             #Zinc
-            try:
-                zinc = i.sap_zinc
-            except AttributeError:
-                zinc = None
-            if zinc == None:
-                try:
-                    zinc = i.hydro_zinc
-                except AttributeError:
-                    zinc = None
+            found = False
+            zinc = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_zinc-'+str(j)
+                    hydro_version = 'hydro_zinc-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        zinc = float(i[sap_version].Result)
+                    elif hasattr(i,hydro_version):
+                        found = True
+                        zinc = float(i[hydro_version].Result)
+            if found == False and hasattr(i,'sap_zinc'):
+                zinc = float(i.sap_zinc.Result)
+            elif found == False and hasattr(i,'hydro_zinc'):
+                zinc = float(i.hydro_zinc.Result)
+
+            # try:
+            #     zinc = i.sap_zinc
+            # except AttributeError:
+            #     zinc = None
+            # if zinc == None:
+            #     try:
+            #         zinc = i.hydro_zinc
+            #     except AttributeError:
+            #         zinc = None
 
             #Calculations
-            try:
-                sap_kcaratio = i.sap_kcaratio
-            except AttributeError:
-                sap_kcaratio = None
+            found = False
+            sap_kcaratio = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_kcaratio-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        sap_kcaratio = float(i[sap_version].Result)
+            if found == False and hasattr(i,'sap_kcaratio'):
+                sap_kcaratio = float(i.sap_kcaratio.Result)
+
+            # try:
+            #     sap_kcaratio = i.sap_kcaratio
+            # except AttributeError:
+            #     sap_kcaratio = None
 
         #Aluminum
             if aluminum is not None and api.get_workflow_status_of(aluminum) in ['unassigned','retracted'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')].empty:
