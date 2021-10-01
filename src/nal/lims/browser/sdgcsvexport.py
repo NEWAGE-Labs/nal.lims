@@ -79,8 +79,12 @@ class SDGCSVExportView(BrowserView):
                 export_dict[cols[5]].append('')
 
                 export_dict[cols[6]].append(i.getClient().Name)
-
-                export_dict[cols[7]].append(i.getSamplePoint().title)
+                location = i.getSamplePoint()
+                if location is not None:
+                    location = location.title
+                else:
+                    location = ''
+                export_dict[cols[7]].append(location)
                 export_dict[cols[8]].append(i.PlantType)
                 export_dict[cols[9]].append(i.getClientSampleID())
                 newold = 'old'
