@@ -159,7 +159,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     potassium = round(potassium, 3-int(floor(log10(abs(potassium))))-1)
 
-                export_dict[cols[12]].append(potassium)
+                export_dict[cols[13]].append(potassium)
 
                 #calcium
                 calcium = -0.01
@@ -178,7 +178,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     calcium = round(calcium, 3-int(floor(log10(abs(calcium))))-1)
 
-                export_dict[cols[13]].append(calcium)
+                export_dict[cols[14]].append(calcium)
 
                 #manganese
                 manganese = -0.01
@@ -197,7 +197,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     manganese = round(manganese, 3-int(floor(log10(abs(manganese))))-1)
 
-                export_dict[cols[14]].append(manganese)
+                export_dict[cols[15]].append(manganese)
 
                 #zinc
                 zinc = -0.01
@@ -216,7 +216,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     zinc = round(zinc, 3-int(floor(log10(abs(zinc))))-1)
 
-                export_dict[cols[15]].append(zinc)
+                export_dict[cols[16]].append(zinc)
 
                 #sulfur
                 sulfur = -0.01
@@ -235,7 +235,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     sulfur = round(sulfur, 3-int(floor(log10(abs(sulfur))))-1)
 
-                export_dict[cols[16]].append(sulfur)
+                export_dict[cols[17]].append(sulfur)
 
                 #copper
                 copper = -0.01
@@ -254,7 +254,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     copper = round(copper, 3-int(floor(log10(abs(copper))))-1)
 
-                export_dict[cols[17]].append(copper)
+                export_dict[cols[18]].append(copper)
 
                 #magnesium
                 magnesium = -0.01
@@ -273,7 +273,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     magnesium = round(magnesium, 3-int(floor(log10(abs(magnesium))))-1)
 
-                export_dict[cols[18]].append(magnesium)
+                export_dict[cols[19]].append(magnesium)
 
                 #iron
                 iron = -0.01
@@ -292,7 +292,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     iron = round(iron, 3-int(floor(log10(abs(iron))))-1)
 
-                export_dict[cols[19]].append(iron)
+                export_dict[cols[20]].append(iron)
 
                 #boron
                 boron = -0.01
@@ -311,7 +311,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     boron = round(boron, 3-int(floor(log10(abs(boron))))-1)
 
-                export_dict[cols[20]].append(boron)
+                export_dict[cols[21]].append(boron)
 
                 #brix
                 brix = -0.01
@@ -330,7 +330,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     brix = round(brix, 3-int(floor(log10(abs(brix))))-1)
 
-                export_dict[cols[21]].append(brix)
+                export_dict[cols[22]].append(brix)
 
                 #ph
                 ph = -0.01
@@ -356,7 +356,7 @@ class SDGCSVExportView(BrowserView):
                     else:
                         ph = round(ph, 3-int(floor(log10(abs(ph))))-1)
 
-                export_dict[cols[22]].append(ph)
+                export_dict[cols[23]].append(ph)
 
                 #chloride
                 chloride = -0.01
@@ -375,7 +375,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     chloride = round(chloride, 3-int(floor(log10(abs(chloride))))-1)
 
-                export_dict[cols[23]].append(chloride)
+                export_dict[cols[24]].append(chloride)
 
                 #sodium
                 sodium = -0.01
@@ -394,7 +394,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     sodium = round(sodium, 3-int(floor(log10(abs(sodium))))-1)
 
-                export_dict[cols[24]].append(sodium)
+                export_dict[cols[25]].append(sodium)
 
                 #silicon
                 silica = -0.01
@@ -413,7 +413,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     silica = round(silica, 3-int(floor(log10(abs(silica))))-1)
 
-                export_dict[cols[25]].append(silica)
+                export_dict[cols[26]].append(silica)
 
                 #aluminium
                 aluminium = -0.01
@@ -432,7 +432,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     aluminium = round(aluminium, 3-int(floor(log10(abs(aluminium))))-1)
 
-                export_dict[cols[26]].append(aluminium)
+                export_dict[cols[27]].append(aluminium)
 
                 #cobalt
                 cobalt = -0.01
@@ -451,7 +451,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     cobalt = round(cobalt, 3-int(floor(log10(abs(cobalt))))-1)
 
-                export_dict[cols[27]].append(cobalt)
+                export_dict[cols[28]].append(cobalt)
 
                 #molybdenum
                 molybdenum = -0.01
@@ -470,7 +470,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     molybdenum = round(molybdenum, 3-int(floor(log10(abs(molybdenum))))-1)
 
-                export_dict[cols[28]].append(molybdenum)
+                export_dict[cols[29]].append(molybdenum)
 
                 #Nitrogen from Ammonium
                 n_nh4 = -0.01
@@ -489,7 +489,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     n_nh4 = round(n_nh4, 3-int(floor(log10(abs(n_nh4))))-1)
 
-                export_dict[cols[29]].append(n_nh4)
+                export_dict[cols[30]].append(n_nh4)
 
                 #Total Nitrogen
                 tn = -0.01
@@ -508,7 +508,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     tn = round(tn, 3-int(floor(log10(abs(tn))))-1)
 
-                export_dict[cols[30]].append(tn)
+                export_dict[cols[31]].append(tn)
 
                 #Total Sugars
                 ts = -0.01
@@ -527,7 +527,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     ts = round(ts, 3-int(floor(log10(abs(ts))))-1)
 
-                export_dict[cols[31]].append(ts)
+                export_dict[cols[32]].append(ts)
 
                 #nitrate
                 # manganese = -0.01
@@ -544,7 +544,7 @@ class SDGCSVExportView(BrowserView):
                 # if manganese <= 0.01:
                 #     manganese = -0.01
 
-                export_dict[cols[32]].append('')
+                export_dict[cols[33]].append('')
 
                 #nitrogen as nitrate
                 n_no3 = -0.01
@@ -563,7 +563,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     n_no3 = round(n_no3, 3-int(floor(log10(abs(n_no3))))-1)
 
-                export_dict[cols[33]].append(n_no3)
+                export_dict[cols[34]].append(n_no3)
 
                 #k/ca ratio
                 kca = -0.01
@@ -582,7 +582,7 @@ class SDGCSVExportView(BrowserView):
                 else:
                     kca = round(kca, 3-int(floor(log10(abs(kca))))-1)
 
-                export_dict[cols[34]].append(kca)
+                export_dict[cols[35]].append(kca)
 
                 #Nitrogen conversion efficiency
                 nce = ''
@@ -598,7 +598,7 @@ class SDGCSVExportView(BrowserView):
 
                     nce = round(nce, 3-int(floor(log10(abs(nce))))-1)
 
-                export_dict[cols[35]].append(nce)
+                export_dict[cols[36]].append(nce)
 
         df = pd.DataFrame()
 
