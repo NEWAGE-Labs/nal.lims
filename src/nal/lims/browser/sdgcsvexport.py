@@ -35,6 +35,7 @@ class SDGCSVExportView(BrowserView):
             'Customer Code',
             'EC (W)',
             'Phosphorus (Sap-ICP)',
+            'Potassium (Sap-ICP)',
             'Calcium (Sap-ICP)',
             'Manganese (Sap-ICP)',
             'Zinc (Sap-ICP)',
@@ -140,6 +141,25 @@ class SDGCSVExportView(BrowserView):
                     phosphorus = round(phosphorus, 3-int(floor(log10(abs(phosphorus))))-1)
 
                 export_dict[cols[12]].append(phosphorus)
+
+                #Potassium
+                potassium = -0.01
+                found = False
+                for j in range(20, 0, -1):
+                    if found==False:
+                        version = 'sap_potassium-'+str(j)
+                        if hasattr(i,version) and api.get_workflow_status_of(i[version]) not in ['retracted','rejected','cancelled','invalid']:
+                            found = True
+                            potassium = float(i[version].Result)
+                if found == False and hasattr(i,'sap_potassium'):
+                    potassium = float(i.sap_potassium.Result)
+
+                if potassium <= 0.01:
+                    potassium = -0.01
+                else:
+                    potassium = round(potassium, 3-int(floor(log10(abs(potassium))))-1)
+
+                export_dict[cols[12]].append(potassium)
 
                 #calcium
                 calcium = -0.01
