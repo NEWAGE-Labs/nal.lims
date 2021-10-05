@@ -1038,9 +1038,11 @@ class GalleryImportView(edit.DefaultEditForm):
         csv_doc = StringIO.StringIO(csv_coded)
         dirty_csv = csv.reader(csv_doc, delimiter='\t')
         skiplist = []
+        j = 0
         for i in dirty_csv:
             if i[0] == '' or i[0] == 'Time':
-                skiplist.append(i)
+                skiplist.append(j)
+            j += 1
         dirty_df = pd.read_csv(csv_doc,sep='\t', keep_default_na=False, dtype=str, skiprows=tuple(skiplist)) #tuple() may not be needed
         #Convert Gallery CSV to Standard Import CSV format
         samples = []
