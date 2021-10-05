@@ -1040,9 +1040,9 @@ class GalleryImportView(edit.DefaultEditForm):
         csv_doc_copy = copy.deepcopy(csv_doc)
         dirty_csv = csv.reader(csv_doc_copy, delimiter='\t')
         skiplist = []
-        j = -1
+        j = 0
         for i in dirty_csv:
-            if i[0] == '' or i[0] == 'Time':
+            if i[0] == '' or i[0] == 'Time' or i[0] == 'Date':
                 skiplist.append(j)
                 print("skipping row: "+str(j))
             j += 1
