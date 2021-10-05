@@ -1040,7 +1040,7 @@ class GalleryImportView(edit.DefaultEditForm):
         csv_doc_copy = copy.deepcopy(csv_doc)
         dirty_csv = csv.reader(csv_doc_copy, delimiter='\t')
         skiplist = []
-        j = 0
+        j = -1
         for i in dirty_csv:
             if i[0] == '' or i[0] == 'Time':
                 skiplist.append(j)
@@ -1048,7 +1048,7 @@ class GalleryImportView(edit.DefaultEditForm):
             j += 1
         print("CSV DOC is: {0}".format(csv_doc.read()))
         print("CSV DOC COPY is: {0}".format(csv_doc_copy.read()))
-        dirty_df = pd.read_csv(csv_doc, delim_whitespace=True, keep_default_na=False, dtype=str, skiprows=tuple(skiplist)) #tuple() may not be needed
+        dirty_df = pd.read_csv(csv_doc, sep='\t', keep_default_na=False, dtype=str, skiprows=tuple(skiplist)) #tuple() may not be needed
         #Convert Gallery CSV to Standard Import CSV format
         samples = []
         results = []
