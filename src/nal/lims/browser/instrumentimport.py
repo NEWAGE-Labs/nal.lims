@@ -1044,7 +1044,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 skiplist.append(j)
                 print("skipping row: "+str(j))
             j += 1
-        print("CSV DOC is: {0}".format(csv_doc))
+        print("CSV DOC is: {0}".format(csv_doc.read()))
         dirty_df = pd.read_csv(csv_doc, delim_whitespace=True, keep_default_na=False, dtype=str, skiprows=tuple(skiplist)) #tuple() may not be needed
         #Convert Gallery CSV to Standard Import CSV format
         samples = []
