@@ -237,7 +237,7 @@ class AnalysisRequestSchemaModifier(object):
         schema.moveField('TimeOfSampling', after='DateOfSampling')
         schema.moveField('SampleType', after='TimeOfSampling')
         schema.moveField('SamplePoint', after='SampleType')
-        schema.moveField('Profiles', after='SampleType')
+        schema.moveField('Profiles', after='SamplePoint')
         schema.moveField('Specification', after='Profiles')
         schema.moveField('SubGroup', after='Specification')
         schema.moveField('PlantType', after='SubGroup')
