@@ -1042,7 +1042,7 @@ class GalleryImportView(edit.DefaultEditForm):
         skiplist = []
         j = 0
         for i in dirty_csv:
-            if i[0] == '' or i[0] == 'Time' or i[0] == 'Date':
+            if i is None or i[0] == '' or i[0] == 'Time' or i[0] == 'Date':
                 skiplist.append(j)
                 print("skipping row: "+str(j))
             j += 1
