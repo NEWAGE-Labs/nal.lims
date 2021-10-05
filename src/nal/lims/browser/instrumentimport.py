@@ -1036,7 +1036,8 @@ class GalleryImportView(edit.DefaultEditForm):
         #Convert CSV data to a dataframe
         csv_coded = codecs.decode(data, 'UTF-16')
         csv_doc = StringIO.StringIO(csv_coded)
-        dirty_csv = csv.reader(csv_doc, delimiter='\t')
+        csv_doc_copy = csv_doc.deepcopy()
+        dirty_csv = csv.reader(csv_doc_copy, delimiter='\t')
         skiplist = []
         j = 0
         for i in dirty_csv:
@@ -1045,6 +1046,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 print("skipping row: "+str(j))
             j += 1
         print("CSV DOC is: {0}".format(csv_doc.read()))
+        print("CSV DOC COPY is: {0}".format(csv_doc_copy.read()))
         dirty_df = pd.read_csv(csv_doc, delim_whitespace=True, keep_default_na=False, dtype=str, skiprows=tuple(skiplist)) #tuple() may not be needed
         #Convert Gallery CSV to Standard Import CSV format
         samples = []
