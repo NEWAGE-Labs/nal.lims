@@ -15,6 +15,7 @@ import StringIO
 import codecs
 import pandas as pd
 import logging
+import copy
 
 # class ICPImportAddView(add.DefaultAddForm):
 #
@@ -1036,7 +1037,7 @@ class GalleryImportView(edit.DefaultEditForm):
         #Convert CSV data to a dataframe
         csv_coded = codecs.decode(data, 'UTF-16')
         csv_doc = StringIO.StringIO(csv_coded)
-        csv_doc_copy = csv_doc.deepcopy()
+        csv_doc_copy = copy.deepcopy(csv_doc)
         dirty_csv = csv.reader(csv_doc_copy, delimiter='\t')
         skiplist = []
         j = 0
