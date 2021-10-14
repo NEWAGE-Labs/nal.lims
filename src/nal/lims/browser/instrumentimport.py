@@ -1067,6 +1067,7 @@ class GalleryImportView(edit.DefaultEditForm):
                     sid = dirty_sample[:radix] # '1234'
                 else:
                     sid = dirty_sample
+                    dilution = 1
                 #Result
                 try:
                     float_result = float(row['Result'])
