@@ -114,6 +114,15 @@
       />
 
   <browser:page
+      name="optimallevels"
+      class=".optimallevels.OptimalLevelView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/optimallevels.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
       name="icpimport"
       class=".instrumentimport.ICPImportView"
       permission="cmf.ListFolderContents"
