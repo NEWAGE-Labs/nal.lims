@@ -24,4 +24,4 @@ class OptimalLevelView(BrowserView):
                 u"Successfully applied OLs to all samples"
             )
 
-        self.request.response.redirect(api.get_url(self.context))
+        self.request.response.redirect(api.get_url(self.context) + '/batchbook')
