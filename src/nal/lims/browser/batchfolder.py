@@ -176,7 +176,7 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
         item["Title"] = title
         item["replace"]["Title"] = get_link(url, title)
         item["created"] = self.ulocalized_time(created, long_format=True)
-        item["BatchDate"] = self.ulocalized_time(date, long_format=True)
+        item["BatchDate"] = date
 
         if client:
             client_url = api.get_url(client)
