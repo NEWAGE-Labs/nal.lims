@@ -157,12 +157,12 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
         matrices = []
         for i in obj.getAnalysisRequests():
             matrix = i.getSampleType().Title() if i.getSampleType() else ''
-            if matrix == 'Sap':
-                matrices.append('sap') if 'sap' not in matrices
-            elif matrix == 'Water, Drinking':
-                matrices.append('drinking water') if 'drinking water' not in matrices
-            elif matrix == 'Water, Surface':
-                matrices.append('surface water') if 'surface water' not in matrices
+            if matrix == 'Sap' and 'sap' not in matrices:
+                matrices.append('sap')
+            elif matrix == 'Water, Drinking' and 'drinking water' not in matrices:
+                matrices.append('drinking water')
+            elif matrix == 'Water, Surface' and 'surface water' not in matrices:
+                matrices.append('surface water')
 
         # total sample progress
         progress = obj.getProgress()
