@@ -158,11 +158,11 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
         for i in obj.getAnalysisRequests():
             title = i.getSampleType().Title() if i.getSampleType() else ''
             if title == 'Sap':
-                matrices.append('sap')
+                matrices.append('sap') if 'sap' not in matrices
             elif title == 'Water, Drinking':
-                matrices.append('drinking water')
+                matrices.append('drinking water') if 'drinking water' not in matrices
             elif title == 'Water, Surface':
-                matrices.append('surface water')
+                matrices.append('surface water') if 'surface water' not in matrices
 
         # total sample progress
         progress = obj.getProgress()
