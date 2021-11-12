@@ -21,7 +21,7 @@ class OptimalLevelView(BrowserView):
             i.reindexObject(idxs=['Specification'])
 
         IStatusMessage(self.request).addStatusMessage(
-                u"Successfully applied OLs to all samples".format(self.context.title, filepath)
+                u"Successfully applied OLs to all samples"
             )
 
         self.request.response.redirect(api.get_url(self.context))
