@@ -54,7 +54,7 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
                 "title": _("Description"),
                 "sortable": False, }),
             ("BatchDate", {
-                "title": _("Date"), }),
+                "title": _("SDG Received Date"), }),
             ("Client", {
                 "title": _("Client"),
                 "index": "getClientTitle", }),
