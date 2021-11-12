@@ -161,7 +161,7 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
                 contents.append('sap')
             elif title == 'Water, Drinking':
                 contents.append('drinking water')
-            elif title = 'Water, Surface':
+            elif title == 'Water, Surface':
                 contents.append('surface water')
 
         # total sample progress
