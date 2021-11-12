@@ -224,8 +224,8 @@ class AnalysisRequestSchemaModifier(object):
             'add':'edit',
             'header_table':'visible',
         }
-        schema['Attachment'].widget.label = "COC and Attachments"
-        schema['Attachment'].widget.description = "Attach COC to one sample. .png and .jpeg files will show on report, but .pdfs will not."
+        schema['_ARAttachment'].widget.label = "COC and Attachments"
+        schema['_ARAttachment'].widget.description = "Attach COC to one sample. .png and .jpeg files will show on report, but .pdfs will not."
         schema['Remarks'].widget.label = "Comments"
         schema['Remarks'].widget.description = "Additional remarks or comments about the sample."
 
