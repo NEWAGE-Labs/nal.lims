@@ -17,7 +17,7 @@ class OptimalLevelView(BrowserView):
         ol = ars[0].getSpecification()
 
         for i in ars:
-            i.Specification = ol
+            i.setSpecification(ol))
             i.reindexObject(idxs=['Specification'])
 
         IStatusMessage(self.request).addStatusMessage(
