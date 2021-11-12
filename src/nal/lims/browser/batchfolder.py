@@ -153,7 +153,7 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
         title = api.get_title(obj)
         client = obj.getClient()
         created = api.get_creation_date(obj)
-        date = obj.getBatchDate()
+        date = obj.SDGDate.strftime("%b %d, %Y") + ' ' + obj.SDGTime
         matrices = []
         for i in obj.getAnalysisRequests():
             matrix = i.getSampleType().Title() if i.getSampleType() else ''
