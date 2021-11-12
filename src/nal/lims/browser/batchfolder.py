@@ -47,6 +47,9 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
             ("BatchID", {
                 "title": _("SDG ID"),  #Customized the Title
                 "index": "getId", }),
+            ("Matrices", {
+                "title": _("Matrices"),
+                "toggle": True, }),
             ("Description", {
                 "title": _("Description"),
                 "sortable": False, }),
@@ -151,6 +154,15 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
         client = obj.getClient()
         created = api.get_creation_date(obj)
         date = obj.getBatchDate()
+        matrices = []
+        for i in obj.getAnalysisRequests():
+            title = i.getSampleType().Title() if i.getSampleType() else ''
+            if title == 'Sap':
+                contents.append('sap')
+            elif title == 'Water, Drinking':
+                contents.append('drinking water')
+            elif title = 'Water, Surface':
+                contents.append('surface water')
 
         # total sample progress
         progress = obj.getProgress()
@@ -159,6 +171,7 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
 
         item["BatchID"] = bid
         item["ClientBatchID"] = cbid
+        item["Matrices"] = ','.join(contents)
         item["replace"]["BatchID"] = get_link(url, bid)
         item["Title"] = title
         item["replace"]["Title"] = get_link(url, title)
