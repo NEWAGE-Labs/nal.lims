@@ -171,7 +171,7 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
 
         item["BatchID"] = bid
         item["ClientBatchID"] = cbid
-        item["Matrices"] = ','.join(contents)
+        item["Matrices"] = ','.join(matrices)
         item["replace"]["BatchID"] = get_link(url, bid)
         item["Title"] = title
         item["replace"]["Title"] = get_link(url, title)
