@@ -13,7 +13,7 @@ class OptimalLevelView(BrowserView):
 
     def __call__(self):
 
-        ars = self.getAnalysisRequests()
+        ars = self.context.getAnalysisRequests()
         ol = ars[0].getSpecification()
 
         for i in ars:
