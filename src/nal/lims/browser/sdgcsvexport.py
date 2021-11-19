@@ -489,7 +489,7 @@ class SDGCSVExportView(BrowserView):
 
                 if n_nh4 <= 0.01:
                     n_nh4 = -0.01
-                elif n_nh4 > 0.01:
+                elif n_nh4 != '':
                     n_nh4 = round(n_nh4, 3-int(floor(log10(abs(n_nh4))))-1)
 
                 export_dict[cols[30]].append(n_nh4)
