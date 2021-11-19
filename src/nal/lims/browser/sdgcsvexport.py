@@ -482,7 +482,10 @@ class SDGCSVExportView(BrowserView):
                             found = True
                             n_nh4 = float(i[version].Result)
                 if found == False and hasattr(i,'sap_nitrogen_as_ammonium'):
-                    n_nh4 = float(i.sap_nitrogen_as_ammonium.Result)
+                    if i.sap_nitrogen_as_ammonium.Result is None or i.sap_nitrogen_as_ammonium.Result == '':
+                        n_nh4 = ''
+                    else:
+                        n_nh4 = float(i.sap_nitrogen_as_ammonium.Result)
 
                 if n_nh4 <= 0.01:
                     n_nh4 = -0.01
@@ -586,7 +589,7 @@ class SDGCSVExportView(BrowserView):
 
                 #Nitrogen conversion efficiency
                 nce = ''
-                if tn < 0.01:
+                if tn < 0.01 or n_nh4 == '':
                     nce = ''
                 else:
                     if n_nh4 < 0.01:
