@@ -1330,6 +1330,17 @@ class GalleryImportView(edit.DefaultEditForm):
                     ammonium.reindexObject(idxs=['Analyst'])
                 imported.append(True)
 
+            if ammonium is not None and api.get_workflow_status_of(ammonium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='AMMONIA SP')].empty:
+                logger.info("Importing Ammonium for {0}".format(i))
+                ammonium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='AMMONIA SP')]['Result'].values[0].strip(), "utf-8")
+                ammonium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='AMMONIA SP')]['Analysis Date/Time'].values[0]
+                ammonium.reindexObject(idxs=['Result','AnalysisDateTime'])
+                ammonium = api.do_transition_for(ammonium, "submit")
+                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='AMMONIA SP')]['Analyst'].empty:
+                    ammonium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='AMMONIA SP')]['Analyst'].values[0]
+                    ammonium.reindexObject(idxs=['Analyst'])
+                imported.append(True)
+
             #Total Sugar
             if total_sugar is not None and api.get_workflow_status_of(total_sugar) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')].empty:
                 logger.info("Importing Total Sugar for {0}".format(i))
