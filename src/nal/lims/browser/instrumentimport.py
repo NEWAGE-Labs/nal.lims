@@ -1388,17 +1388,6 @@ class GalleryImportView(edit.DefaultEditForm):
                     n_as_nitrate.reindexObject(idxs=['Analyst'])
                 imported.append(True)
 
-            if n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')].empty:
-                logger.info("Importing N from Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Result'].values[0].strip(), "utf-8")))
-                n_as_nitrate.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Result'].values[0].strip(), "utf-8")
-                n_as_nitrate.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Analysis Date/Time'].values[0]
-                n_as_nitrate.reindexObject(idxs=['Result','AnalysisDateTime'])
-                n_as_nitrate = api.do_transition_for(n_as_nitrate, "submit")
-                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Analyst'].empty:
-                    n_as_nitrate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Analyst'].values[0]
-                    n_as_nitrate.reindexObject(idxs=['Analyst'])
-                imported.append(True)
-
             #Nitrite
             if nitrite is not None and api.get_workflow_status_of(nitrite) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')].empty:
                 logger.info("Importing Nitrite for {0}".format(i))
