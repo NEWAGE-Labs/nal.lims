@@ -1431,10 +1431,11 @@ class pHImportView(edit.DefaultEditForm):
                 clean_ids.append(api.get_id(i))
                 #pH
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
-                    logger.info("Importing pH for: ".format(i))
+                    logger.info("Importing pH for: {0}".format(i))
                     ph.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
                     ph.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
                     ph.reindexObject(idxs=['Result','AnalysisDateTime'])
+                    logger.info("{0}".format(api.get_transitions_for(ph)))
                     ph = api.do_transition_for(ph, "submit")
                     if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].empty:
                         ph.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].values[0]
@@ -1534,21 +1535,41 @@ class ECImportView(edit.DefaultEditForm):
             imported = []
 
             #EC
-            try:
-                ec = i.sap_ec
-            except AttributeError:
-                ec = None
-            if ec == None:
-                try:
-                    ec = i.hydro_soluablesalts
-                except AttributeError:
-                    ec = None
+            found = False
+            ph = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_ph-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        ph = i[sap_version]
+            if found == False and hasattr(i,'sap_ph'):
+                ph = i.sap_ph
+            # try:
+            #     ec = i.sap_ec
+            # except AttributeError:
+            #     ec = None
+            # if ec == None:
+            #     try:
+            #         ec = i.hydro_soluablesalts
+            #     except AttributeError:
+            #         ec = None
 
             #Calculations
-            try:
-                hydro_tds = i.hydro_tds
-            except AttributeError:
-                hydro_tds = None
+            found = False
+            ph = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_ph-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        ph = i[sap_version]
+            if found == False and hasattr(i,'sap_ph'):
+                ph = i.sap_ph
+            # try:
+            #     hydro_tds = i.hydro_tds
+            # except AttributeError:
+            #     hydro_tds = None
             #EC
             if ec is not None and api.get_workflow_status_of(ec)=='unassigned' and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
                 ec.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
