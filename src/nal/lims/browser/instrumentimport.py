@@ -381,16 +381,6 @@ class ICPImportView(edit.DefaultEditForm):
 
             print('manganese is - {0}'.format(manganese))
 
-            # try:
-            #     manganese = i.sap_manganese
-            # except AttributeError:
-            #     manganese = None
-            # if manganese == None:
-            #     try:
-            #         manganese = i.hydro_manganese
-            #     except AttributeError:
-            #         manganese = None
-
             #Molybdenum
             found = False
             molybdenum = None
@@ -410,16 +400,6 @@ class ICPImportView(edit.DefaultEditForm):
                 molybdenum = i.hydro_molybdenum
 
             print('molybdenum is - {0}'.format(molybdenum))
-
-            # try:
-            #     molybdenum = i.sap_molybdenum
-            # except AttributeError:
-            #     molybdenum = None
-            # if molybdenum == None:
-            #     try:
-            #         molybdenum = i.hydro_molybdenum
-            #     except AttributeError:
-            #         molybdenum = None
 
             #Nickel
             found = False
@@ -441,16 +421,6 @@ class ICPImportView(edit.DefaultEditForm):
 
             print('nickel is - {0}'.format(nickel))
 
-            # try:
-            #     nickel = i.sap_nickel
-            # except AttributeError:
-            #     nickel = None
-            # if nickel == None:
-            #     try:
-            #         nickel = i.hydro_nickel
-            #     except AttributeError:
-            #         nickel = None
-
             #Phosphorous
             found = False
             phosphorous = None
@@ -470,16 +440,6 @@ class ICPImportView(edit.DefaultEditForm):
                 phosphorous = i.hydro_phosphorous
 
             print('phosphorous is - {0}'.format(phosphorous))
-
-            # try:
-            #     phosphorous = i.sap_phosphorous
-            # except AttributeError:
-            #     phosphorous = None
-            # if phosphorous == None:
-            #     try:
-            #         phosphorous = i.hydro_phosphorous
-            #     except AttributeError:
-            #         phosphorous = None
 
             #Potassium
             found = False
@@ -501,16 +461,6 @@ class ICPImportView(edit.DefaultEditForm):
 
             print('potassium is - {0}'.format(potassium))
 
-            # try:
-            #     potassium = i.sap_potassium
-            # except AttributeError:
-            #     potassium = None
-            # if potassium == None:
-            #     try:
-            #         potassium = i.hydro_potassium
-            #     except AttributeError:
-            #         potassium = None
-
             #Selenium
             found = False
             selenium = None
@@ -530,16 +480,6 @@ class ICPImportView(edit.DefaultEditForm):
                 selenium = i.hydro_selenium
 
             print('selenium is - {0}'.format(selenium))
-
-            # try:
-            #     selenium = i.sap_selenium
-            # except AttributeError:
-            #     selenium = None
-            # if selenium == None:
-            #     try:
-            #         selenium = i.hydro_selenium
-            #     except AttributeError:
-            #         selenium = None
 
             #Silica
             found = False
@@ -561,16 +501,6 @@ class ICPImportView(edit.DefaultEditForm):
 
             print('silica is - {0}'.format(silica))
 
-            # try:
-            #     silica = i.sap_silica
-            # except AttributeError:
-            #     silica = None
-            # if silica == None:
-            #     try:
-            #         silica = i.hydro_silica
-            #     except AttributeError:
-            #         silica = None
-
             #Sodium
             found = False
             sodium = None
@@ -590,16 +520,6 @@ class ICPImportView(edit.DefaultEditForm):
                 sodium = i.hydro_sodium
 
             print('sodium is - {0}'.format(sodium))
-
-            # try:
-            #     sodium = i.sap_sodium
-            # except AttributeError:
-            #     sodium = None
-            # if sodium == None:
-            #     try:
-            #         sodium = i.hydro_sodium
-            #     except AttributeError:
-            #         sodium = None
 
             #Sulfur
             found = False
@@ -621,16 +541,6 @@ class ICPImportView(edit.DefaultEditForm):
 
             print('Sulfur is - {0}'.format(sulfur))
 
-            # try:
-            #     sulfur = i.sap_sulfur
-            # except AttributeError:
-            #     sulfur = None
-            # if sulfur == None:
-            #     try:
-            #         sulfur = i.hydro_sulfur
-            #     except AttributeError:
-            #         sulfur = None
-
             #Zinc
             found = False
             zinc = None
@@ -651,16 +561,6 @@ class ICPImportView(edit.DefaultEditForm):
 
             print('Zinc is - {0}'.format(zinc))
 
-            # try:
-            #     zinc = i.sap_zinc
-            # except AttributeError:
-            #     zinc = None
-            # if zinc == None:
-            #     try:
-            #         zinc = i.hydro_zinc
-            #     except AttributeError:
-            #         zinc = None
-
             #Calculations
             found = False
             sap_kcaratio = None
@@ -675,10 +575,6 @@ class ICPImportView(edit.DefaultEditForm):
 
             print('KCA is - {0}'.format(sap_kcaratio))
 
-            # try:
-            #     sap_kcaratio = i.sap_kcaratio
-            # except AttributeError:
-            #     sap_kcaratio = None
         #Aluminum
             if aluminum is not None and api.get_workflow_status_of(aluminum) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')].empty:
                 print("Importing Aluminum")
@@ -1507,15 +1403,26 @@ class pHImportView(edit.DefaultEditForm):
         for i in import_samples:
 
             #pH
-            try:
+            found = False
+            ph = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_ph-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        ph = i[sap_version]
+            if found == False and hasattr(i,'sap_ph'):
                 ph = i.sap_ph
-            except AttributeError:
-                ph = None
-            if ph == None:
-                try:
-                    ph = i.hydro_ph
-                except AttributeError:
-                    ph = None
+
+            # try:
+            #     ph = i.sap_ph
+            # except AttributeError:
+            #     ph = None
+            # if ph == None:
+            #     try:
+            #         ph = i.hydro_ph
+            #     except AttributeError:
+            #         ph = None
             logger.info("pH for {0} is {1}".format(i, ph))
             if ph is not None and api.get_workflow_status_of(ph) in ['unassigned']:
                 logger.info("pH Clean for {0}".format(i))
