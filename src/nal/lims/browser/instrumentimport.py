@@ -1536,15 +1536,15 @@ class ECImportView(edit.DefaultEditForm):
 
             #EC
             found = False
-            ph = None
+            ec = None
             for j in range(20, 0, -1):
                 if found==False:
-                    sap_version = 'sap_ph-'+str(j)
+                    sap_version = 'sap_ec-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        ph = i[sap_version]
-            if found == False and hasattr(i,'sap_ph'):
-                ph = i.sap_ph
+                        ec = i[sap_version]
+            if found == False and hasattr(i,'sap_ec'):
+                ec = i.sap_ec
             # try:
             #     ec = i.sap_ec
             # except AttributeError:
@@ -1557,15 +1557,15 @@ class ECImportView(edit.DefaultEditForm):
 
             #Calculations
             found = False
-            ph = None
+            hydro_tds = None
             for j in range(20, 0, -1):
                 if found==False:
-                    sap_version = 'sap_ph-'+str(j)
+                    sap_version = 'hydro_tds-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        ph = i[sap_version]
-            if found == False and hasattr(i,'sap_ph'):
-                ph = i.sap_ph
+                        hydro_tds = i[sap_version]
+            if found == False and hasattr(i,'hydro_tds'):
+                hydro_tds = i.hydro_tds
             # try:
             #     hydro_tds = i.hydro_tds
             # except AttributeError:
