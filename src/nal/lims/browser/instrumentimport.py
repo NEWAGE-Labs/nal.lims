@@ -72,6 +72,7 @@ class ICPImportView(edit.DefaultEditForm):
         sample_objs = map(api.get_object, sample_brain)
         #Instantiate an empty list to fill with Senaite samples that will be imported into
         import_samples = []
+        method = map(api.get_object,api.search({'portal_type':'Method','id':'method-47'}))[0]
 
         #Get the list of Senaite Sample Objects that have IDs in the CSV
         print(samples_names)
@@ -421,25 +422,25 @@ class ICPImportView(edit.DefaultEditForm):
 
             print('nickel is - {0}'.format(nickel))
 
-            #Phosphorous
+            #phosphorus FIX SPELLING ONCE KEYWORDS ARE CHANGED
             found = False
-            phosphorous = None
+            phosphorus = None
             for j in range(20, 0, -1):
                 if found==False:
                     sap_version = 'sap_phosphorous-'+str(j)
                     liqfert_version = 'liqfert_phosphorous-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
-                        phosphorous = i[sap_version]
+                        phosphorus = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
-                        phosphorous = i[liqfert_version]
+                        phosphorus = i[liqfert_version]
             if found == False and hasattr(i,'sap_phosphorous'):
-                phosphorous = i.sap_phosphorous
+                phosphorus = i.sap_phosphorous
             elif found == False and hasattr(i,'liqfert_phosphorous'):
-                phosphorous = i.liqfert_phosphorous
+                phosphorus = i.liqfert_phosphorous
 
-            print('phosphorous is - {0}'.format(phosphorous))
+            print('phosphorus is - {0}'.format(phosphorus))
 
             #Potassium
             found = False
@@ -582,8 +583,9 @@ class ICPImportView(edit.DefaultEditForm):
                 aluminum.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')]['Formatted Result'].values[0].strip(), "utf-8")
                 print("Obtaining Date/Time")
                 aluminum.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')]['Test Date/Time'].values[0]
-                print("Reindexing Result and AnalysisDateTime")
-                aluminum.reindexObject(idxs=['Result','AnalysisDateTime'])
+                aluminum.Method = method
+                print("Reindexing Result, Method, and AnalysisDateTime")
+                aluminum.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 print("Result is {0}".format(aluminum.Result))
                 print("AnalysisDateTime is {0}".format(aluminum.AnalysisDateTime))
                 print("Checking if Submit is viable")
@@ -606,7 +608,8 @@ class ICPImportView(edit.DefaultEditForm):
                 print("Importing Boron")
                 boron.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')]['Formatted Result'].values[0].strip(), "utf-8")
                 boron.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')]['Test Date/Time'].values[0]
-                boron.reindexObject(idxs=['Result','AnalysisDateTime'])
+                boron.Method = method
+                boron.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 if [j for j in api.get_transitions_for(boron) if 'submit' in j.values()]:
                     try:
                         api.do_transition_for(boron, "submit")
@@ -621,7 +624,8 @@ class ICPImportView(edit.DefaultEditForm):
                 print("Importing Calcium")
                 calcium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Formatted Result'].values[0].strip(), "utf-8")
                 calcium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Test Date/Time'].values[0]
-                calcium.reindexObject(idxs=['Result','AnalysisDateTime'])
+                calcium.Method = method
+                calcium.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 if [j for j in api.get_transitions_for(calcium) if 'submit' in j.values()]:
                     try:
                         api.do_transition_for(calcium, "submit")
@@ -636,7 +640,8 @@ class ICPImportView(edit.DefaultEditForm):
                 print("Importing Cobalt")
                 cobalt.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')]['Formatted Result'].values[0].strip(), "utf-8")
                 cobalt.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')]['Test Date/Time'].values[0]
-                cobalt.reindexObject(idxs=['Result','AnalysisDateTime'])
+                cobalt.Method = method
+                cobalt.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 if [j for j in api.get_transitions_for(cobalt) if 'submit' in j.values()]:
                     try:
                         api.do_transition_for(cobalt, "submit")
@@ -651,7 +656,8 @@ class ICPImportView(edit.DefaultEditForm):
                 print("Importing Copper")
                 copper.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')]['Formatted Result'].values[0].strip(), "utf-8")
                 copper.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')]['Test Date/Time'].values[0]
-                copper.reindexObject(idxs=['Result','AnalysisDateTime'])
+                copper.Method = method
+                copper.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 if [j for j in api.get_transitions_for(copper) if 'submit' in j.values()]:
                     try:
                         api.do_transition_for(copper, "submit")
@@ -666,7 +672,8 @@ class ICPImportView(edit.DefaultEditForm):
                 print("Importing Iron")
                 iron.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')]['Formatted Result'].values[0].strip(), "utf-8")
                 iron.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')]['Test Date/Time'].values[0]
-                iron.reindexObject(idxs=['Result','AnalysisDateTime'])
+                iron.Method = method
+                iron.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 if [j for j in api.get_transitions_for(iron) if 'submit' in j.values()]:
                     try:
                         api.do_transition_for(iron, "submit")
@@ -681,7 +688,8 @@ class ICPImportView(edit.DefaultEditForm):
                 print("Importing Lead")
                 lead.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Pb')]['Formatted Result'].values[0].strip(), "utf-8")
                 lead.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Pb')]['Test Date/Time'].values[0]
-                lead.reindexObject(idxs=['Result','AnalysisDateTime'])
+                lead.Method = method
+                lead.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 if [j for j in api.get_transitions_for(lead) if 'submit' in j.values()]:
                     try:
                         api.do_transition_for(lead, "submit")
@@ -696,7 +704,8 @@ class ICPImportView(edit.DefaultEditForm):
                 print("Importing Magnesium")
                 magnesium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')]['Formatted Result'].values[0].strip(), "utf-8")
                 magnesium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')]['Test Date/Time'].values[0]
-                magnesium.reindexObject(idxs=['Result','AnalysisDateTime'])
+                magnesium.Method = method
+                magnesium.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 if [j for j in api.get_transitions_for(magnesium) if 'submit' in j.values()]:
                     try:
                         api.do_transition_for(magnesium, "submit")
@@ -711,7 +720,8 @@ class ICPImportView(edit.DefaultEditForm):
                 print("Importing Manganese")
                 manganese.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')]['Formatted Result'].values[0].strip(), "utf-8")
                 manganese.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')]['Test Date/Time'].values[0]
-                manganese.reindexObject(idxs=['Result','AnalysisDateTime'])
+                manganese.Method = method
+                manganese.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 if [j for j in api.get_transitions_for(manganese) if 'submit' in j.values()]:
                     try:
                         api.do_transition_for(manganese, "submit")
@@ -726,7 +736,8 @@ class ICPImportView(edit.DefaultEditForm):
                 print("Importing Molybdenum")
                 molybdenum.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')]['Formatted Result'].values[0].strip(), "utf-8")
                 molybdenum.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')]['Test Date/Time'].values[0]
-                molybdenum.reindexObject(idxs=['Result','AnalysisDateTime'])
+                molybdenum.Method = method
+                molybdenum.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 if [j for j in api.get_transitions_for(molybdenum) if 'submit' in j.values()]:
                     try:
                         api.do_transition_for(molybdenum, "submit")
@@ -741,7 +752,8 @@ class ICPImportView(edit.DefaultEditForm):
                 print("Importing Nickel")
                 nickel.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')]['Formatted Result'].values[0].strip(), "utf-8")
                 nickel.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')]['Test Date/Time'].values[0]
-                nickel.reindexObject(idxs=['Result','AnalysisDateTime'])
+                nickel.Method = method
+                nickel.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 if [j for j in api.get_transitions_for(nickel) if 'submit' in j.values()]:
                     try:
                         api.do_transition_for(nickel, "submit")
@@ -752,19 +764,20 @@ class ICPImportView(edit.DefaultEditForm):
                     nickel.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Phosphorus
-            if phosphorous is not None and api.get_workflow_status_of(phosphorous) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')].empty:
+            if phosphorus is not None and api.get_workflow_status_of(phosphorus) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')].empty:
                 print("Importing Phosphorus")
-                phosphorous.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Formatted Result'].values[0].strip(), "utf-8")
-                phosphorous.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Test Date/Time'].values[0]
-                phosphorous.reindexObject(idxs=['Result','AnalysisDateTime'])
-                if [j for j in api.get_transitions_for(phosphorous) if 'submit' in j.values()]:
+                phosphorus.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Formatted Result'].values[0].strip(), "utf-8")
+                phosphorus.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Test Date/Time'].values[0]
+                phosphorus.Method = method
+                phosphorus.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
+                if [j for j in api.get_transitions_for(phosphorus) if 'submit' in j.values()]:
                     try:
-                        api.do_transition_for(phosphorous, "submit")
+                        api.do_transition_for(phosphorus, "submit")
                     except AttributeError:
                         pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Analyst'].empty:
-                    phosphorous.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Analyst'].values[0]
-                    phosphorous.reindexObject(idxs=['Analyst'])
+                    phosphorus.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Analyst'].values[0]
+                    phosphorus.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Potassium
             if potassium is not None and api.get_workflow_status_of(potassium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')].empty:
@@ -772,7 +785,8 @@ class ICPImportView(edit.DefaultEditForm):
                 print("Potassium should be: {0}".format(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]))
                 potassium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]['Formatted Result'].values[0].strip(), "utf-8")
                 potassium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]['Test Date/Time'].values[0]
-                potassium.reindexObject(idxs=['Result','AnalysisDateTime'])
+                potassium.Method = method
+                potassium.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 if [j for j in api.get_transitions_for(potassium) if 'submit' in j.values()]:
                     try:
                         api.do_transition_for(potassium, "submit")
@@ -787,7 +801,8 @@ class ICPImportView(edit.DefaultEditForm):
                 print("Importing Selenium")
                 selenium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')]['Formatted Result'].values[0].strip(), "utf-8")
                 selenium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')]['Test Date/Time'].values[0]
-                selenium.reindexObject(idxs=['Result','AnalysisDateTime'])
+                selenium.Method = method
+                selenium.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 if [j for j in api.get_transitions_for(selenium) if 'submit' in j.values()]:
                     try:
                         api.do_transition_for(selenium, "submit")
@@ -802,7 +817,8 @@ class ICPImportView(edit.DefaultEditForm):
                 print("Importing Silica")
                 silica.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')]['Formatted Result'].values[0].strip(), "utf-8")
                 silica.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')]['Test Date/Time'].values[0]
-                silica.reindexObject(idxs=['Result','AnalysisDateTime'])
+                silica.Method = method
+                silica.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 if [j for j in api.get_transitions_for(silica) if 'submit' in j.values()]:
                     try:
                         api.do_transition_for(silica, "submit")
@@ -817,7 +833,8 @@ class ICPImportView(edit.DefaultEditForm):
                 print("Importing Sodium")
                 sodium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')]['Formatted Result'].values[0].strip(), "utf-8")
                 sodium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')]['Test Date/Time'].values[0]
-                sodium.reindexObject(idxs=['Result','AnalysisDateTime'])
+                sodium.Method = method
+                sodium.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 if [j for j in api.get_transitions_for(sodium) if 'submit' in j.values()]:
                     try:
                         api.do_transition_for(sodium, "submit")
@@ -832,7 +849,8 @@ class ICPImportView(edit.DefaultEditForm):
                 print("Importing Sulfur")
                 sulfur.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')]['Formatted Result'].values[0].strip(), "utf-8")
                 sulfur.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')]['Test Date/Time'].values[0]
-                sulfur.reindexObject(idxs=['Result','AnalysisDateTime'])
+                sulfur.Method = method
+                sulfur.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 if [j for j in api.get_transitions_for(sulfur) if 'submit' in j.values()]:
                     try:
                         api.do_transition_for(sulfur, "submit")
@@ -847,7 +865,8 @@ class ICPImportView(edit.DefaultEditForm):
                 print("Importing Zinc")
                 zinc.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')]['Formatted Result'].values[0].strip(), "utf-8")
                 zinc.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')]['Test Date/Time'].values[0]
-                zinc.reindexObject(idxs=['Result','AnalysisDateTime'])
+                zinc.Method = method
+                zinc.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 if [j for j in api.get_transitions_for(zinc) if 'submit' in j.values()]:
                     try:
                         api.do_transition_for(zinc, "submit")
@@ -866,7 +885,7 @@ class ICPImportView(edit.DefaultEditForm):
                     ca_float = float(calcium.Result)
                     sap_kcaratio.Result = unicode(k_float/ca_float)
                     sap_kcaratio.AnalysisDateTime = potassium.AnalysisDateTime or calcium.AnalysisDateTime
-                    sap_kcaratio.reindexObject(idxs=['Result','AnalysisDateTime'])
+                    sap_kcaratio.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                     if [j for j in api.get_transitions_for(sap_kcaratio) if 'submit' in j.values()]:
                         try:
                             api.do_transition_for(sap_kcaratio, "submit")
