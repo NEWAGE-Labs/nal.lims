@@ -1587,7 +1587,7 @@ class ECImportView(edit.DefaultEditForm):
                         ec = i[liqfert_version]
             if found == False and hasattr(i,'sap_ec'):
                 ec = i.sap_ec
-            if found == False and hasattr(i,'liqfert_soluablesalts'):
+            elif found == False and hasattr(i,'liqfert_soluablesalts'):
                 ec = i.liqfert_soluablesalts
             # try:
             #     ec = i.sap_ec
