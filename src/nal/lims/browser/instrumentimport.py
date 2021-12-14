@@ -1464,7 +1464,7 @@ class pHImportView(edit.DefaultEditForm):
                 logger.info("Dataframe is: {0}, Sample Name Series is {1}, ID is {2}".format(filtered_df,filtered_df['Sample Name'],api.get_id(i)))
                 clean_ids.append(api.get_id(i))
                 #pH
-                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
+                if not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
                     logger.info("Importing pH for: {0}".format(i))
                     ph.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
                     ph.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
@@ -1578,7 +1578,7 @@ class ECImportView(edit.DefaultEditForm):
             for j in range(20, 0, -1):
                 if found==False:
                     sap_version = 'sap_ec-'+str(j)
-                    liqfert_version = 'liqfert_soluablesalts'
+                    liqfert_version = 'liqfert_soluablesalts-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         ec = i[sap_version]
@@ -1610,17 +1610,14 @@ class ECImportView(edit.DefaultEditForm):
                         tds = i[liqfert_version]
             if found == False and hasattr(i,'liqfert_tds'):
                 tds = i.liqfert_tds
-            # try:
-            #     liqfert_tds = i.liqfert_tds
-            # except AttributeError:
-            #     liqfert_tds = None
+
             #EC
             if ec is not None and api.get_workflow_status_of(ec)=='unassigned' and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
                 logger.info("Importing EC for {0}".format(i))
                 ec.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
                 ec.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
                 ec.Method = ss_method
-                ec.reindexObject(idxs=['Result','AnalysisDateTime'])
+                ec.reindexObject(idxs=['Result','AnalysisDateTime', 'Method'])
                 ec = api.do_transition_for(ec, "submit")
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].empty:
                     ec.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].values[0]
@@ -1628,7 +1625,7 @@ class ECImportView(edit.DefaultEditForm):
                 imported.append(True)
 
             #TDS
-            if tds is not None and api.get_workflow_status_of(liqfert_tds)=='unassigned' and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
+            if tds is not None and api.get_workflow_status_of(tds)=='unassigned' and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
                 logger.info("Caclulation TDS for {0}".format(i))
                 ec_text = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
                 ec_float = float(ec_text)
