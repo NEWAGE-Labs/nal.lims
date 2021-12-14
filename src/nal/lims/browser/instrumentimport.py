@@ -1077,7 +1077,7 @@ class GalleryImportView(edit.DefaultEditForm):
             for j in range(20, 0, -1):
                 if found==False:
                     sap_version = 'sap_nitrogen_as_ammonium-'+str(j)
-                    liqfert_version = 'liqfert_ammonia-'+str(j)
+                    liqfert_version = 'liqfert_nitrogen_as_ammonia-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         ammonium = i[sap_version]
@@ -1086,8 +1086,8 @@ class GalleryImportView(edit.DefaultEditForm):
                         ammonium = i[liqfert_version]
             if found == False and hasattr(i,'sap_nitrogen_as_ammonium'):
                 ammonium = i.sap_nitrogen_as_ammonium
-            elif found == False and hasattr(i,'liqfert_ammonia'):
-                ammonium = i.liqfert_ammonia
+            elif found == False and hasattr(i,'liqfert_nitrogen_as_ammonia'):
+                ammonium = i.liqfert_nitrogen_as_ammonia
 
             # try:
             #     ammonium = i.sap_nitrogen_as_ammonium
@@ -1158,7 +1158,7 @@ class GalleryImportView(edit.DefaultEditForm):
                     elif hasattr(i,liqfert_version):
                         found = True
                         nitrate = i[liqfert_version]
-                    elif hasattr(i,liqfert_version):
+                    elif hasattr(i,drinking_version):
                         found = True
                         nitrate = i[drinking_version]
             if found == False and hasattr(i,'sap_nitrate'):
@@ -1207,12 +1207,23 @@ class GalleryImportView(edit.DefaultEditForm):
             for j in range(20, 0, -1):
                 if found==False:
                     sap_version = 'sap_nitrogen_as_nitrate-'+str(j)
+                    liqfert_version = 'liqfert_nitrogen_as_nitrate-'+str(j)
+                    drinking_version = 'drinking_nitrogen_as_nitrate-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         n_as_nitrate = i[sap_version]
-            if found == False and hasattr(i,'sap_nitrogen_as_nitrate'):
+                    elif hasattr(i,liqfert_version):
+                        found = True
+                        n_as_nitrate = i[liqfert_version]
+                    elif hasattr(i,drinking_version):
+                        found = True
+                        n_as_nitrate = i[drinking_version]
+            if found == False and hasattr(i,'sap_nitrate'):
                 n_as_nitrate = i.sap_nitrogen_as_nitrate
-
+            elif found == False and hasattr(i,'liqfert_nitrate'):
+                n_as_nitrate = i.liqfert_nitrogen_as_nitrate
+            elif found == False and hasattr(i,'drinking_nitrate'):
+                n_as_nitrate = i.drinking_nitrogen_as_nitrate
 
             # try:
             #     n_as_nitrate = i.sap_nitrogen_as_nitrate
@@ -1284,6 +1295,30 @@ class GalleryImportView(edit.DefaultEditForm):
                 chloride = api.do_transition_for(chloride, "submit")
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Analyst'].empty:
                     chloride.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Analyst'].values[0]
+                    chloride.reindexObject(idxs=['Analyst'])
+                imported.append(True)
+
+            if chloride is not None and api.get_workflow_status_of(chloride) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='WWCL')].empty:
+                logger.info("Importing Chloride for {0}".format(i))
+                chloride.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='WWCL')]['Result'].values[0].strip(), "utf-8")
+                chloride.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='WWCL')]['Analysis Date/Time'].values[0]
+                chloride.Method = cl_method
+                chloride.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
+                chloride = api.do_transition_for(chloride, "submit")
+                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='WWCL')]['Analyst'].empty:
+                    chloride.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='WWCL')]['Analyst'].values[0]
+                    chloride.reindexObject(idxs=['Analyst'])
+                imported.append(True)
+
+            if chloride is not None and api.get_workflow_status_of(chloride) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='CL Low')].empty:
+                logger.info("Importing Chloride for {0}".format(i))
+                chloride.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='CL Low')]['Result'].values[0].strip(), "utf-8")
+                chloride.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='CL Low')]['Analysis Date/Time'].values[0]
+                chloride.Method = cl_method
+                chloride.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
+                chloride = api.do_transition_for(chloride, "submit")
+                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='CL Low')]['Analyst'].empty:
+                    chloride.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='CL Low')]['Analyst'].values[0]
                     chloride.reindexObject(idxs=['Analyst'])
                 imported.append(True)
 
