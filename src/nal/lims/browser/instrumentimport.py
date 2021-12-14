@@ -1030,6 +1030,10 @@ class GalleryImportView(edit.DefaultEditForm):
         #Instantiate an empty list to fill with Senaite samples that will be imported into
         import_samples = []
 
+        nh4_method = map(api.get_object, api.search({'portal_type':'Method','id':'method-32'}))[0]
+        no3_method = map(api.get_object, api.search({'portal_type':'Method','id':'method-33'}))[0]
+        cl_method = map(api.get_object, api.search({'portal_type':'Method','id':'method-35'}))[0]
+
         #Get the list of Senaite Sample Objects that have IDs in the CSV
         for i in sample_objs:
 
@@ -1238,7 +1242,8 @@ class GalleryImportView(edit.DefaultEditForm):
                 logger.info("Importing Ammonium for {0}".format(i))
                 ammonium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')]['Result'].values[0].strip(), "utf-8")
                 ammonium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')]['Analysis Date/Time'].values[0]
-                ammonium.reindexObject(idxs=['Result','AnalysisDateTime'])
+                ammonium.Method = nh4_method
+                ammonium.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 ammonium = api.do_transition_for(ammonium, "submit")
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')]['Analyst'].empty:
                     ammonium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')]['Analyst'].values[0]
@@ -1249,7 +1254,8 @@ class GalleryImportView(edit.DefaultEditForm):
                 logger.info("Importing Ammonium for {0}".format(i))
                 ammonium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='AMMONIA SP')]['Result'].values[0].strip(), "utf-8")
                 ammonium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='AMMONIA SP')]['Analysis Date/Time'].values[0]
-                ammonium.reindexObject(idxs=['Result','AnalysisDateTime'])
+                ammonium.Method = nh4_method
+                ammonium.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 ammonium = api.do_transition_for(ammonium, "submit")
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='AMMONIA SP')]['Analyst'].empty:
                     ammonium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='AMMONIA SP')]['Analyst'].values[0]
@@ -1273,7 +1279,8 @@ class GalleryImportView(edit.DefaultEditForm):
                 logger.info("Importing Chloride for {0}".format(i))
                 chloride.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Result'].values[0].strip(), "utf-8")
                 chloride.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Analysis Date/Time'].values[0]
-                chloride.reindexObject(idxs=['Result','AnalysisDateTime'])
+                chloride.Method = cl_method
+                chloride.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 chloride = api.do_transition_for(chloride, "submit")
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Analyst'].empty:
                     chloride.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Analyst'].values[0]
@@ -1285,7 +1292,8 @@ class GalleryImportView(edit.DefaultEditForm):
                 logger.info("Importing N from Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")))
                 n_as_nitrate.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")
                 n_as_nitrate.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analysis Date/Time'].values[0]
-                n_as_nitrate.reindexObject(idxs=['Result','AnalysisDateTime'])
+                n_as_nitrate.Method = no3_method
+                n_as_nitrate.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 n_as_nitrate = api.do_transition_for(n_as_nitrate, "submit")
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analyst'].empty:
                     n_as_nitrate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analyst'].values[0]
@@ -1296,7 +1304,8 @@ class GalleryImportView(edit.DefaultEditForm):
                 logger.info("Importing N from Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Result'].values[0].strip(), "utf-8")))
                 n_as_nitrate.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Result'].values[0].strip(), "utf-8")
                 n_as_nitrate.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Analysis Date/Time'].values[0]
-                n_as_nitrate.reindexObject(idxs=['Result','AnalysisDateTime'])
+                n_as_nitrate.Method = no3_method
+                n_as_nitrate.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 n_as_nitrate = api.do_transition_for(n_as_nitrate, "submit")
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Analyst'].empty:
                     n_as_nitrate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Analyst'].values[0]
@@ -1314,19 +1323,6 @@ class GalleryImportView(edit.DefaultEditForm):
                     nitrite.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')]['Analyst'].values[0]
                     nitrite.reindexObject(idxs=['Analyst'])
                 imported.append(True)
-
-            #Nitrogen as Nitrate
-            # logger.info("N_as_Nitrate is {0}, Status is {1}, Nitrate Result is {2}".format(n_as_nitrate,api.get_workflow_status_of(n_as_nitrate),nitrate)
-            # if n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned'] and nitrate.Result is not None and nitrate.Result != "":
-            #     logger.info("Calculating Nitrogen as Nitrate for {0}".format(i))
-            #     nitrate_float = nitrate
-            #     n_as_nitrate.Result = unicode(str(nitrate_float*4.43))
-            #     n_as_nitrate.AnalysisDateTime = nitrate.AnalysisDateTime
-            #     n_as_nitrate.reindexObject(idxs=['Result','AnalysisDateTime'])
-            #     n_as_nitrate = api.do_transition_for(n_as_nitrate, "submit")
-            #     n_as_nitrate.Analyst = nitrate.Analyst
-            #     n_as_nitrate.reindexObject(idxs=['Analyst'])
-            #     imported.append(True)
 
             if imported:
                 clean_ids.append(api.get_id(i))
