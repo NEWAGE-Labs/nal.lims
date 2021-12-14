@@ -163,6 +163,8 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
                 matrices.append('drinking water')
             elif matrix == 'Water, Surface' and 'surface water' not in matrices:
                 matrices.append('surface water')
+            elif matrix == 'Water, Liquid Fertilizer' and 'liquid fertilizer' not in matrices:
+                matrices.append('liquid fertilizer')
 
         # total sample progress
         progress = obj.getProgress()
