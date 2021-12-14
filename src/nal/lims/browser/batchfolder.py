@@ -26,7 +26,7 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
 
         self.context_actions = {}
 
-        self.show_select_all_checkbox = False
+        self.show_select_all_checkbox = True
         self.show_select_column = True
         self.pagesize = 30
 
