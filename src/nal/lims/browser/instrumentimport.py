@@ -1077,7 +1077,7 @@ class GalleryImportView(edit.DefaultEditForm):
             for j in range(20, 0, -1):
                 if found==False:
                     sap_version = 'sap_nitrogen_as_ammonium-'+str(j)
-                    liqfert_version = 'liqfert_nitrogen_as_ammonia-'+str(j)
+                    liqfert_version = 'liqfert_ammonia-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         ammonium = i[sap_version]
@@ -1086,8 +1086,8 @@ class GalleryImportView(edit.DefaultEditForm):
                         ammonium = i[liqfert_version]
             if found == False and hasattr(i,'sap_nitrogen_as_ammonium'):
                 ammonium = i.sap_nitrogen_as_ammonium
-            elif found == False and hasattr(i,'liqfert_nitrogen_as_ammonia'):
-                ammonium = i.liqfert_nitrogen_as_ammonia
+            elif found == False and hasattr(i,'liqfert_ammonia'):
+                ammonium = i.liqfert_ammonia
 
             # try:
             #     ammonium = i.sap_nitrogen_as_ammonium
@@ -1150,21 +1150,21 @@ class GalleryImportView(edit.DefaultEditForm):
             for j in range(20, 0, -1):
                 if found==False:
                     sap_version = 'sap_nitrate-'+str(j)
-                    liqfert_version = 'liqfert_nitrate-'+str(j)
+                    # liqfert_version = 'liqfert_nitrate-'+str(j)
                     drinking_version = 'drinking_nitrate-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         nitrate = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        nitrate = i[liqfert_version]
+                    # elif hasattr(i,liqfert_version):
+                    #     found = True
+                    #     nitrate = i[liqfert_version]
                     elif hasattr(i,drinking_version):
                         found = True
                         nitrate = i[drinking_version]
             if found == False and hasattr(i,'sap_nitrate'):
                 nitrate = i.sap_nitrate
-            elif found == False and hasattr(i,'liqfert_nitrate'):
-                nitrate = i.liqfert_nitrate
+            # elif found == False and hasattr(i,'liqfert_nitrate'):
+            #     nitrate = i.liqfert_nitrate
             elif found == False and hasattr(i,'drinking_nitrate'):
                 nitrate = i.drinking_nitrate
 
@@ -1207,7 +1207,7 @@ class GalleryImportView(edit.DefaultEditForm):
             for j in range(20, 0, -1):
                 if found==False:
                     sap_version = 'sap_nitrogen_as_nitrate-'+str(j)
-                    liqfert_version = 'liqfert_nitrogen_as_nitrate-'+str(j)
+                    liqfert_version = 'liqfert_nitrate-'+str(j)
                     drinking_version = 'drinking_nitrogen_as_nitrate-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
@@ -1221,7 +1221,7 @@ class GalleryImportView(edit.DefaultEditForm):
             if found == False and hasattr(i,'sap_nitrate'):
                 n_as_nitrate = i.sap_nitrogen_as_nitrate
             elif found == False and hasattr(i,'liqfert_nitrate'):
-                n_as_nitrate = i.liqfert_nitrogen_as_nitrate
+                n_as_nitrate = i.liqfert_nitrate
             elif found == False and hasattr(i,'drinking_nitrate'):
                 n_as_nitrate = i.drinking_nitrogen_as_nitrate
 
