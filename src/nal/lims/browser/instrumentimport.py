@@ -1395,6 +1395,8 @@ class pHImportView(edit.DefaultEditForm):
         #Instantiate an empty list to fill with Senaite samples that will be imported into
         import_samples = []
 
+        ph_method = map(api.get_object, api.search({'portal_type':'Method','id':'method-22'}))[0]
+
         #Get the list of Senaite Sample Objects that have IDs in the CSV
         for i in sample_objs:
 
@@ -1434,11 +1436,17 @@ class pHImportView(edit.DefaultEditForm):
             for j in range(20, 0, -1):
                 if found==False:
                     sap_version = 'sap_ph-'+str(j)
+                    liqfert_version = 'liqfert_ph-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         ph = i[sap_version]
+                    elif hasattr(i,liqfert_version):
+                        found = True
+                        ph = i[liqfert_version]
             if found == False and hasattr(i,'sap_ph'):
                 ph = i.sap_ph
+            elif found == False and hasattr(i,'liqfert_ph'):
+                ph = i.liqfert_ph
 
             # try:
             #     ph = i.sap_ph
@@ -1460,7 +1468,8 @@ class pHImportView(edit.DefaultEditForm):
                     logger.info("Importing pH for: {0}".format(i))
                     ph.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
                     ph.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
-                    ph.reindexObject(idxs=['Result','AnalysisDateTime'])
+                    ph.Method = ph_method
+                    ph.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                     logger.info("{0}".format(api.get_transitions_for(ph)))
                     ph = api.do_transition_for(ph, "submit")
                     if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].empty:
@@ -1524,6 +1533,9 @@ class ECImportView(edit.DefaultEditForm):
         #Instantiate an empty list to fill with Senaite samples that will be imported into
         import_samples = []
 
+        ss_method = map(api.get_object, api.search({'portal_type':'Method','id':'method-28'}))[0]
+        tds_method = map(api.get_object, api.search({'portal_type':'Method','id':'method-29'}))[0]
+
         #Get the list of Senaite Sample Objects that have IDs in the CSV
         for i in sample_objs:
 
@@ -1566,11 +1578,17 @@ class ECImportView(edit.DefaultEditForm):
             for j in range(20, 0, -1):
                 if found==False:
                     sap_version = 'sap_ec-'+str(j)
+                    liqfert_version = 'liqfert_soluablesalts'
                     if hasattr(i,sap_version):
                         found = True
                         ec = i[sap_version]
+                    elif hasattr(i,liqfert_version):
+                        found = True
+                        ec = i[liqfert_version]
             if found == False and hasattr(i,'sap_ec'):
                 ec = i.sap_ec
+            if found == False and hasattr(i,'liqfert_soluablesalts'):
+                ec = i.liqfert_soluablesalts
             # try:
             #     ec = i.sap_ec
             # except AttributeError:
@@ -1583,15 +1601,15 @@ class ECImportView(edit.DefaultEditForm):
 
             #Calculations
             found = False
-            liqfert_tds = None
+            tds = None
             for j in range(20, 0, -1):
                 if found==False:
-                    sap_version = 'liqfert_tds-'+str(j)
-                    if hasattr(i,sap_version):
+                    liqfert_version = 'liqfert_tds-'+str(j)
+                    if hasattr(i,liqfert_version):
                         found = True
-                        liqfert_tds = i[sap_version]
+                        tds = i[liqfert_version]
             if found == False and hasattr(i,'liqfert_tds'):
-                liqfert_tds = i.liqfert_tds
+                tds = i.liqfert_tds
             # try:
             #     liqfert_tds = i.liqfert_tds
             # except AttributeError:
@@ -1600,6 +1618,7 @@ class ECImportView(edit.DefaultEditForm):
             if ec is not None and api.get_workflow_status_of(ec)=='unassigned' and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
                 ec.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
                 ec.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
+                ec.Method = ss_method
                 ec.reindexObject(idxs=['Result','AnalysisDateTime'])
                 ec = api.do_transition_for(ec, "submit")
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].empty:
@@ -1608,15 +1627,15 @@ class ECImportView(edit.DefaultEditForm):
                 imported.append(True)
 
             #TDS
-            if liqfert_tds is not None and api.get_workflow_status_of(liqfert_tds)=='unassigned' and ec.Result is not None:
+            if tds is not None and api.get_workflow_status_of(liqfert_tds)=='unassigned' and ec.Result is not None:
                 try:
                     ec_float = float(ec.Result)
-                    liqfert_tds.Result = unicode(ec_float*650)
-                    liqfert_tds.AnalysisDateTime = ec.AnalysisDateTime
-                    liqfert_tds.reindexObject(idxs=['Result','AnalysisDateTime'])
-                    liqfert_tds = api.do_transition_for(liqfert_tds, "submit")
-                    liqfert_tds.Analyst = ec.Analyst
-                    liqfert_tds.reindexObject(idxs=['Analyst'])
+                    tds.Result = unicode(ec_float*650)
+                    tds.AnalysisDateTime = ec.AnalysisDateTime
+                    tds.Method = tds_method
+                    tds.Analyst = ec.Analyst
+                    tds.reindexObject(idxs=['Result','AnalysisDateTime','Method','Analyst'])
+                    tds = api.do_transition_for(liqfert_tds, "submit")
                     imported.append(True)
                 except:
                     pass
