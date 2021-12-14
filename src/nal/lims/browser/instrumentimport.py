@@ -1616,6 +1616,7 @@ class ECImportView(edit.DefaultEditForm):
             #     liqfert_tds = None
             #EC
             if ec is not None and api.get_workflow_status_of(ec)=='unassigned' and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
+                logger.info("Importing EC for {0}".format(i))
                 ec.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
                 ec.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
                 ec.Method = ss_method
@@ -1627,18 +1628,19 @@ class ECImportView(edit.DefaultEditForm):
                 imported.append(True)
 
             #TDS
-            if tds is not None and api.get_workflow_status_of(liqfert_tds)=='unassigned' and ec.Result is not None:
-                try:
-                    ec_float = float(ec.Result)
-                    tds.Result = unicode(ec_float*650)
-                    tds.AnalysisDateTime = ec.AnalysisDateTime
-                    tds.Method = tds_method
-                    tds.Analyst = ec.Analyst
-                    tds.reindexObject(idxs=['Result','AnalysisDateTime','Method','Analyst'])
-                    tds = api.do_transition_for(liqfert_tds, "submit")
-                    imported.append(True)
-                except:
-                    pass
+            if tds is not None and api.get_workflow_status_of(liqfert_tds)=='unassigned' and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
+                logger.info("Caclulation TDS for {0}".format(i))
+                ec_text = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
+                ec_float = float(ec_text)
+                tds.Result = unicode(ec_float*650)
+                tds.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
+                tds.Method = ss_method
+                tds.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
+                tds = api.do_transition_for(tds, "submit")
+                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].empty:
+                    tds.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].values[0]
+                    tds.reindexObject(idxs=['Analyst'])
+                imported.append(True)
 
             if imported:
                 clean_ids.append(api.get_id(i))
