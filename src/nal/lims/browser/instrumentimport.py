@@ -974,7 +974,7 @@ class GalleryImportView(edit.DefaultEditForm):
         analysts = []
         dict_to_df = {}
         for i, row in dirty_df.iterrows():
-            if 'fl-0' in row["Sample/ctrl ID"].lower() and 'MA' in row['Status']:
+            if ('fl-0' in row["Sample/ctrl ID"].lower() or 'test-0' in row["Sample/ctrl ID"].lower()) and 'MA' in row['Status']:
                 dirty_sample = row["Sample/ctrl ID"] # '1234 ppm'
                 if 'x' in row["Sample/ctrl ID"].lower():
                     radix = dirty_sample.lower().find('x')
@@ -1295,30 +1295,6 @@ class GalleryImportView(edit.DefaultEditForm):
                 chloride = api.do_transition_for(chloride, "submit")
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Analyst'].empty:
                     chloride.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Analyst'].values[0]
-                    chloride.reindexObject(idxs=['Analyst'])
-                imported.append(True)
-
-            if chloride is not None and api.get_workflow_status_of(chloride) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='WWCL')].empty:
-                logger.info("Importing Chloride for {0}".format(i))
-                chloride.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='WWCL')]['Result'].values[0].strip(), "utf-8")
-                chloride.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='WWCL')]['Analysis Date/Time'].values[0]
-                chloride.Method = cl_method
-                chloride.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
-                chloride = api.do_transition_for(chloride, "submit")
-                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='WWCL')]['Analyst'].empty:
-                    chloride.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='WWCL')]['Analyst'].values[0]
-                    chloride.reindexObject(idxs=['Analyst'])
-                imported.append(True)
-
-            if chloride is not None and api.get_workflow_status_of(chloride) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='CL Low')].empty:
-                logger.info("Importing Chloride for {0}".format(i))
-                chloride.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='CL Low')]['Result'].values[0].strip(), "utf-8")
-                chloride.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='CL Low')]['Analysis Date/Time'].values[0]
-                chloride.Method = cl_method
-                chloride.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
-                chloride = api.do_transition_for(chloride, "submit")
-                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='CL Low')]['Analyst'].empty:
-                    chloride.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='CL Low')]['Analyst'].values[0]
                     chloride.reindexObject(idxs=['Analyst'])
                 imported.append(True)
 
