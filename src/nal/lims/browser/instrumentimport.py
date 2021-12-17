@@ -1218,11 +1218,11 @@ class GalleryImportView(edit.DefaultEditForm):
                     elif hasattr(i,drinking_version):
                         found = True
                         n_as_nitrate = i[drinking_version]
-            if found == False and hasattr(i,'sap_nitrate'):
+            if found == False and hasattr(i,'sap_nitrogen_as_nitrate'):
                 n_as_nitrate = i.sap_nitrogen_as_nitrate
             elif found == False and hasattr(i,'liqfert_nitrate'):
                 n_as_nitrate = i.liqfert_nitrate
-            elif found == False and hasattr(i,'drinking_nitrate'):
+            elif found == False and hasattr(i,'drinking_nitrogen_as_nitrate'):
                 n_as_nitrate = i.drinking_nitrogen_as_nitrate
 
             # try:
