@@ -171,6 +171,9 @@ class SDGCSVExportView(BrowserView):
                             result = round(result, sigfigs-int(floor(log10(abs(result))))-1)
                         export_dict[j.Keyword].append(result)
 
+                print(cols)
+                print(export_dict)
+
                 #EC
                 # ec = -0.01
                 # found = False
