@@ -159,7 +159,7 @@ class SDGCSVExportView(BrowserView):
                             new_old = 'Old'
                     export_dict['new_old'].append(new_old)
 
-                for j in map(api.get_object,i.getAnalyses())
+                for j in map(api.get_object,i.getAnalyses()):
                     if api.get_workflow_status_of(j) not in ['cancelled','invalid']:
                         sigfigs = 3
                         result = j.Result
