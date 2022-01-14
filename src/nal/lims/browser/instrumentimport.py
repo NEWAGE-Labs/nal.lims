@@ -780,10 +780,10 @@ class ICPImportView(edit.DefaultEditForm):
                 print("Setting Imported to True")
                 imported.append(True)
         #Arsenic
-            if arsenic is not None and api.get_workflow_status_of(arsenic) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ar')].empty:
+            if arsenic is not None and api.get_workflow_status_of(arsenic) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='As')].empty:
                 print("Importing arsenic")
-                arsenic.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ar')]['Formatted Result'].values[0].strip(), "utf-8")
-                arsenic.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ar')]['Test Date/Time'].values[0]
+                arsenic.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='As')]['Formatted Result'].values[0].strip(), "utf-8")
+                arsenic.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='As')]['Test Date/Time'].values[0]
                 arsenic.Method = method
                 arsenic.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                 if [j for j in api.get_transitions_for(arsenic) if 'submit' in j.values()]:
@@ -791,8 +791,8 @@ class ICPImportView(edit.DefaultEditForm):
                         api.do_transition_for(arsenic, "submit")
                     except AttributeError:
                         pass
-                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ar')]['Analyst'].empty:
-                    arsenic.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ar')]['Analyst'].values[0]
+                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='As')]['Analyst'].empty:
+                    arsenic.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='As')]['Analyst'].values[0]
                     arsenic.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Boron
