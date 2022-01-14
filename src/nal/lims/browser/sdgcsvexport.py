@@ -171,6 +171,9 @@ class SDGCSVExportView(BrowserView):
 
                 print(cols)
                 print(export_dict)
+                for i in export_dict:
+                    print(len(i))
+                    print(i)
 
                 #EC
                 # ec = -0.01
