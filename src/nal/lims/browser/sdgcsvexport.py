@@ -169,12 +169,6 @@ class SDGCSVExportView(BrowserView):
                             result = round(result, sigfigs-int(floor(log10(abs(result))))-1)
                         export_dict[j.Keyword].append(result)
 
-                print(cols)
-                print(export_dict)
-                for i in export_dict:
-                    print(len(i))
-                    print(i)
-
                 #EC
                 # ec = -0.01
                 # found = False
@@ -680,6 +674,12 @@ class SDGCSVExportView(BrowserView):
                 #
                 # export_dict[cols[36]].append(nce)
 
+
+        print(cols)
+        print(export_dict)
+        for i in export_dict:
+            print(len(i))
+            print(export_dict[i])
         df = pd.DataFrame()
 
         for i in cols:
