@@ -65,9 +65,9 @@ class SDGCSVExportView(BrowserView):
                 if j.Keyword not in cols:
                     cols.append(j.Keyword)
 
-            #initialize dictionary of lists
-            for i in range(len(cols)):
-                export_dict[cols[i]] = []
+        #initialize dictionary of lists
+        for i in range(len(cols)):
+            export_dict[cols[i]] = []
 
         for i in ARs:
             if api.get_workflow_status_of(i) not in ['cancelled','invalid']:
