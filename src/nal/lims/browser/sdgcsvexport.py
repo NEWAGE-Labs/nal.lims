@@ -166,7 +166,7 @@ class SDGCSVExportView(BrowserView):
                         sigfigs = 3
                         result = float(j.Result)
                         if result < float(j.getLowerDetectionLimit()):
-                            result = '< ' + j.getLowerDetectionLimit()
+                            result = '< ' + str(j.getLowerDetectionLimit())
                         else:
                             result = round(result, sigfigs-int(floor(log10(abs(result))))-1)
                         export_dict[j.Keyword].append(result)
