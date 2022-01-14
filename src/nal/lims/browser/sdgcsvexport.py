@@ -160,7 +160,7 @@ class SDGCSVExportView(BrowserView):
                     export_dict['new_old'].append(new_old)
 
                 for j in map(api.get_object,i.getAnalyses()):
-                    if api.get_workflow_status_of(j) not in ['cancelled','invalid']:
+                    if api.get_workflow_status_of(j) not in ['cancelled','invalid','retracted','rejected']:
                         sigfigs = 3
                         result = float(j.Result)
                         if result < float(j.getLowerDetectionLimit()):
