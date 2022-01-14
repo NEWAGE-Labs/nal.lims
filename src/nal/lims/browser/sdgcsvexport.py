@@ -28,7 +28,7 @@ class SDGCSVExportView(BrowserView):
         # 3) Relevant Sample fields (Crop details)
         # 4) The unique list of analyses on all samples of the SDG
         cols = [
-            'nal_number,'
+            'nal_number',
             'client_name',
             'client_address',
             'sample_delivery_group',
