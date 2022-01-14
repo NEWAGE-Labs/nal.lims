@@ -66,6 +66,21 @@ class AnalysisRequestSchemaExtender(object):
             )
         ),
 
+        ExtStringField(
+            'Vigor',
+            widget=StringWidget(
+                label="Vigor (Sap Samples)",
+                description="The health or hardiness of the plant",
+                render_own_label=True,
+                visible={
+                    'edit':'visible',
+                    'view':'visible',
+                    'add':'edit',
+                    'header_table':'visible',
+                },
+            )
+        ),
+
         ExtBooleanField(
             'NewLeaf',
             widget=BooleanWidget(
