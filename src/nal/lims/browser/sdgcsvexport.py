@@ -65,8 +65,6 @@ class SDGCSVExportView(BrowserView):
                 if j.Keyword not in cols:
                     cols.append(str(j.Keyword))
 
-        print(cols)
-
         #initialize dictionary of lists
         for i in range(len(cols)):
             export_dict[cols[i]] = []
@@ -124,19 +122,19 @@ class SDGCSVExportView(BrowserView):
                 export_dict['client_sample_id'].append(i.getClientSampleID())
 
                 #NAL Sample ID
-                export_dict['client_sample_id'].append(i.id)
+                export_dict['nal_sample_id'].append(i.id)
 
                 #Date Sampled
-                export_dict['client_sample_id'].append(i.DateOfSampling.strftime('%m-%d-%Y'))
+                export_dict['date_sampled'].append(i.DateOfSampling.strftime('%m-%d-%Y'))
 
                 #Time Sampled
-                export_dict['client_sample_id'].append(i.TimeOfSampling)
+                export_dict['time_sampled'].append(i.TimeOfSampling)
 
                 #Sample Type
-                export_dict['client_sample_id'].append(i.getSampleType().title)
+                export_dict['sample_type'].append(i.getSampleType().title)
 
                 #Sample Location
-                export_dict['client_sample_id'].append(i.getSamplePoint().title)
+                export_dict['sample_location'].append(i.getSamplePoint().title)
 
                 if 'plant_type' in cols:
                     #Plant Type
