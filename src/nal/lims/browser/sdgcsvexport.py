@@ -136,7 +136,7 @@ class SDGCSVExportView(BrowserView):
                 export_dict['client_sample_id'].append(i.getSampleType().title)
 
                 #Sample Location
-                export_dict['client_sample_id'].append(i.getSamplepoint().title)
+                export_dict['client_sample_id'].append(i.getSamplePoint().title)
 
                 if 'plant_type' in cols:
                     #Plant Type
