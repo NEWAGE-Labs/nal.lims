@@ -37,7 +37,7 @@ class SDGCSVExportView(BrowserView):
             'project_contact',
             'sampler_contact'
             ]
-        if sdg.hasattr('GrowerContact'):
+        if hasattr(sdg,'GrowerContact'):
             cols.append('grower_contact')
 
         xtra_cols = [
