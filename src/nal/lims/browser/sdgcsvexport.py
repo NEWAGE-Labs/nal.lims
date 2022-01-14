@@ -164,8 +164,8 @@ class SDGCSVExportView(BrowserView):
                 for j in map(api.get_object,i.getAnalyses()):
                     if api.get_workflow_status_of(j) not in ['cancelled','invalid']:
                         sigfigs = 3
-                        result = j.Result
-                        if float(result) < float(j.getLowerDetectionLimit()):
+                        result = float(j.Result)
+                        if result < float(j.getLowerDetectionLimit()):
                             result = '< ' + j.getLowerDetectionLimit()
                         else:
                             result = round(result, sigfigs-int(floor(log10(abs(result))))-1)
