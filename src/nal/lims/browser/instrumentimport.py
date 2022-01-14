@@ -123,18 +123,50 @@ class ICPImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_aluminum-'+str(j)
                     liqfert_version = 'liqfert_aluminum-'+str(j)
+                    tissue_version = 'tissue_aluminum-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         aluminum = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
                         aluminum = i[liqfert_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        aluminum = i[tissue_version]
             if found == False and hasattr(i,'sap_aluminum'):
                 aluminum = i.sap_aluminum
             elif found == False and hasattr(i,'liqfert_aluminum'):
                 aluminum = i.liqfert_aluminum
+            elif found == False and hasattr(i,'tissue_aluminum'):
+                aluminum = i.tissue_aluminum
 
             print('Aluminum is - {0}'.format(aluminum))
+
+            #Arsenic
+            found = False
+            arsenic = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_arsenic-'+str(j)
+                    liqfert_version = 'liqfert_arsenic-'+str(j)
+                    tissue_version = 'tissue_arsenic-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        arsenic = i[sap_version]
+                    elif hasattr(i,liqfert_version):
+                        found = True
+                        arsenic = i[liqfert_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        arsenic = i[tissue_version]
+            if found == False and hasattr(i,'sap_arsenic'):
+                arsenic = i.sap_arsenic
+            elif found == False and hasattr(i,'liqfert_arsenic'):
+                arsenic = i.liqfert_arsenic
+            elif found == False and hasattr(i,'tissue_arsenic'):
+                arsenic = i.tissue_arsenic
+
+            print('arsenic is - {0}'.format(arsenic))
 
 
             # try:
@@ -154,16 +186,22 @@ class ICPImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_boron-'+str(j)
                     liqfert_version = 'liqfert_boron-'+str(j)
+                    tissue_version = 'tissue_boron-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         boron = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
                         boron = i[liqfert_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        boron = i[tissue_version]
             if found == False and hasattr(i,'sap_boron'):
                 boron = i.sap_boron
             elif found == False and hasattr(i,'liqfert_boron'):
                 boron = i.liqfert_boron
+            elif found == False and hasattr(i,'tissue_boron'):
+                boron = i.tissue_boron
 
             print('Boron is - {0}'.format(boron))
 
@@ -185,28 +223,50 @@ class ICPImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_calcium-'+str(j)
                     liqfert_version = 'liqfert_calcium-'+str(j)
+                    tissue_version = 'tissue_calcium-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         calcium = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
                         calcium = i[liqfert_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        calcium = i[tissue_version]
             if found == False and hasattr(i,'sap_calcium'):
                 calcium = i.sap_calcium
             elif found == False and hasattr(i,'liqfert_calcium'):
                 calcium = i.liqfert_calcium
+            elif found == False and hasattr(i,'tissue_calcium'):
+                calcium = i.tissue_calcium
 
             print('Calcium is - {0}'.format(calcium))
 
-            # try:
-            #     calcium = i.sap_calcium
-            # except AttributeError:
-            #     calcium = None
-            # if calcium == None:
-            #     try:
-            #         calcium = i.liqfert_calcium
-            #     except AttributeError:
-            #         calcium = None
+            #Cadmium
+            found = False
+            cadmium = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_cadmium-'+str(j)
+                    liqfert_version = 'liqfert_cadmium-'+str(j)
+                    tissue_version = 'tissue_cadmium-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        cadmium = i[sap_version]
+                    elif hasattr(i,liqfert_version):
+                        found = True
+                        cadmium = i[liqfert_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        cadmium = i[tissue_version]
+            if found == False and hasattr(i,'sap_cadmium'):
+                cadmium = i.sap_cadmium
+            elif found == False and hasattr(i,'liqfert_cadmium'):
+                cadmium = i.liqfert_cadmium
+            elif found == False and hasattr(i,'tissue_cadmium'):
+                cadmium = i.tissue_cadmium
+
+            print('cadmium is - {0}'.format(cadmium))
 
             #Cobalt
             found = False
@@ -215,18 +275,50 @@ class ICPImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_cobalt-'+str(j)
                     liqfert_version = 'liqfert_cobalt-'+str(j)
+                    tissue_version = 'tissue_cobalt-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         cobalt = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
                         cobalt = i[liqfert_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        cobalt = i[tissue_version]
             if found == False and hasattr(i,'sap_cobalt'):
                 cobalt = i.sap_cobalt
             elif found == False and hasattr(i,'liqfert_cobalt'):
                 cobalt = i.liqfert_cobalt
+            elif found == False and hasattr(i,'tissue_cobalt'):
+                cobalt = i.tissue_cobalt
 
             print('Cobalt is - {0}'.format(cobalt))
+
+            #Chromium
+            found = False
+            chromium = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_chromium-'+str(j)
+                    liqfert_version = 'liqfert_chromium-'+str(j)
+                    tissue_version = 'tissue_chromium-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        chromium = i[sap_version]
+                    elif hasattr(i,liqfert_version):
+                        found = True
+                        chromium = i[liqfert_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        chromium = i[tissue_version]
+            if found == False and hasattr(i,'sap_chromium'):
+                chromium = i.sap_chromium
+            elif found == False and hasattr(i,'liqfert_chromium'):
+                chromium = i.liqfert_chromium
+            elif found == False and hasattr(i,'tissue_chromium'):
+                chromium = i.tissue_chromium
+
+            print('chromium is - {0}'.format(chromium))
 
             # try:
             #     cobalt = i.sap_cobalt
@@ -245,6 +337,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_copper-'+str(j)
                     liqfert_version = 'liqfert_copper-'+str(j)
+                    tissue_version = 'tissue_copper-'+str(j)
                     drinking_version = 'drinking_copper-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
@@ -252,6 +345,9 @@ class ICPImportView(edit.DefaultEditForm):
                     elif hasattr(i,liqfert_version):
                         found = True
                         copper = i[liqfert_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        copper = i[tissue_version]
                     elif hasattr(i,drinking_version):
                         found = True
                         copper = i[drinking_version]
@@ -261,6 +357,8 @@ class ICPImportView(edit.DefaultEditForm):
                 copper = i.liqfert_copper
             elif found == False and hasattr(i,'drinking_copper'):
                 copper = i.drinking_copper
+            elif found == False and hasattr(i,'tissue_copper'):
+                copper = i.tissue_copper
 
             print('Copper is - {0}'.format(copper))
 
@@ -290,16 +388,22 @@ class ICPImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_iron-'+str(j)
                     liqfert_version = 'liqfert_iron-'+str(j)
+                    tissue_version = 'tissue_iron-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         iron = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
                         iron = i[liqfert_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        iron = i[tissue_version]
             if found == False and hasattr(i,'sap_iron'):
                 iron = i.sap_iron
             elif found == False and hasattr(i,'liqfert_iron'):
                 iron = i.liqfert_iron
+            elif found == False and hasattr(i,'tissue_iron'):
+                iron = i.tissue_iron
 
             print('Iron is - {0}'.format(iron))
 
@@ -319,11 +423,17 @@ class ICPImportView(edit.DefaultEditForm):
             for j in range(20, 0, -1):
                 if found==False:
                     drinking_version = 'drinking_lead-'+str(j)
+                    tissue_version = 'tissue_lead-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         lead = i[sap_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        lead = i[tissue_version]
             if found == False and hasattr(i,'drinking_lead'):
                 lead = i.drinking_lead
+            elif found == False and hasattr(i,'tissue_lead'):
+                lead = i.tissue_lead
 
             print('Lead is - {0}'.format(lead))
 
@@ -339,16 +449,22 @@ class ICPImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_magnesium-'+str(j)
                     liqfert_version = 'liqfert_magnesium-'+str(j)
+                    tissue_version = 'tissue_magnesium-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         magnesium = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
                         magnesium = i[liqfert_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        magnesium = i[tissue_version]
             if found == False and hasattr(i,'sap_magnesium'):
                 magnesium = i.sap_magnesium
             elif found == False and hasattr(i,'liqfert_magnesium'):
                 magnesium = i.liqfert_magnesium
+            elif found == False and hasattr(i,'tissue_magnesium'):
+                magnesium = i.tissue_magnesium
 
             print('magnesium is - {0}'.format(magnesium))
 
@@ -369,16 +485,22 @@ class ICPImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_manganese-'+str(j)
                     liqfert_version = 'liqfert_manganese-'+str(j)
+                    tissue_version = 'tissue_manganese-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         manganese = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
                         manganese = i[liqfert_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        manganese = i[tissue_version]
             if found == False and hasattr(i,'sap_manganese'):
                 manganese = i.sap_manganese
             elif found == False and hasattr(i,'liqfert_manganese'):
                 manganese = i.liqfert_manganese
+            elif found == False and hasattr(i,'tissue_manganese'):
+                manganese = i.tissue_manganese
 
             print('manganese is - {0}'.format(manganese))
 
@@ -389,16 +511,22 @@ class ICPImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_molybdenum-'+str(j)
                     liqfert_version = 'liqfert_molybdenum-'+str(j)
+                    tissue_version = 'tissue_molybdenum-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         molybdenum = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
                         molybdenum = i[liqfert_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        molybdenum = i[tissue_version]
             if found == False and hasattr(i,'sap_molybdenum'):
                 molybdenum = i.sap_molybdenum
             elif found == False and hasattr(i,'liqfert_molybdenum'):
                 molybdenum = i.liqfert_molybdenum
+            elif found == False and hasattr(i,'tissue_molybdenum'):
+                molybdenum = i.tissue_molybdenum
 
             print('molybdenum is - {0}'.format(molybdenum))
 
@@ -409,16 +537,22 @@ class ICPImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_nickel-'+str(j)
                     liqfert_version = 'liqfert_nickel-'+str(j)
+                    tissue_version = 'tissue_nickel-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         nickel = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
                         nickel = i[liqfert_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        nickel = i[tissue_version]
             if found == False and hasattr(i,'sap_nickel'):
                 nickel = i.sap_nickel
             elif found == False and hasattr(i,'liqfert_nickel'):
                 nickel = i.liqfert_nickel
+            elif found == False and hasattr(i,'tissue_nickel'):
+                nickel = i.tissue_nickel
 
             print('nickel is - {0}'.format(nickel))
 
@@ -429,16 +563,22 @@ class ICPImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_phosphorous-'+str(j)
                     liqfert_version = 'liqfert_phosphorous-'+str(j)
+                    tissue_version = 'tissue_phosphorus-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         phosphorus = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
                         phosphorus = i[liqfert_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        phosphorus = i[tissue_version]
             if found == False and hasattr(i,'sap_phosphorous'):
                 phosphorus = i.sap_phosphorous
             elif found == False and hasattr(i,'liqfert_phosphorous'):
                 phosphorus = i.liqfert_phosphorous
+            elif found == False and hasattr(i,'tissue_phosphorus'):
+                phosphorus = i.tissue_phosphorus
 
             print('phosphorus is - {0}'.format(phosphorus))
 
@@ -449,16 +589,22 @@ class ICPImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_potassium-'+str(j)
                     liqfert_version = 'liqfert_potassium-'+str(j)
+                    tissue_version = 'tissue_potassium-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         potassium = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
                         potassium = i[liqfert_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        potassium = i[tissue_version]
             if found == False and hasattr(i,'sap_potassium'):
                 potassium = i.sap_potassium
             elif found == False and hasattr(i,'liqfert_potassium'):
                 potassium = i.liqfert_potassium
+            elif found == False and hasattr(i,'tissue_potassium'):
+                potassium = i.tissue_potassium
 
             print('potassium is - {0}'.format(potassium))
 
@@ -469,16 +615,22 @@ class ICPImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_selenium-'+str(j)
                     liqfert_version = 'liqfert_selenium-'+str(j)
+                    tissue_version = 'tissue_selenium-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         selenium = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
                         selenium = i[liqfert_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        selenium = i[tissue_version]
             if found == False and hasattr(i,'sap_selenium'):
                 selenium = i.sap_selenium
             elif found == False and hasattr(i,'liqfert_selenium'):
                 selenium = i.liqfert_selenium
+            elif found == False and hasattr(i,'tissue_selenium'):
+                selenium = i.tissue_selenium
 
             print('selenium is - {0}'.format(selenium))
 
@@ -489,16 +641,22 @@ class ICPImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_silica-'+str(j)
                     liqfert_version = 'liqfert_silica-'+str(j)
+                    tissue_version = 'tissue_silica-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         silica = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
                         silica = i[liqfert_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        silica = i[tissue_version]
             if found == False and hasattr(i,'sap_silica'):
                 silica = i.sap_silica
             elif found == False and hasattr(i,'liqfert_silica'):
                 silica = i.liqfert_silica
+            elif found == False and hasattr(i,'tissue_silica'):
+                silica = i.tissue_silica
 
             print('silica is - {0}'.format(silica))
 
@@ -509,16 +667,22 @@ class ICPImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_sodium-'+str(j)
                     liqfert_version = 'liqfert_sodium-'+str(j)
+                    tissue_version = 'tissue_sodium-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         sodium = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
                         sodium = i[liqfert_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        sodium = i[tissue_version]
             if found == False and hasattr(i,'sap_sodium'):
                 sodium = i.sap_sodium
             elif found == False and hasattr(i,'liqfert_sodium'):
                 sodium = i.liqfert_sodium
+            elif found == False and hasattr(i,'tissue_sodium'):
+                sodium = i.tissue_sodium
 
             print('sodium is - {0}'.format(sodium))
 
@@ -529,16 +693,22 @@ class ICPImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_sulfur-'+str(j)
                     liqfert_version = 'liqfert_sulfur-'+str(j)
+                    tissue_version = 'tissue_sulfur-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         sulfur = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
                         sulfur = i[liqfert_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        sulfur = i[tissue_version]
             if found == False and hasattr(i,'sap_sulfur'):
                 sulfur = i.sap_sulfur
             elif found == False and hasattr(i,'liqfert_sulfur'):
                 sulfur = i.liqfert_sulfur
+            elif found == False and hasattr(i,'tissue_sulfur'):
+                sulfur = i.tissue_sulfur
 
             print('Sulfur is - {0}'.format(sulfur))
 
@@ -549,16 +719,22 @@ class ICPImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_zinc-'+str(j)
                     liqfert_version = 'liqfert_zinc-'+str(j)
+                    tissue_version = 'tissue_zinc-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         zinc = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
                         zinc = i[liqfert_version]
+                    elif hasattr(i,tissue_version):
+                        found = True
+                        zinc = i[tissue_version]
             if found == False and hasattr(i,'sap_zinc'):
                 zinc = i.sap_zinc
             elif found == False and hasattr(i,'liqfert_zinc'):
                 zinc = i.liqfert_zinc
+            elif found == False and hasattr(i,'tissue_zinc'):
+                zinc = i.tissue_zinc
 
             print('Zinc is - {0}'.format(zinc))
 
@@ -603,6 +779,22 @@ class ICPImportView(edit.DefaultEditForm):
                     aluminum.reindexObject(idxs=['Analyst'])
                 print("Setting Imported to True")
                 imported.append(True)
+        #Arsenic
+            if arsenic is not None and api.get_workflow_status_of(arsenic) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ar')].empty:
+                print("Importing arsenic")
+                arsenic.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ar')]['Formatted Result'].values[0].strip(), "utf-8")
+                arsenic.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ar')]['Test Date/Time'].values[0]
+                arsenic.Method = method
+                arsenic.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
+                if [j for j in api.get_transitions_for(arsenic) if 'submit' in j.values()]:
+                    try:
+                        api.do_transition_for(arsenic, "submit")
+                    except AttributeError:
+                        pass
+                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ar')]['Analyst'].empty:
+                    arsenic.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ar')]['Analyst'].values[0]
+                    arsenic.reindexObject(idxs=['Analyst'])
+                imported.append(True)
         #Boron
             if boron is not None and api.get_workflow_status_of(boron) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')].empty:
                 print("Importing Boron")
@@ -635,6 +827,22 @@ class ICPImportView(edit.DefaultEditForm):
                     calcium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Analyst'].values[0]
                     calcium.reindexObject(idxs=['Analyst'])
                 imported.append(True)
+        #Cadmium
+            if cadmium is not None and api.get_workflow_status_of(cadmium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cd')].empty:
+                print("Importing cadmium")
+                cadmium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cd')]['Formatted Result'].values[0].strip(), "utf-8")
+                cadmium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cd')]['Test Date/Time'].values[0]
+                cadmium.Method = method
+                cadmium.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
+                if [j for j in api.get_transitions_for(cadmium) if 'submit' in j.values()]:
+                    try:
+                        api.do_transition_for(cadmium, "submit")
+                    except AttributeError:
+                        pass
+                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cd')]['Analyst'].empty:
+                    cadmium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cd')]['Analyst'].values[0]
+                    cadmium.reindexObject(idxs=['Analyst'])
+                imported.append(True)
         #Cobalt
             if cobalt is not None and api.get_workflow_status_of(cobalt) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')].empty:
                 print("Importing Cobalt")
@@ -650,6 +858,22 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')]['Analyst'].empty:
                     cobalt.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')]['Analyst'].values[0]
                     cobalt.reindexObject(idxs=['Analyst'])
+                imported.append(True)
+        #Chromium
+            if chromium is not None and api.get_workflow_status_of(chromium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cr')].empty:
+                print("Importing chromium")
+                chromium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cr')]['Formatted Result'].values[0].strip(), "utf-8")
+                chromium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cr')]['Test Date/Time'].values[0]
+                chromium.Method = method
+                chromium.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
+                if [j for j in api.get_transitions_for(chromium) if 'submit' in j.values()]:
+                    try:
+                        api.do_transition_for(chromium, "submit")
+                    except AttributeError:
+                        pass
+                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cr')]['Analyst'].empty:
+                    chromium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cr')]['Analyst'].values[0]
+                    chromium.reindexObject(idxs=['Analyst'])
                 imported.append(True)
         #Copper
             if copper is not None and api.get_workflow_status_of(copper) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')].empty:
