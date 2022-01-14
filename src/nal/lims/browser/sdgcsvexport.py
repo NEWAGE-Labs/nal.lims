@@ -63,7 +63,7 @@ class SDGCSVExportView(BrowserView):
 
             for j in map(api.get_object,i.getAnalyses()):
                 if j.Keyword not in cols:
-                    cols.append(j.Keyword)
+                    cols.append(str(j.Keyword))
 
         print(cols)
 
@@ -99,10 +99,10 @@ class SDGCSVExportView(BrowserView):
 
                 #Date Received
                 dreceived = sdg.SDGDate.strftime('%m-%d-%Y')
-                export_dict['sample_delivery_group'].append(dreceived)
+                export_dict['date_received'].append(dreceived)
 
                 #Time Received
-                export_dict['sample_delivery_group'].append(sdg.SDGTime)
+                export_dict['time_received'].append(sdg.SDGTime)
 
                 #Project Contact
                 project_contact = sdg.getReferences(relationship="SDGProjectContact")[0]
@@ -681,8 +681,8 @@ class SDGCSVExportView(BrowserView):
 
         df = pd.DataFrame()
 
-        for i in range(len(cols)):
-            df[cols[i]] = export_dict[cols[i]]
+        for i in cols:
+            df[i] = export_dict[i]
 
         df.to_csv(fullpath)
 
