@@ -678,7 +678,7 @@ class SDGCSVExportView(BrowserView):
         print(cols)
         print(export_dict)
         for i in export_dict:
-            print(len(i))
+            print(len(export_dict[i]))
             print(export_dict[i])
         df = pd.DataFrame()
 
