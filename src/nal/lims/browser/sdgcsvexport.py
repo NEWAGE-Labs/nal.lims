@@ -48,7 +48,7 @@ class SDGCSVExportView(BrowserView):
             'sample_type',
             'sample_location'
         ]
-        cols.append(xtra_cols)
+        cols = cols + xtra_cols
         ARs = self.context.getAnalysisRequests()
         for i in ARs:
             if i.getSampleType == 'Sap' and 'plant_type' not in cols and api.get_workflow_status_of(i) not in ['cancelled','invalid']:
@@ -64,6 +64,8 @@ class SDGCSVExportView(BrowserView):
             for j in map(api.get_object,i.getAnalyses()):
                 if j.Keyword not in cols:
                     cols.append(j.Keyword)
+
+        print(cols)
 
         #initialize dictionary of lists
         for i in range(len(cols)):
