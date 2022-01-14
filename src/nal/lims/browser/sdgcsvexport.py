@@ -18,7 +18,8 @@ class SDGCSVExportView(BrowserView):
 
         rootpath = '/mnt'
         path = '/Data/LIMS Sap CSV Exports/'
-        filepath = path + self.context.title + '.csv'
+        sdg = self.context
+        filepath = path + sdg.title + '.csv'
         fullpath = rootpath + filepath
         export_dict = {}
         #Get a Column list based on:
@@ -36,7 +37,7 @@ class SDGCSVExportView(BrowserView):
             'project_contact',
             'sampler_contact'
             ]
-        if self.context.GrowerContact != '':
+        if sdg.hasattr('GrowerContact'):
             cols.append('grower_contact')
 
         xtra_cols = [
@@ -70,7 +71,6 @@ class SDGCSVExportView(BrowserView):
 
         for i in ARs:
             if api.get_workflow_status_of(i) not in ['cancelled','invalid']:
-                sdg = self.context
                 client = sdg.getClient()
 
                 #NAL Number
