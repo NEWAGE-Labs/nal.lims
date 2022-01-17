@@ -17,7 +17,7 @@ class SDGCSVExportView(BrowserView):
     def __call__(self):
 
         rootpath = '/mnt'
-        path = '/Data/LIMS Sap CSV Exports/'
+        path = '/Data/LIMS CSV Exports/'
         sdg = self.context
         filepath = path + sdg.title + '.csv'
         fullpath = rootpath + filepath
