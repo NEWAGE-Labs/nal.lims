@@ -154,7 +154,8 @@ class SDGCSVExportView(BrowserView):
                     export_dict['growth_stage'].append(i.GrowthStage)
 
                     #Vigor
-                    export_dict['vigor'].append(i.Vigor)
+                    if hasattr(i,'Vigor'):
+                        export_dict['vigor'].append(i.Vigor)
 
                     #New/Old
                     new_old = ''
