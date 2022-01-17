@@ -57,7 +57,8 @@ class SDGCSVExportView(BrowserView):
                     'variety',
                     'growth_stage',
                     'vigor',
-                    'new_old'
+                    'new_old',
+                    'nitrogen_conversion_effeciency'
                 ]
                 cols = cols + sap_cols
 
@@ -176,6 +177,36 @@ class SDGCSVExportView(BrowserView):
                         else:
                             result = round(result, sigfigs-int(floor(log10(abs(result))))-1)
                         export_dict[j.Keyword].append(result)
+
+                # #Nitrogen conversion efficiency
+                # nce = ''
+                # if tn < 0.01 or n_nh4 == '':
+                #     nce = ''
+                # else:
+                #     if n_nh4 < 0.01:
+                #         n_nh4 = 0
+                #     if n_no3 < 0.01:
+                #         n_no3 = 0
+                #
+                #     nce = (1 - ((n_nh4 + n_no3) / tn))*100
+                #
+                #     nce = round(nce, 3-int(floor(log10(abs(nce))))-1)
+                #
+                # export_dict[cols[36]].append(nce)
+                if 'nitrogen_conversion_effeciency' in cols:
+                    nh4 = export_dict['sap_nitrogen_as_ammonium'][-1]
+                    no3 = export_dict['sap_nitrogen_as_nitrate'][-1]
+                    tn = float(export_dict['sap_total_nitrogen'][-1])
+                    nce = 0
+
+                    if nh4 = '< 0.01':
+                        nh4 = 0
+                    if no3 = '< 0.01':
+                        no3 = 0
+
+                    nce = (1 - ((nh4 + no3) / tn))*100
+                    nce = round(nce, sigfigs-int(floor(log10(abs(nce))))-1)
+                    export_dict['nitrogen_conversion_effeciency'].append(nce)
 
                 for j in cols:
                     if len(export_dict[j]) < sample_count:
