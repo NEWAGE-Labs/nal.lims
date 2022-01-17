@@ -173,7 +173,7 @@ class SDGCSVExportView(BrowserView):
                             result = round(result, sigfigs-int(floor(log10(abs(result))))-1)
                         export_dict[j.Keyword].append(result)
 
-                for j in cols
+                for j in cols:
                     if len(export_dict[j]) < sample_count:
                         export_dict[j].append('')
 
