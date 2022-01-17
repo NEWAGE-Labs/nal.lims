@@ -172,11 +172,18 @@ class SDGCSVExportView(BrowserView):
                     if api.get_workflow_status_of(j) not in ['cancelled','invalid','retracted','rejected']:
                         sigfigs = 3
                         result = float(j.Result)
-                        if result < float(j.getLowerDetectionLimit()):
-                            result = '< ' + str(j.getLowerDetectionLimit())
+                        if i.getSampleType().title == 'Sap':
+                            if result < 0.01:
+                                result = '< 0.01'
+                            else:
+                                result = round(result, sigfigs-int(floor(log10(abs(result))))-1)
+                            export_dict[j.Keyword].append(result)
                         else:
-                            result = round(result, sigfigs-int(floor(log10(abs(result))))-1)
-                        export_dict[j.Keyword].append(result)
+                            if result < float(j.getLowerDetectionLimit()):
+                                result = '< ' + str(j.getLowerDetectionLimit())
+                            else:
+                                result = round(result, sigfigs-int(floor(log10(abs(result))))-1)
+                            export_dict[j.Keyword].append(result)
 
                 # #Nitrogen conversion efficiency
                 # nce = ''
