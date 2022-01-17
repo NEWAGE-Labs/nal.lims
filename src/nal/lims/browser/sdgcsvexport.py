@@ -199,9 +199,9 @@ class SDGCSVExportView(BrowserView):
                     tn = float(export_dict['sap_total_nitrogen'][-1])
                     nce = 0
 
-                    if nh4 = '< 0.01':
+                    if nh4 == '< 0.01':
                         nh4 = 0
-                    if no3 = '< 0.01':
+                    if no3 == '< 0.01':
                         no3 = 0
 
                     nce = (1 - ((nh4 + no3) / tn))*100
