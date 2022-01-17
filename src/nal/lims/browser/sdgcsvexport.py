@@ -204,7 +204,7 @@ class SDGCSVExportView(BrowserView):
                     if no3 == '< 0.01':
                         no3 = 0
 
-                    nce = (1 - ((nh4 + no3) / tn))*100
+                    nce = (1 - ((float(nh4) + float(no3)) / float(tn)))*100
                     nce = round(nce, sigfigs-int(floor(log10(abs(nce))))-1)
                     export_dict['nitrogen_conversion_effeciency'].append(nce)
 
