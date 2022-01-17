@@ -200,7 +200,7 @@ class SDGCSVExportView(BrowserView):
                 #     nce = round(nce, 3-int(floor(log10(abs(nce))))-1)
                 #
                 # export_dict[cols[36]].append(nce)
-                if 'nitrogen_conversion_effeciency' in cols:
+                if i.getSampleType().title == 'Sap':
                     nh4 = export_dict['sap_nitrogen_as_ammonium'][-1]
                     no3 = export_dict['sap_nitrogen_as_nitrate'][-1]
                     tn = float(export_dict['sap_total_nitrogen'][-1])
