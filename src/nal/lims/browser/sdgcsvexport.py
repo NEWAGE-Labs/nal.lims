@@ -69,8 +69,12 @@ class SDGCSVExportView(BrowserView):
         for i in range(len(cols)):
             export_dict[cols[i]] = []
 
+        sample_count = 0
         for i in ARs:
             if api.get_workflow_status_of(i) not in ['cancelled','invalid']:
+
+                sample_count = sample_count+1
+
                 client = sdg.getClient()
 
                 #NAL Number
@@ -168,6 +172,10 @@ class SDGCSVExportView(BrowserView):
                         else:
                             result = round(result, sigfigs-int(floor(log10(abs(result))))-1)
                         export_dict[j.Keyword].append(result)
+
+                for j in cols
+                    if len(export_dict[j]) < sample_count:
+                        export_dict[j].append('')
 
                 #EC
                 # ec = -0.01
