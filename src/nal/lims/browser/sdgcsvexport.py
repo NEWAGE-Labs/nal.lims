@@ -161,7 +161,7 @@ class SDGCSVExportView(BrowserView):
                     #New/Old
                     new_old = ''
                     ## If Sample has a Pair, Then assign a 'New' or 'Old'
-                    if i.getSampleType == 'Sap' and i.SubGroup is not None:
+                    if i.getSampleType().title == 'Sap' and i.SubGroup is not None:
                         if i.NewLeaf == True:
                             new_old = 'New'
                         elif i.NewLeaf == False:
