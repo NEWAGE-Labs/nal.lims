@@ -161,10 +161,10 @@ class SDGCSVExportView(BrowserView):
                     #New/Old
                     new_old = ''
                     ## If Sample has a Pair, Then assign a 'New' or 'Old'
-                    if i.getSampleType().title == 'Sap' and hasattr(i,'SubGroup'):
-                        if i.NewLeaf == True:
+                    if i.getSampleType().title == 'Sap' and i.getSubGroup() is not None:
+                        if i.NewLeaf is True:
                             new_old = 'New'
-                        elif i.NewLeaf == False:
+                        elif i.NewLeaf is False:
                             new_old = 'Old'
                     export_dict['new_old'].append(new_old)
 
