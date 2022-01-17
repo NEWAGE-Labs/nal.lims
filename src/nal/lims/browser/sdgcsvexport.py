@@ -59,7 +59,7 @@ class SDGCSVExportView(BrowserView):
                     'vigor',
                     'new_old'
                 ]
-                cols.append(sap_cols)
+                cols = cols + sap_cols
 
             for j in map(api.get_object,i.getAnalyses()):
                 if j.Keyword not in cols:
