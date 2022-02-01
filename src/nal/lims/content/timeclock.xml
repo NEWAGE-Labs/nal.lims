@@ -1,0 +1,11 @@
+<model
+	xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+	xmlns:marshal="http://namespaces.plone.org/supermodel/marshal"
+	xmlns:form="http://namespaces.plone.org/supermodel/form"
+	xmlns:security="http://namespaces.plone.org/supermodel/security"
+	xmlns:users="http://namespaces.plone.org/supermodel/users"
+	xmlns:lingua="http://namespaces.plone.org/supermodel/lingua"
+	xmlns="http://namespaces.plone.org/supermodel/schema">
+  <schema>
+  </schema>
+</model>

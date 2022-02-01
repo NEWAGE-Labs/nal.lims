@@ -34,7 +34,9 @@ melissa = api.create(labcontacts, "LabContact", Firstname="Melissa", Surname="Ab
 kim = api.create(labcontacts, "LabContact", Firstname="Kim", Surname="Crago", EmailAddress="kcrago@newagelaboratories.com").UID()
 irish = api.create(labcontacts, "LabContact", Firstname="Irish", Surname="Gallagher", EmailAddress="igallagher@newagelaboratories.com").UID()
 tami = api.create(labcontacts, "LabContact", Firstname="Tami", Surname="Kruger", EmailAddress="tkruger@newagelaboratories.com").UID()
-taylor = api.create(labcontacts, "LabContact", Firstname="Taylor", Surname="Opolka", EmailAddress="topolka@newagelaboratories.com").UID()
+sarah = api.create(labcontacts, "LabContact", Firstname="Sarah", Surname="Powell", EmailAddress="spowell@newagelaboratories.com").UID()
+chelsey = api.create(labcontacts, "LabContact", Firstname="Chelsey", Surname="Lynch", EmailAddress="clynch@newagelaboratories.com").UID()
+# taylor = api.create(labcontacts, "LabContact", Firstname="Taylor", Surname="Opolka", EmailAddress="topolka@newagelaboratories.com").UID()
 
 for i in api.search({'portal_type':'LabContact'}):
     api.get_object(i).reindexObject()
@@ -48,16 +50,18 @@ for i in api.search({'portal_type':'Department'}):
 #AnalysisCategories
 
 sapcategory = api.create(categories, "AnalysisCategory", title="Sap").UID()
-drinkingcategory = api.create(categories, "AnalysisCategory", title="Drinking Water").UID()
-surfacecategory = api.create(categories, "AnalysisCategory", title="Surface Water").UID()
-cannabiscategory = api.create(categories, "AnalysisCategory", title="Cannabis").UID()
+drinkingcategory = api.create(categories, "AnalysisCategory", title="Water, Drinking").UID()
+surfacecategory = api.create(categories, "AnalysisCategory", title="Water, Surface").UID()
+wastecategory = api.create(categories, "AnalysisCategory", title="Water, Waste").UID()
+cannabiscategory = api.create(categories, "AnalysisCategory", title="Cannabis Flower").UID()
 soilcategory = api.create(categories, "AnalysisCategory", title="Soil").UID()
-liqfertcategory = api.create(categories, "AnalysisCategory", title="Liquid Ferilizer").UID()
-frozencategory = api.create(categories, "AnalysisCategory", title="Frozen Food").UID()
-rawcategory = api.create(categories, "AnalysisCategory", title="Raw Food").UID()
+liqfertcategory = api.create(categories, "AnalysisCategory", title="Water, Liquid Fertilizer").UID()
+frozencategory = api.create(categories, "AnalysisCategory", title="Food, Frozen").UID()
+rawcategory = api.create(categories, "AnalysisCategory", title="Food, Raw").UID()
 aircategory = api.create(categories, "AnalysisCategory", title="Compressed Air").UID()
 prepcategory = api.create(categories, "AnalysisCategory", title="Prep").UID()
 cleancategory = api.create(categories, "AnalysisCategory", title="Cleanup").UID()
+tissuecategory = api.create(categories, "AnalysisCategory", title="Tissue").UID()
 
 for i in api.search({'portal_type':'AnalysisCategory'}):
     api.get_object(i).reindexObject()
@@ -188,12 +192,13 @@ sap_mg = api.create(analysisservices, "AnalysisService", title="Magnesium (Mg)",
 sap_mn = api.create(analysisservices, "AnalysisService", title="Manganese (Mn)", Keyword = "sap_manganese", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
 sap_mo = api.create(analysisservices, "AnalysisService", title="Molybdenum (Mo)", Keyword = "sap_molybdenum", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
 sap_ni = api.create(analysisservices, "AnalysisService", title="Nickel (Ni)", Keyword = "sap_nickel", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+sap_ncr = api.create(analysisservices, "AnalysisService", title="Nitrogen Conversion Effeciency", Keyword = "sap_nitratogen_conversion_ratio", Accredited=True, Unit="%", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.001", Precision=3, ExponentialFormatPrecision=7).UID()
 sap_no3 = api.create(analysisservices, "AnalysisService", title="Nitrate (NO3)", Keyword = "sap_nitrate", Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.001", Precision=3, ExponentialFormatPrecision=7).UID()
 sap_nnh4 = api.create(analysisservices, "AnalysisService", title="Nitrogen as Ammonium (NH4)", Keyword = "sap_nitrogen_as_ammonium", Methods=sm4500_nh3, Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
 sap_nno3 = api.create(analysisservices, "AnalysisService", title="Nitrogen as Nitrate (NO3)", Keyword = "sap_nitrogen_as_nitrate", Methods=sm4500_no3d, Accredited=True, Unit="ppm", PointOfCapture="lab", LowerDetectionLimit="0.05", Precision=2, Category=sapcategory, ExponentialFormatPrecision=7).UID()
 sap_totaln = api.create(analysisservices, "AnalysisService", title="Nitrogen (N), Total", Keyword = "sap_total_nitrogen", Methods=aoac972_32, Accredited=True, Unit="ppm", PointOfCapture="lab", LowerDetectionLimit="0.05", Precision=2, Category=sapcategory, ExponentialFormatPrecision=7).UID()
 sap_ph = api.create(analysisservices, "AnalysisService", title="pH", Keyword = "sap_ph", Methods=aoac973_41, Accredited=True, Unit="-", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.01", Precision=2, ExponentialFormatPrecision=7).UID()
-sap_p = api.create(analysisservices, "AnalysisService", title="Phosphorous (P)", Keyword = "sap_phosphorous", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+sap_p = api.create(analysisservices, "AnalysisService", title="Phosphorus (P)", Keyword = "sap_phosphorus", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
 sap_k = api.create(analysisservices, "AnalysisService", title="Potassium (K)", Keyword = "sap_potassium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
 sap_se = api.create(analysisservices, "AnalysisService", title="Selenium (Se)", Keyword = "sap_selenium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
 sap_si = api.create(analysisservices, "AnalysisService", title="Silica (Si)", Keyword = "sap_silica", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
@@ -216,8 +221,8 @@ drinking_fecal = api.create(analysisservices, "AnalysisService", title="Fecal Co
 
 surface_coliform_mpn = api.create(analysisservices, "AnalysisService", title="Coliform (MPN)", Keyword = "surface_coliform_mpn", Methods=sm9223b, Accredited=True, Unit="mpn/100mL", PointOfCapture="lab", Category=surfacecategory, LowerDetectionLimit="1", Precision=0, ExponentialFormatPrecision=7).UID()
 surface_ecoli_mpn = api.create(analysisservices, "AnalysisService", title="E.coli (MPN)", Keyword = "surface_coli_mpn", Methods=sm9223b, Accredited=True, Unit="mpn/100mL", PointOfCapture="lab", Category=surfacecategory, LowerDetectionLimit="1", Precision=0, ExponentialFormatPrecision=7).UID()
-surface_coliform_mpn_10x = api.create(analysisservices, "AnalysisService", title="Coliform (MPN) - 10x", Keyword = "surface_coliform_mpn_10x", Methods=sm9223b, Accredited=True, Unit="mpn/10mL", PointOfCapture="lab", Category=surfacecategory, LowerDetectionLimit="1", Precision=0, ExponentialFormatPrecision=7).UID()
-surface_ecoli_mpn_10x = api.create(analysisservices, "AnalysisService", title="E.coli (MPN) - 10x", Keyword = "surface_ecoli_mpn_10x", Methods=sm9223b, Accredited=True, Unit="mpn/10mL", PointOfCapture="lab", Category=surfacecategory, LowerDetectionLimit="1", Precision=0, ExponentialFormatPrecision=7).UID()
+surface_coliform_mpn_10x = api.create(analysisservices, "AnalysisService", title="Coliform (MPN) - 10x", Keyword = "surface_coliform_mpn_10x", Methods=sm9223b, Accredited=True, Unit="mpn/10mL", PointOfCapture="lab", Category=surfacecategory, LowerDetectionLimit="10", Precision=0, ExponentialFormatPrecision=7).UID()
+surface_ecoli_mpn_10x = api.create(analysisservices, "AnalysisService", title="E.coli (MPN) - 10x", Keyword = "surface_ecoli_mpn_10x", Methods=sm9223b, Accredited=True, Unit="mpn/10mL", PointOfCapture="lab", Category=surfacecategory, LowerDetectionLimit="10", Precision=0, ExponentialFormatPrecision=7).UID()
 surface_coliform_mpn_fsma = api.create(analysisservices, "AnalysisService", title="Coliform (MPN) - FSMA", Keyword = "surface_oliform_mpn_fsma", Methods=sm9223b, Accredited=True, Unit="mpn/100mL", PointOfCapture="lab", Category=surfacecategory, LowerDetectionLimit="1", Precision=0, ExponentialFormatPrecision=7).UID()
 surface_ecoli_mpn_fsma = api.create(analysisservices, "AnalysisService", title="E.coli (MPN) - FSMA", Keyword = "surface_ecoli_mpn_fsma", Methods=sm9223b, Accredited=True, Unit="mpn/100mL", PointOfCapture="lab", Category=surfacecategory, LowerDetectionLimit="1", Precision=0, ExponentialFormatPrecision=7).UID()
 
@@ -228,7 +233,7 @@ liqfert_soluablesalts = api.create(analysisservices, "AnalysisService", title="S
 liqfert_tds = api.create(analysisservices, "AnalysisService", title="Total Dissolved Solids (TDS)", Keyword="liqfert_tds", Methods=sm2510b, Accredited=True, Unit="ppm", PointOfCapture="lab", Category=liqfertcategory, LowerDetectionLimit="0.1", Precision=2, ExponentialFormatPrecision=7).UID()
 liqfert_chloride = api.create(analysisservices, "AnalysisService", title="Chloride (Cl-)", Keyword="liqfert_chloride", Methods=sm4500_cl, Accredited=True, Unit="ppm", PointOfCapture="lab", Category=liqfertcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
 liqfert_sulfur = api.create(analysisservices, "AnalysisService", title="Sulfur (S)", Keyword="liqfert_sulfur", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=liqfertcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
-liqfert_phosphorus = api.create(analysisservices, "AnalysisService", title="Phosphorous (P)", Keyword="liqfert_phosphorous", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=liqfertcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+liqfert_phosphorus = api.create(analysisservices, "AnalysisService", title="Phosphorus (P)", Keyword="liqfert_phosphorus", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=liqfertcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
 liqfert_calcium = api.create(analysisservices, "AnalysisService", title="Calcium (Ca)", Keyword="liqfert_calcium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=liqfertcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
 liqfert_potassium = api.create(analysisservices, "AnalysisService", title="Potassium (K)", Keyword="liqfert_potassium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=liqfertcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
 liqfert_magnesium = api.create(analysisservices, "AnalysisService", title="Magnesium (Mg)", Keyword="liqfert_magnesium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=liqfertcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
@@ -247,10 +252,33 @@ liqfert_zinc = api.create(analysisservices, "AnalysisService", title="Zinc (Zn)"
 liqfert_ammonia = api.create(analysisservices, "AnalysisService", title="Ammonia (NH4) as Nitrogen (N)", Keyword="liqfert_ammonia", Methods=sm4500_no3d, Accredited=True, Unit="ppm", PointOfCapture="lab", Category=liqfertcategory, LowerDetectionLimit="0.01", Precision=2, ExponentialFormatPrecision=7).UID()
 liqfert_nitrate = api.create(analysisservices, "AnalysisService", title="Nitrate (NO3) as Nitrogen (N)", Keyword="liqfert_nitrate", Methods=sm4500_modnh3, Accredited=True, Unit="ppm", PointOfCapture="lab", Category=liqfertcategory, LowerDetectionLimit="0.01", Precision=2, ExponentialFormatPrecision=7).UID()
 
+
+tissue_aluminum = api.create(analysisservices, "AnalysisService", title="Aluminum (Al)", Keyword="tissue_aluminum", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_arsenic = api.create(analysisservices, "AnalysisService", title="Arsenic (Ar)", Keyword="tissue_arsenic", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_boron = api.create(analysisservices, "AnalysisService", title="Boron (B)", Keyword="tissue_boron", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_calcium = api.create(analysisservices, "AnalysisService", title="Calcium (Ca)", Keyword="tissue_calcium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_cadmium = api.create(analysisservices, "AnalysisService", title="Cadmium (Cd)", Keyword="tissue_cadmium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_cobalt = api.create(analysisservices, "AnalysisService", title="Cobalt (Co)", Keyword="tissue_cobalt", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_chromium = api.create(analysisservices, "AnalysisService", title="Chromium (Cr)", Keyword="tissue_chromium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_copper = api.create(analysisservices, "AnalysisService", title="Copper (Cu)", Keyword="tissue_copper", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_iron = api.create(analysisservices, "AnalysisService", title="Iron (Fe)", Keyword="tissue_iron", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_potassium = api.create(analysisservices, "AnalysisService", title="Potassium (K)", Keyword="tissue_potassium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_magnesium = api.create(analysisservices, "AnalysisService", title="Magnesium (Mg)", Keyword="tissue_magnesium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_manganese = api.create(analysisservices, "AnalysisService", title="Manganese (Mn)", Keyword="tissue_manganese", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_molybdenum = api.create(analysisservices, "AnalysisService", title="Molybdenum (Mo)", Keyword="tissue_molybdenum", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_sodium = api.create(analysisservices, "AnalysisService", title="Sodium (Na)", Keyword="tissue_sodium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_nickel = api.create(analysisservices, "AnalysisService", title="Nickel (Ni)", Keyword="tissue_nickel", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_phosphorus = api.create(analysisservices, "AnalysisService", title="Phosphorus (P)", Keyword="tissue_phosphorus", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_lead = api.create(analysisservices, "AnalysisService", title="Lead (Pb)", Keyword="tissue_lead", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_sulfur = api.create(analysisservices, "AnalysisService", title="Sulfur (S)", Keyword="tissue_sulfur", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_selenium = api.create(analysisservices, "AnalysisService", title="Selenium (Se)", Keyword="tissue_selenium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_silica = api.create(analysisservices, "AnalysisService", title="Silica (Si)", Keyword="tissue_silica", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_zinc = api.create(analysisservices, "AnalysisService", title="Zinc (Zn)", Keyword="tissue_zinc", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
 #Calculations
 
 sap_nitrate_calc = api.create(calculations, "Calculation", title="Nitrate as N to Nitrate (Sap)", Formula="[sap_nitrogen_as_nitrate]*4.43")
 sap_kca_calc = api.create(calculations, "Calculation", title="K/Ca Ratio (Sap)", Formula="[sap_potassium]/[sap_calcium]")
+sap_nitrogen_conversion_ratio = api.create(calculations, "Calculation", title="Nitrogen Conversion Ratio", Formula="1 - ( ( [sap_nitrogen_as_nitrate] + [sap_nitrogen_as_ammonium] ) / [sap_total_nitrogen] )")
 
 for i in api.search({'portal_type':'Calculation'}):
     api.get_object(i).reindexObject()
@@ -267,13 +295,13 @@ for i in api.search({'portal_type':'AnalysisService'}):
 profile_lead_copper = api.create(profiles, "AnalysisProfile", title="Lead/Copper - Drinking Water", Service=[drinking_pb,drinking_cu]).UID()
 profile_ecoli_coliform_pa = api.create(profiles, "AnalysisProfile", title="E.coli/Coliform PA", Service=[drinking_coliform_pa,drinking_ecoli_pa]).UID()
 profile_nitrate = api.create(profiles, "AnalysisProfile", title="Nitrate - Drinking Water", Service=[drinking_no3]).UID()
-profile_nitrite = api.create(profiles, "AnalysisProfile", title="Nitrite - Drinking Water", Service=[drinking_no3]).UID()
+profile_nitrite = api.create(profiles, "AnalysisProfile", title="Nitrite - Drinking Water", Service=[drinking_no2]).UID()
 profile_ecoli_coliform_mpn = api.create(profiles, "AnalysisProfile", title="E.coli/Coliform MPN", Service=[surface_coliform_mpn,surface_ecoli_mpn]).UID()
 profile_ecoli_coliform_mpn_FSMA = api.create(profiles, "AnalysisProfile", title="E.coli/Coliform MPN - FSMA", Service=[surface_coliform_mpn_fsma,surface_ecoli_mpn_fsma]).UID()
 profile_ecoli_coliform_mpn_10x = api.create(profiles, "AnalysisProfile", title="E.coli/Coliform MPN - 10x", Service=[surface_coliform_mpn_10x,surface_ecoli_mpn_10x]).UID()
 
 profile_sap = api.create(profiles, "AnalysisProfile", title="Sap", Service=[sap_al,sap_b,sap_brix,sap_sugar,sap_ca,sap_cl,sap_co,sap_cu,sap_ec,sap_fe,\
-sap_kca,sap_mg,sap_mn,sap_mo,sap_ni,sap_no3,sap_nnh4,sap_nno3,sap_totaln,sap_ph,sap_p,sap_k,sap_se,sap_si,sap_na,sap_s,sap_zn]).UID()
+sap_kca,sap_mg,sap_mn,sap_mo,sap_ncr,sap_ni,sap_no3,sap_nnh4,sap_nno3,sap_totaln,sap_ph,sap_p,sap_k,sap_se,sap_si,sap_na,sap_s,sap_zn]).UID()
 
 profile_hp_01 = api.create(profiles, "AnalysisProfile", title="HP-01", Service=[liqfert_ph,liqfert_soluablesalts,liqfert_tds,liqfert_chloride,liqfert_sulfur,\
 liqfert_phosphorus,liqfert_calcium,liqfert_potassium,liqfert_magnesium,liqfert_sodium,liqfert_aluminum,liqfert_boron,liqfert_cobalt,liqfert_copper,liqfert_iron,\
@@ -285,15 +313,17 @@ for i in api.search({'portal_type':'AnalysisProfile'}):
 #SampleTypes
 saptype = api.create(sampletypes, "SampleType", title="Sap").UID()
 soiltype = api.create(sampletypes, "SampleType", title="Soil").UID()
-canntype = api.create(sampletypes, "SampleType", title="Cannabis").UID()
-drinkingtype = api.create(sampletypes, "SampleType", title="Drinking Water").UID()
-surfacetype = api.create(sampletypes, "SampleType", title="Surface Water").UID()
-hydrotype = api.create(sampletypes, "SampleType", title="Hydroponic Water").UID()
-frozentype = api.create(sampletypes, "SampleType", title="Frozen Food").UID()
-rawtype = api.create(sampletypes, "SampleType", title="Raw Food").UID()
+canntype = api.create(sampletypes, "SampleType", title="Cannabis Flower").UID()
+drinkingtype = api.create(sampletypes, "SampleType", title="Water, Drinking").UID()
+surfacetype = api.create(sampletypes, "SampleType", title="Water, Surface").UID()
+hydrotype = api.create(sampletypes, "SampleType", title="Water, Liquid Fertilizer").UID()
+wastetype = api.create(sampletypes, "SampleType", title="Water, Waste").UID()
+frozentype = api.create(sampletypes, "SampleType", title="Food, Frozen").UID()
+rawtype = api.create(sampletypes, "SampleType", title="Food, Raw").UID()
 airtype = api.create(sampletypes, "SampleType", title="Compressed Air").UID()
 preptype = api.create(sampletypes, "SampleType", title="Prep").UID()
 cleantype = api.create(sampletypes, "SampleType", title="Cleanup").UID()
+tissuetype = api.create(sampletypes, "SampleType", title="Tissue").UID()
 
 for i in api.search({'portal_type':'SampleType'}):
     api.get_object(i).reindexObject()
@@ -307,7 +337,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,                   "min":"6.6",   "max":
 rr8 = {"keyword":"sap_ec","uid":sap_ec,                    "min":"8",     "max":"14"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,              "min":"770",   "max":"1800"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"uid":sap_s,              "min":"180",   "max":"400"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,          "min":"125",   "max":"200"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,          "min":"125",   "max":"200"}
 rr4 = {"keyword":"sap_calcium","uid":sap_ca,              "min":"780",   "max":"1500"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,            "min":"2200",  "max":"4600"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,             "min":"",      "max":""}
@@ -338,7 +368,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"6.5",     "max":"7"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,                    "min":"9",     "max":"13"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,              "min":"1000",     "max":"3000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"uid":sap_s,              "min":"250",     "max":"700"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,          "min":"150",     "max":"350"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,          "min":"150",     "max":"350"}
 rr4 = {"keyword":"sap_calcium","uid":sap_ca,              "min":"400",     "max":"800"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,            "min":"4500",     "max":"6000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,             "min":"",     "max":""}
@@ -369,7 +399,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,                   "min":"5.5",     "max
 rr8 = {"keyword":"sap_ec","uid":sap_ec,                    "min":"8",     "max":"10"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,              "min":"350",     "max":"1500"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"uid":sap_s,              "min":"60",     "max":"250"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,          "min":"150",     "max":"250"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,          "min":"150",     "max":"250"}
 rr4 = {"keyword":"sap_calcium","uid":sap_ca,              "min":"500",     "max":"1000"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,            "min":"3500",     "max":"5000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,             "min":"",     "max":""}
@@ -400,7 +430,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,                   "min":"5.8",     "max
 rr8 = {"keyword":"sap_ec","uid":sap_ec,                    "min":"10.5",     "max":"11.5"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,              "min":"500",     "max":"1400"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"uid":sap_s,              "min":"120",     "max":"150"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,          "min":"200",     "max":"500"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,          "min":"200",     "max":"500"}
 rr4 = {"keyword":"sap_calcium","uid":sap_ca,              "min":"200",     "max":"500"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,            "min":"3000",     "max":"4000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,             "min":"",     "max":""}
@@ -431,7 +461,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,                   "min":"5.5",     "max
 rr8 = {"keyword":"sap_ec","uid":sap_ec,                    "min":"1",     "max":"2.5"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,              "min":"350",     "max":"1500"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"uid":sap_s,              "min":"60",     "max":"200"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,          "min":"150",     "max":"350"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,          "min":"150",     "max":"350"}
 rr4 = {"keyword":"sap_calcium","uid":sap_ca,              "min":"100",     "max":"250"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,            "min":"4000",     "max":"7000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,             "min":"",     "max":""}
@@ -462,7 +492,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"6.5","max":"6.8"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"","max":""}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"","max":""}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"200","max":"600"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"150","max":"350"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"150","max":"350"}
 rr4 = {"keyword":"sap_calcium","min":"350","max":"700"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"4500","max":"6500"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -493,7 +523,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5","max":"7"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"6","max":"10"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"750","max":"1500"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"300"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"175","max":"350"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"175","max":"350"}
 rr4 = {"keyword":"sap_calcium","min":"600","max":"1500"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"2100","max":"4500"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -524,7 +554,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.5","max":"7"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"11","max":"12"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"400","max":"700"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"50","max":"150"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"100","max":"250"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"100","max":"250"}
 rr4 = {"keyword":"sap_calcium","min":"400","max":"600"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"2000","max":"3000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -555,7 +585,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.5","max":"7"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"11","max":"12"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"400","max":"700"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"50","max":"150"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"100","max":"250"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"100","max":"250"}
 rr4 = {"keyword":"sap_calcium","min":"400","max":"600"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"2000","max":"3000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -586,7 +616,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"3.5","max":"3.8"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"1.5","max":"4"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"175","max":"1000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"50","max":"250"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"150","max":"250"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"150","max":"250"}
 rr4 = {"keyword":"sap_calcium","min":"350","max":"1100"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"2000","max":"4500"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -617,7 +647,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.5","max":"6.2"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"8","max":"10"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"500","max":"2000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"200","max":"400"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"150","max":"300"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"150","max":"300"}
 rr4 = {"keyword":"sap_calcium","min":"300","max":"800"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"4000","max":"5000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -648,7 +678,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"","max":""}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"","max":""}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"","max":""}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"200","max":"500"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"150","max":"300"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"150","max":"300"}
 rr4 = {"keyword":"sap_calcium","min":"400","max":"700"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"2500","max":"5000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -679,7 +709,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.5","max":"6.2"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"8","max":"10"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"500","max":"2000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"200","max":"350"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"200","max":"400"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"200","max":"400"}
 rr4 = {"keyword":"sap_calcium","min":"300","max":"600"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"4000","max":"5000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -710,7 +740,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.8","max":"6.5"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"3","max":"6"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"500","max":"1000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"60","max":"200"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"200","max":"300"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"200","max":"300"}
 rr4 = {"keyword":"sap_calcium","min":"250","max":"600"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"2500","max":"3500"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -741,7 +771,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"6","max":"7"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"12","max":"15"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"1000","max":"3000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"500"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"60","max":"200"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"60","max":"200"}
 rr4 = {"keyword":"sap_calcium","min":"120","max":"350"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"2000","max":"3500"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -772,7 +802,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.5","max":"5.8"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"12","max":"15"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"1000","max":"3000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"500"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"100","max":"400"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"100","max":"400"}
 rr4 = {"keyword":"sap_calcium","min":"500","max":"1200"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"5500","max":"8000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -803,7 +833,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.5","max":"6.2"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"8","max":"10"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"500","max":"2000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"200","max":"400"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"150","max":"300"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"150","max":"300"}
 rr4 = {"keyword":"sap_calcium","min":"300","max":"800"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"4000","max":"5000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -834,7 +864,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"6","max":"7"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"12","max":"15"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"1000","max":"3000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"75","max":"250"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"100","max":"350"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"100","max":"350"}
 rr4 = {"keyword":"sap_calcium","min":"25","max":"75"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"3500","max":"4500"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -865,7 +895,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.8","max":"6.5"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"15","max":"18"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"1000","max":"2500"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"200"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"150","max":"250"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"150","max":"250"}
 rr4 = {"keyword":"sap_calcium","min":"220","max":"450"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"4275","max":"5650"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -896,7 +926,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"6","max":"6.5"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"13.5","max":"16.2"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"1000","max":"2500"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"400"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"125","max":"250"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"125","max":"250"}
 rr4 = {"keyword":"sap_calcium","min":"1750","max":"3500"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"4500","max":"7500"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -927,7 +957,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5","max":"7"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"6","max":"10"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"750","max":"1500"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"300"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"175","max":"350"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"175","max":"350"}
 rr4 = {"keyword":"sap_calcium","min":"600","max":"1500"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"2100","max":"4500"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -958,7 +988,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.8","max":"6.2"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"2","max":"5"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"150","max":"750"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"500"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"120","max":"300"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"120","max":"300"}
 rr4 = {"keyword":"sap_calcium","min":"400","max":"1200"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"2500","max":"4500"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -989,7 +1019,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.8","max":"6.2"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"2","max":"5"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"150","max":"750"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"500"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"150","max":"300"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"150","max":"300"}
 rr4 = {"keyword":"sap_calcium","min":"400","max":"1100"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"2500","max":"4500"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1020,7 +1050,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.8","max":"6.2"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"2","max":"5"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"150","max":"750"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"500"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"150","max":"250"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"150","max":"250"}
 rr4 = {"keyword":"sap_calcium","min":"1200","max":"2500"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"3000","max":"4800"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1051,7 +1081,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"6","max":"6.5"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"1.3","max":"1.8"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"500","max":"1000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"500"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"120","max":"300"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"120","max":"300"}
 rr4 = {"keyword":"sap_calcium","min":"1000","max":"3000"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"3000","max":"5000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1082,7 +1112,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.8","max":"6.5"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"15","max":"18"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"1000","max":"2500"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"400"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"170","max":"370"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"170","max":"370"}
 rr4 = {"keyword":"sap_calcium","min":"220","max":"450"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"4275","max":"5650"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1113,7 +1143,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.8","max":"6.5"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"15","max":"18"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"1000","max":"2500"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"400"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"170","max":"370"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"170","max":"370"}
 rr4 = {"keyword":"sap_calcium","min":"220","max":"450"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"4275","max":"5650"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1144,7 +1174,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.5","max":"6"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"15","max":"18"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"1000","max":"4000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"400"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"100","max":"300"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"100","max":"300"}
 rr4 = {"keyword":"sap_calcium","min":"350","max":"750"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"5000","max":"7500"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1175,7 +1205,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"4","max":"4.5"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"2","max":"4"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"100","max":"650"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"80","max":"300"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"200","max":"500"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"200","max":"500"}
 rr4 = {"keyword":"sap_calcium","min":"450","max":"900"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"3000","max":"5000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1206,7 +1236,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"4","max":"4.5"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"2.5","max":"4.5"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"100","max":"650"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"300"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"100","max":"250"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"100","max":"250"}
 rr4 = {"keyword":"sap_calcium","min":"700","max":"2000"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"2500","max":"4000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1237,7 +1267,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"4","max":"4.5"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"2.5","max":"4.5"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"100","max":"650"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"300"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"200","max":"500"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"200","max":"500"}
 rr4 = {"keyword":"sap_calcium","min":"300","max":"500"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"1900","max":"2100"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1268,7 +1298,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.5","max":"6.5"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"8","max":"10"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"500","max":"2000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"50","max":"200"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"100","max":"200"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"100","max":"200"}
 rr4 = {"keyword":"sap_calcium","min":"150","max":"400"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"2300","max":"4500"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1299,7 +1329,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.5","max":"6"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"1","max":"2.5"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"350","max":"1500"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"300"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"120","max":"300"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"120","max":"300"}
 rr4 = {"keyword":"sap_calcium","min":"100","max":"150"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"3800","max":"5000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1330,7 +1360,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.3","max":"6.3"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"10.5","max":"14"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"1000","max":"6000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"200","max":"600"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"200","max":"400"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"200","max":"400"}
 rr4 = {"keyword":"sap_calcium","min":"200","max":"650"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"4500","max":"6500"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1361,7 +1391,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.5","max":"6"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"3","max":"6"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"100","max":"700"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"300"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"200","max":"400"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"200","max":"400"}
 rr4 = {"keyword":"sap_calcium","min":"300","max":"800"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"4000","max":"6000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1392,7 +1422,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.5","max":"6"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"1","max":"2.5"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"350","max":"1500"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"60","max":"120"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"120","max":"300"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"120","max":"300"}
 rr4 = {"keyword":"sap_calcium","min":"100","max":"200"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"3800","max":"5000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1423,7 +1453,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"6","max":"7"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"9.5","max":"15"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"1000","max":"2000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"400"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"175","max":"550"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"175","max":"550"}
 rr4 = {"keyword":"sap_calcium","min":"1000","max":"5000"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"3500","max":"5500"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1454,7 +1484,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.8","max":"6.3"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"10.5","max":"11.5"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"500","max":"1400"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"70","max":"200"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"120","max":"250"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"120","max":"250"}
 rr4 = {"keyword":"sap_calcium","min":"400","max":"600"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"3500","max":"5000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1485,7 +1515,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.8","max":"6.2"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"15","max":"18"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"500","max":"2000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"300","max":"700"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"100","max":"250"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"100","max":"250"}
 rr4 = {"keyword":"sap_calcium","min":"150","max":"400"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"5000","max":"7500"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1516,7 +1546,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.5","max":"6"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"8","max":"10"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"350","max":"1500"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"50","max":"150"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"125","max":"300"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"125","max":"300"}
 rr4 = {"keyword":"sap_calcium","min":"80","max":"200"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"3500","max":"5000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1547,7 +1577,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.5","max":"6"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"1","max":"2.5"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"350","max":"1500"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"50","max":"150"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"200","max":"300"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"200","max":"300"}
 rr4 = {"keyword":"sap_calcium","min":"30","max":"100"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"4500","max":"6000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1578,7 +1608,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"4.5","max":"6.5"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"12.5","max":"15"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"500","max":"2000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"80","max":"350"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"90","max":"200"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"90","max":"200"}
 rr4 = {"keyword":"sap_calcium","min":"300","max":"700"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"3500","max":"5000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1609,7 +1639,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.8","max":"6.5"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"10","max":"12"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"1400","max":"2500"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"80","max":"200"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"80","max":"250"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"80","max":"250"}
 rr4 = {"keyword":"sap_calcium","min":"250","max":"350"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"4500","max":"6000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1640,7 +1670,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"4","max":"8"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"9.5","max":"19"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"100","max":"200"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"150","max":"300"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"175","max":"350"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"175","max":"350"}
 rr4 = {"keyword":"sap_calcium","min":"1500","max":"3200"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"3150","max":"6300"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1671,7 +1701,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.8","max":"6.5"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"10","max":"12"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"1400","max":"2500"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"80","max":"200"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"80","max":"250"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"80","max":"250"}
 rr4 = {"keyword":"sap_calcium","min":"250","max":"350"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"4500","max":"6000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1702,7 +1732,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.5","max":"5.8"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"12","max":"15"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"1000","max":"3000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"500"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"120","max":"250"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"120","max":"250"}
 rr4 = {"keyword":"sap_calcium","min":"300","max":"500"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"4000","max":"5500"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1733,7 +1763,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.5","max":"5.8"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"12","max":"15"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"1000","max":"3000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"40","max":"150"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"150","max":"350"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"150","max":"350"}
 rr4 = {"keyword":"sap_calcium","min":"500","max":"800"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"4500","max":"6000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1764,7 +1794,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.5","max":"5.8"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"12","max":"15"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"1000","max":"3000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"40","max":"150"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"150","max":"350"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"150","max":"350"}
 rr4 = {"keyword":"sap_calcium","min":"500","max":"800"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"4500","max":"6000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1795,7 +1825,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"4.5","max":"6.5"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"12.5","max":"15"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"500","max":"2000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"80","max":"350"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"90","max":"200"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"90","max":"200"}
 rr4 = {"keyword":"sap_calcium","min":"300","max":"700"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"3500","max":"5000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1826,7 +1856,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.8","max":"6.2"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"2","max":"5"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"150","max":"1500"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"500"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"150","max":"250"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"150","max":"250"}
 rr4 = {"keyword":"sap_calcium","min":"1200","max":"2500"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"3000","max":"4800"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1857,7 +1887,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.5","max":"5.8"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"12","max":"15"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"1000","max":"3000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"300"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"90","max":"190"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"90","max":"190"}
 rr4 = {"keyword":"sap_calcium","min":"400","max":"800"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"4500","max":"6000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1888,7 +1918,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.5","max":"5.8"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"12","max":"15"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"1000","max":"3000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"100","max":"500"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"120","max":"250"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"120","max":"250"}
 rr4 = {"keyword":"sap_calcium","min":"300","max":"500"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"4000","max":"5500"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1919,7 +1949,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.5","max":"6.5"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"9","max":"18"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"450","max":"900"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"1250","max":"2500"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"300","max":"600"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"300","max":"600"}
 rr4 = {"keyword":"sap_calcium","min":"2000","max":"6000"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"3000","max":"6000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}
@@ -1950,7 +1980,7 @@ rr19 = {"keyword":"sap_ph","uid":sap_ph,"min":"5.3","max":"6.3"}
 rr8 = {"keyword":"sap_ec","uid":sap_ec,"min":"10.5","max":"14"}
 rr5 = {"keyword":"sap_chloride","uid":sap_cl,"min":"1000","max":"6000"}
 rr25 = {"keyword":"sap_sulfur","UID":sap_s,"min":"200","max":"800"}
-rr20 = {"keyword":"sap_phosphorous","uid":sap_p,"min":"150","max":"250"}
+rr20 = {"keyword":"sap_phosphorus","uid":sap_p,"min":"150","max":"250"}
 rr4 = {"keyword":"sap_calcium","min":"250","max":"800"}
 rr21 = {"keyword":"sap_potassium","uid":sap_k,"min":"4000","max":"8000"}
 rr10 = {"keyword":"sap_kcaratio","uid":sap_kca,"min":"","max":""}

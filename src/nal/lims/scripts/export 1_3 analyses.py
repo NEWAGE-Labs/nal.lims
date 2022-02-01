@@ -21,7 +21,8 @@ for i in analyses:
     if thisanalysis[cols[3]]:
         thisanalysis[cols[3]] = thisanalysis[cols[3]].title
     thisanalysis[cols[4]] = i.getAnalyst()
-    thisanalysis[cols[5]] = html.HTMLParser().unescape(i.getFormattedResult())
+    # thisanalysis[cols[5]] = html.HTMLParser().unescape(i.getFormattedResult())
+    thisanalysis[cols[5]] = i.Result
     thisanalysis[cols[6]] = i.getUnit()
     data.append(thisanalysis)
 

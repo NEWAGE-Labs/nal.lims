@@ -13,6 +13,7 @@ from zope.interface import implements
 from nal.lims.interfaces import INalLimsLayer
 from Products.Archetypes.public import StringWidget
 from Products.Archetypes.public import BooleanWidget
+from Products.CMFCore.permissions import View
 
 class AnalysisRequestSchemaExtender(object):
     adapts(IAnalysisRequest)
@@ -55,6 +56,21 @@ class AnalysisRequestSchemaExtender(object):
             widget=StringWidget(
                 label="Growth Stage (Sap Samples)",
                 description="The development stage of the plant the sample was taken from",
+                render_own_label=True,
+                visible={
+                    'edit':'visible',
+                    'view':'visible',
+                    'add':'edit',
+                    'header_table':'visible',
+                },
+            )
+        ),
+
+        ExtStringField(
+            'Vigor',
+            widget=StringWidget(
+                label="Vigor (Sap Samples)",
+                description="The health or hardiness of the plant",
                 render_own_label=True,
                 visible={
                     'edit':'visible',
@@ -203,6 +219,13 @@ class AnalysisRequestSchemaModifier(object):
             'add':'edit',
             'header_table':'visible',
         }
+        schema['SampleType'].widget.visible={
+            'edit':'visible',
+            'view':'visible',
+            'add':'edit',
+            'header_table':'visible',
+        }
+        schema['SampleType'].write_permission = View
 
         schema['CCContact'].widget.label = "Email Contacts"
         schema['CCContact'].widget.description = "The Contacts to email the sample to"
@@ -210,8 +233,14 @@ class AnalysisRequestSchemaModifier(object):
         schema['CCEmails'].widget.description = "Other emails to CC"
         schema['Specification'].widget.label = "Optimal Levels (Sap Samples)"
         schema['Specification'].widget.description = "Optimal Levels"
-        schema['Attachment'].widget.label = "COC and Attachments"
-        schema['Attachment'].widget.description = "Attach COC to one sample. .png and .jpeg files will show on report, but .pdfs will not."
+        schema['Specification'].widget.visible={
+            'edit':'visible',
+            'view':'visible',
+            'add':'edit',
+            'header_table':'visible',
+        }
+        schema['_ARAttachment'].widget.label = "COC and Attachments"
+        schema['_ARAttachment'].widget.description = "Attach COC to one sample. .png and .jpeg files will show on report, but .pdfs will not."
         schema['Remarks'].widget.label = "Comments"
         schema['Remarks'].widget.description = "Additional remarks or comments about the sample."
 
@@ -222,7 +251,8 @@ class AnalysisRequestSchemaModifier(object):
         schema.moveField('DateOfSampling', after='InternalLabID')
         schema.moveField('TimeOfSampling', after='DateOfSampling')
         schema.moveField('SampleType', after='TimeOfSampling')
-        schema.moveField('Profiles', after='SampleType')
+        schema.moveField('SamplePoint', after='SampleType')
+        schema.moveField('Profiles', after='SamplePoint')
         schema.moveField('Specification', after='Profiles')
         schema.moveField('SubGroup', after='Specification')
         schema.moveField('PlantType', after='SubGroup')

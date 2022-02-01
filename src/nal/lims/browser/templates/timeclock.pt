@@ -1,0 +1,17 @@
+<html metal:use-macro="context/main_template/macros/master"
+      tal:define="update view/update">
+  <metal:content-core fill-slot="main">
+    <!-- <div>Does this do the thing?</div>
+    <div>
+      <input type="file" name="instrument_results_file" id="instrument_results_file"/>
+    </div>
+    <form action="update" method="POST">
+      <button type="submit" name="import_button">
+              Import
+      </button>
+    </form>
+    <div>
+      ${python:view.saveCSV(context, request)}
+    </div> -->
+</metal:content-core>
+</html>

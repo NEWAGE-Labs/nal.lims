@@ -26,7 +26,7 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
 
         self.context_actions = {}
 
-        self.show_select_all_checkbox = False
+        self.show_select_all_checkbox = True
         self.show_select_column = True
         self.pagesize = 30
 
@@ -47,11 +47,14 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
             ("BatchID", {
                 "title": _("SDG ID"),  #Customized the Title
                 "index": "getId", }),
+            ("Matrices", {
+                "title": _("Matrices"),
+                "toggle": True, }),
             ("Description", {
                 "title": _("Description"),
                 "sortable": False, }),
             ("BatchDate", {
-                "title": _("Date"), }),
+                "title": _("SDG Received Date"), }),
             ("Client", {
                 "title": _("Client"),
                 "index": "getClientTitle", }),
@@ -150,7 +153,18 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
         title = api.get_title(obj)
         client = obj.getClient()
         created = api.get_creation_date(obj)
-        date = obj.getBatchDate()
+        date = obj.SDGDate.strftime("%b %d, %Y") + ' ' + obj.SDGTime
+        matrices = []
+        for i in obj.getAnalysisRequests():
+            matrix = i.getSampleType().Title() if i.getSampleType() else ''
+            if matrix == 'Sap' and 'sap' not in matrices:
+                matrices.append('sap')
+            elif matrix == 'Water, Drinking' and 'drinking water' not in matrices:
+                matrices.append('drinking water')
+            elif matrix == 'Water, Surface' and 'surface water' not in matrices:
+                matrices.append('surface water')
+            elif matrix == 'Water, Liquid Fertilizer' and 'liquid fertilizer' not in matrices:
+                matrices.append('liquid fertilizer')
 
         # total sample progress
         progress = obj.getProgress()
@@ -159,11 +173,12 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
 
         item["BatchID"] = bid
         item["ClientBatchID"] = cbid
+        item["Matrices"] = ','.join(matrices)
         item["replace"]["BatchID"] = get_link(url, bid)
         item["Title"] = title
         item["replace"]["Title"] = get_link(url, title)
         item["created"] = self.ulocalized_time(created, long_format=True)
-        item["BatchDate"] = self.ulocalized_time(date, long_format=True)
+        item["BatchDate"] = date
 
         if client:
             client_url = api.get_url(client)

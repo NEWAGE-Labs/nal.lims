@@ -169,7 +169,7 @@ EDITS:
         </div>
         <br>
         <div class="cover-first-paragraph">
-          The following is the final report containing the analytical result for the plant sap samples delivered on <tal:date replace="python:model.get_received_date()"/>. The report consists of <tal:pages replace="pages"/> pages inclusive of all sample results, chain of custodies, and this cover letter.
+          The following is the final report containing the analytical result for the plant sap samples delivered on <tal:date replace="python:model.get_received_date()"/>. The report consists of all sample results, chain of custodies, and this cover letter.
         </div>
         <br>
         <div class="cover-second-paragraph">
@@ -318,20 +318,23 @@ EDITS:
                 <div tal:replace="newmodel/Client/Name|nothing"></div>
               </div>
               <div>
-                <div class="header-detail" tal:content="newmodel/Client/ClientID|nothing"></div>
+                <span>
+                  <div class="header-label" tal:content="string:Acct #:"></div>
+                  <div class="header-detail" tal:content="newmodel/Client/ClientID|nothing"></div>
+                </span>
               </div>
               <div class="client-street header-detail">
-                <div tal:replace="newmodel/Client/PostalAddress/address|nothing"></div>
+                <div tal:replace="newmodel/Client/PhysicalAddress/address|nothing"></div>
               </div>
               <div class="client-city header-detail">
-                <div tal:replace="newmodel/Client/PostalAddress/city|nothing"></div>
+                <div tal:replace="newmodel/Client/PhysicalAddress/city|nothing"></div>
               </div>
               <div class="header-detail">
                 <span class="client-state ">
-                  <div tal:replace="newmodel/Client/PostalAddress/state|nothing"></div>
+                  <div tal:replace="newmodel/Client/PhysicalAddress/state|nothing"></div>
                 </span>
                 <span class="client-zip">
-                  <div tal:replace="newmodel/Client/PostalAddress/zip|nothing"></div>
+                  <div tal:replace="newmodel/Client/PhysicalAddress/zip|nothing"></div>
                 </span>
               </div>
             </div>
@@ -1715,7 +1718,7 @@ EDITS:
             <tr>
               <td style="font-size: 5pt;">
                 <div>
-                  - NAL holds certification under NELAC:2009, ISO 17025:2017, and meets the AOAC International Guidelines for Laboratories Performing Microbiological and Chemical Analyses of Food Standards
+                  - NAL holds certification under ISO 17025:2017 and meets the AOAC International Guidelines for Laboratories Performing Microbiological and Chemical Analyses of Food Standards
                 </div>
                 <div>
                   - The results reported apply only to the two (2) samples listed

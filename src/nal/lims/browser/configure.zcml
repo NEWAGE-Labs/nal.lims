@@ -13,6 +13,7 @@
 
   <!-- <include package=".samples" /> -->
   <include package=".client" />
+  <include package=".batch" />
   <!-- <include package=".analysisrequest" /> -->
   <!-- <include package=".analyses" /> -->
 
@@ -66,6 +67,58 @@
       class=".instrumentread.InstrumentReadView"
       permission="cmf.ListFolderContents"
       for="*"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="timeclockfolder"
+      class=".timeclockfolder.TimeclockFolderView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="timeclock"
+      class=".timeclock.TimeclockView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/timeclock.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="mbgexportfolder"
+      class=".mbgexportfolder.MBGExportFolderView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="mbgexport"
+      class=".mbgexport.MBGExportView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/mbgexport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="sdgcsvexport"
+      class=".sdgcsvexport.SDGCSVExportView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/sdgcsvexport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="optimallevels"
+      class=".optimallevels.OptimalLevelView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/optimallevels.pt"
       layer="nal.lims.interfaces.INalLimsLayer"
       />
 

@@ -27,6 +27,18 @@
       provides="archetypes.schemaextender.interfaces.ISchemaExtender"
       />
 
+    <!-- Schema modifier for Lab Contacts -->
+    <adapter
+      name="nal.lims.labcontact.schemamodifier"
+      factory=".labcontact.LabContactSchemaModifier"
+      />
+    <!-- Schema extender for Lab Contacts  -->
+    <adapter
+      name="nal.lims.labcontact.schemaextender"
+      factory=".labcontact.LabContactSchemaExtender"
+      provides="archetypes.schemaextender.interfaces.ISchemaExtender"
+      />
+
     <!-- Schema modifier for Clients -->
     <adapter
       name="nal.lims.client.schemamodifier"
