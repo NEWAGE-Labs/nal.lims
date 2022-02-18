@@ -62,10 +62,69 @@ class SDGCSVExportView(BrowserView):
                 ]
                 cols = cols + sap_cols
 
+	    ar_cols = []
             for j in map(api.get_object,i.getAnalyses()):
-                if j.Keyword not in cols:
-                    cols.append(str(j.Keyword))
+                if j.Keyword not in cols and j.Keyword not in ar_cols:
+                    ar_cols.append(str(j.Keyword))
+	    ar_cols.sort()
 
+################################
+#Pure Green Farm Hack
+
+	    if sdg.getClient().getClientID() == 'NAL21-280':
+		if i.getSampleType().title == 'Water, Liquid Fertilizer' and len(ar_cols) == 23:
+			ar_cols[0] = 'liqfert_ammonia'
+			ar_cols[1] = 'liqfert_nitrate'
+			ar_cols[2] = 'liqfert_phosphorous'
+			ar_cols[3] = 'liqfert_potassium'
+			ar_cols[4] = 'liqfert_calcium'
+			ar_cols[5] = 'liqfert_magnesium'
+			ar_cols[6] = 'liqfert_sulfur'
+			ar_cols[7] = 'liqfert_chloride'
+			ar_cols[8] = 'liqfert_silica'
+			ar_cols[9] = 'liqfert_iron'
+			ar_cols[10] = 'liqfert_manganese'
+			ar_cols[11] = 'liqfert_zinc'
+			ar_cols[12] = 'liqfert_boron'
+			ar_cols[13] = 'liqfert_copper'
+			ar_cols[14] = 'liqfert_molybdenum'
+			ar_cols[15] = 'liqfert_ph'
+			ar_cols[16] = 'liqfert_tds'
+			ar_cols[17] = 'liqfert_soluablesalts'
+			ar_cols[18] = 'liqfert_nickel'
+			ar_cols[19] = 'liqfert_selenium'
+			ar_cols[20] = 'liqfert_aluminum'
+			ar_cols[21] = 'liqfert_cobalt'
+			ar_cols[22] = 'liqfert_sodium'
+		elif i.getSampleType().title == 'Sap' and len(ar_cols) == 25:
+			ar_cols[0] = 'sap_ammonia'
+			ar_cols[1] = 'sap_nitrate'
+			ar_cols[2] = 'sap_total_nitrogen'
+			ar_cols[3] = 'sap_phosphorous'
+			ar_cols[4] = 'sap_potassium'
+			ar_cols[5] = 'sap_calcium'
+			ar_cols[6] = 'sap_kca_ratio'
+			ar_cols[7] = 'sap_magnesium'
+			ar_cols[8] = 'sap_sulfur'
+			ar_cols[9] = 'sap_chloride'
+			ar_cols[10] = 'sap_silica'
+			ar_cols[11] = 'sap_iron'
+			ar_cols[12] = 'sap_manganese'
+			ar_cols[13] = 'sap_zinc'
+			ar_cols[14] = 'sap_boron'
+			ar_cols[15] = 'sap_copper'
+			ar_cols[16] = 'sap_molybdenum'
+			ar_cols[17] = 'sap_ph'
+			ar_cols[18] = 'sap_ec'
+			ar_cols[19] = 'sap_soluablesalts'
+			ar_cols[20] = 'sap_nickel'
+			ar_cols[21] = 'sap_selenium'
+			ar_cols[22] = 'sap_aluminum'
+			ar_cols[23] = 'sap_cobalt'
+			ar_cols[24] = 'sap_sodium'
+################################
+
+	    cols = cols + ar_cols
         #initialize dictionary of lists
         for i in range(len(cols)):
             export_dict[cols[i]] = []
