@@ -9,5 +9,7 @@ newSecurityManager(None, me)
 
 
 #Examples
-sample = map(api.get_object,api.search({'portal_type':'SamplePoint'}))
+locations = map(api.get_object,api.search({'portal_type':'SamplePoint'}))
 location = map(api.get_object,api.search({'portal_type':'SamplePoint','id':'samplepoint-483'}))[0]
+
+sample = map(api.get_object,api.search({'portal_type':'AnalysisRequest','id':'t003173'}))[0]
