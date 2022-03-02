@@ -7,5 +7,7 @@ me = UnrestrictedUser(getSecurityManager().getUser().getUserName(), '', ['LabMan
 me = me.__of__(portal.acl_users)
 newSecurityManager(None, me)
 
+
+#Examples
 sample = map(api.get_object,api.search({'portal_type':'SamplePoint'}))
 location = map(api.get_object,api.search({'portal_type':'SamplePoint','id':'samplepoint-483'}))[0]
