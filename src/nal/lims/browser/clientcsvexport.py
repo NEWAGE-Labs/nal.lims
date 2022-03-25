@@ -59,7 +59,7 @@ class ClientCSVExportView(BrowserView):
 
         ARs = []
         for i in sdgs:
-            ARs.append(i.getAnalysisRequests())
+            ARs.append(map(api,get_object,i.getAnalysisRequests()))
 
         for i in ARs:
             if api.get_workflow_status_of(i) in ['cancelled','invalid']:
