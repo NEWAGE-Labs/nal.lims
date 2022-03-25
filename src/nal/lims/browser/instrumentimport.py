@@ -142,49 +142,49 @@ class ICPImportView(edit.DefaultEditForm):
 
             for j in i:
                 if api.get_workflow_status_of(i[j]) not in ['retracted','rejected','invalid','cancelled']:
-                    if 'aluminum' in j:
+                    if 'aluminum' in j and 'percent' not in j:
                         aluminum = i[j]
-                    if 'arsenic' in j:
+                    if 'arsenic' in j and 'percent' not in j:
                         arsenic = i[j]
-                    if 'boron' in j:
+                    if 'boron' in j and 'percent' not in j:
                         boron = i[j]
-                    if 'calcium' in j:
+                    if 'calcium' in j and 'percent' not in j:
                         calcium = i[j]
-                    if 'cadmium' in j:
+                    if 'cadmium' in j and 'percent' not in j:
                         cadmium = i[j]
-                    if 'cobalt' in j:
+                    if 'cobalt' in j and 'percent' not in j:
                         cobalt = i[j]
-                    if 'chromium' in j:
+                    if 'chromium' in j and 'percent' not in j:
                         chromium = i[j]
-                    if 'copper' in j:
+                    if 'copper' in j and 'percent' not in j:
                         copper = i[j]
-                    if 'iron' in j:
+                    if 'iron' in j and 'percent' not in j:
                         iron = i[j]
-                    if 'lead' in j:
+                    if 'lead' in j and 'percent' not in j:
                         lead = i[j]
-                    if 'magnesium' in j:
+                    if 'magnesium' in j and 'percent' not in j:
                         magnesium = i[j]
-                    if 'manganese' in j:
+                    if 'manganese' in j and 'percent' not in j:
                         manganese = i[j]
-                    if 'molybdenum' in j:
+                    if 'molybdenum' in j and 'percent' not in j:
                         molybdenum = i[j]
-                    if 'nickel' in j:
+                    if 'nickel' in j and 'percent' not in j:
                         nickel = i[j]
                     if ('phosphorus' in j or 'phosphorous' in j):
                         phosphorus = i[j]
-                    if 'potassium' in j:
+                    if 'potassium' in j and 'percent' not in j:
                         potassium = i[j]
-                    if 'selenium' in j:
+                    if 'selenium' in j and 'percent' not in j:
                         selenium = i[j]
-                    if 'silica' in j:
+                    if 'silica' in j and 'percent' not in j:
                         silica = i[j]
-                    if 'sodium' in j:
+                    if 'sodium' in j and 'percent' not in j:
                         sodium = i[j]
-                    if 'sulfur' in j:
+                    if 'sulfur' in j and 'percent' not in j:
                         sulfur = i[j]
-                    if 'zinc' in j:
+                    if 'zinc' in j and 'percent' not in j:
                         zinc = i[j]
-                    if 'sap_kcaratio' in j:
+                    if 'sap_kcaratio' in j and 'percent' not in j:
                         sap_kcaratio = i[j]
 
         #Aluminum
