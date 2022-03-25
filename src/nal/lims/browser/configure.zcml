@@ -114,6 +114,15 @@
       />
 
   <browser:page
+      name="clientcsvexport"
+      class=".clientcsvexport.ClientCSVExportView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/sdgcsvexport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
       name="optimallevels"
       class=".optimallevels.OptimalLevelView"
       permission="cmf.ListFolderContents"

@@ -115,7 +115,12 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
                 "url": "createObject?type_name=Batch",
                 "permission": AddBatch,
                 "icon": "++resource++bika.lims.images/add.png"
-            }
+            },
+            _("Export ALL SDGs as .CSV"): {
+                "url": "@@clientcsvexport/",
+                "permission": AddBatch,
+                "icon": "++resource++bika.lims.images/control_big.png"
+            },
         }
 
         # If current user is a client contact and current context is not a
