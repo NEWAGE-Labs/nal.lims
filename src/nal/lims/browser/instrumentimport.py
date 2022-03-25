@@ -147,7 +147,7 @@ class ICPImportView(edit.DefaultEditForm):
                     if 'arsenic' in j:
                         arsenic = i[j]
                     if 'boron' in j:
-                        boron = i[j]i[j]
+                        boron = i[j]
                     if 'calcium' in j:
                         calcium = i[j]
                     if 'cadmium' in j:
