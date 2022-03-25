@@ -72,7 +72,7 @@ class ClientCSVExportView(BrowserView):
                     'growth_stage',
                     'vigor',
                     'new_old',
-                    'nitrogen_conversion_effeciency'
+                    'nitrogen_conversion_efficiency'
                 ]
                 cols = cols + sap_cols
 
