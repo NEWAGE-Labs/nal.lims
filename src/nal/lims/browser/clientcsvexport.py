@@ -55,6 +55,8 @@ class ClientCSVExportView(BrowserView):
             if i.getClient().id == client.id:
                 sdgs.append(i)
 
+        print(sdgs)
+
         ARs = []
         for i in sdgs:
             ARs.append(i.getAnalysisRequests())
