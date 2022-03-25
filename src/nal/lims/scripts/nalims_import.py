@@ -8,7 +8,66 @@ me = UnrestrictedUser(getSecurityManager().getUser().getUserName(), '', ['LabMan
 me = me.__of__(portal.acl_users)
 newSecurityManager(None, me)
 
-#Portal Types
+# Creation Function
+def searchOrCreate(
+    index,
+    title,
+    description=None,
+    FirstName=None,
+    Surname=None,
+    EmailAddress=None,
+    DepartmentID=None,
+    Keyword=None,
+    Methods=[],
+    Accredited=None,
+    Unit=None,
+    PointOfCapture=None,
+    Category=None,
+    LowerDetectionLimit=None,
+    Precision=None,
+    ExponentialFormatPrecision=None,
+    Formula=None,
+    Service=[],
+    ):
+
+    portaltypes = {
+        0:  ['Client',              portal.clients],
+        1:  ['LabContact',          portal.bika_setup.bika_labcontacts],
+        2:  ['Department',          portal.bika_setup.bika_departments],
+        3:  ['AnalysisCategory',    portal.bika_setup.bika_analysiscategories],
+        4:  ['Method',              portal.methods],
+        5:  ['Instrument',          portal.bika_setup.bika_instruments],
+        6:  ['InstrumentType',      portal.bika_setup.bika_instrumenttypes],
+        7:  ['Calculation',         portal.bika_setup.bika_calculations],
+        8:  ['AnalysisProfile',     portal.bika_setup.bika_analysisprofiles],
+        9:  ['SampleType',          portal.bika_setup.bika_sampletypes],
+        10: ['SubGroup',            portal.bika_setup.bika_subgroups],
+        11: ['BatchLabel',          portal.bika_setup.bika_batchlabels],
+        12: ['SamplePoint',         portal.bika_setup.bika_samplepoints],
+        13: ['AnalysisService',     portal.bika_setup.bika_analysisservices],
+        14: ['AnalysisSpec',        portal.bika_setup.bika_analysisspecs],
+    }
+    type = portaltypes[index][0]
+    loc = portaltypes[index][1]
+    retval=None
+
+# 0 Client
+    if index == 0:
+        pass
+# 1 LabContact
+    elif index == 1:
+        retval = map(api.object,api.search({'portal_type':type,'title':title}))[0]
+        if retval is None:
+            retval = map(api.object,api.search({'portal_type':type,'title':title}))[0]
+        if retval is None:
+            retval = api.create(loc, type, title=title).UID()
+# 2 Department
+    elif index == 2:
+        retval
+
+    return retval
+
+#Portal Types and Locations
 clients = portal.clients
 labcontacts = portal.bika_setup.bika_labcontacts
 departments = portal.bika_setup.bika_departments
@@ -25,13 +84,12 @@ labels = portal.bika_setup.bika_batchlabels
 samplepoints = portal.bika_setup.bika_samplepoints
 analysisservices = portal.bika_setup.bika_analysisservices
 
-
 #LabContacts
 paul = api.create(labcontacts, "LabContact", Firstname="Paul", Surname="VanderWeele", EmailAddress="pvanderweele@newagelaboratories.com").UID()
 brian = api.create(labcontacts, "LabContact", Firstname="Brian", Surname="Kreiger", EmailAddress="bkrieger@newagelaboratories.com").UID()
 scott = api.create(labcontacts, "LabContact", Firstname="Scott", Surname="Wall", EmailAddress="swall@newagelaboratories.com").UID()
 melissa = api.create(labcontacts, "LabContact", Firstname="Melissa", Surname="Abshire", EmailAddress="mabshire@newagelaboratories.com").UID()
-kim = api.create(labcontacts, "LabContact", Firstname="Kim", Surname="Crago", EmailAddress="kcrago@newagelaboratories.com").UID()
+# kim = api.create(labcontacts, "LabContact", Firstname="Kim", Surname="Crago", EmailAddress="kcrago@newagelaboratories.com").UID()
 irish = api.create(labcontacts, "LabContact", Firstname="Irish", Surname="Gallagher", EmailAddress="igallagher@newagelaboratories.com").UID()
 tami = api.create(labcontacts, "LabContact", Firstname="Tami", Surname="Kruger", EmailAddress="tkruger@newagelaboratories.com").UID()
 sarah = api.create(labcontacts, "LabContact", Firstname="Sarah", Surname="Powell", EmailAddress="spowell@newagelaboratories.com").UID()
@@ -49,19 +107,55 @@ for i in api.search({'portal_type':'Department'}):
 
 #AnalysisCategories
 
-sapcategory = api.create(categories, "AnalysisCategory", title="Sap").UID()
-drinkingcategory = api.create(categories, "AnalysisCategory", title="Water, Drinking").UID()
-surfacecategory = api.create(categories, "AnalysisCategory", title="Water, Surface").UID()
-wastecategory = api.create(categories, "AnalysisCategory", title="Water, Waste").UID()
-cannabiscategory = api.create(categories, "AnalysisCategory", title="Cannabis Flower").UID()
-soilcategory = api.create(categories, "AnalysisCategory", title="Soil").UID()
-liqfertcategory = api.create(categories, "AnalysisCategory", title="Water, Liquid Fertilizer").UID()
-frozencategory = api.create(categories, "AnalysisCategory", title="Food, Frozen").UID()
-rawcategory = api.create(categories, "AnalysisCategory", title="Food, Raw").UID()
-aircategory = api.create(categories, "AnalysisCategory", title="Compressed Air").UID()
-prepcategory = api.create(categories, "AnalysisCategory", title="Prep").UID()
-cleancategory = api.create(categories, "AnalysisCategory", title="Cleanup").UID()
-tissuecategory = api.create(categories, "AnalysisCategory", title="Tissue").UID()
+sapcategory = searchOrCreate(categories,"AnalysisCategory","Sap")
+
+drinkingcategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Water, Drinking'}))[0]
+if drinkingcategory is None:
+    drinkingcategory = api.create(categories, "AnalysisCategory", title="Water, Drinking").UID()
+
+surfacecategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Water, Surface'}))[0]
+if surfacecategory is None:
+    surfacecategory = api.create(categories, "AnalysisCategory", title="Water, Surface").UID()
+
+wastecategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Water, Waste'}))[0]
+if wastecategory is None:
+    wastecategory = api.create(categories, "AnalysisCategory", title="Water, Waste").UID()
+
+cannabiscategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Cannabis Flower'}))[0]
+if cannabiscategory is None:
+    cannabiscategory = api.create(categories, "AnalysisCategory", title="Cannabis Flower").UID()
+
+soilcategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Soil'}))[0]
+if soilcategory is None:
+    soilcategory = api.create(categories, "AnalysisCategory", title="Soil").UID()
+
+liqfertcategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Water, Liquid Fertilizer'}))[0]
+if liqfertcategory is None:
+    liqfertcategory = api.create(categories, "AnalysisCategory", title="Water, Liquid Fertilizer").UID()
+
+frozencategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Food, Frozen'}))[0]
+if frozencategory is None:
+    frozencategory = api.create(categories, "AnalysisCategory", title="Food, Frozen").UID()
+
+rawcategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Food, Raw'}))[0]
+if rawcategory is None:
+    rawcategory = api.create(categories, "AnalysisCategory", title="Food, Raw").UID()
+
+aircategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Compressed Air'}))[0]
+if aircategory is None:
+    aircategory = api.create(categories, "AnalysisCategory", title="Compressed Air").UID()
+
+prepcategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Prep'}))[0]
+if prepcategory is None:
+    prepcategory = api.create(categories, "AnalysisCategory", title="Prep").UID()
+
+cleancategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Cleanup'}))[0]
+if cleancategory is None:
+    cleancategory = api.create(categories, "AnalysisCategory", title="Cleanup").UID()
+
+tissuecategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Tissue'}))[0]
+if tissuecategory is None:
+    tissuecategory = api.create(categories, "AnalysisCategory", title="Tissue").UID()
 
 for i in api.search({'portal_type':'AnalysisCategory'}):
     api.get_object(i).reindexObject()
@@ -205,6 +299,7 @@ sap_si = api.create(analysisservices, "AnalysisService", title="Silica (Si)", Ke
 sap_na = api.create(analysisservices, "AnalysisService", title="Sodium (Na)", Keyword = "sap_sodium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
 sap_s = api.create(analysisservices, "AnalysisService", title="Sulfur (S)", Keyword = "sap_sulfur", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
 sap_zn = api.create(analysisservices, "AnalysisService", title="Zinc (Zn)", Keyword = "sap_zinc", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=sapcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+sap_mercury = api.create(analysisservices, "AnalysisService", title="Mercury (Hg)", Keyword="sap_mercury", Methods=[epa7470], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
 
 ##Drinking Water
 
@@ -225,6 +320,7 @@ surface_coliform_mpn_10x = api.create(analysisservices, "AnalysisService", title
 surface_ecoli_mpn_10x = api.create(analysisservices, "AnalysisService", title="E.coli (MPN) - 10x", Keyword = "surface_ecoli_mpn_10x", Methods=sm9223b, Accredited=True, Unit="mpn/10mL", PointOfCapture="lab", Category=surfacecategory, LowerDetectionLimit="10", Precision=0, ExponentialFormatPrecision=7).UID()
 surface_coliform_mpn_fsma = api.create(analysisservices, "AnalysisService", title="Coliform (MPN) - FSMA", Keyword = "surface_oliform_mpn_fsma", Methods=sm9223b, Accredited=True, Unit="mpn/100mL", PointOfCapture="lab", Category=surfacecategory, LowerDetectionLimit="1", Precision=0, ExponentialFormatPrecision=7).UID()
 surface_ecoli_mpn_fsma = api.create(analysisservices, "AnalysisService", title="E.coli (MPN) - FSMA", Keyword = "surface_ecoli_mpn_fsma", Methods=sm9223b, Accredited=True, Unit="mpn/100mL", PointOfCapture="lab", Category=surfacecategory, LowerDetectionLimit="1", Precision=0, ExponentialFormatPrecision=7).UID()
+surface_mercury = api.create(analysisservices, "AnalysisService", title="Mercury (Hg)", Keyword="surface_mercury", Methods=[epa7470], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
 
 ##Hydro Water
 
@@ -249,12 +345,82 @@ liqfert_nickel = api.create(analysisservices, "AnalysisService", title="Nickel (
 liqfert_selenium = api.create(analysisservices, "AnalysisService", title="Selenium (Se)", Keyword="liqfert_selenium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=liqfertcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
 liqfert_silica = api.create(analysisservices, "AnalysisService", title="Silica (Si)", Keyword="liqfert_silica", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=liqfertcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
 liqfert_zinc = api.create(analysisservices, "AnalysisService", title="Zinc (Zn)", Keyword="liqfert_zinc", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=liqfertcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
-liqfert_ammonia = api.create(analysisservices, "AnalysisService", title="Ammonia (NH4) as Nitrogen (N)", Keyword="liqfert_ammonia", Methods=sm4500_no3d, Accredited=True, Unit="ppm", PointOfCapture="lab", Category=liqfertcategory, LowerDetectionLimit="0.01", Precision=2, ExponentialFormatPrecision=7).UID()
+liqfert_ammonia = api.create(analysisservices, "AnalysisService", title="Ammonia (NH3) as Nitrogen (N)", Keyword="liqfert_ammonia", Methods=sm4500_no3d, Accredited=True, Unit="ppm", PointOfCapture="lab", Category=liqfertcategory, LowerDetectionLimit="0.01", Precision=2, ExponentialFormatPrecision=7).UID()
 liqfert_nitrate = api.create(analysisservices, "AnalysisService", title="Nitrate (NO3) as Nitrogen (N)", Keyword="liqfert_nitrate", Methods=sm4500_modnh3, Accredited=True, Unit="ppm", PointOfCapture="lab", Category=liqfertcategory, LowerDetectionLimit="0.01", Precision=2, ExponentialFormatPrecision=7).UID()
+liqfert_mercury = api.create(analysisservices, "AnalysisService", title="Mercury (Hg)", Keyword="liqfert_mercury", Methods=[epa7470], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
 
+# Basic Soil
+
+basic_soil_ec = api.create(analysisservices, "AnalysisService", title="EC", Keyword="basic_soil_ec", Methods=[sm2540c], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.01", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_ph = api.create(analysisservices, "AnalysisService", title="pH", Keyword="basic_soil_ph", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_chloride = api.create(analysisservices, "AnalysisService", title="Chloride (Cl-)", Keyword="basic_soil_chloride", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_sulfur = api.create(analysisservices, "AnalysisService", title="Sulfur (S)", Keyword="basic_soil_sulfur", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_phosphorus = api.create(analysisservices, "AnalysisService", title="Phosphorus (P)", Keyword="basic_soil_phosphorus", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_calcium = api.create(analysisservices, "AnalysisService", title="Caclium (Ca)", Keyword="basic_soil_calcium", Methods=[aoac993_14], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_potassium = api.create(analysisservices, "AnalysisService", title="Potassium (K)", Keyword="basic_soil_potassium", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_magnesium = api.create(analysisservices, "AnalysisService", title="Magnesium (Mg)", Keyword="basic_soil_magnesium", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_sodium = api.create(analysisservices, "AnalysisService", title="Sodium (Na)", Keyword="basic_soil_sodium", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_percent_calcium = api.create(analysisservices, "AnalysisService", title="% Calcium (Ca)", Keyword="basic_soil_percent_calcium", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_percent_potassium = api.create(analysisservices, "AnalysisService", title="% Potassium (K)", Keyword="basic_soil_percent_potassium", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_percent_magnesium = api.create(analysisservices, "AnalysisService", title="% Magnesium (Mg)", Keyword="basic_soil_percent_magnesium", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_esp = api.create(analysisservices, "AnalysisService", title="ESP", Keyword="basic_soil_esp", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_aluminum = api.create(analysisservices, "AnalysisService", title="Aluminum (Al)", Keyword="basic_soil_aluminum", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_boron = api.create(analysisservices, "AnalysisService", title="Boron (B)", Keyword="basic_soil_boron", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_cobalt = api.create(analysisservices, "AnalysisService", title="Cobalt (Co)", Keyword="basic_soil_cobalt", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_copper = api.create(analysisservices, "AnalysisService", title="Copper (Cu)", Keyword="basic_soil_copper", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_iron = api.create(analysisservices, "AnalysisService", title="Iron (Fe)", Keyword="basic_soil_iron", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_manganese = api.create(analysisservices, "AnalysisService", title="Manganese (Mn)", Keyword="basic_soil_manganese", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_molybdenum = api.create(analysisservices, "AnalysisService", title="Molybdenum (Mo)", Keyword="basic_soil_molybdenum", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_nickel = api.create(analysisservices, "AnalysisService", title="Nickel (Ni)", Keyword="basic_soil_nickel", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_selenium = api.create(analysisservices, "AnalysisService", title="Selenium (Se)", Keyword="basic_soil_selenium", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_silica = api.create(analysisservices, "AnalysisService", title="Silica (Si)", Keyword="basic_soil_silica", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_zinc = api.create(analysisservices, "AnalysisService", title="Zinc (Zn)", Keyword="basic_soil_zinc", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_nitrogen_as_ammonia = api.create(analysisservices, "AnalysisService", title="Ammonia (NH3) as Nitrogen (N)", Keyword="basic_soil_ammonia", Methods=[sm4500_modnh3], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.01", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_nitrogen_as_nitrate = api.create(analysisservices, "AnalysisService", title="Nitrate (NO3) as Nitrogen (N)", Keyword="basic_soil_nitrate", Methods=[sm4500_no3d], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.01", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_arsenic = api.create(analysisservices, "AnalysisService", title="Arsenic (As)", Keyword="basic_soil_arsenic", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_cadmium = api.create(analysisservices, "AnalysisService", title="Cadmium (Cd)", Keyword="basic_soil_cadmium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_chromium = api.create(analysisservices, "AnalysisService", title="Chromium (Cr)", Keyword="basic_soil_chromium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_lead = api.create(analysisservices, "AnalysisService", title="Lead (Pb)", Keyword="basic_soil_lead", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+basic_soil_mercury = api.create(analysisservices, "AnalysisService", title="Mercury (Hg)", Keyword="basic_soil_mercury", Methods=[epa7471b], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+
+# Rapid Soil
+
+rapid_soil_ec = api.create(analysisservices, "AnalysisService", title="EC", Keyword="rapid_soil_ec", Methods=[sm2540c], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.01", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_ph = api.create(analysisservices, "AnalysisService", title="pH", Keyword="rapid_soil_ph", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_chloride = api.create(analysisservices, "AnalysisService", title="Chloride (Cl-)", Keyword="rapid_soil_chloride", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_sulfur = api.create(analysisservices, "AnalysisService", title="Sulfur (S)", Keyword="rapid_soil_sulfur", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_phosphorus = api.create(analysisservices, "AnalysisService", title="Phosphorus (P)", Keyword="rapid_soil_phosphorus", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_calcium = api.create(analysisservices, "AnalysisService", title="Caclium (Ca)", Keyword="rapid_soil_calcium", Methods=[aoac993_14], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_potassium = api.create(analysisservices, "AnalysisService", title="Potassium (K)", Keyword="rapid_soil_potassium", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_magnesium = api.create(analysisservices, "AnalysisService", title="Magnesium (Mg)", Keyword="rapid_soil_magnesium", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_sodium = api.create(analysisservices, "AnalysisService", title="Sodium (Na)", Keyword="rapid_soil_sodium", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_percent_calcium = api.create(analysisservices, "AnalysisService", title="% Calcium (Ca)", Keyword="rapid_soil_percent_calcium", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_percent_potassium = api.create(analysisservices, "AnalysisService", title="% Potassium (K)", Keyword="rapid_soil_percent_potassium", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_percent_magnesium = api.create(analysisservices, "AnalysisService", title="% Magnesium (Mg)", Keyword="rapid_soil_percent_magnesium", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_esp = api.create(analysisservices, "AnalysisService", title="ESP", Keyword="rapid_soil_esp", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_aluminum = api.create(analysisservices, "AnalysisService", title="Aluminum (Al)", Keyword="rapid_soil_aluminum", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_boron = api.create(analysisservices, "AnalysisService", title="Boron (B)", Keyword="rapid_soil_boron", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_cobalt = api.create(analysisservices, "AnalysisService", title="Cobalt (Co)", Keyword="rapid_soil_cobalt", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_copper = api.create(analysisservices, "AnalysisService", title="Copper (Cu)", Keyword="rapid_soil_copper", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_iron = api.create(analysisservices, "AnalysisService", title="Iron (Fe)", Keyword="rapid_soil_iron", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_manganese = api.create(analysisservices, "AnalysisService", title="Manganese (Mn)", Keyword="rapid_soil_manganese", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_molybdenum = api.create(analysisservices, "AnalysisService", title="Molybdenum (Mo)", Keyword="rapid_soil_molybdenum", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_nickel = api.create(analysisservices, "AnalysisService", title="Nickel (Ni)", Keyword="rapid_soil_nickel", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_selenium = api.create(analysisservices, "AnalysisService", title="Selenium (Se)", Keyword="rapid_soil_selenium", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_silica = api.create(analysisservices, "AnalysisService", title="Silica (Si)", Keyword="rapid_soil_silica", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_zinc = api.create(analysisservices, "AnalysisService", title="Zinc (Zn)", Keyword="rapid_soil_zinc", Methods=[aoac973_41], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.05", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_nitrogen_as_ammonia = api.create(analysisservices, "AnalysisService", title="Ammonia (NH3) as Nitrogen (N)", Keyword="rapid_soil_ammonia", Methods=[sm4500_modnh3], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.01", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_nitrogen_as_nitrate = api.create(analysisservices, "AnalysisService", title="Nitrate (NO3) as Nitrogen (N)", Keyword="rapid_soil_nitrate", Methods=[sm4500_no3d], Accredited=True, Unit='ppm',PointOfCapture="lab", Category=soilcategory, LowerDetectionLimit="0.01", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_arsenic = api.create(analysisservices, "AnalysisService", title="Arsenic (As)", Keyword="rapid_soil_arsenic", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_cadmium = api.create(analysisservices, "AnalysisService", title="Cadmium (Cd)", Keyword="rapid_soil_cadmium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_chromium = api.create(analysisservices, "AnalysisService", title="Chromium (Cr)", Keyword="rapid_soil_chromium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_lead = api.create(analysisservices, "AnalysisService", title="Lead (Pb)", Keyword="rapid_soil_lead", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+rapid_soil_mercury = api.create(analysisservices, "AnalysisService", title="Mercury (Hg)", Keyword="rapid_soil_mercury", Methods=[epa7471b], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+
+# Tissue
 
 tissue_aluminum = api.create(analysisservices, "AnalysisService", title="Aluminum (Al)", Keyword="tissue_aluminum", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
-tissue_arsenic = api.create(analysisservices, "AnalysisService", title="Arsenic (Ar)", Keyword="tissue_arsenic", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_arsenic = api.create(analysisservices, "AnalysisService", title="Arsenic (As)", Keyword="tissue_arsenic", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
 tissue_boron = api.create(analysisservices, "AnalysisService", title="Boron (B)", Keyword="tissue_boron", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
 tissue_calcium = api.create(analysisservices, "AnalysisService", title="Calcium (Ca)", Keyword="tissue_calcium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
 tissue_cadmium = api.create(analysisservices, "AnalysisService", title="Cadmium (Cd)", Keyword="tissue_cadmium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
@@ -265,6 +431,7 @@ tissue_iron = api.create(analysisservices, "AnalysisService", title="Iron (Fe)",
 tissue_potassium = api.create(analysisservices, "AnalysisService", title="Potassium (K)", Keyword="tissue_potassium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
 tissue_magnesium = api.create(analysisservices, "AnalysisService", title="Magnesium (Mg)", Keyword="tissue_magnesium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
 tissue_manganese = api.create(analysisservices, "AnalysisService", title="Manganese (Mn)", Keyword="tissue_manganese", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
+tissue_mercury = api.create(analysisservices, "AnalysisService", title="Mercury (Hg)", Keyword="tissue_mercury", Methods=[epa7471b], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
 tissue_molybdenum = api.create(analysisservices, "AnalysisService", title="Molybdenum (Mo)", Keyword="tissue_molybdenum", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
 tissue_sodium = api.create(analysisservices, "AnalysisService", title="Sodium (Na)", Keyword="tissue_sodium", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
 tissue_nickel = api.create(analysisservices, "AnalysisService", title="Nickel (Ni)", Keyword="tissue_nickel", Methods=[aoac993_14], Accredited=True, Unit="ppm", PointOfCapture="lab", Category=tissuecategory, LowerDetectionLimit="0.5", Precision=2, ExponentialFormatPrecision=7).UID()
