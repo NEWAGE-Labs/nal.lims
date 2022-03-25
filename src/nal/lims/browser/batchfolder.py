@@ -116,12 +116,14 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
                 "permission": AddBatch,
                 "icon": "++resource++bika.lims.images/add.png"
             },
-            _("Export ALL SDGs as .CSV"): {
+        }
+
+        if IClient.providedBy(self.context):
+            self.context_actions[_("Export All SDGs as .CSV")] = {
                 "url": "@@clientcsvexport/",
                 "permission": AddBatch,
                 "icon": "++resource++bika.lims.images/control_big.png"
-            },
-        }
+            }
 
         # If current user is a client contact and current context is not a
         # Client, then modify the url for Add action so the Batch gets created
