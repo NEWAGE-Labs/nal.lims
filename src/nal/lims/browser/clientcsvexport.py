@@ -192,7 +192,7 @@ class ClientCSVExportView(BrowserView):
                     if api.get_workflow_status_of(j) not in ['cancelled','invalid','retracted','rejected']:
                         sigfigs = 3
                         result = j.Result
-                        if result.replace('.','',1).isdigit() is False:
+                        if result.replace('.','',1).replace('-','',1).isdigit() is False:
                             export_dict[j.Keyword].append(result)
                         else:
                             result = float(result)
