@@ -48,7 +48,7 @@ class ClientCSVExportView(BrowserView):
         sdgs_active = []
         sdgs = []
         for i in sdgs_full:
-            if api.get_workflow_status_of(i) == 'cancelled':
+            if api.get_workflow_status_of(i) != 'cancelled':
                 sdgs_active.append(i)
 
         for i in sdgs_active:
