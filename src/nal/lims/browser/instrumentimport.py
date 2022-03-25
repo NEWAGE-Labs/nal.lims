@@ -116,7 +116,6 @@ class ICPImportView(edit.DefaultEditForm):
             print('IMPORTING - Sample {0} ID: {1}'.format(i,api.get_id(i)))
             imported = []
 
-            #Aluminum
             found = False
             aluminum = None
             arsenic = None
@@ -738,16 +737,22 @@ class GalleryImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_nitrogen_as_ammonium-'+str(j)
                     liqfert_version = 'liqfert_ammonia-'+str(j)
+                    rs_version = 'rapid_soil_ammonia-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         ammonium = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
                         ammonium = i[liqfert_version]
+                    elif hasattr(i,rs_version):
+                        found = True
+                        ammonium = i[rs_version]
             if found == False and hasattr(i,'sap_nitrogen_as_ammonium'):
                 ammonium = i.sap_nitrogen_as_ammonium
             elif found == False and hasattr(i,'liqfert_ammonia'):
                 ammonium = i.liqfert_ammonia
+            elif found == False and hasattr(i,'rapid_soil_ammonia'):
+                ammonium = i.rapid_soil_ammonia
 
             # try:
             #     ammonium = i.sap_nitrogen_as_ammonium
@@ -783,16 +788,22 @@ class GalleryImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_chloride-'+str(j)
                     liqfert_version = 'liqfert_chloride-'+str(j)
+                    rs_version = 'rapid_soil_chloride-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         chloride = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
                         chloride = i[liqfert_version]
+                    elif hasattr(i,rs_version):
+                        found = True
+                        chloride = i[rs_version]
             if found == False and hasattr(i,'sap_chloride'):
                 chloride = i.sap_chloride
             elif found == False and hasattr(i,'liqfert_chloride'):
                 chloride = i.liqfert_chloride
+            elif found == False and hasattr(i,'rapid_soil_chloride'):
+                chloride = i.rapid_soil_chloride
 
             # try:
             #     chloride = i.sap_chloride
@@ -869,6 +880,7 @@ class GalleryImportView(edit.DefaultEditForm):
                     sap_version = 'sap_nitrogen_as_nitrate-'+str(j)
                     liqfert_version = 'liqfert_nitrate-'+str(j)
                     drinking_version = 'drinking_nitrogen_as_nitrate-'+str(j)
+                    rs_version = 'rapid_soil_nitrate-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         n_as_nitrate = i[sap_version]
@@ -878,12 +890,17 @@ class GalleryImportView(edit.DefaultEditForm):
                     elif hasattr(i,drinking_version):
                         found = True
                         n_as_nitrate = i[drinking_version]
+                    elif hasattr(i,rs_version):
+                        found = True
+                        n_as_nitrate = i[rs_version]
             if found == False and hasattr(i,'sap_nitrogen_as_nitrate'):
                 n_as_nitrate = i.sap_nitrogen_as_nitrate
             elif found == False and hasattr(i,'liqfert_nitrate'):
                 n_as_nitrate = i.liqfert_nitrate
             elif found == False and hasattr(i,'drinking_nitrogen_as_nitrate'):
                 n_as_nitrate = i.drinking_nitrogen_as_nitrate
+            elif found == False and hasattr(i,'rapid_soil_nitrate'):
+                n_as_nitrate = i.rapid_soil_nitrate
 
             # try:
             #     n_as_nitrate = i.sap_nitrogen_as_nitrate
@@ -976,8 +993,7 @@ class GalleryImportView(edit.DefaultEditForm):
                     n_as_nitrate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Analyst'].values[0]
                     n_as_nitrate.reindexObject(idxs=['Analyst'])
                 imported.append(True)
-
-            if n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')].empty:
+            elif n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')].empty:
                 logger.info("Importing N from Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")))
                 n_as_nitrate.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")
                 n_as_nitrate.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analysis Date/Time'].values[0]
@@ -1103,16 +1119,22 @@ class pHImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_ph-'+str(j)
                     liqfert_version = 'liqfert_ph-'+str(j)
+                    rs_version = 'rapid_soil_ph-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         ph = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
                         ph = i[liqfert_version]
+                    elif hasattr(i,rs_version):
+                        found = True
+                        ph = i[rs_version]
             if found == False and hasattr(i,'sap_ph'):
                 ph = i.sap_ph
             elif found == False and hasattr(i,'liqfert_ph'):
                 ph = i.liqfert_ph
+            elif found == False and hasattr(i,'rapid_soil_ph'):
+                ph = i.rapid_soil_ph
 
             # try:
             #     ph = i.sap_ph
@@ -1245,16 +1267,22 @@ class ECImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_ec-'+str(j)
                     liqfert_version = 'liqfert_soluablesalts-'+str(j)
+                    rs_version = 'rapid_soil_ec-'+str(j)
                     if hasattr(i,sap_version):
                         found = True
                         ec = i[sap_version]
                     elif hasattr(i,liqfert_version):
                         found = True
                         ec = i[liqfert_version]
+                    elif hasattr(i,rs_version):
+                        found = True
+                        ec = i[rs_version]
             if found == False and hasattr(i,'sap_ec'):
                 ec = i.sap_ec
             elif found == False and hasattr(i,'liqfert_soluablesalts'):
                 ec = i.liqfert_soluablesalts
+            elif found == False and hasattr(i,'rapid_soil_ec'):
+                ec = i.rapid_soil_ec
             # try:
             #     ec = i.sap_ec
             # except AttributeError:
