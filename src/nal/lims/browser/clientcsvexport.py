@@ -44,14 +44,17 @@ class ClientCSVExportView(BrowserView):
             'sample_type',
             'sample_location'
         ]
-        sdgs = map(api.get_object,api.search({'portal_type':'Batch'}))
-        for i in sdgs:
+        sdgs_full = map(api.get_object,api.search({'portal_type':'Batch'}))
+        sdgs_active = []
+        sdgs = []
+        for i in sdgs_full:
             if api.get_workflow_status_of(i) == 'cancelled':
-                sdgs.remove(i)
+                sdgs_active.append(i)
 
-        for i in sdgs:
-            if i.getClient().id != client.id:
-                sdgs.remove(i)
+        for i in sdgs_active:
+            if i.getClient().id == client.id:
+                sdgs.append(i)
+
         ARs = []
         for i in sdgs:
             ARs.append(i.getAnalysisRequests())
