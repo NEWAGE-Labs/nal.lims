@@ -92,7 +92,7 @@ class ClientCSVExportView(BrowserView):
         for i in ARs:
             if api.get_workflow_status_of(i) not in ['cancelled','invalid']:
 
-                print("Exporting Sample: "+sample_count+"-"+i.id)
+                print("Exporting Sample: "+str(sample_count)+"-"+str(i.id))
 
                 sdg = api.get_object(i.getBatch())
 
