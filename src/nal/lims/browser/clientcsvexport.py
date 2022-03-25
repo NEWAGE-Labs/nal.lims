@@ -227,14 +227,15 @@ class ClientCSVExportView(BrowserView):
                     if tn > 0:
                         nce = (1 - ((float(nh4) + float(no3)) / float(tn)))*100
                         nce = round(nce, sigfigs-int(floor(log10(abs(nce))))-1)
-                        export_dict['nitrogen_conversion_effeciency'].append(nce)
+                        export_dict['nitrogen_conversion_efficiency'].append(nce)
                     else:
-                        export_dict['nitrogen_conversion_effeciency'].append('')
+                        export_dict['nitrogen_conversion_efficiency'].append('')
+                    print('NCE List is: {0}'.format(export_dict['nitrogen_conversion_efficiency']))
 
                 for j in cols:
                     if len(export_dict[j]) < sample_count:
                         export_dict[j].append('')
-
+                        print('Added a blank to {0}'.format(j))
 
         print(cols)
         print(export_dict)
