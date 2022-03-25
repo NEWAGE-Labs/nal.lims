@@ -181,7 +181,7 @@ class ICPImportView(edit.DefaultEditForm):
                     if 'sodium' in j:
                         sodium = i[j]
                     if 'sulfur' in j:
-                        sulfur = i[j]j
+                        sulfur = i[j]
                     if 'zinc' in j:
                         zinc = i[j]
                     if 'sap_kcaratio' in j:
