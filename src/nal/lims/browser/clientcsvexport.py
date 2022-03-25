@@ -209,21 +209,27 @@ class ClientCSVExportView(BrowserView):
                                     result = round(result, sigfigs-int(floor(log10(abs(result))))-1)
                                 export_dict[j.Keyword].append(result)
 
-
                 if i.getSampleType().title == 'Sap':
                     nh4 = export_dict['sap_nitrogen_as_ammonium'][-1]
                     no3 = export_dict['sap_nitrogen_as_nitrate'][-1]
-                    tn = float(export_dict['sap_total_nitrogen'][-1])
+                    tn = export_dict['sap_total_nitrogen'][-1]
                     nce = 0
 
-                    if nh4 == '< 0.01':
+                    if nh4 is None or nh4 == '< 0.01' or nh4 == '':
                         nh4 = 0
-                    if no3 == '< 0.01':
+                    if no3 is None or no3 == '< 0.01' or no3 == '':
                         no3 = 0
+                    if tn is None or tn == '< 0.01' or tn == '':
+                        tn = 0
+                    else:
+                        tn = float(tn)
 
-                    nce = (1 - ((float(nh4) + float(no3)) / float(tn)))*100
-                    nce = round(nce, sigfigs-int(floor(log10(abs(nce))))-1)
-                    export_dict['nitrogen_conversion_effeciency'].append(nce)
+                    if tn > 0
+                        nce = (1 - ((float(nh4) + float(no3)) / float(tn)))*100
+                        nce = round(nce, sigfigs-int(floor(log10(abs(nce))))-1)
+                        export_dict['nitrogen_conversion_effeciency'].append(nce)
+                    else:
+                        export_dict['nitrogen_conversion_effeciency'].append('')
 
                 for j in cols:
                     if len(export_dict[j]) < sample_count:
