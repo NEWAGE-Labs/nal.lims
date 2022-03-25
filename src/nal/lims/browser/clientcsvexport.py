@@ -72,9 +72,9 @@ class ClientCSVExportView(BrowserView):
                 cols = cols + sap_cols
 
     	    ar_cols = []
-                for j in map(api.get_object,i.getAnalyses()):
-                    if j.Keyword not in cols and j.Keyword not in ar_cols:
-                        ar_cols.append(str(j.Keyword))
+            for j in map(api.get_object,i.getAnalyses()):
+                if j.Keyword not in cols and j.Keyword not in ar_cols:
+                    ar_cols.append(str(j.Keyword))
     	    ar_cols.sort()
 
     	    cols = cols + ar_cols
