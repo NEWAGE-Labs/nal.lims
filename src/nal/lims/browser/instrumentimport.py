@@ -119,638 +119,74 @@ class ICPImportView(edit.DefaultEditForm):
             #Aluminum
             found = False
             aluminum = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_aluminum-'+str(j)
-                    liqfert_version = 'liqfert_aluminum-'+str(j)
-                    tissue_version = 'tissue_aluminum-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        aluminum = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        aluminum = i[liqfert_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        aluminum = i[tissue_version]
-            if found == False and hasattr(i,'sap_aluminum'):
-                aluminum = i.sap_aluminum
-            elif found == False and hasattr(i,'liqfert_aluminum'):
-                aluminum = i.liqfert_aluminum
-            elif found == False and hasattr(i,'tissue_aluminum'):
-                aluminum = i.tissue_aluminum
-
-            print('Aluminum is - {0}'.format(aluminum))
-
-            #Arsenic
-            found = False
             arsenic = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_arsenic-'+str(j)
-                    liqfert_version = 'liqfert_arsenic-'+str(j)
-                    tissue_version = 'tissue_arsenic-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        arsenic = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        arsenic = i[liqfert_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        arsenic = i[tissue_version]
-            if found == False and hasattr(i,'sap_arsenic'):
-                arsenic = i.sap_arsenic
-            elif found == False and hasattr(i,'liqfert_arsenic'):
-                arsenic = i.liqfert_arsenic
-            elif found == False and hasattr(i,'tissue_arsenic'):
-                arsenic = i.tissue_arsenic
-
-            print('arsenic is - {0}'.format(arsenic))
-
-
-            # try:
-            #     aluminum = i.sap_aluminum
-            # except AttributeError:
-            #     aluminum = None
-            # if aluminum == None:
-            #     try:
-            #         aluminum = i.liqfert_aluminum
-            #     except AttributeError:
-            #         aluminum = None
-
-            #Boron
-            found = False
             boron = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_boron-'+str(j)
-                    liqfert_version = 'liqfert_boron-'+str(j)
-                    tissue_version = 'tissue_boron-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        boron = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        boron = i[liqfert_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        boron = i[tissue_version]
-            if found == False and hasattr(i,'sap_boron'):
-                boron = i.sap_boron
-            elif found == False and hasattr(i,'liqfert_boron'):
-                boron = i.liqfert_boron
-            elif found == False and hasattr(i,'tissue_boron'):
-                boron = i.tissue_boron
-
-            print('Boron is - {0}'.format(boron))
-
-
-            # try:
-            #     boron = i.sap_boron
-            # except AttributeError:
-            #     boron = None
-            # if boron == None:
-            #     try:
-            #         boron = i.liqfert_boron
-            #     except AttributeError:
-            #         boron = None
-
-            #Calcium
-            found = False
             calcium = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_calcium-'+str(j)
-                    liqfert_version = 'liqfert_calcium-'+str(j)
-                    tissue_version = 'tissue_calcium-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        calcium = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        calcium = i[liqfert_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        calcium = i[tissue_version]
-            if found == False and hasattr(i,'sap_calcium'):
-                calcium = i.sap_calcium
-            elif found == False and hasattr(i,'liqfert_calcium'):
-                calcium = i.liqfert_calcium
-            elif found == False and hasattr(i,'tissue_calcium'):
-                calcium = i.tissue_calcium
-
-            print('Calcium is - {0}'.format(calcium))
-
-            #Cadmium
-            found = False
             cadmium = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_cadmium-'+str(j)
-                    liqfert_version = 'liqfert_cadmium-'+str(j)
-                    tissue_version = 'tissue_cadmium-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        cadmium = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        cadmium = i[liqfert_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        cadmium = i[tissue_version]
-            if found == False and hasattr(i,'sap_cadmium'):
-                cadmium = i.sap_cadmium
-            elif found == False and hasattr(i,'liqfert_cadmium'):
-                cadmium = i.liqfert_cadmium
-            elif found == False and hasattr(i,'tissue_cadmium'):
-                cadmium = i.tissue_cadmium
-
-            print('cadmium is - {0}'.format(cadmium))
-
-            #Cobalt
-            found = False
             cobalt = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_cobalt-'+str(j)
-                    liqfert_version = 'liqfert_cobalt-'+str(j)
-                    tissue_version = 'tissue_cobalt-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        cobalt = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        cobalt = i[liqfert_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        cobalt = i[tissue_version]
-            if found == False and hasattr(i,'sap_cobalt'):
-                cobalt = i.sap_cobalt
-            elif found == False and hasattr(i,'liqfert_cobalt'):
-                cobalt = i.liqfert_cobalt
-            elif found == False and hasattr(i,'tissue_cobalt'):
-                cobalt = i.tissue_cobalt
-
-            print('Cobalt is - {0}'.format(cobalt))
-
-            #Chromium
-            found = False
             chromium = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_chromium-'+str(j)
-                    liqfert_version = 'liqfert_chromium-'+str(j)
-                    tissue_version = 'tissue_chromium-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        chromium = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        chromium = i[liqfert_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        chromium = i[tissue_version]
-            if found == False and hasattr(i,'sap_chromium'):
-                chromium = i.sap_chromium
-            elif found == False and hasattr(i,'liqfert_chromium'):
-                chromium = i.liqfert_chromium
-            elif found == False and hasattr(i,'tissue_chromium'):
-                chromium = i.tissue_chromium
-
-            print('chromium is - {0}'.format(chromium))
-
-            # try:
-            #     cobalt = i.sap_cobalt
-            # except AttributeError:
-            #     cobalt = None
-            # if cobalt == None:
-            #     try:
-            #         cobalt = i.liqfert_cobalt
-            #     except AttributeError:
-            #         cobalt = None
-
-            #Copper
-            found = False
             copper = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_copper-'+str(j)
-                    liqfert_version = 'liqfert_copper-'+str(j)
-                    tissue_version = 'tissue_copper-'+str(j)
-                    drinking_version = 'drinking_copper-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        copper = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        copper = i[liqfert_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        copper = i[tissue_version]
-                    elif hasattr(i,drinking_version):
-                        found = True
-                        copper = i[drinking_version]
-            if found == False and hasattr(i,'sap_copper'):
-                copper = i.sap_copper
-            elif found == False and hasattr(i,'liqfert_copper'):
-                copper = i.liqfert_copper
-            elif found == False and hasattr(i,'drinking_copper'):
-                copper = i.drinking_copper
-            elif found == False and hasattr(i,'tissue_copper'):
-                copper = i.tissue_copper
-
-            print('Copper is - {0}'.format(copper))
-
-            # ##Sap
-            # try:
-            #     copper = i.sap_copper
-            # except AttributeError:
-            #     copper = None
-            # ##Liquid Fertilizer
-            # if copper == None:
-            #     try:
-            #         copper = i.liqfert_copper
-            #     except AttributeError:
-            #         copper = None
-            # ##Drinking Water
-            # if copper == None:
-            #     try:
-            #         copper = i.drinking_copper
-            #     except AttributeError:
-            #         copper = None
-
-
-            #Iron
-            found = False
             iron = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_iron-'+str(j)
-                    liqfert_version = 'liqfert_iron-'+str(j)
-                    tissue_version = 'tissue_iron-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        iron = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        iron = i[liqfert_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        iron = i[tissue_version]
-            if found == False and hasattr(i,'sap_iron'):
-                iron = i.sap_iron
-            elif found == False and hasattr(i,'liqfert_iron'):
-                iron = i.liqfert_iron
-            elif found == False and hasattr(i,'tissue_iron'):
-                iron = i.tissue_iron
-
-            print('Iron is - {0}'.format(iron))
-
-            # try:
-            #     iron = i.sap_iron
-            # except AttributeError:
-            #     iron = None
-            # if iron == None:
-            #     try:
-            #         iron = i.liqfert_iron
-            #     except AttributeError:
-            #         iron = None
-
-            #Lead
-            found = False
             lead = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    drinking_version = 'drinking_lead-'+str(j)
-                    tissue_version = 'tissue_lead-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        lead = i[sap_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        lead = i[tissue_version]
-            if found == False and hasattr(i,'drinking_lead'):
-                lead = i.drinking_lead
-            elif found == False and hasattr(i,'tissue_lead'):
-                lead = i.tissue_lead
-
-            print('Lead is - {0}'.format(lead))
-
-            # try:
-            #     lead = i.drinking_lead
-            # except AttributeError:
-            #     lead = None
-
-            #Magnesium
-            found = False
             magnesium = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_magnesium-'+str(j)
-                    liqfert_version = 'liqfert_magnesium-'+str(j)
-                    tissue_version = 'tissue_magnesium-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        magnesium = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        magnesium = i[liqfert_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        magnesium = i[tissue_version]
-            if found == False and hasattr(i,'sap_magnesium'):
-                magnesium = i.sap_magnesium
-            elif found == False and hasattr(i,'liqfert_magnesium'):
-                magnesium = i.liqfert_magnesium
-            elif found == False and hasattr(i,'tissue_magnesium'):
-                magnesium = i.tissue_magnesium
-
-            print('magnesium is - {0}'.format(magnesium))
-
-            # try:
-            #     magnesium = i.sap_magnesium
-            # except AttributeError:
-            #     magnesium = None
-            # if magnesium == None:
-            #     try:
-            #         magnesium = i.liqfert_magnesium
-            #     except AttributeError:
-            #         magnesium = None
-
-            #Manganese
-            found = False
             manganese = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_manganese-'+str(j)
-                    liqfert_version = 'liqfert_manganese-'+str(j)
-                    tissue_version = 'tissue_manganese-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        manganese = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        manganese = i[liqfert_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        manganese = i[tissue_version]
-            if found == False and hasattr(i,'sap_manganese'):
-                manganese = i.sap_manganese
-            elif found == False and hasattr(i,'liqfert_manganese'):
-                manganese = i.liqfert_manganese
-            elif found == False and hasattr(i,'tissue_manganese'):
-                manganese = i.tissue_manganese
-
-            print('manganese is - {0}'.format(manganese))
-
-            #Molybdenum
-            found = False
             molybdenum = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_molybdenum-'+str(j)
-                    liqfert_version = 'liqfert_molybdenum-'+str(j)
-                    tissue_version = 'tissue_molybdenum-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        molybdenum = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        molybdenum = i[liqfert_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        molybdenum = i[tissue_version]
-            if found == False and hasattr(i,'sap_molybdenum'):
-                molybdenum = i.sap_molybdenum
-            elif found == False and hasattr(i,'liqfert_molybdenum'):
-                molybdenum = i.liqfert_molybdenum
-            elif found == False and hasattr(i,'tissue_molybdenum'):
-                molybdenum = i.tissue_molybdenum
-
-            print('molybdenum is - {0}'.format(molybdenum))
-
-            #Nickel
-            found = False
             nickel = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_nickel-'+str(j)
-                    liqfert_version = 'liqfert_nickel-'+str(j)
-                    tissue_version = 'tissue_nickel-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        nickel = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        nickel = i[liqfert_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        nickel = i[tissue_version]
-            if found == False and hasattr(i,'sap_nickel'):
-                nickel = i.sap_nickel
-            elif found == False and hasattr(i,'liqfert_nickel'):
-                nickel = i.liqfert_nickel
-            elif found == False and hasattr(i,'tissue_nickel'):
-                nickel = i.tissue_nickel
-
-            print('nickel is - {0}'.format(nickel))
-
-            #phosphorus FIX SPELLING ONCE KEYWORDS ARE CHANGED
-            found = False
             phosphorus = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_phosphorous-'+str(j)
-                    liqfert_version = 'liqfert_phosphorous-'+str(j)
-                    tissue_version = 'tissue_phosphorus-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        phosphorus = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        phosphorus = i[liqfert_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        phosphorus = i[tissue_version]
-            if found == False and hasattr(i,'sap_phosphorous'):
-                phosphorus = i.sap_phosphorous
-            elif found == False and hasattr(i,'liqfert_phosphorous'):
-                phosphorus = i.liqfert_phosphorous
-            elif found == False and hasattr(i,'tissue_phosphorus'):
-                phosphorus = i.tissue_phosphorus
-
-            print('phosphorus is - {0}'.format(phosphorus))
-
-            #Potassium
-            found = False
             potassium = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_potassium-'+str(j)
-                    liqfert_version = 'liqfert_potassium-'+str(j)
-                    tissue_version = 'tissue_potassium-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        potassium = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        potassium = i[liqfert_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        potassium = i[tissue_version]
-            if found == False and hasattr(i,'sap_potassium'):
-                potassium = i.sap_potassium
-            elif found == False and hasattr(i,'liqfert_potassium'):
-                potassium = i.liqfert_potassium
-            elif found == False and hasattr(i,'tissue_potassium'):
-                potassium = i.tissue_potassium
-
-            print('potassium is - {0}'.format(potassium))
-
-            #Selenium
-            found = False
             selenium = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_selenium-'+str(j)
-                    liqfert_version = 'liqfert_selenium-'+str(j)
-                    tissue_version = 'tissue_selenium-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        selenium = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        selenium = i[liqfert_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        selenium = i[tissue_version]
-            if found == False and hasattr(i,'sap_selenium'):
-                selenium = i.sap_selenium
-            elif found == False and hasattr(i,'liqfert_selenium'):
-                selenium = i.liqfert_selenium
-            elif found == False and hasattr(i,'tissue_selenium'):
-                selenium = i.tissue_selenium
-
-            print('selenium is - {0}'.format(selenium))
-
-            #Silica
-            found = False
             silica = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_silica-'+str(j)
-                    liqfert_version = 'liqfert_silica-'+str(j)
-                    tissue_version = 'tissue_silica-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        silica = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        silica = i[liqfert_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        silica = i[tissue_version]
-            if found == False and hasattr(i,'sap_silica'):
-                silica = i.sap_silica
-            elif found == False and hasattr(i,'liqfert_silica'):
-                silica = i.liqfert_silica
-            elif found == False and hasattr(i,'tissue_silica'):
-                silica = i.tissue_silica
-
-            print('silica is - {0}'.format(silica))
-
-            #Sodium
-            found = False
             sodium = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_sodium-'+str(j)
-                    liqfert_version = 'liqfert_sodium-'+str(j)
-                    tissue_version = 'tissue_sodium-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        sodium = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        sodium = i[liqfert_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        sodium = i[tissue_version]
-            if found == False and hasattr(i,'sap_sodium'):
-                sodium = i.sap_sodium
-            elif found == False and hasattr(i,'liqfert_sodium'):
-                sodium = i.liqfert_sodium
-            elif found == False and hasattr(i,'tissue_sodium'):
-                sodium = i.tissue_sodium
-
-            print('sodium is - {0}'.format(sodium))
-
-            #Sulfur
-            found = False
             sulfur = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_sulfur-'+str(j)
-                    liqfert_version = 'liqfert_sulfur-'+str(j)
-                    tissue_version = 'tissue_sulfur-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        sulfur = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        sulfur = i[liqfert_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        sulfur = i[tissue_version]
-            if found == False and hasattr(i,'sap_sulfur'):
-                sulfur = i.sap_sulfur
-            elif found == False and hasattr(i,'liqfert_sulfur'):
-                sulfur = i.liqfert_sulfur
-            elif found == False and hasattr(i,'tissue_sulfur'):
-                sulfur = i.tissue_sulfur
-
-            print('Sulfur is - {0}'.format(sulfur))
-
-            #Zinc
-            found = False
             zinc = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_zinc-'+str(j)
-                    liqfert_version = 'liqfert_zinc-'+str(j)
-                    tissue_version = 'tissue_zinc-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        zinc = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        zinc = i[liqfert_version]
-                    elif hasattr(i,tissue_version):
-                        found = True
-                        zinc = i[tissue_version]
-            if found == False and hasattr(i,'sap_zinc'):
-                zinc = i.sap_zinc
-            elif found == False and hasattr(i,'liqfert_zinc'):
-                zinc = i.liqfert_zinc
-            elif found == False and hasattr(i,'tissue_zinc'):
-                zinc = i.tissue_zinc
-
-            print('Zinc is - {0}'.format(zinc))
-
-            #Calculations
-            found = False
             sap_kcaratio = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_kcaratio-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        sap_kcaratio = i[sap_version]
-            if found == False and hasattr(i,'sap_kcaratio'):
-                sap_kcaratio = i.sap_kcaratio
 
-            print('KCA is - {0}'.format(sap_kcaratio))
+            for j in i:
+                if api.get_workflow_status_of(i[j]) not in ['retracted','rejected','invalid','cancelled']:
+                    if 'aluminum' in j:
+                        aluminum = j
+                    if 'arsenic' in j:
+                        arsenic = j
+                    if 'boron' in j:
+                        boron = j
+                    if 'calcium' in j:
+                        calcium = j
+                    if 'cadmium' in j:
+                        cadmium = j
+                    if 'cobalt' in j:
+                        cobalt = j
+                    if 'chromium' in j:
+                        chromium = j
+                    if 'copper' in j:
+                        copper = j
+                    if 'iron' in j:
+                        iron = j
+                    if 'lead' in j:
+                        lead = j
+                    if 'magnesium' in j:
+                        magnesium = j
+                    if 'manganese' in j:
+                        manganese = j
+                    if 'molybdenum' in j:
+                        molybdenum = j
+                    if 'nickel' in j:
+                        nickel = j
+                    if ('phosphorus' in j or 'phosphorous' in j):
+                        phosphorus = j
+                    if 'potassium' in j:
+                        potassium = j
+                    if 'selenium' in j:
+                        selenium = j
+                    if 'silica' in j:
+                        silica = j
+                    if 'sodium' in j:
+                        sodium = j
+                    if 'sulfur' in j:
+                        sulfur = j
+                    if 'zinc' in j:
+                        zinc = j
+                    if 'sap_kcaratio' in j:
+                        sap_kcaratio = j
 
         #Aluminum
             if aluminum is not None and api.get_workflow_status_of(aluminum) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')].empty:
