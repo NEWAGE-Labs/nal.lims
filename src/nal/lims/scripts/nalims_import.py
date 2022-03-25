@@ -109,51 +109,51 @@ for i in api.search({'portal_type':'Department'}):
 
 sapcategory = searchOrCreate(categories,"AnalysisCategory","Sap")
 
-drinkingcategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Water, Drinking'}))[0]
+drinkingcategory = map(api.get_object,api.search({'portal_type':'AnalysisCategory','title':'Water, Drinking'}))[0]
 if drinkingcategory is None:
     drinkingcategory = api.create(categories, "AnalysisCategory", title="Water, Drinking").UID()
 
-surfacecategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Water, Surface'}))[0]
+surfacecategory = map(api.get_object,api.search({'portal_type':'AnalysisCategory','title':'Water, Surface'}))[0]
 if surfacecategory is None:
     surfacecategory = api.create(categories, "AnalysisCategory", title="Water, Surface").UID()
 
-wastecategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Water, Waste'}))[0]
+wastecategory = map(api.get_object,api.search({'portal_type':'AnalysisCategory','title':'Water, Waste'}))[0]
 if wastecategory is None:
     wastecategory = api.create(categories, "AnalysisCategory", title="Water, Waste").UID()
 
-cannabiscategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Cannabis Flower'}))[0]
+cannabiscategory = map(api.get_object,api.search({'portal_type':'AnalysisCategory','title':'Cannabis Flower'}))[0]
 if cannabiscategory is None:
     cannabiscategory = api.create(categories, "AnalysisCategory", title="Cannabis Flower").UID()
 
-soilcategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Soil'}))[0]
+soilcategory = map(api.get_object,api.search({'portal_type':'AnalysisCategory','title':'Soil'}))[0]
 if soilcategory is None:
     soilcategory = api.create(categories, "AnalysisCategory", title="Soil").UID()
 
-liqfertcategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Water, Liquid Fertilizer'}))[0]
+liqfertcategory = map(api.get_object,api.search({'portal_type':'AnalysisCategory','title':'Water, Liquid Fertilizer'}))[0]
 if liqfertcategory is None:
     liqfertcategory = api.create(categories, "AnalysisCategory", title="Water, Liquid Fertilizer").UID()
 
-frozencategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Food, Frozen'}))[0]
+frozencategory = map(api.get_object,api.search({'portal_type':'AnalysisCategory','title':'Food, Frozen'}))[0]
 if frozencategory is None:
     frozencategory = api.create(categories, "AnalysisCategory", title="Food, Frozen").UID()
 
-rawcategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Food, Raw'}))[0]
+rawcategory = map(api.get_object,api.search({'portal_type':'AnalysisCategory','title':'Food, Raw'}))[0]
 if rawcategory is None:
     rawcategory = api.create(categories, "AnalysisCategory", title="Food, Raw").UID()
 
-aircategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Compressed Air'}))[0]
+aircategory = map(api.get_object,api.search({'portal_type':'AnalysisCategory','title':'Compressed Air'}))[0]
 if aircategory is None:
     aircategory = api.create(categories, "AnalysisCategory", title="Compressed Air").UID()
 
-prepcategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Prep'}))[0]
+prepcategory = map(api.get_object,api.search({'portal_type':'AnalysisCategory','title':'Prep'}))[0]
 if prepcategory is None:
     prepcategory = api.create(categories, "AnalysisCategory", title="Prep").UID()
 
-cleancategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Cleanup'}))[0]
+cleancategory = map(api.get_object,api.search({'portal_type':'AnalysisCategory','title':'Cleanup'}))[0]
 if cleancategory is None:
     cleancategory = api.create(categories, "AnalysisCategory", title="Cleanup").UID()
 
-tissuecategory = map(api.object,api.search({'portal_type':'AnalysisCategory','title':'Tissue'}))[0]
+tissuecategory = map(api.get_object,api.search({'portal_type':'AnalysisCategory','title':'Tissue'}))[0]
 if tissuecategory is None:
     tissuecategory = api.create(categories, "AnalysisCategory", title="Tissue").UID()
 
