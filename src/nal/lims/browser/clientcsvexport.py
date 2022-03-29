@@ -92,10 +92,10 @@ class ClientCSVExportView(BrowserView):
         for i in ARs:
             if api.get_workflow_status_of(i) not in ['cancelled','invalid']:
 
-                print("Exporting Sample: "+str(sample_count)+"-"+str(i.id))
-
+                #Get the SDG object for this Sample
                 sdg = api.get_object(i.getBatch())
 
+                #Increment Sample Count
                 sample_count = sample_count+1
 
                 #NAL Number
@@ -231,18 +231,11 @@ class ClientCSVExportView(BrowserView):
                         export_dict['nitrogen_conversion_efficiency'].append(nce)
                     else:
                         export_dict['nitrogen_conversion_efficiency'].append('')
-                    print('NCE List is: {0}'.format(export_dict['nitrogen_conversion_efficiency']))
 
                 for j in cols:
                     if len(export_dict[j]) < sample_count:
                         export_dict[j].append('')
-                        print('Added a blank to {0}'.format(j))
 
-        print(cols)
-        print(export_dict)
-        for i in export_dict:
-            print(len(export_dict[i]))
-            print(export_dict[i])
         df = pd.DataFrame()
 
         for i in cols:
