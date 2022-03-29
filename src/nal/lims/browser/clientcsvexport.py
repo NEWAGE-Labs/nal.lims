@@ -138,7 +138,7 @@ class ClientCSVExportView(BrowserView):
                 export_dict['sampler_contact'].append(sampler_contact_name)
 
                 #Grower Contact
-                grower_contact = sdg.getReferences(relationship="SDGGrowerContact")
+                grower_contact = sdg.getReferences(relationship="SDGGrowerContact")[0]
                 if len(grower_contact) > 0 and 'grower_contact' in cols:
                     grower_contact_name = grower_contact.Firstname + " " + grower_contact.Surname
                     export_dict['grower_contact'].append(grower_contact_name)
