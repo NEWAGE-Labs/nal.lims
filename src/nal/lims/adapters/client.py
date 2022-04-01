@@ -41,7 +41,6 @@ class ClientSchemaExtender(object):
         ),
         ExtBooleanField(
             "CSV",
-            schemata="default",
             required=False,
             widget=BooleanWidget(
                 label="Send CSV",
@@ -99,5 +98,6 @@ class ClientSchemaModifier(object):
         schema["TaxNumber"].widget.visible = False
         schema["ClientID"].widget.label = "NAL Number"
         schema["PhysicalAddress"].required = True
+        schema["CSV"].widget.visible = True
         # schema["PhysicalAddress"].schemata = "default"
         return schema
