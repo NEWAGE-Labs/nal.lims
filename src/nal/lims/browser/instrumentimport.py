@@ -1260,50 +1260,61 @@ class ECImportView(edit.DefaultEditForm):
 
             imported = []
 
-            #EC
             found = False
             ec = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_ec-'+str(j)
-                    liqfert_version = 'liqfert_soluablesalts-'+str(j)
-                    rs_version = 'rapid_soil_ec-'+str(j)
-                    if hasattr(i,sap_version):
-                        found = True
-                        ec = i[sap_version]
-                    elif hasattr(i,liqfert_version):
-                        found = True
-                        ec = i[liqfert_version]
-                    elif hasattr(i,rs_version):
-                        found = True
-                        ec = i[rs_version]
-            if found == False and hasattr(i,'sap_ec'):
-                ec = i.sap_ec
-            elif found == False and hasattr(i,'liqfert_soluablesalts'):
-                ec = i.liqfert_soluablesalts
-            elif found == False and hasattr(i,'rapid_soil_ec'):
-                ec = i.rapid_soil_ec
-            # try:
-            #     ec = i.sap_ec
-            # except AttributeError:
-            #     ec = None
-            # if ec == None:
-            #     try:
-            #         ec = i.liqfert_soluablesalts
-            #     except AttributeError:
-            #         ec = None
-
-            #Calculations
-            found = False
             tds = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    liqfert_version = 'liqfert_tds-'+str(j)
-                    if hasattr(i,liqfert_version):
-                        found = True
-                        tds = i[liqfert_version]
-            if found == False and hasattr(i,'liqfert_tds'):
-                tds = i.liqfert_tds
+
+            for j in i:
+                if api.get_workflow_status_of(i[j]) not in ['retracted','rejected','invalid','cancelled']:
+                    if 'ec' in j or ('soluable' in j and 'salt' in j):
+                        ec = i[j]
+                    if 'tds' in j:
+                        tds = i[j]
+
+            #EC
+            # found = False
+            # ec = None
+            # for j in range(20, 0, -1):
+            #     if found==False:
+            #         sap_version = 'sap_ec-'+str(j)
+            #         liqfert_version = 'liqfert_soluablesalts-'+str(j)
+            #         rs_version = 'rapid_soil_ec-'+str(j)
+            #         if hasattr(i,sap_version):
+            #             found = True
+            #             ec = i[sap_version]
+            #         elif hasattr(i,liqfert_version):
+            #             found = True
+            #             ec = i[liqfert_version]
+            #         elif hasattr(i,rs_version):
+            #             found = True
+            #             ec = i[rs_version]
+            # if found == False and hasattr(i,'sap_ec'):
+            #     ec = i.sap_ec
+            # elif found == False and hasattr(i,'liqfert_soluablesalts'):
+            #     ec = i.liqfert_soluablesalts
+            # elif found == False and hasattr(i,'rapid_soil_ec'):
+            #     ec = i.rapid_soil_ec
+            # # try:
+            # #     ec = i.sap_ec
+            # # except AttributeError:
+            # #     ec = None
+            # # if ec == None:
+            # #     try:
+            # #         ec = i.liqfert_soluablesalts
+            # #     except AttributeError:
+            # #         ec = None
+            #
+            # #Calculations
+            # found = False
+            # tds = None
+            # for j in range(20, 0, -1):
+            #     if found==False:
+            #         liqfert_version = 'liqfert_tds-'+str(j)
+            #         if hasattr(i,liqfert_version):
+            #             found = True
+            #             tds = i[liqfert_version]
+            # if found == False and hasattr(i,'liqfert_tds'):
+            #     tds = i.liqfert_tds
 
             #EC
             if ec is not None and api.get_workflow_status_of(ec)=='unassigned' and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
