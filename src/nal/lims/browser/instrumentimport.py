@@ -139,6 +139,12 @@ class ICPImportView(edit.DefaultEditForm):
             sulfur = None
             zinc = None
             sap_kcaratio = None
+            calcium_percent = None
+            potassium_percent = None
+            magnesium_percent = None
+            sodium_percent = None
+
+
 
             for j in i:
                 if api.get_workflow_status_of(i[j]) not in ['retracted','rejected','invalid','cancelled']:
@@ -186,6 +192,16 @@ class ICPImportView(edit.DefaultEditForm):
                         zinc = i[j]
                     if 'sap_kcaratio' in j and 'percent' not in j:
                         sap_kcaratio = i[j]
+                    if 'calcium' in j and 'percent' in j:
+                        calcium_percent = i[j]
+                    if 'potassium' in j and 'percent' in j:
+                        potassium_percent = i[j]
+                    if 'magnesium' in j and 'percent' in j:
+                        magnesium_percent = i[j]
+                    if 'ESP' in j or ('sodium' in j and 'percent' in j):
+                        sodium_percent = i[j]
+
+
 
         #Aluminum
             if aluminum is not None and api.get_workflow_status_of(aluminum) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Al')].empty:
@@ -552,6 +568,108 @@ class ICPImportView(edit.DefaultEditForm):
                             pass
                     sap_kcaratio.Analyst = potassium.Analyst or calcium.Analyst
                     sap_kcaratio.reindexObject(idxs=['Analyst'])
+                    imported.append(True)
+                except ValueError:
+                    print("--FLOAT CONVERSION ERROR--")
+                    print("Sample is: {0}".format(i))
+                    print("Potassium is: {0}".format(potassium.Result))
+                    print("Calcium is: {0}".format(calcium.Result))
+
+        #Potassium Percent
+            if potassium_percent is not None and api.get_workflow_status_of(potassium_percent) in ['unassigned'] and potassium.Result is not None and calcium.Result is not None and magnesium.Result is not None and sodium.Result is not None:
+                print("Importing Potassium Percent")
+                try:
+                    ca_float = float(calcium.Result)/200
+                    k_float = float(potassium.Result)/390
+		    mg_float = float(magnesium.Result)/120
+		    na_float = float(sodium.Result)/230
+                    potassium_percent.Result = unicode(100*((k_float)/(ca_float+k_float+mg_float+na_float)))
+                    potassium_percent.AnalysisDateTime = potassium.AnalysisDateTime or calcium.AnalysisDateTime or magnesium.AnalysisDateTime or sodium.AnalysisDateTIme
+                    potassium_percent.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
+                    if [j for j in api.get_transitions_for(potassium_percent) if 'submit' in j.values()]:
+                        try:
+                            api.do_transition_for(potassium_percent, "submit")
+                        except AttributeError:
+                            pass
+                    potassium_percent.Analyst = potassium.Analyst or calcium.Analyst
+                    potassium_percent.reindexObject(idxs=['Analyst'])
+                    imported.append(True)
+                except ValueError:
+                    print("--FLOAT CONVERSION ERROR--")
+                    print("Sample is: {0}".format(i))
+                    print("Potassium is: {0}".format(potassium.Result))
+                    print("Calcium is: {0}".format(calcium.Result))
+
+        #Magnesium Percent
+            if magnesium_percent is not None and api.get_workflow_status_of(magnesium_percent) in ['unassigned'] and potassium.Result is not None and calcium.Result is not None and magnesium.Result is not None and sodium.Result is not None:
+                print("Importing Magnesium Percent")
+                try:
+                    ca_float = float(calcium.Result)/200
+                    k_float = float(potassium.Result)/390
+		    mg_float = float(magnesium.Result)/120
+		    na_float = float(sodium.Result)/230
+                    magnesium_percent.Result = unicode(100*((mg_float)/(ca_float+k_float+mg_float+na_float)))
+                    magnesium_percent.AnalysisDateTime = potassium.AnalysisDateTime or calcium.AnalysisDateTime or magnesium.AnalysisDateTime or sodium.AnalysisDateTIme
+                    magnesium_percent.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
+                    if [j for j in api.get_transitions_for(magnesium_percent) if 'submit' in j.values()]:
+                        try:
+                            api.do_transition_for(magnesium_percent, "submit")
+                        except AttributeError:
+                            pass
+                    magnesium_percent.Analyst = potassium.Analyst or calcium.Analyst
+                    magnesium_percent.reindexObject(idxs=['Analyst'])
+                    imported.append(True)
+                except ValueError:
+                    print("--FLOAT CONVERSION ERROR--")
+                    print("Sample is: {0}".format(i))
+                    print("Potassium is: {0}".format(potassium.Result))
+                    print("Calcium is: {0}".format(calcium.Result))
+
+
+        #Sodium Percent
+            if sodium_percent is not None and api.get_workflow_status_of(sodium_percent) in ['unassigned'] and potassium.Result is not None and calcium.Result is not None and magnesium.Result is not None and sodium.Result is not None:
+                print("Importing Sodium Percent")
+                try:
+                    ca_float = float(calcium.Result)/200
+                    k_float = float(potassium.Result)/390
+		    mg_float = float(magnesium.Result)/120
+		    na_float = float(sodium.Result)/230
+                    sodium_percent.Result = unicode(100*((na_float)/(ca_float+k_float+mg_float+na_float)))
+                    sodium_percent.AnalysisDateTime = potassium.AnalysisDateTime or calcium.AnalysisDateTime or magnesium.AnalysisDateTime or sodium.AnalysisDateTIme
+                    sodium_percent.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
+                    if [j for j in api.get_transitions_for(sodium_percent) if 'submit' in j.values()]:
+                        try:
+                            api.do_transition_for(sodium_percent, "submit")
+                        except AttributeError:
+                            pass
+                    sodium_percent.Analyst = potassium.Analyst or calcium.Analyst
+                    sodium_percent.reindexObject(idxs=['Analyst'])
+                    imported.append(True)
+                except ValueError:
+                    print("--FLOAT CONVERSION ERROR--")
+                    print("Sample is: {0}".format(i))
+                    print("Potassium is: {0}".format(potassium.Result))
+                    print("Calcium is: {0}".format(calcium.Result))
+
+
+        #Calcium Percent
+            if calcium_percent is not None and api.get_workflow_status_of(calcium_percent) in ['unassigned'] and potassium.Result is not None and calcium.Result is not None and magnesium.Result is not None and sodium.Result is not None:
+                print("Importing Calcium Percent")
+                try:
+                    ca_float = float(calcium.Result)/200
+                    k_float = float(potassium.Result)/390
+		    mg_float = float(magnesium.Result)/120
+		    na_float = float(sodium.Result)/230
+                    calcium_percent.Result = unicode(100*((ca_float)/(ca_float+k_float+mg_float+na_float)))
+                    calcium_percent.AnalysisDateTime = potassium.AnalysisDateTime or calcium.AnalysisDateTime or magnesium.AnalysisDateTime or sodium.AnalysisDateTIme
+                    calcium_percent.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
+                    if [j for j in api.get_transitions_for(calcium_percent) if 'submit' in j.values()]:
+                        try:
+                            api.do_transition_for(calcium_percent, "submit")
+                        except AttributeError:
+                            pass
+                    calcium_percent.Analyst = potassium.Analyst or calcium.Analyst
+                    calcium_percent.reindexObject(idxs=['Analyst'])
                     imported.append(True)
                 except ValueError:
                     print("--FLOAT CONVERSION ERROR--")
@@ -1264,57 +1382,57 @@ class ECImportView(edit.DefaultEditForm):
             ec = None
             tds = None
 
-            for j in i:
-                if api.get_workflow_status_of(i[j]) not in ['retracted','rejected','invalid','cancelled']:
-                    if 'ec' in j or ('soluable' in j and 'salt' in j):
-                        ec = i[j]
-                    if 'tds' in j:
-                        tds = i[j]
+           # for j in i:
+               # if api.get_workflow_status_of(i[j]) not in ['retracted','rejected','invalid','cancelled']:
+                   # if 'ec' in j or ('soluable' in j and 'salt' in j):
+                   #     ec = i[j]
+                  #  if 'tds' in j:
+                 #       tds = i[j]
 
             #EC
-            # found = False
-            # ec = None
-            # for j in range(20, 0, -1):
-            #     if found==False:
-            #         sap_version = 'sap_ec-'+str(j)
-            #         liqfert_version = 'liqfert_soluablesalts-'+str(j)
-            #         rs_version = 'rapid_soil_ec-'+str(j)
-            #         if hasattr(i,sap_version):
-            #             found = True
-            #             ec = i[sap_version]
-            #         elif hasattr(i,liqfert_version):
-            #             found = True
-            #             ec = i[liqfert_version]
-            #         elif hasattr(i,rs_version):
-            #             found = True
-            #             ec = i[rs_version]
-            # if found == False and hasattr(i,'sap_ec'):
-            #     ec = i.sap_ec
-            # elif found == False and hasattr(i,'liqfert_soluablesalts'):
-            #     ec = i.liqfert_soluablesalts
-            # elif found == False and hasattr(i,'rapid_soil_ec'):
-            #     ec = i.rapid_soil_ec
-            # # try:
-            # #     ec = i.sap_ec
-            # # except AttributeError:
-            # #     ec = None
-            # # if ec == None:
-            # #     try:
-            # #         ec = i.liqfert_soluablesalts
-            # #     except AttributeError:
-            # #         ec = None
-            #
+            found = False
+            ec = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_ec-'+str(j)
+                    liqfert_version = 'liqfert_soluablesalts-'+str(j)
+                    rs_version = 'rapid_soil_ec-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        ec = i[sap_version]
+                    elif hasattr(i,liqfert_version):
+                        found = True
+                        ec = i[liqfert_version]
+                    elif hasattr(i,rs_version):
+                        found = True
+                        ec = i[rs_version]
+            if found == False and hasattr(i,'sap_ec'):
+                ec = i.sap_ec
+            elif found == False and hasattr(i,'liqfert_soluablesalts'):
+                ec = i.liqfert_soluablesalts
+            elif found == False and hasattr(i,'rapid_soil_ec'):
+                ec = i.rapid_soil_ec
+            try:
+                ec = i.sap_ec
+            except AttributeError:
+                ec = None
+            if ec == None:
+                try:
+                    ec = i.liqfert_soluablesalts
+                except AttributeError:
+                    ec = None
+           
             # #Calculations
-            # found = False
-            # tds = None
-            # for j in range(20, 0, -1):
-            #     if found==False:
-            #         liqfert_version = 'liqfert_tds-'+str(j)
-            #         if hasattr(i,liqfert_version):
-            #             found = True
-            #             tds = i[liqfert_version]
-            # if found == False and hasattr(i,'liqfert_tds'):
-            #     tds = i.liqfert_tds
+            found = False
+            tds = None
+            for j in range(20, 0, -1):
+                if found==False:
+                    liqfert_version = 'liqfert_tds-'+str(j)
+                    if hasattr(i,liqfert_version):
+                        found = True
+                        tds = i[liqfert_version]
+            if found == False and hasattr(i,'liqfert_tds'):
+                tds = i.liqfert_tds
 
             #EC
             if ec is not None and api.get_workflow_status_of(ec)=='unassigned' and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
@@ -1323,6 +1441,8 @@ class ECImportView(edit.DefaultEditForm):
                 ec.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
                 ec.Method = ss_method
                 ec.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
+		print("Importing EC For {0}. Result is: {1}".format(i,ec.Result))
+		logger.info("{0}".format(api.get_transitions_for(ec)))
                 ec = api.do_transition_for(ec, "submit")
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].empty:
                     ec.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].values[0]
