@@ -1589,7 +1589,7 @@ class TotalNitrogenImportView(edit.DefaultEditForm):
         #Get the list of Senaite Sample Objects that have IDs in the CSV
         for i in sample_objs:
 
-            if api.get_workflow_status_of(i) not in ['cancelled','invalid']:
+            if api.get_workflow_status_of(i) not in ['retracted','rejected','invalid','cancelled']:
 
                 if api.get_id(i) in samples_names:
                     import_samples.append(i)
@@ -1617,12 +1617,16 @@ class TotalNitrogenImportView(edit.DefaultEditForm):
         filtered_df = df[bool_series]
         clean_ids = []
         for i in import_samples:
+            print('IMPORTING - Sample {0} ID: {1}'.format(i,api.get_id(i)))
+            imported = []
 
-            #Total Nitrogen
-            try:
-                total_n = i.sap_total_nitrogen
-            except AttributeError:
-                total_n = None
+            found = False
+            total_n = None
+
+            for j in i:
+                if api.get_workflow_status_of(i[j]) not in ['retracted','rejected','invalid','cancelled']:
+                    if 'total_nitrogen' in j:
+                        total_n = i[j]
 
             if total_n is not None and api.get_workflow_status_of(total_n)=='unassigned':
                 clean_ids.append(api.get_id(i))
