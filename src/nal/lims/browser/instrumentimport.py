@@ -1608,16 +1608,20 @@ class TotalNitrogenImportView(edit.DefaultEditForm):
         filtered_df = df[bool_series]
         clean_ids = []
         for i in import_samples:
-            print('IMPORTING - Sample {0} ID: {1}'.format(i,api.get_id(i)))
+
             imported = []
 
+            #Total Nitrogen
             found = False
             total_n = None
-
-            for j in i:
-                if api.get_workflow_status_of(i[j]) not in ['retracted','rejected','invalid','cancelled']:
-                    if 'total_nitrogen' in j:
-                        total_n = i[j]
+            for j in range(20, 0, -1):
+                if found==False:
+                    sap_version = 'sap_total_nitrogen-'+str(j)
+                    if hasattr(i,sap_version):
+                        found = True
+                        total_n = i[sap_version]
+            if found == False and hasattr(i,'sap_total_nitrogen'):
+                total_n = i.sap_total_nitrogen
 
             if total_n is not None and api.get_workflow_status_of(total_n)=='unassigned':
                 clean_ids.append(api.get_id(i))
