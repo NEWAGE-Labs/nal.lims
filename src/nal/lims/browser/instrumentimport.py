@@ -198,7 +198,7 @@ class ICPImportView(edit.DefaultEditForm):
                         potassium_percent = i[j]
                     if 'magnesium' in j and 'percent' in j:
                         magnesium_percent = i[j]
-                    if 'ESP' in j or ('sodium' in j and 'percent' in j):
+                    if 'esp' in j or ('sodium' in j and 'percent' in j):
                         sodium_percent = i[j]
 
 
@@ -1412,15 +1412,6 @@ class ECImportView(edit.DefaultEditForm):
                 ec = i.liqfert_soluablesalts
             elif found == False and hasattr(i,'rapid_soil_ec'):
                 ec = i.rapid_soil_ec
-            try:
-                ec = i.sap_ec
-            except AttributeError:
-                ec = None
-            if ec == None:
-                try:
-                    ec = i.liqfert_soluablesalts
-                except AttributeError:
-                    ec = None
            
             # #Calculations
             found = False
