@@ -1620,7 +1620,7 @@ class TotalNitrogenImportView(edit.DefaultEditForm):
                     if hasattr(i,sap_version):
                         found = True
                         total_n = i[sap_version]
-            if found == False and hasattr(i,'sap_total_nitrogen'):
+            if found == False and hasattr(i,'sap_total_nitrogen') and api.get_workflow_status_of(i.sap_total_nitrogen) not in ['retracted','rejected','invalid','cancelled']:
                 total_n = i.sap_total_nitrogen
 
             if total_n is not None and api.get_workflow_status_of(total_n)=='unassigned':
