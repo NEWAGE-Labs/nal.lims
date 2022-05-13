@@ -12,11 +12,11 @@ newSecurityManager(None, me)
 sdgs = map(api.get_object, api.search({'portal_type':'Batch'}))
 this_batch = []
 for i in sdgs:
-    if 'Send to MBG' in i.getLabelNames() and api.get_workflow_status_of(i) == 'Open':
+    if 'Send to MBG' in i.getLabelNames() and api.get_workflow_status_of(i) == 'open':
         this_batch.append(i)
 
 analyses = []
-for i in sdgs:
+for i in this_batch:
     for j in i.getAnalysisService():
         analyses.append(j)
 print("Starting Analysis List")
