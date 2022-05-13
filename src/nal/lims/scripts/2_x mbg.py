@@ -16,7 +16,7 @@ for i in sdgs:
         this_batch.append(i)
 
 analyses = []
-for i in this_batch:
+for i in sdgs:
     for j in i.getAnalysisService():
         analyses.append(j)
 print("Starting Analysis List")
