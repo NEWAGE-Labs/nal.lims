@@ -86,7 +86,7 @@ for i in samples:
     #Sample Point Address
         thissample[cols[15]] = point.FormattedAddress
     #Sample Point MBG Type
-        thissample[cols[16]] = point.MBGType
+        thissample[cols[16]] = point.WaterSourceType
     #Sample Point WSSN
         thissample[cols[17]] = point.WSSN
 ##Sap Fields

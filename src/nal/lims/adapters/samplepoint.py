@@ -68,7 +68,7 @@ class SamplePointSchemaModifier(object):
         schema['SampleTypes'].widget.visible = False
 
         schema.moveField('FormattedAddress', after='description')
-        schema.moveField('MBGType', after='FormattedAddress')
-        schema.moveField('WSSN', after='MBGType')
+        schema.moveField('WaterSourceType', after='FormattedAddress')
+        schema.moveField('WSSN', after='WaterSourceType')
         schema.moveField('AttachmentFile', after='WSSN')
         return schema
