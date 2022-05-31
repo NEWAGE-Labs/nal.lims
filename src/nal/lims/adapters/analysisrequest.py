@@ -29,7 +29,13 @@ class AnalysisRequestSchemaExtender(object):
             widget=SelectionWidget(
                 label="Water Source Type",
                 format="radio",
-                render_own_label=False,
+                render_own_label=True,
+                visible={
+                    'edit':'visible',
+                    'view':'visible',
+                    'add':'edit',
+                    'header_table':'visible',
+                },
             )
         ),
 
