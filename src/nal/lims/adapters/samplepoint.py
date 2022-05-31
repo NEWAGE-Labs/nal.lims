@@ -3,7 +3,7 @@ from Products.ATContentTypes.content import schemata
 from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
 from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
 from archetypes.schemaextender.interfaces import ISchemaModifier
-from nal.lims.vocabularies import MBGTypes
+from nal.lims.vocabularies import WaterSourceTypes
 from bika.lims.browser.widgets import SelectionWidget
 from Products.Archetypes.public import StringWidget
 from bika.lims.fields import ExtStringField
@@ -19,10 +19,10 @@ class SamplePointSchemaExtender(object):
 
     fields = [
         ExtStringField(
-            "MBGType",
-            vocabulary=MBGTypes,
+            "WaterSourceType",
+            vocabulary=WaterSourceTypes,
             widget=SelectionWidget(
-                label="MBG Location Type",
+                label="Water Source Type",
                 format="radio",
                 render_own_label=False,
             )
