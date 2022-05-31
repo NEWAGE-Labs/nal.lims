@@ -15,6 +15,7 @@ from Products.Archetypes.public import StringWidget
 from Products.Archetypes.public import BooleanWidget
 from Products.CMFCore.permissions import View
 from nal.lims.vocabularies import WaterSourceTypes
+from bika.lims.browser.widgets import SelectionWidget
 
 class AnalysisRequestSchemaExtender(object):
     adapts(IAnalysisRequest)
