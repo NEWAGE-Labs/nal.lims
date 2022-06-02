@@ -16,8 +16,8 @@ class SDGCSVExportView(BrowserView):
 
     def __call__(self):
 
-        rootpath = '/home'
-        path = '/naladmin/NAL/LIMS/src/nal.lims/'
+        rootpath = '/Mnt'
+        path = '/Data/LIMS CSV Exports/'
         sdg = self.context
         filepath = path + sdg.title + '.csv'
         fullpath = rootpath + filepath

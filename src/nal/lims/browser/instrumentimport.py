@@ -865,11 +865,11 @@ class GalleryImportView(edit.DefaultEditForm):
                     elif hasattr(i,rs_version):
                         found = True
                         ammonium = i[rs_version]
-            if found == False and hasattr(i,'sap_nitrogen_as_ammonium'):
+            if found == False and hasattr(i,'sap_nitrogen_as_ammonium') and api.get_workflow_status_of(i.sap_nitrogen_as_ammonium) not in ['retracted','rejected','cancelled','invalid']:
                 ammonium = i.sap_nitrogen_as_ammonium
-            elif found == False and hasattr(i,'liqfert_ammonia'):
+            elif found == False and hasattr(i,'liqfert_ammonia') and api.get_workflow_status_of(i.liqfert_ammonia) not in ['retracted','rejected','cancelled','invalid']:
                 ammonium = i.liqfert_ammonia
-            elif found == False and hasattr(i,'rapid_soil_ammonia'):
+            elif found == False and hasattr(i,'rapid_soil_ammonia') and api.get_workflow_status_of(i.rapid_soil_ammonia) not in ['retracted','rejected','cancelled','invalid']:
                 ammonium = i.rapid_soil_ammonia
 
             # try:
@@ -891,7 +891,7 @@ class GalleryImportView(edit.DefaultEditForm):
                     if hasattr(i,sap_version):
                         found = True
                         total_sugar = i[sap_version]
-            if found == False and hasattr(i,'sap_total_sugar'):
+            if found == False and hasattr(i,'sap_total_sugar') and api.get_workflow_status_of(i.sap_total_sugar) not in ['retracted','rejected','cancelled','invalid']:
                 total_sugar = i.sap_total_sugar
 
             # try:
@@ -916,11 +916,11 @@ class GalleryImportView(edit.DefaultEditForm):
                     elif hasattr(i,rs_version):
                         found = True
                         chloride = i[rs_version]
-            if found == False and hasattr(i,'sap_chloride'):
+            if found == False and hasattr(i,'sap_chloride') and api.get_workflow_status_of(i.sap_chloride) not in ['retracted','rejected','cancelled','invalid']:
                 chloride = i.sap_chloride
-            elif found == False and hasattr(i,'liqfert_chloride'):
+            elif found == False and hasattr(i,'liqfert_chloride') and api.get_workflow_status_of(i.liqfert_chloride) not in ['retracted','rejected','cancelled','invalid']:
                 chloride = i.liqfert_chloride
-            elif found == False and hasattr(i,'rapid_soil_chloride'):
+            elif found == False and hasattr(i,'rapid_soil_chloride') and api.get_workflow_status_of(i.rapid_soil_chloride) not in ['retracted','rejected','cancelled','invalid']:
                 chloride = i.rapid_soil_chloride
 
             # try:
@@ -1011,13 +1011,13 @@ class GalleryImportView(edit.DefaultEditForm):
                     elif hasattr(i,rs_version):
                         found = True
                         n_as_nitrate = i[rs_version]
-            if found == False and hasattr(i,'sap_nitrogen_as_nitrate'):
+            if found == False and hasattr(i,'sap_nitrogen_as_nitrate') and api.get_workflow_status_of(i.sap_nitrogen_as_nitrate) not in ['retracted','rejected','cancelled','invalid']:
                 n_as_nitrate = i.sap_nitrogen_as_nitrate
-            elif found == False and hasattr(i,'liqfert_nitrate'):
+            elif found == False and hasattr(i,'liqfert_nitrate') and api.get_workflow_status_of(i.liqfert_nitrate) not in ['retracted','rejected','cancelled','invalid']:
                 n_as_nitrate = i.liqfert_nitrate
-            elif found == False and hasattr(i,'drinking_nitrogen_as_nitrate'):
+            elif found == False and hasattr(i,'drinking_nitrogen_as_nitrate') and api.get_workflow_status_of(i.drinking_nitrogen_as_nitrate) not in ['retracted','rejected','cancelled','invalid']:
                 n_as_nitrate = i.drinking_nitrogen_as_nitrate
-            elif found == False and hasattr(i,'rapid_soil_nitrate'):
+            elif found == False and hasattr(i,'rapid_soil_nitrate') and api.get_workflow_status_of(i.rapid_soil_nitrate) not in ['retracted','rejected','cancelled','invalid']:
                 n_as_nitrate = i.rapid_soil_nitrate
 
             # try:
@@ -1238,20 +1238,20 @@ class pHImportView(edit.DefaultEditForm):
                     sap_version = 'sap_ph-'+str(j)
                     liqfert_version = 'liqfert_ph-'+str(j)
                     rs_version = 'rapid_soil_ph-'+str(j)
-                    if hasattr(i,sap_version):
+                    if hasattr(i,sap_version) and api.get_workflow_status_of(i) not in ['retracted','rejected','cancelled','invalid']:
                         found = True
                         ph = i[sap_version]
-                    elif hasattr(i,liqfert_version):
+                    elif hasattr(i,liqfert_version) and api.get_workflow_status_of(i) not in ['retracted','rejected','cancelled','invalid']:
                         found = True
                         ph = i[liqfert_version]
-                    elif hasattr(i,rs_version):
+                    elif hasattr(i,rs_version) and api.get_workflow_status_of(i) not in ['retracted','rejected','cancelled','invalid']:
                         found = True
                         ph = i[rs_version]
-            if found == False and hasattr(i,'sap_ph'):
+            if found == False and hasattr(i,'sap_ph') and api.get_workflow_status_of(i) not in ['retracted','rejected','cancelled','invalid']:
                 ph = i.sap_ph
-            elif found == False and hasattr(i,'liqfert_ph'):
+            elif found == False and hasattr(i,'liqfert_ph') and api.get_workflow_status_of(i) not in ['retracted','rejected','cancelled','invalid']:
                 ph = i.liqfert_ph
-            elif found == False and hasattr(i,'rapid_soil_ph'):
+            elif found == False and hasattr(i,'rapid_soil_ph') and api.get_workflow_status_of(i) not in ['retracted','rejected','cancelled','invalid']:
                 ph = i.rapid_soil_ph
 
             # try:
@@ -1397,20 +1397,20 @@ class ECImportView(edit.DefaultEditForm):
                     sap_version = 'sap_ec-'+str(j)
                     liqfert_version = 'liqfert_soluablesalts-'+str(j)
                     rs_version = 'rapid_soil_ec-'+str(j)
-                    if hasattr(i,sap_version):
+                    if hasattr(i,sap_version) and api.get_workflow_status_of(i[sap_version]) not in ['retracted','rejected','cancelled','invalid']:
                         found = True
                         ec = i[sap_version]
-                    elif hasattr(i,liqfert_version):
+                    elif hasattr(i,liqfert_version) and api.get_workflow_status_of(i[liqfert_version]) not in ['retracted','rejected','cancelled','invalid']:
                         found = True
                         ec = i[liqfert_version]
-                    elif hasattr(i,rs_version):
+                    elif hasattr(i,rs_version) and api.get_workflow_status_of(i[rs_version]) not in ['retracted','rejected','cancelled','invalid']:
                         found = True
                         ec = i[rs_version]
-            if found == False and hasattr(i,'sap_ec'):
+            if found == False and hasattr(i,'sap_ec') and api.get_workflow_status_of(i) not in ['retracted','rejected','cancelled','invalid']:
                 ec = i.sap_ec
-            elif found == False and hasattr(i,'liqfert_soluablesalts'):
+            elif found == False and hasattr(i,'liqfert_soluablesalts') and api.get_workflow_status_of(i) not in ['retracted','rejected','cancelled','invalid']:
                 ec = i.liqfert_soluablesalts
-            elif found == False and hasattr(i,'rapid_soil_ec'):
+            elif found == False and hasattr(i,'rapid_soil_ec') and api.get_workflow_status_of(i) not in ['retracted','rejected','cancelled','invalid']:
                 ec = i.rapid_soil_ec
            
             # #Calculations
@@ -1419,10 +1419,10 @@ class ECImportView(edit.DefaultEditForm):
             for j in range(20, 0, -1):
                 if found==False:
                     liqfert_version = 'liqfert_tds-'+str(j)
-                    if hasattr(i,liqfert_version):
+                    if hasattr(i,liqfert_version) and api.get_workflow_status_of(i) not in ['retracted','rejected','cancelled','invalid']:
                         found = True
                         tds = i[liqfert_version]
-            if found == False and hasattr(i,'liqfert_tds'):
+            if found == False and hasattr(i,'liqfert_tds') and api.get_workflow_status_of(i) not in ['retracted','rejected','cancelled','invalid']:
                 tds = i.liqfert_tds
 
             #EC

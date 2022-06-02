@@ -14,6 +14,8 @@ from nal.lims.interfaces import INalLimsLayer
 from Products.Archetypes.public import StringWidget
 from Products.Archetypes.public import BooleanWidget
 from Products.CMFCore.permissions import View
+from nal.lims.vocabularies import WaterSourceTypes
+from bika.lims.browser.widgets import SelectionWidget
 
 class AnalysisRequestSchemaExtender(object):
     adapts(IAnalysisRequest)
@@ -21,6 +23,22 @@ class AnalysisRequestSchemaExtender(object):
     layer = INalLimsLayer
 
     fields = [
+        ExtStringField(
+            "WaterSourceType",
+            vocabulary=WaterSourceTypes,
+            widget=SelectionWidget(
+                label="Water Source Type",
+                format="radio",
+                render_own_label=True,
+                visible={
+                    'edit':'visible',
+                    'view':'visible',
+                    'add':'edit',
+                    'header_table':'visible',
+                },
+            )
+        ),
+
         ExtStringField(
             'PlantType',
             widget=StringWidget(
@@ -255,11 +273,13 @@ class AnalysisRequestSchemaModifier(object):
         schema.moveField('Profiles', after='SamplePoint')
         schema.moveField('Specification', after='Profiles')
         schema.moveField('SubGroup', after='Specification')
-        schema.moveField('PlantType', after='SubGroup')
+        schema.moveField('WaterSourceType', after='SubGroup')
+        schema.moveField('PlantType', after='WaterSourceType')
         schema.moveField('Variety', after='PlantType')
         schema.moveField('GrowthStage', after='Variety')
         schema.moveField('NewLeaf', after='GrowthStage')
-        schema.moveField('Remarks', after='NewLeaf')
+        schema.moveField('Vigor', after='NewLeaf')
+        schema.moveField('Remarks', after='Vigor')
         schema.moveField('Attachment', after='Remarks')
 
         schema.moveField('Batch', after='CCEmails')

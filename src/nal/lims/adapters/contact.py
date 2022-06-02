@@ -3,7 +3,6 @@ from Products.ATContentTypes.content import schemata
 from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
 from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
 from archetypes.schemaextender.interfaces import ISchemaModifier
-from nal.lims.vocabularies import MBGTypes
 from bika.lims.browser.widgets import SelectionWidget
 from Products.Archetypes.public import StringWidget
 from bika.lims.fields import ExtStringField
