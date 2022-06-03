@@ -91,7 +91,7 @@ def get_result(analysis):
         match = values_texts.get(str(result))
         if match:
             return match
-    return analysis.getFormattedResult()
+    return analysis.getFormattedResult().replace('&lt;','<').replace('&gt;','>')
 
 sdgs = map(api.get_object, api.search({'portal_type':'Batch'}))
 this_batch = []
@@ -108,12 +108,6 @@ for i in this_batch:
             for k in j.getAnalyses():
                 if api.get_workflow_status_of(api.get_object(k)) not in ['retracted','rejected','invalid','cancelled']:
                     analyses.append(api.get_object(k))
-print("Starting Analysis List")
-
-for i in analyses:
-    print(i.id)
-
-print("Ending Analysis List")
 
 data = []
 cols = ['Sample Type',
@@ -176,7 +170,7 @@ for i in ars:
     #Lab Name
     thissample[cols[12]] = "NEW AGE LABORATORIES"
     #Received Date
-    thissample[cols[13]] = i.getBatch().SDGDate
+    thissample[cols[13]] = i.getBatch().SDGDate.strftime("%m/%d/%Y")
     #Received Time
     thissample[cols[14]] = i.getBatch().SDGTime
     #Sample ID
