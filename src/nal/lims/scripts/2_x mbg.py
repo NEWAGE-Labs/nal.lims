@@ -142,6 +142,7 @@ cols = ['Sample Type',
         'STV',
 ]
 for i in ars:
+    print(i)
     thissample = {}
     #Sample Type
     thissample[cols[0]] = 'W'
@@ -156,7 +157,8 @@ for i in ars:
     #State
     thissample[cols[5]] = get_state(i.getClient().getPhysicalAddress()['state'])
     #Source Type
-    thissample[cols[6]] = i.getSamplePoint().MBGType
+    if i.getSamplePoint() is not None:
+        thissample[cols[6]] = i.getSamplePoint().MBGType
     #Source ID
     thissample[cols[7]] = i.getClientSampleID()
     #Retest of Sample
@@ -205,9 +207,9 @@ for i in ars:
         elif 'surface_coli_mpn' in j.id or 'surface_ecoli_mpn' in j.id:
             ecoli = j
         elif 'drinking_nitrate' in j.id:
-            no2 = j
-        elif 'drinking_nitrite' in j.id:
             no3 = j
+        elif 'drinking_nitrite' in j.id:
+            no2 = j
     #Coliform
     thissample[cols[18]] = get_result(coliform)
     #Ecoli
