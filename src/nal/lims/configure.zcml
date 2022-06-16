@@ -16,6 +16,7 @@
   <include package=".browser" />
   <include package=".behaviors" />
   <include package=".adapters" />
+  <include package=".impress" />
 
   <include file="permissions.zcml" />
 

@@ -8,6 +8,7 @@ from bika.lims.permissions import AddBatch
 from bika.lims.utils import get_link
 from bika.lims.utils import get_progress_bar_html
 from bika.lims.browser.batchfolder import BatchFolderContentsView as BikaBatchFolderContentsView
+from senaite.core.catalog import SENAITE_CATALOG
 
 class BatchFolderContentsView(BikaBatchFolderContentsView):
     """Custom Listing View for all Batches in nal.lims
@@ -16,7 +17,7 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
     def __init__(self, context, request):
         super(BatchFolderContentsView, self).__init__(context, request)
 
-        self.catalog = "bika_catalog"
+        self.catalog = SENAITE_CATALOG
         self.contentFilter = {
             "portal_type": "Batch",
             "sort_on": "created",

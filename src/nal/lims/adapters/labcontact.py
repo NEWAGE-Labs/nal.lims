@@ -9,7 +9,8 @@ from zope.component import adapts
 from zope.interface import implements
 from nal.lims.interfaces import INalLimsLayer
 from Products.Archetypes.public import BooleanWidget
-from bika.lims.fields import ExtBooleanField
+# from Products.Archetypes.public import BooleanField as ExtBooleanField
+from nal.lims.fields import ExtBooleanField
 
 class LabContactSchemaExtender(object):
     adapts(ILabContact)

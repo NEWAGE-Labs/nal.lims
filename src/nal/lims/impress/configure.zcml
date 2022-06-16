@@ -1,0 +1,10 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="nal.lims">
+
+    <plone:static
+      directory="templates"
+      type="senaite.impress.reports"/>
+
+</configure>

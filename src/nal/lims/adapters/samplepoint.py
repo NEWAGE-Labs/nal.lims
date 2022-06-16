@@ -6,7 +6,8 @@ from archetypes.schemaextender.interfaces import ISchemaModifier
 from nal.lims.vocabularies import MBGTypes
 from bika.lims.browser.widgets import SelectionWidget
 from Products.Archetypes.public import StringWidget
-from bika.lims.fields import ExtStringField
+# from Products.Archetypes.public import StringField as ExtStringField
+from nal.lims.fields import ExtStringField
 from nal.lims.interfaces import INalLimsLayer
 from bika.lims import bikaMessageFactory as _
 from zope.component import adapts

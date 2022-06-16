@@ -1,20 +1,22 @@
-from Products.Archetypes.public import StringField
-from Products.Archetypes.public import StringWidget
+
 from Products.Archetypes.references import HoldingReference
 from Products.ATContentTypes.content import schemata
 from Products.CMFCore.utils import getToolByName
-from Products.Archetypes.atapi import FileField as ExtFileField
-from Products.Archetypes.atapi import FileWidget
-from bika.lims.browser.widgets import DateTimeWidget
 from AccessControl import ClassSecurityInfo
 from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
 from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
 from archetypes.schemaextender.interfaces import ISchemaModifier
-from bika.lims.fields import ExtStringField
 from bika.lims import bikaMessageFactory as _
 from bika.lims.interfaces import IBatch
-from bika.lims.fields import ExtReferenceField
-from bika.lims.fields import ExtDateTimeField
+from Products.Archetypes.atapi import FileField as ExtFileField
+from Products.Archetypes.atapi import ReferenceField as ExtReferenceField
+# from Products.Archetypes.public import StringField as ExtStringField
+# from Products.Archetypes.public import DateTimeField as ExtDateTimeField
+from nal.lims.fields import ExtStringField
+from nal.lims.fields import ExtDateTimeField
+from Products.Archetypes.public import StringWidget
+from Products.Archetypes.atapi import FileWidget
+from bika.lims.browser.widgets import DateTimeWidget
 from bika.lims.browser.widgets import ReferenceWidget
 from zope.component import adapts
 from zope.interface import implements

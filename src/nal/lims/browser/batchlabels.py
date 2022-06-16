@@ -26,6 +26,7 @@ from bika.lims.config import PROJECTNAME
 from bika.lims.interfaces import IBatchLabels
 from bika.lims.permissions import AddBatchLabel
 from bika.lims.utils import get_link
+from bika.lims.catalog import SETUP_CATALOG
 from plone.app.folder.folder import ATFolder
 from plone.app.folder.folder import ATFolderSchema
 from Products.Archetypes import atapi
@@ -41,7 +42,7 @@ class BatchLabelsView(BikaBatchLabelsView):
     def __init__(self, context, request):
         super(BatchLabelsView, self).__init__(context, request)
 
-        self.catalog = "bika_setup_catalog"
+        self.catalog = SETUP_CATALOG
 
         self.contentFilter = {
             "portal_type": "BatchLabel",

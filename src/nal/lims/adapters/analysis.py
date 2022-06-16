@@ -3,8 +3,10 @@ from Products.ATContentTypes.content import schemata
 from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
 from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
 from archetypes.schemaextender.interfaces import ISchemaModifier
-from bika.lims.fields import ExtStringField
-from bika.lims.fields import ExtBooleanField
+# from Products.Archetypes.public import StringField as ExtStringField
+# from Products.Archetypes.public import BooleanField as ExtBooleanField
+from nal.lims.fields import ExtStringField
+from nal.lims.fields import ExtBooleanField
 from bika.lims import bikaMessageFactory as _
 from zope.component import adapts
 from zope.interface import implements
