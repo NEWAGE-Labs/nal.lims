@@ -20,6 +20,14 @@
       layer="nal.lims.interfaces.INalLimsLayer"
     />
 
+    <browser:page
+      for="bika.lims.interfaces.IBatch"
+      name="batchbook"
+      class="nal.lims.browser.batch.BatchBookView"
+      permission="zope2.View"
+      layer="nal.lims.interfaces.INalLimsLayer"
+    />
+
     <!-- <browser:page
       for="bika.lims.interfaces.IBatch"
       name="samplepoints"
