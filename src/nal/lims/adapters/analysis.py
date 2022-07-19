@@ -3,17 +3,18 @@ from Products.ATContentTypes.content import schemata
 from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
 from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
 from archetypes.schemaextender.interfaces import ISchemaModifier
-# from Products.Archetypes.public import StringField as ExtStringField
-# from Products.Archetypes.public import BooleanField as ExtBooleanField
 from nal.lims.fields import ExtStringField
 from nal.lims.fields import ExtBooleanField
+from nal.lims.fields import ExtFloatField
 from bika.lims import bikaMessageFactory as _
 from zope.component import adapts
 from zope.interface import implements
 from nal.lims.interfaces import INalLimsLayer
 from Products.Archetypes.public import StringWidget
 from Products.Archetypes.public import BooleanWidget
+from Products.Archetypes.Widget import DecimalWidget
 from Products.CMFCore.permissions import View
+from bika.lims.permissions import FieldEditAnalysisResult
 from Products.Archetypes.Schema import Schema
 
 class AnalysisSchemaExtender(object):
@@ -38,7 +39,16 @@ class AnalysisSchemaExtender(object):
             widget=BooleanWidget(
                 label=_("Inconclusive"),
             ),
-        )
+        ),
+
+        ExtFloatField(
+            'Weight',
+            write_permission=View,
+            read_permission=View,
+            widget=DecimalWidget(
+                label=_("Weight (in Grams)"),
+            )
+        ),
     ]
 
     def __init__(self, context):
@@ -58,4 +68,8 @@ class AnalysisSchemaModifier(object):
         self.context = context
 
     def fiddle(self, schema):
+
+        schema['Analyst'].write_permission = View
+        schema['Analyst'].read_permission = View
+
         return schema

@@ -22,6 +22,7 @@ from bika.lims import api
 from bika.lims import bikaMessageFactory as _
 from bika.lims.utils import get_link
 from bika.lims.utils import get_link_for
+from bika.lims.utils import check_permission
 from bika.lims.browser.analyses import AnalysesView as BikaAnalysesView
 
 class AnalysesView(BikaAnalysesView):
@@ -62,6 +63,14 @@ class AnalysesView(BikaAnalysesView):
             "ajax": True,
             "type": "boolean"
         }
+        ## Weight
+        self.columns["Weight"] = {
+            "title": _("Weight (grams)"),
+            "toggle": True,
+            "sortable": False,
+            "ajax": True,
+            "type": "decimal",
+        }
         ## Update each contentfilter with the added and modified column keys
         for i in self.review_states:
             i["columns"] = self.columns.keys()
@@ -72,12 +81,22 @@ class AnalysesView(BikaAnalysesView):
         super(AnalysesView, self).folderitem(obj, item, index)
 
         obj = api.get_object(obj)
-        item['AnalysisDateTime'] = obj.AnalysisDateTime
-        item['Inconclusive'] = obj.Inconclusive
+        if obj.AnalysisDateTime is not None:
+            item['AnalysisDateTime'] = obj.AnalysisDateTime
+        if obj.Inconclusive is not None:
+            item['Inconclusive'] = obj.Inconclusive
+        if obj.Weight is not None:
+            item['Weight'] = obj.Weight
+        if obj.WeightUnit is not None:
+            item['WeightUnit'] = obj.WeightUnit
 
-        item['allow_edit'].append('Analyst')
-        item['allow_edit'].append('AnalysisDateTime')
+        if api.get_workflow_status_of(obj) == 'unassigned':
+            item['allow_edit'].append('Analyst')
+            item['allow_edit'].append('AnalysisDateTime')
+            item['allow_edit'].append('Weight')
+
         item['allow_edit'].append('Inconclusive')
+
         return item
 
     def folderitems(self):

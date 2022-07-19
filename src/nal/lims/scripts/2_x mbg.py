@@ -96,7 +96,8 @@ def get_result(analysis):
 sdgs = map(api.get_object, api.search({'portal_type':'Batch'}))
 this_batch = []
 for i in sdgs:
-    if 'Send to MBG' in i.getLabelNames() and api.get_workflow_status_of(i) == 'open':
+    # if 'Send to MBG' in i.getLabelNames() and api.get_workflow_status_of(i) == 'open':
+    if api.get_title(i) in ['0706221040FL','0705221126FL','0705221058FL','0630221318FL','0629221338FL','0629221351FL','0629221212FL','0629221158FL','0628221511FL']:
         this_batch.append(i)
 
 ars = []
