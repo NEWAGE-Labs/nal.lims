@@ -16,7 +16,7 @@ class ClientCSVExportView(BrowserView):
 
     def __call__(self):
 
-        rootpath = '/mnt'
+        rootpath = '/Mnt'
         path = '/Data/LIMS CSV Exports/'
         client = self.context
         filepath = path + client.getName() + '.csv'
