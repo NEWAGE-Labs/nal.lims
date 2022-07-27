@@ -2,19 +2,25 @@ from AccessControl import getSecurityManager
 from AccessControl.User import UnrestrictedUser
 from AccessControl.SecurityManagement import newSecurityManager
 from bika.lims import api
-import pandas as pd
-from DateTime import DateTime
 portal = api.get_portal()
 me = UnrestrictedUser(getSecurityManager().getUser().getUserName(), '', ['LabManager'], '')
 me = me.__of__(portal.acl_users)
 newSecurityManager(None, me)
-from plone import api as papi
 import transaction as t
 
-c = api.get_object(api.search({'id':'client-1521'})[0])
-b = api.get_object(api.search({'id':'tSDG-2070'})[0])
+bid = 'tSDG-2113'
 
-papi.content.move(source=b,target=c)
+b = api.get_object(api.search({'id':bid})[0])
+
+an = []
 
 for i in b.getAnalysisRequests():
-    papi.content.move(source=i,target=c)
+    for j in i.getAnalyses():
+        if any(['retract' in y for y in [x.values() for x in api.get_transitions_for(j)]]):
+            an.append(j)
+
+an = map(api.get_object,an) #NEEDED FOR TITLE CHECK
+
+for i in [x for x in an if 'Nitrogen' not in x.title]:
+    api.do_transition_for(i,'retract')
+    t.get().commit()

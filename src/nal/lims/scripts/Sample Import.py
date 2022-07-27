@@ -11,7 +11,7 @@ newSecurityManager(None, me)
 import transaction as t
 
 #Get Data
-file = "/home/naladmin/sdgs/Sap Sample Data 7_13B.csv"
+file = "/home/naladmin/sdgs/Samples 7_27.csv"
 data = pd.read_csv(file,keep_default_na=False,dtype=str)
 bad = []
 new = []
@@ -24,6 +24,7 @@ types = {}
 saptest = api.search({'portal_type':'AnalysisProfile','title':'Sap'})
 hptest = api.search({'portal_type':'AnalysisProfile','title':'HP-01'})
 rstest = api.search({'portal_type':'AnalysisProfile','title':'Rapid Soil (RS)'})
+pttest = api.search({'portal_type':'AnalysisProfile','title':'Plant Tissue'})
 
 for i in pair_objs:
     if api.get_workflow_status_of(i) not in ['invalid','cancelled']:
@@ -36,13 +37,15 @@ for i in type_objs:
 saptype = types["Sap"]
 hptype = types["Water"]
 rstype = types["Soil"]
+pttype = types["Tissue"]
 
-if saptest == [] or hptest == [] or rstest == []:
+if saptest == [] or hptest == [] or rstest == [] or pttest == []:
     print("TESTS NOT FOUND")
 else:
     saptest = api.get_object(saptest[0])
     hptest = api.get_object(hptest[0])
     rstest = api.get_object(rstest[0])
+    pttest = api.get_object(pttest[0])
 
 #Show SDGs found
 print("Found the following SDGs:")
@@ -62,7 +65,7 @@ for i, row in data.iterrows():
             batch = i
     #If Batch wasnt found, add it to bad list
     if batch is None:
-        bad.append(batch)
+        bad.append(row["SDGID"])
     ars = map(api.get_object,batch.getAnalysisRequests())
     ilid = []
     if ars != []:
@@ -98,6 +101,9 @@ for i, row in data.iterrows():
         elif teststr.lower() in ["rs","rs-01","rapid soil","rapidsoil"]:
             test = rstest
             type = api.get_uid(rstype)
+        elif teststr.lower() in ["tissue","dry tissue","plant tissue","pt"]:
+            test = pttest
+            type = api.get_uid(pttype)
         else:
             print("NO TEST FOUND FOR {}".format(row["SDGID"] + " " + row["LabID"]))
         if locstr in locations.keys():

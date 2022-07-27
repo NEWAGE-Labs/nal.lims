@@ -9,9 +9,9 @@ me = UnrestrictedUser(getSecurityManager().getUser().getUserName(), '', ['LabMan
 me = me.__of__(portal.acl_users)
 newSecurityManager(None, me)
 import transaction as t
-s
+
 #Get Data
-file = "/home/naladmin/sdgs/Sap SDG Data 7_15.csv"
+file = "/home/naladmin/sdgs/Sap SDG Data 7_27.csv"
 data = pd.read_csv(file,keep_default_na=False,dtype=str)
 clients = map(api.get_object,api.search({"portal_type":"Client"}))
 bad = []
