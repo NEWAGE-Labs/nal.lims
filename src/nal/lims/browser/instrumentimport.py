@@ -1421,7 +1421,7 @@ class ECImportView(edit.DefaultEditForm):
                 ec = i.sap_ec
             elif found == False and hasattr(i,'liqfert_soluablesalts') and api.get_workflow_status_of(i) not in ['retracted','rejected','cancelled','invalid']:
                 ec = i.liqfert_soluablesalts
-            elif found == False and hasattr(i,'rapid_soil_ec') and api.get_workflow_status_of(i.rapid_soil) not in ['retracted','rejected','cancelled','invalid']:
+            elif found == False and hasattr(i,'rapid_soil_ec') and api.get_workflow_status_of(i.rapid_soil_ec) not in ['retracted','rejected','cancelled','invalid']:
                 ec = i.rapid_soil_ec
            
             # #Calculations
@@ -1533,7 +1533,7 @@ class TotalNitrogenImportView(edit.DefaultEditForm):
         for i, row in dirty_df.iterrows():
             if "Name" in row["Name"] or "Comments" in row["Name"]:
                 pass
-            elif "FL" in row["Name"]:
+            elif "FL" or "PT" in row["Name"]:
                 sdg = row["Name"]
                 date = row["Analysis Date"]
             elif row["Name"].isdigit():
@@ -1630,7 +1630,7 @@ class TotalNitrogenImportView(edit.DefaultEditForm):
             for j in range(20, 0, -1):
                 if found==False:
                     sap_version = 'sap_total_nitrogen-'+str(j)
-		    tissue_version = 'tissue_nitrogen'+str(j)
+		    tissue_version = 'tissue_nitrogen-'+str(j)
                     if hasattr(i,sap_version) and api.get_workflow_status_of(i[sap_version]) not in ['rejected','retracted','invalid','cancelled']:
                         found = True
                         total_n = i[sap_version]
@@ -1644,6 +1644,8 @@ class TotalNitrogenImportView(edit.DefaultEditForm):
 
             if total_n is not None and api.get_workflow_status_of(total_n)=='unassigned':
                 clean_ids.append(api.get_id(i))
+		print(i)
+		print(total_n)
                 #Total N
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
                     total_n.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
