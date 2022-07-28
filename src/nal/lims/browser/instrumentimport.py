@@ -1176,7 +1176,9 @@ class pHImportView(edit.DefaultEditForm):
         batch_dict = {}
 
         for i in batch_objs:
-            batch_dict[i.title] = map(api.get_object,i.getAnalysisRequests())
+            bars = map(api.get_object,i.getAnalysisRequests())
+            if bars != []:
+                batch_dict[i.title] = bars
 
         #Instantiate an empty list to fill with Senaite samples that will be imported into
         import_samples = []
@@ -1316,7 +1318,9 @@ class ECImportView(edit.DefaultEditForm):
         batch_dict = {}
 
         for i in batch_objs:
-            batch_dict[i.title] = map(api.get_object,i.getAnalysisRequests())
+            bars = map(api.get_object,i.getAnalysisRequests())
+            if bars != []:
+                batch_dict[i.title] = bars
 
         #Instantiate an empty list to fill with Senaite samples that will be imported into
         import_samples = []
@@ -1537,7 +1541,9 @@ class TotalNitrogenImportView(edit.DefaultEditForm):
         batch_dict = {}
 
         for i in batch_objs:
-            batch_dict[i.title] = map(api.get_object,i.getAnalysisRequests())
+            bars = map(api.get_object,i.getAnalysisRequests())
+            if bars != []:
+                batch_dict[i.title] = bars
 
         #Instantiate an empty list to fill with Senaite samples that will be imported into
         import_samples = []
@@ -1655,7 +1661,9 @@ class BrixImportView(edit.DefaultEditForm):
         batch_dict = {}
 
         for i in batch_objs:
-            batch_dict[i.title] = map(api.get_object,i.getAnalysisRequests())
+            bars = map(api.get_object,i.getAnalysisRequests())
+            if bars != []:
+                batch_dict[i.title] = bars
 
         #Instantiate an empty list to fill with Senaite samples that will be imported into
         import_samples = []
