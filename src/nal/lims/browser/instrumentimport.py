@@ -35,48 +35,35 @@ class ICPImportView(edit.DefaultEditForm):
         #Convert CSV data to a dataframe
         df = pd.read_csv(StringIO.StringIO(data),keep_default_na=False, dtype=str)
         #Get a list of Unique sample names from the imported DataFrame
-        samples_names = df['Sample Name'].unique()
-        #Get a brain of all Samples
-        sample_brain = api.search({'portal_type':'AnalysisRequest'})
-        #Map the brain to a list of sample objects
-        sample_objs = map(api.get_object, sample_brain)
+        sample_names = df['Sample Name'].unique()
+        #Take off the '-001' to get a list of SDG titles to search
+        batch_titles = df['Sample Name'].str[:-4].unique().tolist()
+        #Get a brain of the list of sdgs
+        batch_brain = api.search({'portal_type':'Batch','title':batch_titles})
+        batch_objs = map(api.get_object,batch_brain)
+        batch_dict = {}
+
+        for i in batch_objs:
+            bars = map(api.get_object,i.getAnalysisRequests())
+            if bars != []:
+                batch_dict[i.title] = bars
+
         #Instantiate an empty list to fill with Senaite samples that will be imported into
         import_samples = []
-        method = map(api.get_object,api.search({'portal_type':'Method','id':'method-47'}))[0]
 
-        #Get the list of Senaite Sample Objects that have IDs in the CSV
-        print(samples_names)
-        for i in sample_objs:
-            print('Sample {0} is {1}'.format(i,api.get_workflow_status_of(i)))
-            if api.get_workflow_status_of(i) not in ['cancelled','invalid']:
-                print('VALID - Sample {0}. ID: {1}'.format(i,i.getBatch().title + '-' + i.InternalLabID))
-
-                if api.get_id(i) in samples_names:
-                    import_samples.append(i)
-
-                try:
-                    sdg = i.getBatch().title
-                except AttributeError:
-                    print('Failed to get an SDG')
-                    pass
-
-                try:
-                    labID = i.InternalLabID
-                except AttributeError:
-                    print('Failed to get an Internal Lab ID')
-                    pass
-
-                nal_id = sdg + '-' + labID
-
-                if nal_id in samples_names:
-                    print('FOUND - Sample {0}. NAL ID: {1}'.format(i, nal_id))
-                    import_samples.append(i)
-                    print(nal_id in samples_names)
-                    print(df[df['Sample Name'].str.match(nal_id)])
-                    df.loc[df['Sample Name'] == nal_id,['Sample Name']] = api.get_id(i)
+        for i in sample_names:
+            xsdg = i[:-4]
+            ili = i[-3:]
+            if xsdg in batch_dict.keys():
+                ars = batch_dict[xsdg]
+                for j in ars:
+                    if j.InternalLabID == ili or api.get_id(j) == i:
+                        import_samples.append(j)
+                        df.loc[df['Sample Name'] == i,['Sample Name']] = api.get_id(j)
 
         #Get the list of Senaite Sample IDs that will be imported into.
         ids = map(api.get_id, import_samples)
+        logger.info("IDs: {0}".format(ids))
 
         #Get a filter dataframe for only the samples that exist
         bool_series = df['Sample Name'].isin(ids)
@@ -766,44 +753,38 @@ class GalleryImportView(edit.DefaultEditForm):
         dict_to_df['Analyst'] = analysts
         dict_to_df['Analysis Date/Time'] = dates
 
-
-        df = pd.DataFrame.from_dict(dict_to_df)
-
-        #Get a list of Unique sample names from the imported DataFrame
-        samples_names = df['Sample Name'].unique()
-        #Get a brain of all Samples
-        sample_brain = api.search({'portal_type':'AnalysisRequest'})
-        #Map the brain to a list of sample objects
-        sample_objs = map(api.get_object, sample_brain)
-        #Instantiate an empty list to fill with Senaite samples that will be imported into
-        import_samples = []
-
         nh4_method = map(api.get_object, api.search({'portal_type':'Method','id':'method-32'}))[0]
         no3_method = map(api.get_object, api.search({'portal_type':'Method','id':'method-33'}))[0]
         cl_method = map(api.get_object, api.search({'portal_type':'Method','id':'method-35'}))[0]
 
-        #Get the list of Senaite Sample Objects that have IDs in the CSV
-        for i in sample_objs:
+        df = pd.DataFrame.from_dict(dict_to_df)
 
-            if api.get_workflow_status_of(i) not in ['cancelled','invalid']:
+        #Get a list of Unique sample names from the imported DataFrame
+        sample_names = df['Sample Name'].unique()
+        #Take off the '-001' to get a list of SDG titles to search
+        batch_titles = df['Sample Name'].str[:-4].unique().tolist()
+        #Get a brain of the list of sdgs
+        batch_brain = api.search({'portal_type':'Batch','title':batch_titles})
+        batch_objs = map(api.get_object,batch_brain)
+        batch_dict = {}
 
-                if api.get_id(i) in samples_names:
-                    import_samples.append(i)
+        for i in batch_objs:
+            bars = map(api.get_object,i.getAnalysisRequests())
+            if bars != []:
+                batch_dict[i.title] = bars
 
-                try:
-                    sdg = i.getBatch().title
-                except AttributeError:
-                    pass
+        #Instantiate an empty list to fill with Senaite samples that will be imported into
+        import_samples = []
 
-                try:
-                    labID = i.InternalLabID
-                except AttributeError:
-                    pass
-
-                nal_id = sdg + '-' + labID
-                if nal_id in samples_names:
-                    import_samples.append(i)
-                    df.loc[df['Sample Name'] == nal_id,['Sample Name']] = api.get_id(i)
+        for i in sample_names:
+            xsdg = i[:-4]
+            ili = i[-3:]
+            if xsdg in batch_dict.keys():
+                ars = batch_dict[xsdg]
+                for j in ars:
+                    if j.InternalLabID == ili or api.get_id(j) == i:
+                        import_samples.append(j)
+                        df.loc[df['Sample Name'] == i,['Sample Name']] = api.get_id(j)
 
         #Get the list of Senaite Sample IDs that will be imported into.
         ids = map(api.get_id, import_samples)
@@ -812,14 +793,10 @@ class GalleryImportView(edit.DefaultEditForm):
         #Get a filter dataframe for only the samples that exist
         bool_series = df['Sample Name'].isin(ids)
         filtered_df = df[bool_series]
-
         clean_ids = []
-
         for i in import_samples:
 
             imported = []
-
-	    print("Sample is: {}".format(i))
 
             #Ammonium
             found = False
@@ -1186,11 +1163,12 @@ class pHImportView(edit.DefaultEditForm):
         for i in sample_names:
             xsdg = i[:-4]
             ili = i[-3:]
-            ars = batch_dict[xsdg]
-            for j in ars:
-                if j.InternalLabID == ili or api.get_id(j) == i:
-                    import_samples.append(j)
-                    df.loc[df['Sample Name'] == i,['Sample Name']] = api.get_id(j)
+            if xsdg in batch_dict.keys():
+                ars = batch_dict[xsdg]
+                for j in ars:
+                    if j.InternalLabID == ili or api.get_id(j) == i:
+                        import_samples.append(j)
+                        df.loc[df['Sample Name'] == i,['Sample Name']] = api.get_id(j)
 
         #Get the list of Senaite Sample IDs that will be imported into.
         ids = map(api.get_id, import_samples)
@@ -1328,11 +1306,12 @@ class ECImportView(edit.DefaultEditForm):
         for i in sample_names:
             xsdg = i[:-4]
             ili = i[-3:]
-            ars = batch_dict[xsdg]
-            for j in ars:
-                if j.InternalLabID == ili or api.get_id(j) == i:
-                    import_samples.append(j)
-                    df.loc[df['Sample Name'] == i,['Sample Name']] = api.get_id(j)
+            if xsdg in batch_dict.keys():
+                ars = batch_dict[xsdg]
+                for j in ars:
+                    if j.InternalLabID == ili or api.get_id(j) == i:
+                        import_samples.append(j)
+                        df.loc[df['Sample Name'] == i,['Sample Name']] = api.get_id(j)
 
         #Get the list of Senaite Sample IDs that will be imported into.
         ids = map(api.get_id, import_samples)
@@ -1672,11 +1651,12 @@ class BrixImportView(edit.DefaultEditForm):
         for i in sample_names:
             xsdg = i[:-4]
             ili = i[-3:]
-            ars = batch_dict[xsdg]
-            for j in ars:
-                if j.InternalLabID == ili or api.get_id(j) == i:
-                    import_samples.append(j)
-                    df.loc[df['Sample Name'] == i,['Sample Name']] = api.get_id(j)
+            if xsdg in batch_dict.keys():
+                ars = batch_dict[xsdg]
+                for j in ars:
+                    if j.InternalLabID == ili or api.get_id(j) == i:
+                        import_samples.append(j)
+                        df.loc[df['Sample Name'] == i,['Sample Name']] = api.get_id(j)
 
         #Get the list of Senaite Sample IDs that will be imported into.
         ids = map(api.get_id, import_samples)
