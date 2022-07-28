@@ -1674,9 +1674,10 @@ class BrixImportView(edit.DefaultEditForm):
         batch_titles = df['Sample Name'].str[:-4].unique().tolist()
         #Get a brain of the list of sdgs
         batch_brain = api.search({'portal_type':'Batch','title':batch_titles})
+        batcb_objs = map(api.get_object,batch_brain)
         batch_dict = {}
 
-        for i in batch_brain:
+        for i in batcb_objs:
             batch_dict[i.title] = map(api.get_object,i.getAnalysisRequests())
 
         #Instantiate an empty list to fill with Senaite samples that will be imported into
