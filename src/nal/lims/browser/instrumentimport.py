@@ -1690,7 +1690,7 @@ class BrixImportView(edit.DefaultEditForm):
             for j in ars:
                 if j.InternalLabID == ili or api.get_id(j) == i:
                     import_samples.append(j)
-                    df.loc[df['Sample Name'] == i,['Sample Name']] = api.get_id(i)
+                    df.loc[df['Sample Name'] == i,['Sample Name']] = api.get_id(j)
 
         #Get the list of Senaite Sample IDs that will be imported into.
         ids = map(api.get_id, import_samples)
