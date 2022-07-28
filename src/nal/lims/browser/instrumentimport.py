@@ -18,37 +18,6 @@ import pandas as pd
 import logging
 import copy
 
-# class ICPImportAddView(add.DefaultAddForm):
-#
-#     def __init__(self, context, request):
-#           self.context = context
-#           self.request = request
-#
-#     # Buttons
-#
-#     @button.buttonAndHandler(u'Save', name='save')
-#     def handleAdd(self, action):
-#         data, errors = self.extractData()
-#         if errors:
-#             self.status = self.formErrorsMessage
-#             return
-#
-#         # obj = self.createAndAdd(data)
-#         # if obj is not None:
-#         #     # mark only as finished if we get the new object
-#         #     self._finishedAdd = True
-#         #     IStatusMessage(self.request).addStatusMessage(
-#         #         self.success_message, "info"
-#         #     )
-#
-#     @button.buttonAndHandler(u'Cancel', name='cancel')
-#     def handleCancel(self, action):
-#         IStatusMessage(self.request).addStatusMessage(
-#             u"Add New Item operation cancelled", "info"
-#         )
-#         self.request.response.redirect(self.nextURL())
-#         notify(AddCancelledEvent(self.context))
-
 class ICPImportView(edit.DefaultEditForm):
 
     def __init__(self, context, request):
@@ -1393,13 +1362,6 @@ class ECImportView(edit.DefaultEditForm):
             ec = None
             tds = None
 
-           # for j in i:
-               # if api.get_workflow_status_of(i[j]) not in ['retracted','rejected','invalid','cancelled']:
-                   # if 'ec' in j or ('soluable' in j and 'salt' in j):
-                   #     ec = i[j]
-                  #  if 'tds' in j:
-                 #       tds = i[j]
-
             #EC
             found = False
             ec = None
@@ -1423,7 +1385,7 @@ class ECImportView(edit.DefaultEditForm):
                 ec = i.liqfert_soluablesalts
             elif found == False and hasattr(i,'rapid_soil_ec') and api.get_workflow_status_of(i.rapid_soil_ec) not in ['retracted','rejected','cancelled','invalid']:
                 ec = i.rapid_soil_ec
-           
+
             # #Calculations
             found = False
             tds = None
@@ -1533,7 +1495,7 @@ class TotalNitrogenImportView(edit.DefaultEditForm):
         for i, row in dirty_df.iterrows():
             if "Name" in row["Name"] or "Comments" in row["Name"]:
                 pass
-            elif "FL" or "PT" in row["Name"]:
+            elif "FL" in row["Name"] or "PT" in row["Name"]:
                 sdg = row["Name"]
                 date = row["Analysis Date"]
             elif row["Name"].isdigit():
@@ -1707,36 +1669,27 @@ class BrixImportView(edit.DefaultEditForm):
         #Convert CSV data to a dataframe
         df = pd.read_csv(StringIO.StringIO(data),keep_default_na=False, dtype=str)
         #Get a list of Unique sample names from the imported DataFrame
-        samples_names = df['Sample Name'].unique()
-        #Get a brain of all Samples
-        sample_brain = api.search({'portal_type':'AnalysisRequest'})
-        #Map the brain to a list of sample objects
-        sample_objs = map(api.get_object, sample_brain)
+        sample_names = df['Sample Name'].unique()
+        #Take off the '-001' to get a list of SDG titles to search
+        batch_titles = samples_names['Sample Name'].str[:-4].unique().tolist()
+        #Get a brain of the list of sdgs
+        batch_brain = api.search({'portal_type':'Batch','title':batch_titles})
+        batch_dict = {}
+
+        for i in batch_brain:
+            batch_dict[i.title] = map(api.get_object,i.getAnalysisRequests())
+
         #Instantiate an empty list to fill with Senaite samples that will be imported into
         import_samples = []
 
-        #Get the list of Senaite Sample Objects that have IDs in the CSV
-        for i in sample_objs:
-
-            if api.get_workflow_status_of(i) not in ['cancelled','invalid']:
-
-                if api.get_id(i) in samples_names:
-                    import_samples.append(i)
-
-                try:
-                    sdg = i.getBatch().title
-                except AttributeError:
-                    pass
-
-                try:
-                    labID = i.InternalLabID
-                except AttributeError:
-                    pass
-
-                nal_id = sdg + '-' + labID
-                if nal_id in samples_names:
-                    import_samples.append(i)
-                    df.loc[df['Sample Name'] == nal_id,['Sample Name']] = api.get_id(i)
+        for i in sample_names:
+            xsdg = i[:-4]
+            ili = i[-3:]
+            ars = batch_dict[xsdg]
+            for j in ars:
+                if j.InternalLabID == ili or api.get_id(j) == i:
+                    import_samples.append(j)
+                    df.loc[df['Sample Name'] == i,['Sample Name']] = api.get_id(i)
 
         #Get the list of Senaite Sample IDs that will be imported into.
         ids = map(api.get_id, import_samples)
@@ -1747,7 +1700,6 @@ class BrixImportView(edit.DefaultEditForm):
         filtered_df = df[bool_series]
         clean_ids = []
         for i in import_samples:
-
             #Brix
             try:
                 brix = i.sap_brix
