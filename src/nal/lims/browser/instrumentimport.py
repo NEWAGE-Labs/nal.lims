@@ -1670,11 +1670,12 @@ class BrixImportView(edit.DefaultEditForm):
         df = pd.read_csv(StringIO.StringIO(data),keep_default_na=False, dtype=str)
         #Get a list of Unique sample names from the imported DataFrame
         sample_names = df['Sample Name'].unique()
+        print(sample_names)
+        print(sample_names['Sample Name'])
+        print(sample_names['Sample Name'].str)
+        print(sample_names['Sample Name'].str[:-4])
         #Take off the '-001' to get a list of SDG titles to search
-        try:
-            batch_titles = sample_names['Sample Name'].str[:-4].unique().tolist()
-        except IndexError:
-            print("FOUND IT")
+        batch_titles = sample_names['Sample Name'].str[:-4].unique().tolist()
         #Get a brain of the list of sdgs
         batch_brain = api.search({'portal_type':'Batch','title':batch_titles})
         batch_dict = {}
