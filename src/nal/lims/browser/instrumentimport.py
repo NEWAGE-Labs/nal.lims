@@ -32,6 +32,8 @@ class ICPImportView(edit.DefaultEditForm):
         #Get logger for output messages
         logger = logging.getLogger("Plone")
 
+        method = map(api.get_object,api.search({'portal_type':'Method','id':'method-47'}))[0]
+
         #Convert CSV data to a dataframe
         df = pd.read_csv(StringIO.StringIO(data),keep_default_na=False, dtype=str)
         #Get a list of Unique sample names from the imported DataFrame
