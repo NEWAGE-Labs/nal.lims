@@ -1669,7 +1669,7 @@ class BrixImportView(edit.DefaultEditForm):
         #Convert CSV data to a dataframe
         df = pd.read_csv(StringIO.StringIO(data),keep_default_na=False, dtype=str)
         #Get a list of Unique sample names from the imported DataFrame
-        sample_names = df['Sample Name'].unique()
+        sample_names = df['Sample Name']
         print(sample_names)
         print(sample_names['Sample Name'])
         print(sample_names['Sample Name'].str)
