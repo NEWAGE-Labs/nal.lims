@@ -24,7 +24,7 @@ class OptimalLevelView(BrowserView):
             i.reindexObject(idxs=['Specification'])
 
         IStatusMessage(self.request).addStatusMessage(
-                u"Successfully applied OLs to all samples"
+                u"Successfully applied OLs to all samples from sample: {}".format(api.get_id(ars[0]))
             )
 
         self.request.response.redirect(api.get_url(self.context) + '/batchbook')

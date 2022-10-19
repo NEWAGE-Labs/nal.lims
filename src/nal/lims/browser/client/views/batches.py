@@ -19,6 +19,8 @@
 # Some rights reserved, see README and LICENSE.
 
 from nal.lims.browser.batchfolder import BatchFolderContentsView
+from bika.lims import bikaMessageFactory as _
+from bika.lims import api
 
 class ClientBatchesView(BatchFolderContentsView):
 

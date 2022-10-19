@@ -40,15 +40,19 @@ class ICPImportView(edit.DefaultEditForm):
         sample_names = df['Sample Name'].unique()
         #Take off the '-001' to get a list of SDG titles to search
         batch_titles = df['Sample Name'].str[:-4].unique().tolist()
+
+	for i in batch_titles:
+		print(i)
         #Get a brain of the list of sdgs
         batch_brain = api.search({'portal_type':'Batch','title':batch_titles})
         batch_objs = map(api.get_object,batch_brain)
         batch_dict = {}
 
         for i in batch_objs:
-            bars = map(api.get_object,i.getAnalysisRequests())
-            if bars != []:
-                batch_dict[i.title] = bars
+	    if api.get_workflow_status_of(i) == 'open':
+                bars = map(api.get_object,i.getAnalysisRequests())
+                if bars != []:
+                    batch_dict[i.title] = bars
 
         #Instantiate an empty list to fill with Senaite samples that will be imported into
         import_samples = []
@@ -56,10 +60,16 @@ class ICPImportView(edit.DefaultEditForm):
         for i in sample_names:
             xsdg = i[:-4]
             ili = i[-3:]
+	    print("SDG: {}\nILI: {}".format(xsdg,ili))
             if xsdg in batch_dict.keys():
                 ars = batch_dict[xsdg]
+		print(ars)
                 for j in ars:
-                    if j.InternalLabID == ili or api.get_id(j) == i:
+                    if (
+			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled'] 
+		        and (j.InternalLabID == ili 
+                        or api.get_id(j) == i)
+		    ):
                         import_samples.append(j)
                         df.loc[df['Sample Name'] == i,['Sample Name']] = api.get_id(j)
 
@@ -761,7 +771,9 @@ class GalleryImportView(edit.DefaultEditForm):
 
         df = pd.DataFrame.from_dict(dict_to_df)
 
-        #Get a list of Unique sample names from the imported DataFrame
+        print(df)
+	
+	#Get a list of Unique sample names from the imported DataFrame
         sample_names = df['Sample Name'].unique()
         #Take off the '-001' to get a list of SDG titles to search
         batch_titles = df['Sample Name'].str[:-4].unique().tolist()
@@ -771,9 +783,10 @@ class GalleryImportView(edit.DefaultEditForm):
         batch_dict = {}
 
         for i in batch_objs:
-            bars = map(api.get_object,i.getAnalysisRequests())
-            if bars != []:
-                batch_dict[i.title] = bars
+	    if api.get_workflow_status_of(i) == 'open':
+                bars = map(api.get_object,i.getAnalysisRequests())
+                if bars != []:
+                    batch_dict[i.title] = bars
 
         #Instantiate an empty list to fill with Senaite samples that will be imported into
         import_samples = []
@@ -784,7 +797,11 @@ class GalleryImportView(edit.DefaultEditForm):
             if xsdg in batch_dict.keys():
                 ars = batch_dict[xsdg]
                 for j in ars:
-                    if j.InternalLabID == ili or api.get_id(j) == i:
+                    if (
+			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled'] 
+		        and (j.InternalLabID == ili 
+                        or api.get_id(j) == i)
+		    ):
                         import_samples.append(j)
                         df.loc[df['Sample Name'] == i,['Sample Name']] = api.get_id(j)
 
@@ -1077,6 +1094,17 @@ class GalleryImportView(edit.DefaultEditForm):
                     n_as_nitrate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analyst'].values[0]
                     n_as_nitrate.reindexObject(idxs=['Analyst'])
                 imported.append(True)
+	    elif n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')].empty:
+                logger.info("Importing N from Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Result'].values[0].strip(), "utf-8")))
+                n_as_nitrate.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Result'].values[0].strip(), "utf-8")
+                n_as_nitrate.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Analysis Date/Time'].values[0]
+                n_as_nitrate.Method = no3_method
+                n_as_nitrate.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
+                n_as_nitrate = api.do_transition_for(n_as_nitrate, "submit")
+                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Analyst'].empty:
+                    n_as_nitrate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Analyst'].values[0]
+                    n_as_nitrate.reindexObject(idxs=['Analyst'])
+                imported.append(True)
 
             #Nitrite
             if nitrite is not None and api.get_workflow_status_of(nitrite) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')].empty:
@@ -1155,9 +1183,10 @@ class pHImportView(edit.DefaultEditForm):
         batch_dict = {}
 
         for i in batch_objs:
-            bars = map(api.get_object,i.getAnalysisRequests())
-            if bars != []:
-                batch_dict[i.title] = bars
+	    if api.get_workflow_status_of(i) == 'open':
+                bars = map(api.get_object,i.getAnalysisRequests())
+                if bars != []:
+                    batch_dict[i.title] = bars
 
         #Instantiate an empty list to fill with Senaite samples that will be imported into
         import_samples = []
@@ -1168,7 +1197,11 @@ class pHImportView(edit.DefaultEditForm):
             if xsdg in batch_dict.keys():
                 ars = batch_dict[xsdg]
                 for j in ars:
-                    if j.InternalLabID == ili or api.get_id(j) == i:
+                    if (
+			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled'] 
+		        and (j.InternalLabID == ili 
+                        or api.get_id(j) == i)
+		    ):
                         import_samples.append(j)
                         df.loc[df['Sample Name'] == i,['Sample Name']] = api.get_id(j)
 
@@ -1298,9 +1331,10 @@ class ECImportView(edit.DefaultEditForm):
         batch_dict = {}
 
         for i in batch_objs:
-            bars = map(api.get_object,i.getAnalysisRequests())
-            if bars != []:
-                batch_dict[i.title] = bars
+	    if api.get_workflow_status_of(i) == 'open':
+                bars = map(api.get_object,i.getAnalysisRequests())
+                if bars != []:
+                    batch_dict[i.title] = bars
 
         #Instantiate an empty list to fill with Senaite samples that will be imported into
         import_samples = []
@@ -1311,7 +1345,11 @@ class ECImportView(edit.DefaultEditForm):
             if xsdg in batch_dict.keys():
                 ars = batch_dict[xsdg]
                 for j in ars:
-                    if j.InternalLabID == ili or api.get_id(j) == i:
+                    if (
+			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled'] 
+		        and (j.InternalLabID == ili 
+                        or api.get_id(j) == i)
+		    ):
                         import_samples.append(j)
                         df.loc[df['Sample Name'] == i,['Sample Name']] = api.get_id(j)
 
@@ -1522,9 +1560,10 @@ class TotalNitrogenImportView(edit.DefaultEditForm):
         batch_dict = {}
 
         for i in batch_objs:
-            bars = map(api.get_object,i.getAnalysisRequests())
-            if bars != []:
-                batch_dict[i.title] = bars
+	    if api.get_workflow_status_of(i) == 'open':
+                bars = map(api.get_object,i.getAnalysisRequests())
+                if bars != []:
+                    batch_dict[i.title] = bars
 
         #Instantiate an empty list to fill with Senaite samples that will be imported into
         import_samples = []
@@ -1535,7 +1574,11 @@ class TotalNitrogenImportView(edit.DefaultEditForm):
             if xsdg in batch_dict.keys():
                 ars = batch_dict[xsdg]
                 for j in ars:
-                    if j.InternalLabID == ili or api.get_id(j) == i:
+                    if (
+			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled'] 
+		        and (j.InternalLabID == ili 
+                        or api.get_id(j) == i)
+		    ):
                         import_samples.append(j)
                         df.loc[df['Sample Name'] == i,['Sample Name']] = api.get_id(j)
 
@@ -1558,16 +1601,22 @@ class TotalNitrogenImportView(edit.DefaultEditForm):
                 if found==False:
                     sap_version = 'sap_total_nitrogen-'+str(j)
 		    tissue_version = 'tissue_nitrogen-'+str(j)
+		    hp_version = 'liqfert_nitrogen-'+str(j)
                     if hasattr(i,sap_version) and api.get_workflow_status_of(i[sap_version]) not in ['rejected','retracted','invalid','cancelled']:
                         found = True
                         total_n = i[sap_version]
 		    elif hasattr(i,tissue_version) and api.get_workflow_status_of(i[tissue_version]) not in ['rejected','retracted','invalid','cancelled']:
 			found = True
 			total_n = i[tissue_version]
+		    elif hasattr(i,hp_version) and api.get_workflow_status_of(i[hp_version]) not in ['rejected','retracted','invalid','cancelled']:
+			found = True
+			total_n = i[hp_version]
             if found == False and hasattr(i,'sap_total_nitrogen') and api.get_workflow_status_of(i.sap_total_nitrogen) not in ['retracted','rejected','invalid','cancelled']:
                 total_n = i.sap_total_nitrogen
             elif found == False and hasattr(i,'tissue_nitrogen') and api.get_workflow_status_of(i.tissue_nitrogen) not in ['retracted','rejected','invalid','cancelled']:
                 total_n = i.tissue_nitrogen
+            elif found == False and hasattr(i,'liqfert_nitrogen') and api.get_workflow_status_of(i.liqfert_nitrogen) not in ['retracted','rejected','invalid','cancelled']:
+                total_n = i.liqfert_nitrogen
 
             if total_n is not None and api.get_workflow_status_of(total_n)=='unassigned':
                 clean_ids.append(api.get_id(i))
@@ -1643,9 +1692,10 @@ class BrixImportView(edit.DefaultEditForm):
         batch_dict = {}
 
         for i in batch_objs:
-            bars = map(api.get_object,i.getAnalysisRequests())
-            if bars != []:
-                batch_dict[i.title] = bars
+	    if api.get_workflow_status_of(i) == 'open':
+                bars = map(api.get_object,i.getAnalysisRequests())
+                if bars != []:
+                    batch_dict[i.title] = bars
 
         #Instantiate an empty list to fill with Senaite samples that will be imported into
         import_samples = []
@@ -1656,7 +1706,11 @@ class BrixImportView(edit.DefaultEditForm):
             if xsdg in batch_dict.keys():
                 ars = batch_dict[xsdg]
                 for j in ars:
-                    if j.InternalLabID == ili or api.get_id(j) == i:
+                    if (
+			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled'] 
+		        and (j.InternalLabID == ili 
+                        or api.get_id(j) == i)
+		    ):
                         import_samples.append(j)
                         df.loc[df['Sample Name'] == i,['Sample Name']] = api.get_id(j)
 
