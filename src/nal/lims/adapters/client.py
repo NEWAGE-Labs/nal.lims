@@ -5,6 +5,7 @@ from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
 from archetypes.schemaextender.interfaces import ISchemaModifier
 # from Products.Archetypes.public import StringField as ExtStringField
 from nal.lims.fields import ExtStringField
+from nal.lims.fields import ExtBooleanField
 from Products.Archetypes.atapi import ReferenceField as ExtReferenceField
 from bika.lims.browser.widgets import ReferenceWidget
 from bika.lims import bikaMessageFactory as _
@@ -13,6 +14,7 @@ from zope.interface import implements
 from nal.lims.interfaces import INalLimsLayer
 from Products.Archetypes.public import StringField
 from Products.Archetypes.public import StringWidget
+from Products.Archetypes.public import BooleanWidget
 
 class ClientSchemaExtender(object):
     adapts(IClient)
@@ -36,6 +38,14 @@ class ClientSchemaExtender(object):
             widget=StringWidget(
                 label="True Blue Grower Number",
                 description="",
+            )
+        ),
+        ExtBooleanField(
+            "CSV",
+            required=False,
+            widget=BooleanWidget(
+                label="Send CSV",
+                description="Does this client get a .CSV file sent with their results?",
             )
         ),
          ExtReferenceField(
@@ -89,5 +99,6 @@ class ClientSchemaModifier(object):
         schema["TaxNumber"].widget.visible = False
         schema["ClientID"].widget.label = "NAL Number"
         schema["PhysicalAddress"].required = True
+        schema["CSV"].widget.visible = True
         # schema["PhysicalAddress"].schemata = "default"
         return schema

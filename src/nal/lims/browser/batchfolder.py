@@ -51,6 +51,10 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
             ("Matrices", {
                 "title": _("Matrices"),
                 "toggle": True, }),
+	    ("GrowerContact", {
+		"title": _("Grower Contact"),
+		"toggle": True,
+		"sortable": True, }),
             ("Description", {
                 "title": _("Description"),
                 "sortable": False, }),
@@ -116,8 +120,15 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
                 "url": "createObject?type_name=Batch",
                 "permission": AddBatch,
                 "icon": "++resource++bika.lims.images/add.png"
-            }
+            },
         }
+
+        if IClient.providedBy(self.context):
+            self.context_actions[_("Export All SDGs as .CSV")] = {
+                "url": "@@clientcsvexport/",
+                "permission": AddBatch,
+                "icon": "++resource++bika.lims.images/control_big.png"
+            }
 
         # If current user is a client contact and current context is not a
         # Client, then modify the url for Add action so the Batch gets created
@@ -154,6 +165,13 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
         title = api.get_title(obj)
         client = obj.getClient()
         created = api.get_creation_date(obj)
+	grower = obj.getReferences(relationship="SDGGrowerContact")
+	print("grower is: {}".format(grower))
+	if grower != []:
+            grower = grower[0]
+	else:
+	    grower = None
+	print("Obj is: {}\Grower is: {}".format(obj,grower))
         date = obj.SDGDate.strftime("%b %d, %Y") + ' ' + obj.SDGTime
         matrices = []
         for i in obj.getAnalysisRequests():
@@ -166,6 +184,8 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
                 matrices.append('surface water')
             elif matrix == 'Water, Liquid Fertilizer' and 'liquid fertilizer' not in matrices:
                 matrices.append('liquid fertilizer')
+            elif matrix == 'Soil' and 'soil' not in matrices:
+                matrices.append('soil')
 
         # total sample progress
         progress = obj.getProgress()
@@ -180,6 +200,8 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
         item["replace"]["Title"] = get_link(url, title)
         item["created"] = self.ulocalized_time(created, long_format=True)
         item["BatchDate"] = date
+	if grower is not None:
+	    item["GrowerContact"] = grower.Firstname + " " + grower.Surname
 
         if client:
             client_url = api.get_url(client)

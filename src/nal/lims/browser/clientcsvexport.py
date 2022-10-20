@@ -8,7 +8,7 @@ import pandas as pd
 from math import floor
 from math import log10
 
-class SDGCSVExportView(BrowserView):
+class ClientCSVExportView(BrowserView):
 
     def __init__(self, context, request):
         self.context = context
@@ -18,8 +18,8 @@ class SDGCSVExportView(BrowserView):
 
         rootpath = '/Mnt'
         path = '/Data/LIMS CSV Exports/'
-        sdg = self.context
-        filepath = path + sdg.title + '.csv'
+        client = self.context
+        filepath = path + client.getName() + '.csv'
         fullpath = rootpath + filepath
         export_dict = {}
         #Get a Column list based on:
@@ -35,12 +35,8 @@ class SDGCSVExportView(BrowserView):
             'date_received',
             'time_received',
             'project_contact',
-            'sampler_contact'
-            ]
-        if hasattr(sdg,'GrowerContact'):
-            cols.append('grower_contact')
-
-        xtra_cols = [
+            'sampler_contact',
+            'grower_contact',
             'client_sample_id',
             'nal_sample_id',
             'date_sampled',
@@ -48,9 +44,27 @@ class SDGCSVExportView(BrowserView):
             'sample_type',
             'sample_location'
         ]
-        cols = cols + xtra_cols
-        ARs = self.context.getAnalysisRequests()
+        sdgs_full = map(api.get_object,api.search({'portal_type':'Batch'}))
+        sdgs_active = []
+        sdgs = []
+        for i in sdgs_full:
+            if api.get_workflow_status_of(i) != 'cancelled':
+                sdgs_active.append(i)
+
+        for i in sdgs_active:
+            if i.getClient().id == client.id:
+                sdgs.append(i)
+
+        print(sdgs)
+
+        ARs = []
+        for i in sdgs:
+            ARs = ARs + map(api.get_object,i.getAnalysisRequests())
+
         for i in ARs:
+            if api.get_workflow_status_of(i) in ['cancelled','invalid']:
+                ARs.remove(i)
+
             if i.getSampleType().title == 'Sap' and 'plant_type' not in cols and api.get_workflow_status_of(i) not in ['cancelled','invalid']:
                 sap_cols = [
                     'plant_type',
@@ -62,69 +76,14 @@ class SDGCSVExportView(BrowserView):
                 ]
                 cols = cols + sap_cols
 
-	    ar_cols = []
+    	    ar_cols = []
             for j in map(api.get_object,i.getAnalyses()):
                 if j.Keyword not in cols and j.Keyword not in ar_cols:
                     ar_cols.append(str(j.Keyword))
-	    ar_cols.sort()
+    	    ar_cols.sort()
 
-################################
-#Pure Green Farm Hack
+    	    cols = cols + ar_cols
 
-	    if sdg.getClient().getClientID() == 'NAL21-280':
-		if i.getSampleType().title == 'Water, Liquid Fertilizer' and len(ar_cols) == 23:
-			ar_cols[0] = 'liqfert_ammonia'
-			ar_cols[1] = 'liqfert_nitrate'
-			ar_cols[2] = 'liqfert_phosphorous'
-			ar_cols[3] = 'liqfert_potassium'
-			ar_cols[4] = 'liqfert_calcium'
-			ar_cols[5] = 'liqfert_magnesium'
-			ar_cols[6] = 'liqfert_sulfur'
-			ar_cols[7] = 'liqfert_chloride'
-			ar_cols[8] = 'liqfert_silica'
-			ar_cols[9] = 'liqfert_iron'
-			ar_cols[10] = 'liqfert_manganese'
-			ar_cols[11] = 'liqfert_zinc'
-			ar_cols[12] = 'liqfert_boron'
-			ar_cols[13] = 'liqfert_copper'
-			ar_cols[14] = 'liqfert_molybdenum'
-			ar_cols[15] = 'liqfert_ph'
-			ar_cols[16] = 'liqfert_tds'
-			ar_cols[17] = 'liqfert_soluablesalts'
-			ar_cols[18] = 'liqfert_nickel'
-			ar_cols[19] = 'liqfert_selenium'
-			ar_cols[20] = 'liqfert_aluminum'
-			ar_cols[21] = 'liqfert_cobalt'
-			ar_cols[22] = 'liqfert_sodium'
-		elif i.getSampleType().title == 'Sap' and len(ar_cols) == 25:
-			ar_cols[0] = 'sap_ammonia'
-			ar_cols[1] = 'sap_nitrate'
-			ar_cols[2] = 'sap_total_nitrogen'
-			ar_cols[3] = 'sap_phosphorous'
-			ar_cols[4] = 'sap_potassium'
-			ar_cols[5] = 'sap_calcium'
-			ar_cols[6] = 'sap_kca_ratio'
-			ar_cols[7] = 'sap_magnesium'
-			ar_cols[8] = 'sap_sulfur'
-			ar_cols[9] = 'sap_chloride'
-			ar_cols[10] = 'sap_silica'
-			ar_cols[11] = 'sap_iron'
-			ar_cols[12] = 'sap_manganese'
-			ar_cols[13] = 'sap_zinc'
-			ar_cols[14] = 'sap_boron'
-			ar_cols[15] = 'sap_copper'
-			ar_cols[16] = 'sap_molybdenum'
-			ar_cols[17] = 'sap_ph'
-			ar_cols[18] = 'sap_ec'
-			ar_cols[19] = 'sap_soluablesalts'
-			ar_cols[20] = 'sap_nickel'
-			ar_cols[21] = 'sap_selenium'
-			ar_cols[22] = 'sap_aluminum'
-			ar_cols[23] = 'sap_cobalt'
-			ar_cols[24] = 'sap_sodium'
-################################
-
-	    cols = cols + ar_cols
         #initialize dictionary of lists
         for i in range(len(cols)):
             export_dict[cols[i]] = []
@@ -133,9 +92,11 @@ class SDGCSVExportView(BrowserView):
         for i in ARs:
             if api.get_workflow_status_of(i) not in ['cancelled','invalid']:
 
-                sample_count = sample_count+1
+                #Get the SDG object for this Sample
+                sdg = api.get_object(i.getBatch())
 
-                client = sdg.getClient()
+                #Increment Sample Count
+                sample_count = sample_count+1
 
                 #NAL Number
                 export_dict['nal_number'].append(client.getClientID())
@@ -179,6 +140,7 @@ class SDGCSVExportView(BrowserView):
                 #Grower Contact
                 grower_contact = sdg.getReferences(relationship="SDGGrowerContact")
                 if len(grower_contact) > 0 and 'grower_contact' in cols:
+                    grower_contact = grower_contact[0]
                     grower_contact_name = grower_contact.Firstname + " " + grower_contact.Surname
                     export_dict['grower_contact'].append(grower_contact_name)
 
@@ -269,18 +231,11 @@ class SDGCSVExportView(BrowserView):
                         export_dict['nitrogen_conversion_efficiency'].append(nce)
                     else:
                         export_dict['nitrogen_conversion_efficiency'].append('')
-                    print('NCE List is: {0}'.format(export_dict['nitrogen_conversion_efficiency']))
 
                 for j in cols:
                     if len(export_dict[j]) < sample_count:
                         export_dict[j].append('')
-                        print('Added a blank to {0}'.format(j))
 
-        print(cols)
-        print(export_dict)
-        for i in export_dict:
-            print(len(export_dict[i]))
-            print(export_dict[i])
         df = pd.DataFrame()
 
         for i in cols:
