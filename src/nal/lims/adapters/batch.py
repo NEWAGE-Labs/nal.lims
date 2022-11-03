@@ -9,7 +9,7 @@ from archetypes.schemaextender.interfaces import ISchemaModifier
 from bika.lims import bikaMessageFactory as _
 from bika.lims.interfaces import IBatch
 from Products.Archetypes.atapi import FileField as ExtFileField
-from Products.Archetypes.atapi import ReferenceField as ExtReferenceField
+from nal.lims.fields import ExtReferenceField
 # from Products.Archetypes.public import StringField as ExtStringField
 # from Products.Archetypes.public import DateTimeField as ExtDateTimeField
 from nal.lims.fields import ExtStringField
@@ -194,9 +194,9 @@ class BatchSchemaModifier(object):
     def fiddle(self, schema):
         schema['BatchID'].widget.label = "SDG ID"
         schema['BatchLabels'].widget.label = "SDG Labels"
-        schema['title'].widget.label = _("Project Name")
-        schema['title'].widget.description = _("Optional field. If no value is entered,"
-                                               " the SDG ID will be used instead.")
+        schema['title'].widget.label = _("Internal SDG ID")
+        schema['title'].widget.description = _("The 12-character ID based on the received date/time of the sample."
+                                              "Example: 0101230800FL")
         schema['BatchDate'].widget.visible = False
         schema['BatchDate'].widget.required = False
         schema['ClientBatchID'].widget.visible = False
@@ -208,11 +208,11 @@ class BatchSchemaModifier(object):
 
         schema.moveField('SDGDate', after='Client')
         schema.moveField('SDGTime', after='SDGDate')
-        schema.moveField('ProjectContact', after='SDGTime')
+        schema.moveField('title', after='SDGTime')
+        schema.moveField('ProjectContact', after='title')
         schema.moveField('SamplerContact', after='ProjectContact')
         schema.moveField('GrowerContact', after='SamplerContact')
-        schema.moveField('title', after='GrowerContact')
-        schema.moveField('ReportContact', after='title')
+        schema.moveField('ReportContact', after='GrowerContact')
         schema.moveField('BatchLabels', after='ReportContact')
         schema.moveField('COC', after='BatchLabels')
         schema.moveField('description', after='COC')
