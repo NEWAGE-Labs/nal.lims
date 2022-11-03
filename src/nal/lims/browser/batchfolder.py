@@ -38,7 +38,7 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
 
         self.columns = collections.OrderedDict((
             ("Title", {
-                "title": _("Title"),
+                "title": _("Internal SDG ID"),
                 "index": "title", }),
             ("Progress", {
                 "title": _("Progress"),
@@ -51,10 +51,10 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
             ("Matrices", {
                 "title": _("Matrices"),
                 "toggle": True, }),
-	    ("GrowerContact", {
-		"title": _("Grower Contact"),
-		"toggle": True,
-		"sortable": True, }),
+	        ("GrowerContact", {
+		        "title": _("Grower Contact"),
+		        "toggle": True,
+		        "sortable": True, }),
             ("Description", {
                 "title": _("Description"),
                 "sortable": False, }),
@@ -166,12 +166,10 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
         client = obj.getClient()
         created = api.get_creation_date(obj)
 	grower = obj.getReferences(relationship="SDGGrowerContact")
-	print("grower is: {}".format(grower))
 	if grower != []:
             grower = grower[0]
 	else:
 	    grower = None
-	print("Obj is: {}\Grower is: {}".format(obj,grower))
         date = obj.SDGDate.strftime("%b %d, %Y") + ' ' + obj.SDGTime
         matrices = []
         for i in obj.getAnalysisRequests():
