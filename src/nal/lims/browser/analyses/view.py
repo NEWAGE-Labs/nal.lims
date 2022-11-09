@@ -45,6 +45,7 @@ class AnalysesView(BikaAnalysesView):
         self.columns['SubmittedBy']['toggle'] = False
         self.columns['Hidden']['toggle'] = False
         self.columns['DueDate']['toggle'] = False
+        self.columns['Instrument']['toggle'] = True
 
         #Add New columns
         ## Analysis Date/Time
@@ -87,8 +88,8 @@ class AnalysesView(BikaAnalysesView):
             item['Inconclusive'] = obj.Inconclusive
         if obj.Weight is not None:
             item['Weight'] = obj.Weight
-        if obj.WeightUnit is not None:
-            item['WeightUnit'] = obj.WeightUnit
+        # if obj.WeightUnit is not None:
+        #     item['WeightUnit'] = obj.WeightUnit
 
         if api.get_workflow_status_of(obj) == 'unassigned':
             item['allow_edit'].append('Analyst')
@@ -102,6 +103,6 @@ class AnalysesView(BikaAnalysesView):
     def folderitems(self):
         items = super(AnalysesView, self).folderitems()
 
-        self.columns["Method"]["toggle"] = True
-        self.columns["Instrument"]["toggle"] = False
+        # self.columns["Method"]["toggle"] = True
+        # self.columns["Instrument"]["toggle"] = False
         return items
