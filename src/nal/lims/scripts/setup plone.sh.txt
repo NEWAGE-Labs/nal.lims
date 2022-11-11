@@ -1,0 +1,131 @@
+#! /bin/bash
+# SCRIPT MAY NOT WORK AS A SINGLE EXECUTED SCRIPT.
+# November 2022 - Paul VanderWeele
+
+#Become superuser
+su
+## enter password 'password'
+
+#OPTIONAL - Add naladmin user to sudoers file
+visudo /etc/sudoers
+## manually add `naladmin ALL=(ALL:ALL) ALL` below "# User privilege specification"
+
+#Update Packages
+sudo apt update
+
+#Get system packages if they are not already installed
+sudo apt install -y net-tools
+sudo apt install -y git
+sudo apt install -y unixodbc-dev
+
+#Get Plone Requirements
+sudo apt install -y libzt-dev
+sudo apt install -y libjpeg8-dev
+sudo apt install -y readline-common
+sudo apt install -y libexpat1-dev
+sudo apt install -y libssl-dev
+sudo apt install -y libxml2-dev
+sudo apt install -y libxslt1-dev
+
+#Get Pillow Requirements
+sudo apt install -y libtiff5-dev
+## sudo apt install -y libjpeg8-dev # redundant library
+sudo apt install -y libopenjp2-7-dev
+sudo apt install -y zlib1g-dev
+sudo apt install -y libfreetype6-dev
+sudo apt install -y liblcms2-dev
+sudo apt install -y libwebp-dev
+sudo apt install -y tcl8.6-dev
+sudo apt install -y tk8.6-dev
+sudo apt install -y python3-tk
+sudo apt install -y libharfbuzz-dev
+sudo apt install -y libfribidi-dev
+sudo apt install -y libxcb1-dev
+
+#Get Senaite requirements
+sudo apt install -y build-esstential
+sudo apt install -y python2.7
+sudo apt install -y python2.7-dev
+## sudo apt install -y libxml2-dev # redundant library
+## sudo apt install -y libxslt1-dev # redundant library
+sudo apt install -y libffi-dev
+sudo apt install -y libcairo2
+sudo apt install -y libpango-1.0-0
+sudo apt install -y libgdk-pixbuf2.0-dev
+sudo apt install -y libpangocairo-1.0-0
+## sudo apt install -y zlib1g-dev # redundant library
+
+#Get pip for python2.7 seperately since it's deprecated
+wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
+python2.7 get-pip.py
+
+#Get Plone 5.2.9
+wget --no-check-certificate https://launchpad.net/plone/5.2/5.2.9/+download/Plone-5.2.9-UnifiedInstaller-1.0.tgz
+tar xzf Plone-5.2.9-UnifiedInstaller-1.0.tgz
+
+#Allow ssh terminal connection
+sudo ufw allow ssh
+
+#Prep Mounting of NEWAGESERVER filesharess
+sudo apt install samba
+sudo apt install cifs-utils
+sudo mkdir /mnt
+sudo mkdir /mnt/Data /mnt/Public
+#Needs actual 'mount' command called to mount drive
+
+##### 11/10/2022 Plone Box.OVF ENDS HERE #####
+
+#Mount commands for NEWAGESERVER fileshares  (Will fail if not on the same domain/subnet)
+sudo mount -t cifs -o username=pvanderweele,domain=newagelab,uid=naladmin,gid=naladmin,dir_mode=0777,file_mode=0777 //10.1.10.2/Data /mnt/Data
+sudo mount -t cifs -o username=pvanderweele,domain=newagelab,uid=naladmin,gid=naladmin,dir_mode=0777,file_mode=0777 //10.1.10.2/Public /mnt/Public
+
+#OPTIONAL - Setup NGINX
+sudo apt install nginx
+sudo systemctl start nginx.service
+## Edit /etc/nginx/sites-available configurations
+sudo ln -s /etc/nginx/sites-available /etc/nginx/sites-enabled
+sudo nginx -s reload
+
+#Install a Plone Instance for Senaite or NALIMS (This normally takes 1-5 minutes)
+cd ~/Plone-5.2.9-UnifiedInstaller-1.0/
+./install.sh --target=/home/naladmin/nal --instance=lims --with-python=/usr/bin/python2.7 --password=notpassword zeo
+
+#Update the buildout configuration to work with python 2.7 (should have been done by plone, but oh well)
+echo '' >> buildout.cfg
+echo '#Custom Pins' >> buildout.cfg
+echo 'bobtemplates.plone=5.2.2' >> buildout.cfg
+echo 'regex=2021.3.17' >> buildout.cfg
+echo 'pyodbc=4.0.23' >> buildout.cfg
+
+#Build the Plone project with the rest of the defaults plus developer tools added
+cd ~/nal/lims/
+bin/buildout -c develop.cfg
+
+#Add the following to the buildout.cfg file under the [buildout] section:
+## [eggs] - These are the various Plone add-ons we want to download and setup
+## senaite.core
+## senaite.lims
+## senaite.impress
+## senaite.databox
+## nal.lims
+##
+## [develop] - These are the relative paths of the eggs that we are developing and want to use locally.
+## src/nal.lims
+## src/senaite.core
+## src/senaite.impress
+## src/senaite.lims
+
+#Clone github repos (default branch for newest content)
+git clone https://github.com/NEWAGE-Labs/nal.lims.git
+git clone https://github.com/NEWAGE-Labs/senaite.core.git
+git clone https://github.com/NEWAGE-Labs/senaite.impress.git
+git clone https://github.com/senaite/senaite.lims.git
+
+#Re-run Buildout with Senaite and NALIMS configuration
+bin/buildout -c develop.cfg
+
+#Start Zeoserver and at least 1 client
+bin/zeoserver start
+bin/client1 start
+
+## Site is now hosted at http://localhost:8080
