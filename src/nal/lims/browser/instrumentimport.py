@@ -66,8 +66,8 @@ class ICPImportView(edit.DefaultEditForm):
 		print(ars)
                 for j in ars:
                     if (
-			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled'] 
-		        and (j.InternalLabID == ili 
+			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled']
+		        and (j.InternalLabID == ili
                         or api.get_id(j) == i)
 		    ):
                         import_samples.append(j)
@@ -772,7 +772,7 @@ class GalleryImportView(edit.DefaultEditForm):
         df = pd.DataFrame.from_dict(dict_to_df)
 
         print(df)
-	
+
 	#Get a list of Unique sample names from the imported DataFrame
         sample_names = df['Sample Name'].unique()
         #Take off the '-001' to get a list of SDG titles to search
@@ -798,8 +798,8 @@ class GalleryImportView(edit.DefaultEditForm):
                 ars = batch_dict[xsdg]
                 for j in ars:
                     if (
-			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled'] 
-		        and (j.InternalLabID == ili 
+			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled']
+		        and (j.InternalLabID == ili
                         or api.get_id(j) == i)
 		    ):
                         import_samples.append(j)
@@ -820,36 +820,9 @@ class GalleryImportView(edit.DefaultEditForm):
             #Ammonium
             found = False
             ammonium = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_nitrogen_as_ammonium-'+str(j)
-                    liqfert_version = 'liqfert_ammonia-'+str(j)
-                    rs_version = 'rapid_soil_ammonia-'+str(j)
-                    if hasattr(i,sap_version) and api.get_workflow_status_of(i[sap_version]) not in ['cancelled','invalid','retracted','rejected']:
-                        found = True
-                        ammonium = i[sap_version]
-                    elif hasattr(i,liqfert_version) and api.get_workflow_status_of(i[liqfert_version]) not in ['cancelled','invalid','retracted','rejected']:
-                        found = True
-                        ammonium = i[liqfert_version]
-                    elif hasattr(i,rs_version) and api.get_workflow_status_of(i[rs_version]) not in ['cancelled','invalid','retracted','rejected']:
-                        found = True
-                        ammonium = i[rs_version]
-            if found == False and hasattr(i,'sap_nitrogen_as_ammonium') and api.get_workflow_status_of(i['sap_nitrogen_as_ammonium']) not in ['retracted','rejected','cancelled','invalid']:
-                ammonium = i.sap_nitrogen_as_ammonium
-            elif found == False and hasattr(i,'liqfert_ammonia') and api.get_workflow_status_of(i.liqfert_ammonia) not in ['retracted','rejected','cancelled','invalid']:
-                ammonium = i.liqfert_ammonia
-            elif found == False and hasattr(i,'rapid_soil_ammonia') and api.get_workflow_status_of(i.rapid_soil_ammonia) not in ['retracted','rejected','cancelled','invalid']:
-                ammonium = i.rapid_soil_ammonia
-
-            # try:
-            #     ammonium = i.sap_nitrogen_as_ammonium
-            # except AttributeError:
-            #     ammonium = None
-            # if ammonium == None:
-            #     try:
-            #         ammonium = i.liqfert_ammonia
-            #     except AttributeError:
-            #         ammonium = None
+            for j in i:
+                if ('ammonium' in j or 'ammonia' in j) and api.get_workflow_status_of(i[j]) not in ['cancelled','invalid','retracted','rejected']:
+                    total_sugar = i[j]
 
             #Total Sugar
             total_sugar = None
@@ -858,159 +831,31 @@ class GalleryImportView(edit.DefaultEditForm):
                     total_sugar = i[j]
 
             #Chloride
-            found = False
             chloride = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_chloride-'+str(j)
-                    liqfert_version = 'liqfert_chloride-'+str(j)
-                    rs_version = 'rapid_soil_chloride-'+str(j)
-                    if hasattr(i,sap_version) and api.get_workflow_status_of(i[sap_version]) not in ['cancelled','invalid','retracted','rejected']:
-                        found = True
-                        chloride = i[sap_version]
-                    elif hasattr(i,liqfert_version) and api.get_workflow_status_of(i[liqfert_version]) not in ['cancelled','invalid','retracted','rejected']:
-                        found = True
-                        chloride = i[liqfert_version]
-                    elif hasattr(i,rs_version) and api.get_workflow_status_of(i[rs_version]) not in ['cancelled','invalid','retracted','rejected']:
-                        found = True
-                        chloride = i[rs_version]
-            if found == False and hasattr(i,'sap_chloride') and api.get_workflow_status_of(i['sap_chloride']) not in ['retracted','rejected','cancelled','invalid']:
-                chloride = i.sap_chloride
-            elif found == False and hasattr(i,'liqfert_chloride') and api.get_workflow_status_of(i.liqfert_chloride) not in ['retracted','rejected','cancelled','invalid']:
-                chloride = i.liqfert_chloride
-            elif found == False and hasattr(i,'rapid_soil_chloride') and api.get_workflow_status_of(i.rapid_soil_chloride) not in ['retracted','rejected','cancelled','invalid']:
-                chloride = i.rapid_soil_chloride
-
-            # try:
-            #     chloride = i.sap_chloride
-            # except AttributeError:
-            #     chloride = None
-            # if chloride is None:
-            #     try:
-            #         chloride = i.liqfert_chloride
-            #     except AttributeError:
-            #         chloride = None
-
+            for j in i:
+                if 'chloride' in j and api.get_workflow_status_of(i[j]) not in ['cancelled','invalid','retracted','rejected']:
+                    chloride = i[j]
             #Nitrate
-            found = False
             nitrate = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_nitrate-'+str(j)
-                    # liqfert_version = 'liqfert_nitrate-'+str(j)
-                    drinking_version = 'drinking_nitrate-'+str(j)
-                    if hasattr(i,sap_version) and api.get_workflow_status_of(i[sap_version]) not in ['cancelled','invalid','retracted','rejected']:
-                        found = True
-                        nitrate = i[sap_version]
-                    # elif hasattr(i,liqfert_version):
-                    #     found = True
-                    #     nitrate = i[liqfert_version]
-                    elif hasattr(i,drinking_version) and api.get_workflow_status_of(i[drinking_version]) not in ['cancelled','invalid','retracted','rejected']:
-                        found = True
-                        nitrate = i[drinking_version]
-            if found == False and hasattr(i,'sap_nitrate') and api.get_workflow_status_of(i['sap_nitrate']) not in ['cancelled','invalid','retracted','rejected']:
-                nitrate = i.sap_nitrate
-            # elif found == False and hasattr(i,'liqfert_nitrate'):
-            #     nitrate = i.liqfert_nitrate
-            elif found == False and hasattr(i,'drinking_nitrate') and api.get_workflow_status_of(i.drinking_nitrate) not in ['cancelled','invalid','retracted','rejected']:
-                nitrate = i.drinking_nitrate
-
-            # try:
-            #     nitrate = i.sap_nitrate
-            # except AttributeError:
-            #     nitrate = None
-            # if nitrate is None:
-            #     try:
-            #         nitrate = i.liqfert_nitrate
-            #     except AttributeError:
-            #         nitrate = None
-            # if nitrate is None:
-            #     try:
-            #         nitrate = i.drinking_nitrate
-            #     except AttributeError:
-            #         nitrate = None
-
-            #Nitrite
-            found = False
-            nitrite = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    drinking_version = 'drinking_nitrite-'+str(j)
-                    if hasattr(i,drinking_version) and api.get_workflow_status_of(i[drinking_version]) not in ['cancelled','invalid','retracted','rejected']:
-                        found = True
-                        nitrite = i[drinking_version]
-            if found == False and hasattr(i,'drinking_nitrite') and api.get_workflow_status_of(i.drinking_nitrite) not in ['cancelled','invalid','retracted','rejected']:
-                nitrite = i.drinking_nitrite
-
-
-            # try:
-            #     nitrite = i.drinking_nitrite
-            # except AttributeError:
-            #     nitrite = None
-
-            #Nitrogen as Nitrate
-            found = False
             n_as_nitrate = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_nitrogen_as_nitrate-'+str(j)
-                    liqfert_version = 'liqfert_nitrate-'+str(j)
-                    drinking_version = 'drinking_nitrogen_as_nitrate-'+str(j)
-                    rs_version = 'rapid_soil_nitrate-'+str(j)
-                    if hasattr(i,sap_version) and api.get_workflow_status_of(i[sap_version]) not in ['cancelled','invalid','retracted','rejected']:
-                        found = True
-                        n_as_nitrate = i[sap_version]
-                    elif hasattr(i,liqfert_version) and api.get_workflow_status_of(i[liqfert_version]) not in ['cancelled','invalid','retracted','rejected']:
-                        found = True
-                        n_as_nitrate = i[liqfert_version]
-                    elif hasattr(i,drinking_version) and api.get_workflow_status_of(i[drinking_version]) not in ['cancelled','invalid','retracted','rejected']:
-                        found = True
-                        n_as_nitrate = i[drinking_version]
-                    elif hasattr(i,rs_version) and api.get_workflow_status_of(i[rs_version]) not in ['cancelled','invalid','retracted','rejected']:
-                        found = True
-                        n_as_nitrate = i[rs_version]
-            if found == False and hasattr(i,'sap_nitrogen_as_nitrate') and api.get_workflow_status_of(i['sap_nitrogen_as_nitrate']) not in ['retracted','rejected','cancelled','invalid']:
-                n_as_nitrate = i.sap_nitrogen_as_nitrate
-            elif found == False and hasattr(i,'liqfert_nitrate') and api.get_workflow_status_of(i.liqfert_nitrate) not in ['retracted','rejected','cancelled','invalid']:
-                n_as_nitrate = i.liqfert_nitrate
-            elif found == False and hasattr(i,'drinking_nitrogen_as_nitrate') and api.get_workflow_status_of(i.drinking_nitrogen_as_nitrate) not in ['retracted','rejected','cancelled','invalid']:
-                n_as_nitrate = i.drinking_nitrogen_as_nitrate
-            elif found == False and hasattr(i,'rapid_soil_nitrate') and api.get_workflow_status_of(i.rapid_soil_nitrate) not in ['retracted','rejected','cancelled','invalid']:
-                n_as_nitrate = i.rapid_soil_nitrate
-
-            # try:
-            #     n_as_nitrate = i.sap_nitrogen_as_nitrate
-            # except AttributeError:
-            #     n_as_nitrate = None
-
-            # #Total Organic Nitrogen
-            # try:
-            #     total_n = i.sap_total_nitrogen
-            # except AttributeError:
-            #     total_n = None
-            #
-            # #Fructose
-            # try:
-            #     total_n = i.sap_total_nitrogen
-            # except AttributeError:
-            #     total_n = None
-            #
-            # #Glucose
-            # try:
-            #     total_n = i.sap_total_nitrogen
-            # except AttributeError:
-            #     total_n = None
+            for j in i:
+                if 'nitrate' in j and api.get_workflow_status_of(i[j]) not in ['cancelled','invalid','retracted','rejected']:
+                    nitrate = i[j]
+                    n_as_nitrate = i[j]
 
             #Ammonium
             if ammonium is not None and api.get_workflow_status_of(ammonium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')].empty:
                 logger.info("Importing Ammonium for {0}: {1}".format(i, ammonium))
-
                 ammonium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')]['Result'].values[0].strip(), "utf-8")
                 logger.info("Result: ".format(ammonium.Result))
-		ammonium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')]['Analysis Date/Time'].values[0]
+                ammonium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')]['Analysis Date/Time'].values[0]
                 ammonium.Method = nh4_method
                 ammonium.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
-                ammonium = api.do_transition_for(ammonium, "submit")
+                if [j for j in api.get_transitions_for(ammonium) if 'submit' in j.values()]:
+                    try:
+                        api.do_transition_for(ammonium, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')]['Analyst'].empty:
                     ammonium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')]['Analyst'].values[0]
                     ammonium.reindexObject(idxs=['Analyst'])
@@ -1020,10 +865,14 @@ class GalleryImportView(edit.DefaultEditForm):
                 logger.info("Importing Ammonium for {0}: {1}".format(i, ammonium))
                 ammonium.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='AMMONIA SP')]['Result'].values[0].strip(), "utf-8")
                 logger.info("Result: ".format(ammonium.Result))
-		ammonium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='AMMONIA SP')]['Analysis Date/Time'].values[0]
+                ammonium.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='AMMONIA SP')]['Analysis Date/Time'].values[0]
                 ammonium.Method = nh4_method
                 ammonium.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
-                ammonium = api.do_transition_for(ammonium, "submit")
+                if [j for j in api.get_transitions_for(ammonium) if 'submit' in j.values()]:
+                    try:
+                        api.do_transition_for(ammonium, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='AMMONIA SP')]['Analyst'].empty:
                     ammonium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='AMMONIA SP')]['Analyst'].values[0]
                     ammonium.reindexObject(idxs=['Analyst'])
@@ -1035,7 +884,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 total_sugar.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')]['Result'].values[0].strip(), "utf-8")
                 total_sugar.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')]['Analysis Date/Time'].values[0]
                 total_sugar.reindexObject(idxs=['Result','AnalysisDateTime'])
-		if [j for j in api.get_transitions_for(total_sugar) if 'submit' in j.values()]:
+                if [j for j in api.get_transitions_for(total_sugar) if 'submit' in j.values()]:
                     try:
                         api.do_transition_for(total_sugar, "submit")
                     except AttributeError:
@@ -1052,18 +901,15 @@ class GalleryImportView(edit.DefaultEditForm):
                 chloride.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Analysis Date/Time'].values[0]
                 chloride.Method = cl_method
                 chloride.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
-                chloride = api.do_transition_for(chloride, "submit")
+                if [j for j in api.get_transitions_for(chloride) if 'submit' in j.values()]:
+                    try:
+                        api.do_transition_for(chloride, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Analyst'].empty:
                     chloride.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Analyst'].values[0]
                     chloride.reindexObject(idxs=['Analyst'])
                 imported.append(True)
-
-            #Nitrogen as Nitrate
-            #ADD LOGIC TO HANDLE
-            # if SAPNO2 > 0:
-            #     SAPNO3 = SAPTON1 - SAPNO2
-            # else:
-            #     SAPNO3 = SAPTON1
 
             if n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')].empty:
                 logger.info("Importing N from Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Result'].values[0].strip(), "utf-8")))
@@ -1071,7 +917,11 @@ class GalleryImportView(edit.DefaultEditForm):
                 n_as_nitrate.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Analysis Date/Time'].values[0]
                 n_as_nitrate.Method = no3_method
                 n_as_nitrate.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
-                n_as_nitrate = api.do_transition_for(n_as_nitrate, "submit")
+                if [j for j in api.get_transitions_for(n_as_nitrate) if 'submit' in j.values()]:
+                    try:
+                        api.do_transition_for(n_as_nitrate, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Analyst'].empty:
                     n_as_nitrate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Analyst'].values[0]
                     n_as_nitrate.reindexObject(idxs=['Analyst'])
@@ -1082,18 +932,26 @@ class GalleryImportView(edit.DefaultEditForm):
                 n_as_nitrate.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analysis Date/Time'].values[0]
                 n_as_nitrate.Method = no3_method
                 n_as_nitrate.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
-                n_as_nitrate = api.do_transition_for(n_as_nitrate, "submit")
+                if [j for j in api.get_transitions_for(n_as_nitrate) if 'submit' in j.values()]:
+                    try:
+                        api.do_transition_for(n_as_nitrate, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analyst'].empty:
                     n_as_nitrate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analyst'].values[0]
                     n_as_nitrate.reindexObject(idxs=['Analyst'])
                 imported.append(True)
-	    elif n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')].empty:
+            elif n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')].empty:
                 logger.info("Importing N from Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Result'].values[0].strip(), "utf-8")))
                 n_as_nitrate.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Result'].values[0].strip(), "utf-8")
                 n_as_nitrate.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Analysis Date/Time'].values[0]
                 n_as_nitrate.Method = no3_method
                 n_as_nitrate.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
-                n_as_nitrate = api.do_transition_for(n_as_nitrate, "submit")
+                if [j for j in api.get_transitions_for(n_as_nitrate) if 'submit' in j.values()]:
+                    try:
+                        api.do_transition_for(n_as_nitrate, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Analyst'].empty:
                     n_as_nitrate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Analyst'].values[0]
                     n_as_nitrate.reindexObject(idxs=['Analyst'])
@@ -1105,7 +963,11 @@ class GalleryImportView(edit.DefaultEditForm):
                 nitrite.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')]['Result'].values[0].strip(), "utf-8")
                 nitrite.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')]['Analysis Date/Time'].values[0]
                 nitrite.reindexObject(idxs=['Result','AnalysisDateTime'])
-                nitrite = api.do_transition_for(nitrite, "submit")
+                if [j for j in api.get_transitions_for(nitrite) if 'submit' in j.values()]:
+                    try:
+                        api.do_transition_for(nitrite, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')]['Analyst'].empty:
                     nitrite.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')]['Analyst'].values[0]
                     nitrite.reindexObject(idxs=['Analyst'])
@@ -1191,8 +1053,8 @@ class pHImportView(edit.DefaultEditForm):
                 ars = batch_dict[xsdg]
                 for j in ars:
                     if (
-			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled'] 
-		        and (j.InternalLabID == ili 
+			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled']
+		        and (j.InternalLabID == ili
                         or api.get_id(j) == i)
 		    ):
                         import_samples.append(j)
@@ -1209,53 +1071,26 @@ class pHImportView(edit.DefaultEditForm):
         for i in import_samples:
 
             #pH
-            found = False
             ph = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_ph-'+str(j)
-                    liqfert_version = 'liqfert_ph-'+str(j)
-                    rs_version = 'rapid_soil_ph-'+str(j)
-                    if hasattr(i,sap_version) and api.get_workflow_status_of(i[sap_version]) not in ['retracted','rejected','cancelled','invalid']:
-                        found = True
-                        ph = i[sap_version]
-                    elif hasattr(i,liqfert_version) and api.get_workflow_status_of(i[liqfert_version]) not in ['retracted','rejected','cancelled','invalid']:
-                        found = True
-                        ph = i[liqfert_version]
-                    elif hasattr(i,rs_version) and api.get_workflow_status_of(i) not in ['retracted','rejected','cancelled','invalid']:
-                        found = True
-                        ph = i[rs_version]
-            if found == False and hasattr(i,'sap_ph') and api.get_workflow_status_of(i) not in ['retracted','rejected','cancelled','invalid']:
-                ph = i.sap_ph
-            elif found == False and hasattr(i,'liqfert_ph') and api.get_workflow_status_of(i) not in ['retracted','rejected','cancelled','invalid']:
-                ph = i.liqfert_ph
-            elif found == False and hasattr(i,'rapid_soil_ph') and api.get_workflow_status_of(i) not in ['retracted','rejected','cancelled','invalid']:
-                ph = i.rapid_soil_ph
+            for j in i:
+                if 'ph' in j and api.get_workflow_status_of(i[j]) not in ['cancelled','invalid','retracted','rejected']:
+                    ph = i[j]
 
-            # try:
-            #     ph = i.sap_ph
-            # except AttributeError:
-            #     ph = None
-            # if ph == None:
-            #     try:
-            #         ph = i.liqfert_ph
-            #     except AttributeError:
-            #         ph = None
             logger.info("pH for {0} is {1}".format(i, ph))
             if ph is not None and api.get_workflow_status_of(ph) in ['unassigned']:
-                logger.info("pH Clean for {0}".format(i))
-                logger.info("Dataframe {0}".format(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]))
-                logger.info("Dataframe is: {0}, Sample Name Series is {1}, ID is {2}".format(filtered_df,filtered_df['Sample Name'],api.get_id(i)))
                 clean_ids.append(api.get_id(i))
                 #pH
                 if not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
-                    logger.info("Importing pH for: {0}".format(i))
                     ph.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
                     ph.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
                     ph.Method = ph_method
                     ph.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
                     logger.info("{0}".format(api.get_transitions_for(ph)))
-                    ph = api.do_transition_for(ph, "submit")
+                    if [j for j in api.get_transitions_for(ph) if 'submit' in j.values()]:
+                        try:
+                            api.do_transition_for(ph, "submit")
+                        except AttributeError:
+                            pass
                     if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].empty:
                         ph.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].values[0]
                         ph.reindexObject(idxs=['Analyst'])
@@ -1339,8 +1174,8 @@ class ECImportView(edit.DefaultEditForm):
                 ars = batch_dict[xsdg]
                 for j in ars:
                     if (
-			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled'] 
-		        and (j.InternalLabID == ili 
+			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled']
+		        and (j.InternalLabID == ili
                         or api.get_id(j) == i)
 		    ):
                         import_samples.append(j)
@@ -1363,40 +1198,16 @@ class ECImportView(edit.DefaultEditForm):
             tds = None
 
             #EC
-            found = False
             ec = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_ec-'+str(j)
-                    liqfert_version = 'liqfert_soluablesalts-'+str(j)
-                    rs_version = 'rapid_soil_ec-'+str(j)
-                    if hasattr(i,sap_version) and api.get_workflow_status_of(i[sap_version]) not in ['retracted','rejected','cancelled','invalid']:
-                        found = True
-                        ec = i[sap_version]
-                    elif hasattr(i,liqfert_version) and api.get_workflow_status_of(i[liqfert_version]) not in ['retracted','rejected','cancelled','invalid']:
-                        found = True
-                        ec = i[liqfert_version]
-                    elif hasattr(i,rs_version) and api.get_workflow_status_of(i[rs_version]) not in ['retracted','rejected','cancelled','invalid']:
-                        found = True
-                        ec = i[rs_version]
-            if found == False and hasattr(i,'sap_ec') and api.get_workflow_status_of(i.sap_ec) not in ['retracted','rejected','cancelled','invalid']:
-                ec = i.sap_ec
-            elif found == False and hasattr(i,'liqfert_soluablesalts') and api.get_workflow_status_of(i) not in ['retracted','rejected','cancelled','invalid']:
-                ec = i.liqfert_soluablesalts
-            elif found == False and hasattr(i,'rapid_soil_ec') and api.get_workflow_status_of(i.rapid_soil_ec) not in ['retracted','rejected','cancelled','invalid']:
-                ec = i.rapid_soil_ec
+            for j in i:
+                if ('_ec' in j or ('soluable' in j and 'salt' in j)) and api.get_workflow_status_of(i[j]) not in ['cancelled','invalid','retracted','rejected']:
+                    ec = i[j]
 
             # #Calculations
-            found = False
             tds = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    liqfert_version = 'liqfert_tds-'+str(j)
-                    if hasattr(i,liqfert_version) and api.get_workflow_status_of(i) not in ['retracted','rejected','cancelled','invalid']:
-                        found = True
-                        tds = i[liqfert_version]
-            if found == False and hasattr(i,'liqfert_tds') and api.get_workflow_status_of(i) not in ['retracted','rejected','cancelled','invalid']:
-                tds = i.liqfert_tds
+            for j in i:
+                if '_tds' in j and api.get_workflow_status_of(i[j]) not in ['cancelled','invalid','retracted','rejected']:
+                    tds = i[j]
 
             #EC
             if ec is not None and api.get_workflow_status_of(ec)=='unassigned' and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
@@ -1405,9 +1216,11 @@ class ECImportView(edit.DefaultEditForm):
                 ec.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
                 ec.Method = ss_method
                 ec.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
-		print("Importing EC For {0}. Result is: {1}".format(i,ec.Result))
-		logger.info("{0}".format(api.get_transitions_for(ec)))
-                ec = api.do_transition_for(ec, "submit")
+                if [j for j in api.get_transitions_for(ec) if 'submit' in j.values()]:
+                    try:
+                        api.do_transition_for(ec, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].empty:
                     ec.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].values[0]
                     ec.reindexObject(idxs=['Analyst'])
@@ -1415,14 +1228,17 @@ class ECImportView(edit.DefaultEditForm):
 
             #TDS
             if tds is not None and api.get_workflow_status_of(tds)=='unassigned' and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
-                logger.info("Caclulation TDS for {0}".format(i))
                 ec_text = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
                 ec_float = float(ec_text)
                 tds.Result = unicode(ec_float*650)
                 tds.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
                 tds.Method = ss_method
                 tds.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
-                tds = api.do_transition_for(tds, "submit")
+                if [j for j in api.get_transitions_for(tds) if 'submit' in j.values()]:
+                    try:
+                        api.do_transition_for(tds, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].empty:
                     tds.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].values[0]
                     tds.reindexObject(idxs=['Analyst'])
@@ -1568,8 +1384,8 @@ class TotalNitrogenImportView(edit.DefaultEditForm):
                 ars = batch_dict[xsdg]
                 for j in ars:
                     if (
-			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled'] 
-		        and (j.InternalLabID == ili 
+			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled']
+		        and (j.InternalLabID == ili
                         or api.get_id(j) == i)
 		    ):
                         import_samples.append(j)
@@ -1588,42 +1404,27 @@ class TotalNitrogenImportView(edit.DefaultEditForm):
             imported = []
 
             #Total Nitrogen
-            found = False
             total_n = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_total_nitrogen-'+str(j)
-		    tissue_version = 'tissue_nitrogen-'+str(j)
-		    hp_version = 'liqfert_nitrogen-'+str(j)
-                    if hasattr(i,sap_version) and api.get_workflow_status_of(i[sap_version]) not in ['rejected','retracted','invalid','cancelled']:
-                        found = True
-                        total_n = i[sap_version]
-		    elif hasattr(i,tissue_version) and api.get_workflow_status_of(i[tissue_version]) not in ['rejected','retracted','invalid','cancelled']:
-			found = True
-			total_n = i[tissue_version]
-		    elif hasattr(i,hp_version) and api.get_workflow_status_of(i[hp_version]) not in ['rejected','retracted','invalid','cancelled']:
-			found = True
-			total_n = i[hp_version]
-            if found == False and hasattr(i,'sap_total_nitrogen') and api.get_workflow_status_of(i.sap_total_nitrogen) not in ['retracted','rejected','invalid','cancelled']:
-                total_n = i.sap_total_nitrogen
-            elif found == False and hasattr(i,'tissue_nitrogen') and api.get_workflow_status_of(i.tissue_nitrogen) not in ['retracted','rejected','invalid','cancelled']:
-                total_n = i.tissue_nitrogen
-            elif found == False and hasattr(i,'liqfert_nitrogen') and api.get_workflow_status_of(i.liqfert_nitrogen) not in ['retracted','rejected','invalid','cancelled']:
-                total_n = i.liqfert_nitrogen
+            for j in i:
+                if ('total_nitrogen' in j or 'liqfert_nitrogen' in j) and api.get_workflow_status_of(i[j]) not in ['cancelled','invalid','retracted','rejected']:
+                    total_n = i[j]
 
             if total_n is not None and api.get_workflow_status_of(total_n)=='unassigned':
                 clean_ids.append(api.get_id(i))
-		print(i)
-		print(total_n)
-                #Total N
-                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
-                    total_n.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
-                    total_n.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
-                    total_n.reindexObject(idxs=['Result','AnalysisDateTime'])
-                    total_n = api.do_transition_for(total_n, "submit")
-                    if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].empty:
-                        total_n.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].values[0]
-                        total_n.reindexObject(idxs=['Analyst'])
+
+            #Total N
+            if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
+                total_n.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
+                total_n.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
+                total_n.reindexObject(idxs=['Result','AnalysisDateTime'])
+                if [j for j in api.get_transitions_for(total_n) if 'submit' in j.values()]:
+                    try:
+                        api.do_transition_for(total_n, "submit")
+                    except AttributeError:
+                        pass
+                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].empty:
+                    total_n.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].values[0]
+                    total_n.reindexObject(idxs=['Analyst'])
 
 	    t.get().commit()
 
@@ -1700,8 +1501,8 @@ class BrixImportView(edit.DefaultEditForm):
                 ars = batch_dict[xsdg]
                 for j in ars:
                     if (
-			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled'] 
-		        and (j.InternalLabID == ili 
+			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled']
+		        and (j.InternalLabID == ili
                         or api.get_id(j) == i)
 		    ):
                         import_samples.append(j)
@@ -1730,7 +1531,11 @@ class BrixImportView(edit.DefaultEditForm):
                     brix.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Result'].values[0].strip(), "utf-8")
                     brix.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date/Time'].values[0]
                     brix.reindexObject(idxs=['Result','AnalysisDateTime'])
-                    brix = api.do_transition_for(brix, "submit")
+                    if [j for j in api.get_transitions_for(brix) if 'submit' in j.values()]:
+                        try:
+                            api.do_transition_for(brix, "submit")
+                        except AttributeError:
+                            pass
                     if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].empty:
                         brix.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].values[0]
                         brix.reindexObject(idxs=['Analyst'])
