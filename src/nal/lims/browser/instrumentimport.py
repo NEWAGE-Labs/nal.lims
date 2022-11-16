@@ -1079,7 +1079,7 @@ class pHImportView(edit.DefaultEditForm):
             #pH
             ph = None
             for j in i:
-                if 'ph' in j and api.get_workflow_status_of(i[j]) not in ['cancelled','invalid','retracted','rejected']:
+                if ('ph' in j and 'phos' not in j) and api.get_workflow_status_of(i[j]) not in ['cancelled','invalid','retracted','rejected']:
                     ph = i[j]
 
             logger.info("pH for {0} is {1}".format(i, ph))
