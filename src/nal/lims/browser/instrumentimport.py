@@ -843,6 +843,12 @@ class GalleryImportView(edit.DefaultEditForm):
                     nitrate = i[j]
                     n_as_nitrate = i[j]
 
+            #Nitrite
+            nitrite = None
+            for j in i:
+                if 'nitrite' in j and api.get_workflow_status_of(i[j]) not in ['cancelled','invalid','retracted','rejected']:
+                    nitrite = i[j]
+
             #Ammonium
             if ammonium is not None and api.get_workflow_status_of(ammonium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')].empty:
                 logger.info("Importing Ammonium for {0}: {1}".format(i, ammonium))
