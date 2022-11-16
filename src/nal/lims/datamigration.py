@@ -118,7 +118,7 @@ def get_labcontacts_as_df():
     ]
 
     labcontact_dict = {}
-    for i in labcontact_dict:
+    for i in cols:
         labcontact_dict[i] = []
 
     for i in labcontacts:
@@ -145,7 +145,7 @@ def get_methods_as_df():
     ]
 
     method_dict = {}
-    for i in method_dict:
+    for i in cols:
         method_dict[i] = []
 
     for i in methods:
@@ -170,7 +170,7 @@ def get_sdglabels_as_df():
     ]
 
     sdglabel_dict = {}
-    for i in sdglabel_dict:
+    for i in cols:
         sdglabel_dict[i] = []
 
     for i in sdglabels:
@@ -190,7 +190,7 @@ def get_sdgs_as_df():
     sdgs = api.search({'portal_type':"Batch"})
     cols = [
         'title',
-        'description'
+        'description',
         'BatchID',
         'Client',
         'ClientBatchID',
@@ -201,11 +201,11 @@ def get_sdgs_as_df():
         'ProjectContact',
         'SamplerContact',
         'GrowerContact',
-        'COC'
+        'COC',
     ]
 
     sdg_dict = {}
-    for i in sdg_dict:
+    for i in cols:
         sdg_dict[i] = []
 
     for i in sdgs:
@@ -214,15 +214,197 @@ def get_sdgs_as_df():
             sdg_dict['title'].append(sdg.title) #Required
             sdg_dict['description'].append(sdg.description or '')
             sdg_dict['BatchID'].append(sdg.BatchID or '')
-            sdg_dict['Client'].append(sdg.get_relationship('BatchClient') or '') ##
+            sdg_dict['Client'].append(sdg.aq_parent.ClientID or '') ##
             sdg_dict['ClientBatchID'].append(sdg.ClientBatchID or '')
             sdg_dict['BatchLabels'].append(sdg.getLabelNames() or '') ##
             sdg_dict['SDGDate'].append(sdg.SDGDate or '')
             sdg_dict['SDGTime'].append(sdg.SDGTime or '')
             sdg_dict['ReportContact'].append(sdg.ReportContact or '')
-            sdg_dict['ProjectContact'].append(sdg.get_relationship('SDGProjectContact') or '') ##
-            sdg_dict['SamplerContact'].append(sdg.get_relationship('SDGSamplerContact') or '') ##
-            sdg_dict['GrowerContact'].append(sdg.get_relationship('SDGGrowerContact') or '') ##
+            sdg_dict['ProjectContact'].append(sdg.getReferences(relationship="SDGProjectContact")[0] or '') ##
+            sdg_dict['SamplerContact'].append(sdg.getReferences(relationship="SDGSamplerContact")[0] or '') ##
+            sdg_dict['GrowerContact'].append(sdg.getReferences(relationship="SDGGrowerContact")[0] or '') ##
             sdg_dict['COC'].append(sdg.COC or '') ##
 
     return pd.DataFrame(sdg_dict)[cols]
+
+def get_sample_types_as_df():
+    """
+    :return: Returns a DataFrame of active Sample Types
+    :rtype: DataFrame
+    """
+
+    stypes = api.search({'portal_type':"SampleType"})
+    cols = [
+        'title',
+        'description',
+    ]
+
+    stype_dict = {}
+    for i in cols:
+        stype_dict[i] = []
+
+    for i in stypes:
+        if api.get_workflow_status_of(i) == 'active':
+            stype = api.get_object(i)
+            stype_dict['title'].append(stype.title) #Required
+            stype_dict['description'].append(stype.description or '')
+
+    return pd.DataFrame(stype_dict)[cols]
+
+def get_analysis_categories_as_df():
+    """
+    :return: Returns a DataFrame of active Analysis Categories
+    :rtype: DataFrame
+    """
+
+    categories = api.search({'portal_type':"AnalysisCategory"})
+    cols = [
+        'title',
+        'description',
+    ]
+
+    category_dict = {}
+    for i in cols:
+        category_dict[i] = []
+
+    for i in categories:
+        if api.get_workflow_status_of(i) == 'active':
+            category = api.get_object(i)
+            category_dict['title'].append(category.title) #Required
+            category_dict['description'].append(category.description or '')
+
+    return pd.DataFrame(category_dict)[cols]
+
+def get_instrument_types_as_df():
+    """
+    :return: Returns a DataFrame of active Instrument Types
+    :rtype: DataFrame
+    """
+
+    itypes = api.search({'portal_type':"InstrumentTypes"})
+    cols = [
+        'title',
+        'description',
+    ]
+
+    itype_dict = {}
+    for i in cols:
+        itype_dict[i] = []
+
+    for i in itypes:
+        if api.get_workflow_status_of(i) == 'active':
+            itype = api.get_object(i)
+            itype_dict['title'].append(itype.title) #Required
+            itype_dict['description'].append(itype.description or '')
+
+    return pd.DataFrame(itype_dict)[cols]
+
+def get_manufacturers_as_df():
+    """
+    :return: Returns a DataFrame of active Manufacturers
+    :rtype: DataFrame
+    """
+
+    manufacturers = api.search({'portal_type':"Manufacturers"})
+    cols = [
+        'title',
+        'description',
+    ]
+
+    manufacturer_dict = {}
+    for i in cols:
+        manufacturer_dict[i] = []
+
+    for i in manufacturers:
+        if api.get_workflow_status_of(i) == 'active':
+            manufacturer = api.get_object(i)
+            manufacturer_dict['title'].append(manufacturer.title) #Required
+            manufacturer_dict['description'].append(manufacturer.description or '')
+
+    return pd.DataFrame(manufacturer_dict)[cols]
+
+def get_manufacturers_as_df():
+    """
+    :return: Returns a DataFrame of active Manufacturers
+    :rtype: DataFrame
+    """
+
+    manufacturers = api.search({'portal_type':"Manufacturers"})
+    cols = [
+        'title',
+        'description',
+    ]
+
+    manufacturer_dict = {}
+    for i in cols:
+        manufacturer_dict[i] = []
+
+    for i in manufacturers:
+        if api.get_workflow_status_of(i) == 'active':
+            manufacturer = api.get_object(i)
+            manufacturer_dict['title'].append(manufacturer.title) #Required
+            manufacturer_dict['description'].append(manufacturer.description or '')
+
+    return pd.DataFrame(manufacturer_dict)[cols]
+
+def get_suppliers_as_df():
+    """
+    :return: Returns a DataFrame of active Suppliers
+    :rtype: DataFrame
+    """
+
+    suppliers = api.search({'portal_type':"Supplier"})
+    cols = [
+        'title',
+        'description',
+    ]
+
+    supplier_dict = {}
+    for i in cols:
+        supplier_dict[i] = []
+
+    for i in suppliers:
+        if api.get_workflow_status_of(i) == 'active':
+            supplier = api.get_object(i)
+            supplier_dict['title'].append(supplier.title) #Required
+            supplier_dict['description'].append(supplier.description or '')
+
+    return pd.DataFrame(supplier_dict)[cols]
+
+def get_instruments_as_df():
+    """
+    :return: Returns a DataFrame of active Instruments
+    :rtype: DataFrame
+    """
+
+    instruments = api.search({'portal_type':"Instruments"})
+    cols = [
+        'title',
+        'asset number',
+        'description',
+        'instrumenttype',
+        'manufacturer',
+        'supplier',
+        'model',
+        'serial number',
+        'methods',
+    ]
+
+    instrument_dict = {}
+    for i in cols:
+        instrument_dict[i] = []
+
+    for i in instruments:
+        if api.get_workflow_status_of(i) == 'active':
+            instrument = api.get_object(i)
+            instrument_dict['title'].append(instrument.title) #Required
+            instrument_dict['description'].append(instrument.assetnumber or '')
+            instrument_dict['description'].append(instrument.description or '')
+            instrument_dict['instrumenttype'].append(instrument.getReferences('InstrumentInstrumentType')[0] or '')
+            instrument_dict['manufacturer'].append(instrument.getReferences('InstrumentManufacturer')[0] or '')
+            instrument_dict['supplier'].append(instrument.getReferences('InstrumentSupplier')[0] or '')
+            instrument_dict['model'].append(instrument.model or '')
+            instrument_dict['serial number'].append(instrument.serialno or '')
+            instrument_dict['methods'].append(instrument.getReferences('InstrumentMethods') or [])
+
+    return pd.DataFrame(instrument_dict)[cols]
