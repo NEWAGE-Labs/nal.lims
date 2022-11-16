@@ -323,30 +323,6 @@ def get_manufacturers_as_df():
 
     return pd.DataFrame(manufacturer_dict)[cols]
 
-def get_manufacturers_as_df():
-    """
-    :return: Returns a DataFrame of active Manufacturers
-    :rtype: DataFrame
-    """
-
-    manufacturers = api.search({'portal_type':"Manufacturers"})
-    cols = [
-        'title',
-        'description',
-    ]
-
-    manufacturer_dict = {}
-    for i in cols:
-        manufacturer_dict[i] = []
-
-    for i in manufacturers:
-        if api.get_workflow_status_of(i) == 'active':
-            manufacturer = api.get_object(i)
-            manufacturer_dict['title'].append(manufacturer.title) #Required
-            manufacturer_dict['description'].append(manufacturer.description or '')
-
-    return pd.DataFrame(manufacturer_dict)[cols]
-
 def get_suppliers_as_df():
     """
     :return: Returns a DataFrame of active Suppliers
@@ -398,7 +374,7 @@ def get_instruments_as_df():
         if api.get_workflow_status_of(i) == 'active':
             instrument = api.get_object(i)
             instrument_dict['title'].append(instrument.title) #Required
-            instrument_dict['description'].append(instrument.assetnumber or '')
+            instrument_dict['asset number'].append(instrument.assetnumber or '')
             instrument_dict['description'].append(instrument.description or '')
             instrument_dict['instrumenttype'].append(instrument.getReferences('InstrumentInstrumentType')[0] or '')
             instrument_dict['manufacturer'].append(instrument.getReferences('InstrumentManufacturer')[0] or '')
