@@ -243,6 +243,12 @@ class AnalysisRequestSchemaModifier(object):
             'add':'edit',
             'header_table':'visible',
         }
+        schema['Specification'].widget.visible={
+            'edit':'visible',
+            'view':'visible',
+            'add':'edit',
+            'header_table':'visible',
+        }
         schema['SampleType'].write_permission = View
 
         schema['CCContact'].widget.label = "Email Contacts"

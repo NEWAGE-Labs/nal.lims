@@ -852,21 +852,10 @@ class GalleryImportView(edit.DefaultEditForm):
             #         ammonium = None
 
             #Total Sugar
-            found = False
             total_sugar = None
-            for j in range(20, 0, -1):
-                if found==False:
-                    sap_version = 'sap_total_sugar-'+str(j)
-                    if hasattr(i,sap_version) and api.get_workflow_status_of(i[sap_version]) not in ['cancelled','invalid','retracted','rejected']:
-                        found = True
-                        total_sugar = i[sap_version]
-            if found == False and hasattr(i,'sap_total_sugar') and api.get_workflow_status_of(i['sap_total_sugar']) not in ['retracted','rejected','cancelled','invalid']:
-                total_sugar = i.sap_total_sugar
-
-            # try:
-            #     total_sugar = i.sap_total_sugar
-            # except AttributeError:
-            #     total_sugar = None
+            for j in i:
+                if 'sugar' in j and api.get_workflow_status_of(i[j]) not in ['cancelled','invalid','retracted','rejected']:
+                    total_sugar = i[j]
 
             #Chloride
             found = False
@@ -1046,7 +1035,11 @@ class GalleryImportView(edit.DefaultEditForm):
                 total_sugar.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')]['Result'].values[0].strip(), "utf-8")
                 total_sugar.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')]['Analysis Date/Time'].values[0]
                 total_sugar.reindexObject(idxs=['Result','AnalysisDateTime'])
-                total_sugar = api.do_transition_for(total_sugar, "submit")
+		if [j for j in api.get_transitions_for(total_sugar) if 'submit' in j.values()]:
+                    try:
+                        api.do_transition_for(total_sugar, "submit")
+                    except AttributeError:
+                        pass
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')]['Analyst'].empty:
                     total_sugar.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')]['Analyst'].values[0]
                     total_sugar.reindexObject(idxs=['Analyst'])
