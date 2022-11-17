@@ -112,6 +112,7 @@ class ICPImportView(edit.DefaultEditForm):
             potassium_percent = None
             magnesium_percent = None
             sodium_percent = None
+            hardness = None
 
 
 
@@ -169,6 +170,8 @@ class ICPImportView(edit.DefaultEditForm):
                         magnesium_percent = i[j]
                     if 'esp' in j or ('sodium' in j and 'percent' in j):
                         sodium_percent = i[j]
+                    if 'hardness' in j:
+                        hardness = i[j]
 
 
 
@@ -645,6 +648,29 @@ class ICPImportView(edit.DefaultEditForm):
                     print("Sample is: {0}".format(i))
                     print("Potassium is: {0}".format(potassium.Result))
                     print("Calcium is: {0}".format(calcium.Result))
+
+            #Hardness
+                if hardness is not None and api.get_workflow_status_of(hardness) in ['unassigned'] and magnesium.Result is not None and calcium.Result is not None:
+                    print("Importing Hardness")
+                    try:
+                        mg_float = float(magnesium.Result)
+                        ca_float = float(calcium.Result)
+                        hardness.Result = unicode((mg_float*4.118)+(ca_float*2.497))
+                        hardness.AnalysisDateTime = magnesium.AnalysisDateTime or calcium.AnalysisDateTime
+                        hardness.reindexObject(idxs=['Result','AnalysisDateTime','Method'])
+                        if [j for j in api.get_transitions_for(hardness) if 'submit' in j.values()]:
+                            try:
+                                api.do_transition_for(hardness, "submit")
+                            except AttributeError:
+                                pass
+                        hardness.Analyst = magnesium.Analyst or calcium.Analyst
+                        hardness.reindexObject(idxs=['Analyst'])
+                        imported.append(True)
+                    except ValueError:
+                        print("--FLOAT CONVERSION ERROR--")
+                        print("Sample is: {0}".format(i))
+                        print("Magnesium is: {0}".format(magnesium.Result))
+                        print("Calcium is: {0}".format(calcium.Result))
 
             if imported:
                 clean_ids.append(api.get_id(i))
