@@ -848,7 +848,7 @@ class GalleryImportView(edit.DefaultEditForm):
             ammonium = None
             for j in i:
                 if ('ammonium' in j or 'ammonia' in j) and api.get_workflow_status_of(i[j]) not in ['cancelled','invalid','retracted','rejected']:
-                    total_sugar = i[j]
+                    ammonium = i[j]
 
             #Total Sugar
             total_sugar = None
