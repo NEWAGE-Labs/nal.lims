@@ -408,7 +408,7 @@ def get_suppliers_as_df():
             supplier_dict['Tax ID'].append(supplier.TaxNumber or '')
             supplier_dict['Phone'].append(supplier.Phone or '')
             supplier_dict['Fax'].append(supplier.Fax or '')
-            supplier_dict['Remarks'].append(supplier.Remarks or '')
+            supplier_dict['Remarks'].append(supplier.getRemarks() or '')
             supplier_dict['Website'].append(supplier.Website or '')
             ## Physical Address
             supplier_dict['PhysCountry'].append(supplier.PhysicalAddress.get('country',''))
