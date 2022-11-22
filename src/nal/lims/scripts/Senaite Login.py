@@ -12,7 +12,8 @@ import transaction as t
 import nal.lims.datamigration as dm
 import pandas as pd
 from datetime import datetime
+import os
 
-#Examples
+#Example
 sample = map(api.get_object,api.search({'portal_type':'SamplePoint'}))
 location = map(api.get_object,api.search({'portal_type':'SamplePoint','id':'samplepoint-483'}))[0]

@@ -2,20 +2,69 @@
 from bika.lims import api
 import pandas as pd
 from datetime import datetime
+import os
 
 def extract_to_csvs():
     now = datetime.now().strftime("%d%m%Y%H%M%S")
-    get_clients_as_df().to_csv('clients_{}.csv'.format(now),encoding='utf-8')
-    get_labcontacts_as_df().to_csv('labcontacts_{}.csv'.format(now),encoding='utf-8')
-    get_methods_as_df().to_csv('methods_{}.csv'.format(now),encoding='utf-8')
-    get_sdglabels_as_df().to_csv('sdglabels_{}.csv'.format(now),encoding='utf-8')
-    get_sdgs_as_df().to_csv('sdgs_{}.csv'.format(now),encoding='utf-8')
-    get_sample_types_as_df().to_csv('samettypes_{}.csv'.format(now),encoding='utf-8')
-    get_analysis_categories_as_df().to_csv('analysiscategories_{}.csv'.format(now),encoding='utf-8')
-    get_instrument_types_as_df().to_csv('instrumenttypes_{}.csv'.format(now),encoding='utf-8')
-    get_manufacturers_as_df().to_csv('manufacturers_{}.csv'.format(now),encoding='utf-8')
-    get_suppliers_as_df().to_csv('suppliers_{}.csv'.format(now),encoding='utf-8')
-    get_instruments_as_df().to_csv('instruments_{}.csv'.format(now),encoding='utf-8')
+    cwd = os.getcwd()
+    dir = 'Extracts ' + now
+    path = cwd + '/' + dir
+    os.mkdir(path)
+
+    #Client
+    file = '{}/clients_{}.csv'.format(dir,now)
+    get_clients_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Client Data to "+file)
+
+    #Lab Contact
+    file = '{}/labcontacts_{}.csv'.format(dir,now)
+    get_labcontacts_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted LabContact Data to "+file)
+
+    #Method
+    file = '{}/methods_{}.csv'.format(dir,now)
+    get_methods_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Method Data to "+file)
+
+    #SDG Label
+    file = '{}/sdglabels_{}.csv'.format(dir,now)
+    get_sdglabels_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted SDG Label Data to "+file)
+
+    #SDG
+    file = '{}/sdgs_{}.csv'.format(dir,now)
+    get_sdgs_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted SDG Data to "+file)
+
+    #Sample Type
+    file = '{}/sampletypes_{}.csv'.format(dir,now)
+    get_sample_types_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Sample Type Data to "+file)
+
+    #Analysis Category
+    file = '{}/analysiscategories_{}.csv'.format(dir,now)
+    get_analysis_categories_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Analysis Category Data to "+file)
+
+    #Instrument Type
+    file = '{}/instrumenttypes_{}.csv'.format(dir,now)
+    get_instrument_types_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Instrument Type Data to "+file)
+
+    #Manufacturer
+    file = '{}/manufacturers_{}.csv'.format(dir,now)
+    get_manufacturers_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Manufacturer Data to "+file)
+
+    #Supplier
+    file = '{}/suppliers_{}.csv'.format(dir,now)
+    get_suppliers_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Supplier Data to "+file)
+
+    #Instrument
+    file = '{}/instruments_{}.csv'.format(dir,now)
+    get_instruments_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Instrument Data to "+file)
 
     return None
 
