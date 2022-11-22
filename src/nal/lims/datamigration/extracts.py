@@ -280,7 +280,7 @@ def get_sdgs_as_df():
             sdg = api.get_object(i)
             sdg_dict['title'].append(sdg.title) #Required
             sdg_dict['description'].append(sdg.description or '')
-            sdg_dict['BatchID'].append(sdg.BatchID or '')
+            sdg_dict['BatchID'].append(sdg.id or '')
             sdg_dict['Client'].append(sdg.aq_parent.ClientID or '')
             sdg_dict['ClientBatchID'].append(sdg.ClientBatchID or '')
             sdg_dict['BatchLabels'].append(sdg.getLabelNames() or '')
