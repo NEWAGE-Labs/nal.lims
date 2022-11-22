@@ -17,6 +17,8 @@ def extract_to_csvs():
     get_suppliers_as_df().to_csv('suppliers_{}.csv'.format(now),encoding='utf-8')
     get_instruments_as_df().to_csv('instruments_{}.csv'.format(now),encoding='utf-8')
 
+    return None
+
 def get_clients_as_df():
     """
     :return: Returns a DataFrame of active Clients. Each row is a Client \

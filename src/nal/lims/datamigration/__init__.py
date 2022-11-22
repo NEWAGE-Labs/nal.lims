@@ -10,3 +10,4 @@ from extracts import get_instrument_types_as_df
 from extracts import get_manufacturers_as_df
 from extracts import get_suppliers_as_df
 from extracts import get_instruments_as_df
+from extracts import extract_to_csvs
