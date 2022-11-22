@@ -362,8 +362,39 @@ def get_suppliers_as_df():
 
     suppliers = api.search({'portal_type':"Supplier"})
     cols = [
-        'title',
-        'description',
+        'Name',
+        'Tax ID',
+        'Phone',
+        'Fax',
+        'Remarks',
+        'Website',
+        ## Physical Address
+        'PhysCountry',
+        'PhysState',
+        'PhysDistrict',
+        'PhysCity',
+        'PhysPostal',
+        'PhysAddress',
+        ## Postal Address
+        'PostCountry',
+        'PostState',
+        'PostDistrict',
+        'PostCity',
+        'PostPostal',
+        'PostAddress',
+        ## Billing Address
+        'BillCountry',
+        'BillState',
+        'BillDistrict',
+        'BillCity',
+        'BillPostal',
+        'BillAddress',
+        #Bank details
+        'Bank Account Type',
+        'Bank Account Name',
+        'Bank Account Number',
+        'Bank Name',
+        'Bank Branch',
     ]
 
     supplier_dict = {}
@@ -373,8 +404,39 @@ def get_suppliers_as_df():
     for i in suppliers:
         if api.get_workflow_status_of(i) == 'active':
             supplier = api.get_object(i)
-            supplier_dict['title'].append(supplier.title) #Required
-            supplier_dict['description'].append(supplier.description or '')
+            supplier_dict['Name'].append(supplier.Name) #Required
+            supplier_dict['Tax ID'].append(supplier.TaxNumber or '')
+            supplier_dict['Phone'].append(supplier.Phone or '')
+            supplier_dict['Fax'].append(supplier.Fax or '')
+            supplier_dict['Remarks'].append(supplier.Remarks or '')
+            supplier_dict['Website'].append(supplier.Website or '')
+            ## Physical Address
+            supplier_dict['PhysCountry'].append(supplier.PhysicalAddress.get('country',''))
+            supplier_dict['PhysState'].append(supplier.PhysicalAddress.get('state',''))
+            supplier_dict['PhysDistrict'].append(supplier.PhysicalAddress.get('district',''))
+            supplier_dict['PhysCity'].append(supplier.PhysicalAddress.get('city',''))
+            supplier_dict['PhysPostal'].append(supplier.PhysicalAddress.get('zip',''))
+            supplier_dict['PhysAddress'].append(supplier.PhysicalAddress.get('address',''))
+            ## Postal Address
+            supplier_dict['PostCountry'].append(supplier.PostalAddress.get('country',''))
+            supplier_dict['PostState'].append(supplier.PostalAddress.get('state',''))
+            supplier_dict['PostDistrict'].append(supplier.PostalAddress.get('district',''))
+            supplier_dict['PostCity'].append(supplier.PostalAddress.get('city',''))
+            supplier_dict['PostPostal'].append(supplier.PostalAddress.get('zip',''))
+            supplier_dict['PostAddress'].append(supplier.PostalAddress.get('address',''))
+            ## Billing Address
+            supplier_dict['BillCountry'].append(supplier.BillingAddress.get('country',''))
+            supplier_dict['BillState'].append(supplier.BillingAddress.get('state',''))
+            supplier_dict['BillDistrict'].append(supplier.BillingAddress.get('district',''))
+            supplier_dict['BillCity'].append(supplier.BillingAddress.get('city',''))
+            supplier_dict['BillPostal'].append(supplier.BillingAddress.get('zip',''))
+            supplier_dict['BillAddress'].append(supplier.BillingAddress.get('address',''))
+            #Bank details
+            supplier_dict['Bank Account Type'].append(supplier.AccountType or '')
+            supplier_dict['Bank Account Name'].append(supplier.AccountName or '')
+            supplier_dict['Bank Account Number'].append(supplier.AccountNumber or '')
+            supplier_dict['Bank Name'].append(supplier.BankName or '')
+            supplier_dict['Bank Branch'].append(supplier.BankBranch or '')
 
     return pd.DataFrame(supplier_dict)[cols]
 
