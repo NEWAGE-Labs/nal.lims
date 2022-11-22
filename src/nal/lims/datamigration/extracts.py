@@ -467,13 +467,29 @@ def get_instruments_as_df():
         if api.get_workflow_status_of(i) == 'active':
             instrument = api.get_object(i)
             instrument_dict['title'].append(instrument.title) #Required
-            instrument_dict['asset number'].append(instrument.assetnumber or '')
+            instrument_dict['asset number'].append(instrument.AssetNumber or '')
             instrument_dict['description'].append(instrument.description or '')
-            instrument_dict['instrumenttype'].append(instrument.getReferences('InstrumentInstrumentType')[0] or '')
-            instrument_dict['manufacturer'].append(instrument.getReferences('InstrumentManufacturer')[0] or '')
-            instrument_dict['supplier'].append(instrument.getReferences('InstrumentSupplier')[0] or '')
-            instrument_dict['model'].append(instrument.model or '')
-            instrument_dict['serial number'].append(instrument.serialno or '')
-            instrument_dict['methods'].append(instrument.getReferences('InstrumentMethods') or [])
+            itype = instrument.getReferences('InstrumentInstrumentType')
+            if itype:
+                instrument_dict['instrumenttype'].append(itype[0].title)
+            else:
+                instrument_dict['instrumenttype'].append('')
+            manufacturer = instrument.getReferences('InstrumentManufacturer')
+            if manufacturer:
+                instrument_dict['manufacturer'].append(manufacturer[0].title)
+            else:
+                instrument_dict['manufacturer'].append('')
+            supplier = instrument.getReferences('InstrumentSupplier')
+            if supplier:
+                instrument_dict['supplier'].append(supplier[0].title)
+            else:
+                instrument_dict['supplier'].append('')
+            instrument_dict['model'].append(instrument.Model or '')
+            instrument_dict['serial number'].append(instrument.SerialNo or '')
+            methods = instrument.getReferences('InstrumentMethods')
+            if methods:
+                instrument_dict['methods'].append([m.title for m in map(api.get_object,methods)])
+            else:
+                instrument_dict['methods'].append(set(['']))
 
     return pd.DataFrame(instrument_dict)[cols]
