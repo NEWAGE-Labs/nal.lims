@@ -312,7 +312,7 @@ def get_instrument_types_as_df():
     :rtype: DataFrame
     """
 
-    itypes = api.search({'portal_type':"InstrumentTypes"})
+    itypes = api.search({'portal_type':"InstrumentType"})
     cols = [
         'title',
         'description',
@@ -384,7 +384,7 @@ def get_instruments_as_df():
     :rtype: DataFrame
     """
 
-    instruments = api.search({'portal_type':"Instruments"})
+    instruments = api.search({'portal_type':"Instrument"})
     cols = [
         'title',
         'asset number',
