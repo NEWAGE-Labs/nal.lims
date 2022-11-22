@@ -1,18 +1,33 @@
 
 from bika.lims import api
 import pandas as pd
+from datetime import datetime
+
+def extract_to_csvs():
+    now = datetime.now().strftime("%d%m%Y%H%M%S")
+    get_clients_as_df().to_csv('clients_{}.csv'.format(now),encoding='utf-8')
+    get_labcontacts_as_df().to_csv('labcontacts_{}.csv'.format(now),encoding='utf-8')
+    get_methods_as_df().to_csv('methods_{}.csv'.format(now),encoding='utf-8')
+    get_sdglabels_as_df().to_csv('sdglabels_{}.csv'.format(now),encoding='utf-8')
+    get_sdgs_as_df().to_csv('sdgs_{}.csv'.format(now),encoding='utf-8')
+    get_sample_types_as_df().to_csv('samettypes_{}.csv'.format(now),encoding='utf-8')
+    get_analysis_categories_as_df().to_csv('analysiscategories_{}.csv'.format(now),encoding='utf-8')
+    get_instrument_types_as_df().to_csv('instrumenttypes_{}.csv'.format(now),encoding='utf-8')
+    get_manufacturers_as_df().to_csv('manufacturers_{}.csv'.format(now),encoding='utf-8')
+    get_suppliers_as_df().to_csv('suppliers_{}.csv'.format(now),encoding='utf-8')
+    get_instruments_as_df().to_csv('instruments_{}.csv'.format(now),encoding='utf-8')
 
 def get_clients_as_df():
     """
     :return: Returns a DataFrame of active Clients. Each row is a Client \
     Each column is a Field.
     :rtype: pandas.DataFrame
-
     :param None: No Parameters
 
     **Columns**:
     - Column list is define inside the local variable 'cols'
     """
+
     clients = api.search({'portal_type':'Client'})
     cols = [
         #Default
@@ -109,9 +124,10 @@ def get_labcontacts_as_df():
     :return: Returns a DataFrame of active LabContacts
     :rtype: DataFrame
     """
+
     labcontacts = api.search({'portal_type':'LabContact'})
     cols = [
-        'Firsname',
+        'Firstname',
         'Surname',
         'Initials',
         'EmailAddress',
@@ -137,7 +153,7 @@ def get_methods_as_df():
     :rtype: DataFrame
     """
 
-    methods = api.search({'portal_type':"Methods"})
+    methods = api.search({'portal_type':"Method"})
     cols = [
         'title',
         'description',
@@ -209,22 +225,37 @@ def get_sdgs_as_df():
         sdg_dict[i] = []
 
     for i in sdgs:
-        if api.get_workflow_status_of(i) == 'active':
+        if api.get_workflow_status_of(i) in ['open','closed']:
             sdg = api.get_object(i)
             sdg_dict['title'].append(sdg.title) #Required
             sdg_dict['description'].append(sdg.description or '')
             sdg_dict['BatchID'].append(sdg.BatchID or '')
-            sdg_dict['Client'].append(sdg.aq_parent.ClientID or '') ##
+            sdg_dict['Client'].append(sdg.aq_parent.ClientID or '')
             sdg_dict['ClientBatchID'].append(sdg.ClientBatchID or '')
-            sdg_dict['BatchLabels'].append(sdg.getLabelNames() or '') ##
+            sdg_dict['BatchLabels'].append(sdg.getLabelNames() or '')
             sdg_dict['SDGDate'].append(sdg.SDGDate or '')
             sdg_dict['SDGTime'].append(sdg.SDGTime or '')
             sdg_dict['ReportContact'].append(sdg.ReportContact or '')
-            sdg_dict['ProjectContact'].append(sdg.getReferences(relationship="SDGProjectContact")[0] or '') ##
-            sdg_dict['SamplerContact'].append(sdg.getReferences(relationship="SDGSamplerContact")[0] or '') ##
-            sdg_dict['GrowerContact'].append(sdg.getReferences(relationship="SDGGrowerContact")[0] or '') ##
-            sdg_dict['COC'].append(sdg.COC or '') ##
-
+            pcontacts=sdg.getReferences(relationship="SDGProjectContact")
+            if pcontacts:
+                sdg_dict['ProjectContact'].append(pcontacts[0].Firstname + ' ' + pcontacts[0].Surname) ##
+            else:
+                sdg_dict['ProjectContact'].append('')
+            scontacts=sdg.getReferences(relationship="SDGSamplerContact")
+            if scontacts:
+                sdg_dict['SamplerContact'].append(scontacts[0].Firstname + ' ' + scontacts[0].Surname) ##
+            else:
+                sdg_dict['SamplerContact'].append('')
+            gcontacts=sdg.getReferences(relationship="SDGGrowerContact")
+            if gcontacts:
+                sdg_dict['GrowerContact'].append(gcontacts[0].Firstname + ' ' + gcontacts[0].Surname) ##
+            else:
+                sdg_dict['GrowerContact'].append('')
+            if hasattr(sdg,'COC'):
+                sdg_dict['COC'].append(sdg.COC)
+            else:
+                sdg_dict['COC'].append('')
+#
     return pd.DataFrame(sdg_dict)[cols]
 
 def get_sample_types_as_df():
