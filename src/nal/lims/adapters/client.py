@@ -6,6 +6,8 @@ from archetypes.schemaextender.interfaces import ISchemaModifier
 from bika.lims.fields import ExtStringField
 from bika.lims.fields import ExtReferenceField
 from bika.lims.fields import ExtBooleanField
+from Products.Archetypes.atapi import FileField as ExtFileField
+from Products.Archetypes.atapi import FileWidget
 from bika.lims.browser.widgets import ReferenceWidget
 from bika.lims import bikaMessageFactory as _
 from zope.component import adapts
@@ -73,6 +75,13 @@ class ClientSchemaExtender(object):
                 ],
                 ui_item='Name',
             ),
+        ),
+        ExtFileField(
+            'Logo',
+            widget=FileWidget(
+                label="Logo",
+                description="Logo for the client to add to reports",
+            )
         ),
     ]
 
