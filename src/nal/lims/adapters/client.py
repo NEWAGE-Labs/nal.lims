@@ -81,6 +81,7 @@ class ClientSchemaExtender(object):
             widget=FileWidget(
                 label="Logo",
                 description="Logo for the client to add to reports",
+                visible = True,
             )
         ),
     ]
