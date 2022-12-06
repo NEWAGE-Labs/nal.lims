@@ -2,20 +2,71 @@
 from bika.lims import api
 import pandas as pd
 from datetime import datetime
+import os
 
 def extract_to_csvs():
     now = datetime.now().strftime("%d%m%Y%H%M%S")
-    get_clients_as_df().to_csv('clients_{}.csv'.format(now),encoding='utf-8')
-    get_labcontacts_as_df().to_csv('labcontacts_{}.csv'.format(now),encoding='utf-8')
-    get_methods_as_df().to_csv('methods_{}.csv'.format(now),encoding='utf-8')
-    get_sdglabels_as_df().to_csv('sdglabels_{}.csv'.format(now),encoding='utf-8')
-    get_sdgs_as_df().to_csv('sdgs_{}.csv'.format(now),encoding='utf-8')
-    get_sample_types_as_df().to_csv('samettypes_{}.csv'.format(now),encoding='utf-8')
-    get_analysis_categories_as_df().to_csv('analysiscategories_{}.csv'.format(now),encoding='utf-8')
-    get_instrument_types_as_df().to_csv('instrumenttypes_{}.csv'.format(now),encoding='utf-8')
-    get_manufacturers_as_df().to_csv('manufacturers_{}.csv'.format(now),encoding='utf-8')
-    get_suppliers_as_df().to_csv('suppliers_{}.csv'.format(now),encoding='utf-8')
-    get_instruments_as_df().to_csv('instruments_{}.csv'.format(now),encoding='utf-8')
+    cwd = os.getcwd()
+    dir = 'Extracts ' + now
+    path = cwd + '/' + dir
+    os.mkdir(path)
+
+    #Client
+    file = '{}/clients_{}.csv'.format(dir,now)
+    get_clients_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Client Data to "+file)
+
+    #Lab Contact
+    file = '{}/labcontacts_{}.csv'.format(dir,now)
+    get_labcontacts_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted LabContact Data to "+file)
+
+    #Method
+    file = '{}/methods_{}.csv'.format(dir,now)
+    get_methods_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Method Data to "+file)
+
+    #SDG Label
+    file = '{}/sdglabels_{}.csv'.format(dir,now)
+    get_sdglabels_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted SDG Label Data to "+file)
+
+    #SDG
+    file = '{}/sdgs_{}.csv'.format(dir,now)
+    get_sdgs_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted SDG Data to "+file)
+
+    #Sample Type
+    file = '{}/sampletypes_{}.csv'.format(dir,now)
+    get_sample_types_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Sample Type Data to "+file)
+
+    #Analysis Category
+    file = '{}/analysiscategories_{}.csv'.format(dir,now)
+    get_analysis_categories_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Analysis Category Data to "+file)
+
+    #Instrument Type
+    file = '{}/instrumenttypes_{}.csv'.format(dir,now)
+    get_instrument_types_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Instrument Type Data to "+file)
+
+    #Manufacturer
+    file = '{}/manufacturers_{}.csv'.format(dir,now)
+    get_manufacturers_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Manufacturer Data to "+file)
+
+    #Supplier
+    file = '{}/suppliers_{}.csv'.format(dir,now)
+    get_suppliers_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Supplier Data to "+file)
+
+    #Instrument
+    file = '{}/instruments_{}.csv'.format(dir,now)
+    get_instruments_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Instrument Data to "+file)
+
+    return None
 
 def get_clients_as_df():
     """
@@ -229,7 +280,7 @@ def get_sdgs_as_df():
             sdg = api.get_object(i)
             sdg_dict['title'].append(sdg.title) #Required
             sdg_dict['description'].append(sdg.description or '')
-            sdg_dict['BatchID'].append(sdg.BatchID or '')
+            sdg_dict['BatchID'].append(sdg.id or '')
             sdg_dict['Client'].append(sdg.aq_parent.ClientID or '')
             sdg_dict['ClientBatchID'].append(sdg.ClientBatchID or '')
             sdg_dict['BatchLabels'].append(sdg.getLabelNames() or '')
@@ -312,7 +363,7 @@ def get_instrument_types_as_df():
     :rtype: DataFrame
     """
 
-    itypes = api.search({'portal_type':"InstrumentTypes"})
+    itypes = api.search({'portal_type':"InstrumentType"})
     cols = [
         'title',
         'description',
@@ -336,7 +387,7 @@ def get_manufacturers_as_df():
     :rtype: DataFrame
     """
 
-    manufacturers = api.search({'portal_type':"Manufacturers"})
+    manufacturers = api.search({'portal_type':"Manufacturer"})
     cols = [
         'title',
         'description',
@@ -362,8 +413,39 @@ def get_suppliers_as_df():
 
     suppliers = api.search({'portal_type':"Supplier"})
     cols = [
-        'title',
-        'description',
+        'Name',
+        'Tax ID',
+        'Phone',
+        'Fax',
+        'Remarks',
+        'Website',
+        ## Physical Address
+        'PhysCountry',
+        'PhysState',
+        'PhysDistrict',
+        'PhysCity',
+        'PhysPostal',
+        'PhysAddress',
+        ## Postal Address
+        'PostCountry',
+        'PostState',
+        'PostDistrict',
+        'PostCity',
+        'PostPostal',
+        'PostAddress',
+        ## Billing Address
+        'BillCountry',
+        'BillState',
+        'BillDistrict',
+        'BillCity',
+        'BillPostal',
+        'BillAddress',
+        #Bank details
+        'Bank Account Type',
+        'Bank Account Name',
+        'Bank Account Number',
+        'Bank Name',
+        'Bank Branch',
     ]
 
     supplier_dict = {}
@@ -373,8 +455,39 @@ def get_suppliers_as_df():
     for i in suppliers:
         if api.get_workflow_status_of(i) == 'active':
             supplier = api.get_object(i)
-            supplier_dict['title'].append(supplier.title) #Required
-            supplier_dict['description'].append(supplier.description or '')
+            supplier_dict['Name'].append(supplier.Name) #Required
+            supplier_dict['Tax ID'].append(supplier.TaxNumber or '')
+            supplier_dict['Phone'].append(supplier.Phone or '')
+            supplier_dict['Fax'].append(supplier.Fax or '')
+            supplier_dict['Remarks'].append(supplier.getRemarks() or '')
+            supplier_dict['Website'].append(supplier.Website or '')
+            ## Physical Address
+            supplier_dict['PhysCountry'].append(supplier.PhysicalAddress.get('country',''))
+            supplier_dict['PhysState'].append(supplier.PhysicalAddress.get('state',''))
+            supplier_dict['PhysDistrict'].append(supplier.PhysicalAddress.get('district',''))
+            supplier_dict['PhysCity'].append(supplier.PhysicalAddress.get('city',''))
+            supplier_dict['PhysPostal'].append(supplier.PhysicalAddress.get('zip',''))
+            supplier_dict['PhysAddress'].append(supplier.PhysicalAddress.get('address',''))
+            ## Postal Address
+            supplier_dict['PostCountry'].append(supplier.PostalAddress.get('country',''))
+            supplier_dict['PostState'].append(supplier.PostalAddress.get('state',''))
+            supplier_dict['PostDistrict'].append(supplier.PostalAddress.get('district',''))
+            supplier_dict['PostCity'].append(supplier.PostalAddress.get('city',''))
+            supplier_dict['PostPostal'].append(supplier.PostalAddress.get('zip',''))
+            supplier_dict['PostAddress'].append(supplier.PostalAddress.get('address',''))
+            ## Billing Address
+            supplier_dict['BillCountry'].append(supplier.BillingAddress.get('country',''))
+            supplier_dict['BillState'].append(supplier.BillingAddress.get('state',''))
+            supplier_dict['BillDistrict'].append(supplier.BillingAddress.get('district',''))
+            supplier_dict['BillCity'].append(supplier.BillingAddress.get('city',''))
+            supplier_dict['BillPostal'].append(supplier.BillingAddress.get('zip',''))
+            supplier_dict['BillAddress'].append(supplier.BillingAddress.get('address',''))
+            #Bank details
+            supplier_dict['Bank Account Type'].append(supplier.AccountType or '')
+            supplier_dict['Bank Account Name'].append(supplier.AccountName or '')
+            supplier_dict['Bank Account Number'].append(supplier.AccountNumber or '')
+            supplier_dict['Bank Name'].append(supplier.BankName or '')
+            supplier_dict['Bank Branch'].append(supplier.BankBranch or '')
 
     return pd.DataFrame(supplier_dict)[cols]
 
@@ -384,7 +497,7 @@ def get_instruments_as_df():
     :rtype: DataFrame
     """
 
-    instruments = api.search({'portal_type':"Instruments"})
+    instruments = api.search({'portal_type':"Instrument"})
     cols = [
         'title',
         'asset number',
@@ -405,13 +518,179 @@ def get_instruments_as_df():
         if api.get_workflow_status_of(i) == 'active':
             instrument = api.get_object(i)
             instrument_dict['title'].append(instrument.title) #Required
-            instrument_dict['asset number'].append(instrument.assetnumber or '')
+            instrument_dict['asset number'].append(instrument.AssetNumber or '')
             instrument_dict['description'].append(instrument.description or '')
-            instrument_dict['instrumenttype'].append(instrument.getReferences('InstrumentInstrumentType')[0] or '')
-            instrument_dict['manufacturer'].append(instrument.getReferences('InstrumentManufacturer')[0] or '')
-            instrument_dict['supplier'].append(instrument.getReferences('InstrumentSupplier')[0] or '')
-            instrument_dict['model'].append(instrument.model or '')
-            instrument_dict['serial number'].append(instrument.serialno or '')
-            instrument_dict['methods'].append(instrument.getReferences('InstrumentMethods') or [])
+            itype = instrument.getReferences('InstrumentInstrumentType')
+            if itype:
+                instrument_dict['instrumenttype'].append(itype[0].title)
+            else:
+                instrument_dict['instrumenttype'].append('')
+            manufacturer = instrument.getReferences('InstrumentManufacturer')
+            if manufacturer:
+                instrument_dict['manufacturer'].append(manufacturer[0].title)
+            else:
+                instrument_dict['manufacturer'].append('')
+            supplier = instrument.getReferences('InstrumentSupplier')
+            if supplier:
+                instrument_dict['supplier'].append(supplier[0].title)
+            else:
+                instrument_dict['supplier'].append('')
+            instrument_dict['model'].append(instrument.Model or '')
+            instrument_dict['serial number'].append(instrument.SerialNo or '')
+            methods = instrument.getReferences('InstrumentMethods')
+            if methods:
+                instrument_dict['methods'].append([m.title for m in map(api.get_object,methods)])
+            else:
+                instrument_dict['methods'].append(set(['']))
 
     return pd.DataFrame(instrument_dict)[cols]
+
+def get_samplelocations_as_df():
+    """
+    :return: Returns a DataFrame of active Sample Locations
+    :rtype: DataFrame
+    """
+
+    locations = api.search({'portal_type':"SamplePoint"})
+    cols = [
+        'title',
+        'description',
+        'formatted address',
+        'water source type',
+        'wssn'
+    ]
+
+    location_dict = {}
+    for i in cols:
+        location_dict[i] = []
+
+    for i in instruments:
+        if api.get_workflow_status_of(i) == 'active':
+            instrument = api.get_object(i)
+            location_dict['title'].append(instrument.title) #Required
+            location_dict['description'].append(instrument.description or '')
+            location_dict['formatted address'].append(instrument.FormattedAddress or '')
+            location_dict['water source type'].append(instrument.WaterSourceType or '')
+            location_dict['wssn'].append(instrument.WSSN or '')
+
+    return pd.DataFrame(location_dict)[cols]
+
+def get_XXX_as_df():
+    """
+    :return: Returns a DataFrame of active XXX
+    :rtype: DataFrame
+    """
+
+    instruments = api.search({'portal_type':"XXX"})
+    cols = [
+        'title',
+        'description',
+    ]
+
+    xxx_dict = {}
+    for i in cols:
+        xxx_dict[i] = []
+
+    for i in instruments:
+        if api.get_workflow_status_of(i) == 'active':
+            instrument = api.get_object(i)
+            xxx_dict['title'].append(instrument.title) #Required
+            xxx_dict['description'].append(instrument.description or '')
+
+    return pd.DataFrame(xxx_dict)[cols]
+
+def get_XXX_as_df():
+    """
+    :return: Returns a DataFrame of active XXX
+    :rtype: DataFrame
+    """
+
+    instruments = api.search({'portal_type':"XXX"})
+    cols = [
+        'title',
+        'description',
+    ]
+
+    xxx_dict = {}
+    for i in cols:
+        xxx_dict[i] = []
+
+    for i in instruments:
+        if api.get_workflow_status_of(i) == 'active':
+            instrument = api.get_object(i)
+            xxx_dict['title'].append(instrument.title) #Required
+            xxx_dict['description'].append(instrument.description or '')
+
+    return pd.DataFrame(xxx_dict)[cols]
+
+def get_XXX_as_df():
+    """
+    :return: Returns a DataFrame of active XXX
+    :rtype: DataFrame
+    """
+
+    instruments = api.search({'portal_type':"XXX"})
+    cols = [
+        'title',
+        'description',
+    ]
+
+    xxx_dict = {}
+    for i in cols:
+        xxx_dict[i] = []
+
+    for i in instruments:
+        if api.get_workflow_status_of(i) == 'active':
+            instrument = api.get_object(i)
+            xxx_dict['title'].append(instrument.title) #Required
+            xxx_dict['description'].append(instrument.description or '')
+
+    return pd.DataFrame(xxx_dict)[cols]
+
+def get_XXX_as_df():
+    """
+    :return: Returns a DataFrame of active XXX
+    :rtype: DataFrame
+    """
+
+    instruments = api.search({'portal_type':"XXX"})
+    cols = [
+        'title',
+        'description',
+    ]
+
+    xxx_dict = {}
+    for i in cols:
+        xxx_dict[i] = []
+
+    for i in instruments:
+        if api.get_workflow_status_of(i) == 'active':
+            instrument = api.get_object(i)
+            xxx_dict['title'].append(instrument.title) #Required
+            xxx_dict['description'].append(instrument.description or '')
+
+    return pd.DataFrame(xxx_dict)[cols]
+
+def get_XXX_as_df():
+    """
+    :return: Returns a DataFrame of active XXX
+    :rtype: DataFrame
+    """
+
+    instruments = api.search({'portal_type':"XXX"})
+    cols = [
+        'title',
+        'description',
+    ]
+
+    xxx_dict = {}
+    for i in cols:
+        xxx_dict[i] = []
+
+    for i in instruments:
+        if api.get_workflow_status_of(i) == 'active':
+            instrument = api.get_object(i)
+            xxx_dict['title'].append(instrument.title) #Required
+            xxx_dict['description'].append(instrument.description or '')
+
+    return pd.DataFrame(xxx_dict)[cols]
