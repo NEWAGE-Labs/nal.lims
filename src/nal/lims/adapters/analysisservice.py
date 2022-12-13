@@ -84,6 +84,36 @@ class AnalysisServiceSchemaModifier(object):
         self.context = context
 
     def fiddle(self, schema):
+
+        schema['ExponentialFormatPrecision'].required = False
+        schema['ExponentialFormatPrecision'].widget.visible = False
+        schema['LowerDetectionLimit'].required = False
+        schema['LowerDetectionLimit'].widget.visible = False
+        schema['UpperDetectionLimit'].required = False
+        schema['UpperDetectionLimit'].widget.visible = False
+        schema['DetectionLimitSelector'].required = False
+        schema['DetectionLimitSelector'].widget.visible = False
+        schema['AllowManualDetectionLimit'].required = False
+        schema['AllowManualDetectionLimit'].widget.visible = False
+        schema['AttachmentRequired'].required = False
+        schema['AttachmentRequired'].widget.visible = False
+        schema['DuplicateVariation'].required = False
+        schema['DuplicateVariation'].widget.visible = False
+        schema['Accredited'].required = False
+        schema['Accredited'].widget.visible = False
+        schema['PointOfCapture'].required = False
+        schema['PointOfCapture'].widget.visible = False
+        schema['VAT'].required = False
+        schema['VAT'].widget.visible = False
+        schema['Department'].required = False
+        schema['Department'].widget.visible = False
+        schema['CommercialID'].required = False
+        schema['CommercialID'].widget.visible = False
+        schema['ProtocolID'].required = False
+        schema['ProtocolID'].widget.visible = False
+        schema['Remarks'].required = False
+        schema['Remarks'].widget.visible = False
+
         schema['Methods'].widget.visible = False
         schema.moveField('MethodRecords', before='Method')
         return schema
