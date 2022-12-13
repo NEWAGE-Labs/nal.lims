@@ -113,6 +113,18 @@ class AnalysisServiceSchemaModifier(object):
         schema['ProtocolID'].widget.visible = False
         schema['Remarks'].required = False
         schema['Remarks'].widget.visible = False
+        schema['ScientificName'].required = False
+        schema['ScientificName'].widget.visible = False
+        schema['BulkPrice'].required = False
+        schema['BulkPrice'].widget.visible = False
+        schema['Precision'].required = False
+        schema['Precision'].widget.visible = False
+        schema['SelfVerification'].required = False
+        schema['SelfVerification'].widget.visible = False
+        schema['StringResult'].required = False
+        schema['StringResult'].widget.visible = False
+        schema['DefaultResult'].required = False
+        schema['DefaultResult'].widget.visible = False
 
         schema['Methods'].widget.visible = False
         schema.moveField('MethodRecords', before='Method')
