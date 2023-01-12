@@ -660,7 +660,7 @@ def get_subgroups_as_df():
     subgroups = api.search({'portal_type':"SubGroup"})
     cols = [
         'title',
-        'keyword',
+        'description',
     ]
 
     subgroup_dict = {}
@@ -671,7 +671,7 @@ def get_subgroups_as_df():
         if api.get_workflow_status_of(i) == 'active':
             subgroup = api.get_object(i)
             subgroup_dict['title'].append(subgroup.title) #Required
-            subgroup_dict['keyword'].append(subgroup.Keyword or '')
+            subgroup_dict['description'].append(subgroup.description or '')
 
     return pd.DataFrame(subgroup_dict)[cols]
 
