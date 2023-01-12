@@ -62,7 +62,6 @@ class AnalysisServiceSchemaExtender(object):
                 label=_("Methods"),
                 description=_(
                     "Available methods to perform the test"),
-
             )
         )
     ]
@@ -125,6 +124,13 @@ class AnalysisServiceSchemaModifier(object):
         schema['StringResult'].widget.visible = False
         schema['DefaultResult'].required = False
         schema['DefaultResult'].widget.visible = False
+        schema['ShortTitle'].required = False
+        schema['ShortTitle'].widget.visible = False
+        schema['SortKey'].required = False
+        schema['SortKey'].widget.visible = False
+        schema['Price'].widget.label = _("Price (Excluding Tax)")
+        schema['Keyword'].widget.label = _("Keyword")
+        schema['Keyword'].widget.description = _("The unqiue keyword used to identify the analysis in imports, exports, and calculations regardless of if the Title changes. Cannot be changed once at least 1 analysis has been made.")
 
         schema['Methods'].widget.visible = False
         schema.moveField('MethodRecords', before='Method')

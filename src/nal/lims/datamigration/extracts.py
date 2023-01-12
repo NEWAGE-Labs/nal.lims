@@ -31,11 +31,6 @@ def extract_to_csvs():
     get_sdglabels_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted SDG Label Data to "+file)
 
-    #SDG
-    file = '{}/sdgs_{}.csv'.format(dir,now)
-    get_sdgs_as_df().to_csv(file,encoding='utf-8')
-    print("-Extracted SDG Data to "+file)
-
     #Sample Type
     file = '{}/sampletypes_{}.csv'.format(dir,now)
     get_sample_types_as_df().to_csv(file,encoding='utf-8')
@@ -65,6 +60,51 @@ def extract_to_csvs():
     file = '{}/instruments_{}.csv'.format(dir,now)
     get_instruments_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Instrument Data to "+file)
+
+    #Sample Locations
+    file = '{}/samplelocations_{}.csv'.format(dir,now)
+    get_samplelocations_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Sample Location Data to "+file)
+
+    #Client Contact
+    file = '{}/clientcontacts_{}.csv'.format(dir,now)
+    get_clientcontacts_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Client Contact Data to "+file)
+
+    #Sub-Groups (Pairs)
+    file = '{}/subgroups_{}.csv'.format(dir,now)
+    get_subgroups_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Subgroup Data to "+file)
+
+    #SDG
+    file = '{}/sdgs_{}.csv'.format(dir,now)
+    get_sdgs_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted SDG Data to "+file)
+
+    #Analysis Services
+    file = '{}/analysisservice_{}.csv'.format(dir,now)
+    get_analysis_services_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Analysis Service Data to "+file)
+
+    #Analysis Specs
+    file = '{}/analysisspecs_{}.csv'.format(dir,now)
+    get_analysis_specs_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Analysis Spec Data to "+file)
+
+    #Calculations
+    file = '{}/sdgs_{}.csv'.format(dir,now)
+    get_calculations_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Calculation Data to "+file)
+
+    #Analysis Profiles
+    file = '{}/sdgs_{}.csv'.format(dir,now)
+    get_analysis_profiles_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Analysis Profile Data to "+file)
+
+    # #Samples
+    # file = '{}/clientcontacts_{}.csv'.format(dir,now)
+    # get_samples_as_df().to_csv(file,encoding='utf-8')
+    # print("-Extracted Sample Data to "+file)
 
     return None
 
@@ -248,67 +288,6 @@ def get_sdglabels_as_df():
 
     return pd.DataFrame(sdglabel_dict)[cols]
 
-def get_sdgs_as_df():
-    """
-    :return: Returns a DataFrame of active SDG
-    :rtype: DataFrame
-    """
-
-    sdgs = api.search({'portal_type':"Batch"})
-    cols = [
-        'title',
-        'description',
-        'BatchID',
-        'Client',
-        'ClientBatchID',
-        'BatchLabels',
-        'SDGDate',
-        'SDGTime',
-        'ReportContact',
-        'ProjectContact',
-        'SamplerContact',
-        'GrowerContact',
-        'COC',
-    ]
-
-    sdg_dict = {}
-    for i in cols:
-        sdg_dict[i] = []
-
-    for i in sdgs:
-        if api.get_workflow_status_of(i) in ['open','closed']:
-            sdg = api.get_object(i)
-            sdg_dict['title'].append(sdg.title) #Required
-            sdg_dict['description'].append(sdg.description or '')
-            sdg_dict['BatchID'].append(sdg.id or '')
-            sdg_dict['Client'].append(sdg.aq_parent.ClientID or '')
-            sdg_dict['ClientBatchID'].append(sdg.ClientBatchID or '')
-            sdg_dict['BatchLabels'].append(sdg.getLabelNames() or '')
-            sdg_dict['SDGDate'].append(sdg.SDGDate or '')
-            sdg_dict['SDGTime'].append(sdg.SDGTime or '')
-            sdg_dict['ReportContact'].append(sdg.ReportContact or '')
-            pcontacts=sdg.getReferences(relationship="SDGProjectContact")
-            if pcontacts:
-                sdg_dict['ProjectContact'].append(pcontacts[0].Firstname + ' ' + pcontacts[0].Surname) ##
-            else:
-                sdg_dict['ProjectContact'].append('')
-            scontacts=sdg.getReferences(relationship="SDGSamplerContact")
-            if scontacts:
-                sdg_dict['SamplerContact'].append(scontacts[0].Firstname + ' ' + scontacts[0].Surname) ##
-            else:
-                sdg_dict['SamplerContact'].append('')
-            gcontacts=sdg.getReferences(relationship="SDGGrowerContact")
-            if gcontacts:
-                sdg_dict['GrowerContact'].append(gcontacts[0].Firstname + ' ' + gcontacts[0].Surname) ##
-            else:
-                sdg_dict['GrowerContact'].append('')
-            if hasattr(sdg,'COC'):
-                sdg_dict['COC'].append(sdg.COC)
-            else:
-                sdg_dict['COC'].append('')
-#
-    return pd.DataFrame(sdg_dict)[cols]
-
 def get_sample_types_as_df():
     """
     :return: Returns a DataFrame of active Sample Types
@@ -419,6 +398,7 @@ def get_suppliers_as_df():
         'Fax',
         'Remarks',
         'Website',
+        'EmailAddress',
         ## Physical Address
         'PhysCountry',
         'PhysState',
@@ -461,6 +441,7 @@ def get_suppliers_as_df():
             supplier_dict['Fax'].append(supplier.Fax or '')
             supplier_dict['Remarks'].append(supplier.getRemarks() or '')
             supplier_dict['Website'].append(supplier.Website or '')
+            supplier_dict['EmailAddress'].append(supplier.EmailAddress or '')
             ## Physical Address
             supplier_dict['PhysCountry'].append(supplier.PhysicalAddress.get('country',''))
             supplier_dict['PhysState'].append(supplier.PhysicalAddress.get('state',''))
@@ -575,122 +556,305 @@ def get_samplelocations_as_df():
 
     return pd.DataFrame(location_dict)[cols]
 
-def get_XXX_as_df():
+def get_clientcontacts_as_df():
     """
-    :return: Returns a DataFrame of active XXX
+    :return: Returns a DataFrame of active Client Contacts
     :rtype: DataFrame
     """
 
-    instruments = api.search({'portal_type':"XXX"})
+    clientcontacts = api.search({'portal_type':"Contact"})
+    cols = [
+        'ClientID',
+        'Firstname',
+        'Initials',
+        'Middlename',
+        'Surname',
+        'JobTitle',
+        'Department',
+        'EmailAddress',
+        'BusinessPhone',
+        'Fax',
+        'HomePhone',
+        'MobilePhone',
+        ## Physical Address
+        'PhysCountry',
+        'PhysState',
+        'PhysDistrict',
+        'PhysCity',
+        'PhysPostal',
+        'PhysAddress',
+        ## Postal Address
+        'PostCountry',
+        'PostState',
+        'PostDistrict',
+        'PostCity',
+        'PostPostal',
+        'PostAddress',
+        ## Billing Address
+        'BillCountry',
+        'BillState',
+        'BillDistrict',
+        'BillCity',
+        'BillPostal',
+        'BillAddress',
+    ]
+
+    clientcontact_dict = {}
+    for i in cols:
+        clientcontact_dict[i] = []
+
+    for i in clientcontacts:
+        if api.get_workflow_status_of(i) == 'active':
+            clientcontact = api.get_object(i)
+            clientcontact_dict['ClientID'].append(clientcontact.getClient().ClientID or '') #Required
+            clientcontact_dict['Firstname'].append(clientcontact.Firstname)
+            clientcontact_dict['Initials'].append(clientcontact.Initials)
+            clientcontact_dict['Middlename'].append(clientcontact.Middlename)
+            clientcontact_dict['Surname'].append(clientcontact.Surname)
+            clientcontact_dict['JobTitle'].append(clientcontact.JobTitle)
+            clientcontact_dict['Department'].append(clientcontact.Department)
+            clientcontact_dict['EmailAddress'].append(clientcontact.EmailAddress)
+            clientcontact_dict['BusinessPhone'].append(clientcontact.BusinessPhone)
+            clientcontact_dict['Fax'].append(clientcontact.Fax)
+            clientcontact_dict['HomePhone'].append(clientcontact.HomePhone)
+            clientcontact_dict['MobilePhone'].append(clientcontact.MobilePhone)
+            ## Physical Address
+            clientcontact_dict['PhysCountry'].append(clientcontact.PhysicalAddress.get('country',''))
+            clientcontact_dict['PhysState'].append(clientcontact.PhysicalAddress.get('state',''))
+            clientcontact_dict['PhysDistrict'].append(clientcontact.PhysicalAddress.get('district',''))
+            clientcontact_dict['PhysCity'].append(clientcontact.PhysicalAddress.get('city',''))
+            clientcontact_dict['PhysPostal'].append(clientcontact.PhysicalAddress.get('zip',''))
+            clientcontact_dict['PhysAddress'].append(clientcontact.PhysicalAddress.get('address',''))
+            ## Postal Address
+            clientcontact_dict['PostCountry'].append(clientcontact.PostalAddress.get('country',''))
+            clientcontact_dict['PostState'].append(clientcontact.PostalAddress.get('state',''))
+            clientcontact_dict['PostDistrict'].append(clientcontact.PostalAddress.get('district',''))
+            clientcontact_dict['PostCity'].append(clientcontact.PostalAddress.get('city',''))
+            clientcontact_dict['PostPostal'].append(clientcontact.PostalAddress.get('zip',''))
+            clientcontact_dict['PostAddress'].append(clientcontact.PostalAddress.get('address',''))
+            ## Billing Address
+            clientcontact_dict['BillCountry'].append(clientcontact.BillingAddress.get('country',''))
+            clientcontact_dict['BillState'].append(clientcontact.BillingAddress.get('state',''))
+            clientcontact_dict['BillDistrict'].append(clientcontact.BillingAddress.get('district',''))
+            clientcontact_dict['BillCity'].append(clientcontact.BillingAddress.get('city',''))
+            clientcontact_dict['BillPostal'].append(clientcontact.BillingAddress.get('zip',''))
+            clientcontact_dict['BillAddress'].append(clientcontact.BillingAddress.get('address',''))
+
+    return pd.DataFrame(clientcontact_dict)[cols]
+
+def get_subgroups_as_df():
+    """
+    :return: Returns a DataFrame of active SubGroups (Pairs)
+    :rtype: DataFrame
+    """
+
+    subgroups = api.search({'portal_type':"SubGroup"})
+    cols = [
+        'title',
+        'keyword',
+    ]
+
+    subgroup_dict = {}
+    for i in cols:
+        subgroup_dict[i] = []
+
+    for i in subgroups:
+        if api.get_workflow_status_of(i) == 'active':
+            subgroup = api.get_object(i)
+            subgroup_dict['title'].append(subgroup.title) #Required
+            subgroup_dict['keyword'].append(subgroup.Keyword or '')
+
+    return pd.DataFrame(subgroup_dict)[cols]
+
+def get_sdgs_as_df():
+    """
+    :return: Returns a DataFrame of active SDG
+    :rtype: DataFrame
+    """
+
+    sdgs = api.search({'portal_type':"Batch"})
+    cols = [
+        'title',
+        'description',
+        'BatchID',
+        'Client',
+        'ClientBatchID',
+        'BatchLabels',
+        'SDGDate',
+        'SDGTime',
+        'ReportContact',
+        'ProjectContact',
+        'SamplerContact',
+        'GrowerContact',
+        'COC',
+    ]
+
+    sdg_dict = {}
+    for i in cols:
+        sdg_dict[i] = []
+
+    for i in sdgs:
+        if api.get_workflow_status_of(i) in ['open','closed']:
+            sdg = api.get_object(i)
+            sdg_dict['title'].append(sdg.title) #Required
+            sdg_dict['description'].append(sdg.description or '')
+            sdg_dict['BatchID'].append(sdg.id or '')
+            sdg_dict['Client'].append(sdg.aq_parent.ClientID or '')
+            sdg_dict['ClientBatchID'].append(sdg.ClientBatchID or '')
+            sdg_dict['BatchLabels'].append(sdg.getLabelNames() or '')
+            sdg_dict['SDGDate'].append(sdg.SDGDate or '')
+            sdg_dict['SDGTime'].append(sdg.SDGTime or '')
+            sdg_dict['ReportContact'].append(sdg.ReportContact or '')
+            pcontacts=sdg.getReferences(relationship="SDGProjectContact")
+            if pcontacts:
+                sdg_dict['ProjectContact'].append(pcontacts[0].Firstname + ' ' + pcontacts[0].Surname) ##
+            else:
+                sdg_dict['ProjectContact'].append('')
+            scontacts=sdg.getReferences(relationship="SDGSamplerContact")
+            if scontacts:
+                sdg_dict['SamplerContact'].append(scontacts[0].Firstname + ' ' + scontacts[0].Surname) ##
+            else:
+                sdg_dict['SamplerContact'].append('')
+            gcontacts=sdg.getReferences(relationship="SDGGrowerContact")
+            if gcontacts:
+                sdg_dict['GrowerContact'].append(gcontacts[0].Firstname + ' ' + gcontacts[0].Surname) ##
+            else:
+                sdg_dict['GrowerContact'].append('')
+            if hasattr(sdg,'COC'):
+                sdg_dict['COC'].append(sdg.COC)
+            else:
+                sdg_dict['COC'].append('')
+#
+    return pd.DataFrame(sdg_dict)[cols]
+
+def get_analysis_services_as_df():
+    """
+    :return: Returns a DataFrame of active Analysis Services
+    :rtype: DataFrame
+    """
+    #CURRENTLY UNUSED DUE TO REDESIGN OF ANALYSIS SERVICES
+
+    analysisservices = api.search({'portal_type':"AnalysisService"})
+    cols = [
+        'title',
+        'keyword',
+    ]
+
+    analysisservice_dict = {}
+    for i in cols:
+        analysisservice_dict[i] = []
+
+    for i in analysisservices:
+        if api.get_workflow_status_of(i) == 'active':
+            analysisservices = api.get_object(i)
+            analysisservice_dict['title'].append(analysisservices.title) #Required
+            analysisservice_dict['keyword'].append(analysisservices.Keyword or '')
+
+    return pd.DataFrame(analysisservice_dict)[cols]
+
+def get_analysis_specs_as_df():
+    """
+    :return: Returns a DataFrame of active Analysis Specifications (Optimal Levels)
+    :rtype: DataFrame
+    """
+
+    specs = api.search({'portal_type':"AnalysisSpec"})
+    cols = [
+        'title',
+        'sampletype',
+        'description',
+        'specifications'
+    ]
+
+    spec_dict = {}
+    for i in cols:
+        spec_dict[i] = []
+
+    for i in specs:
+        if api.get_workflow_status_of(i) == 'active':
+            spec = api.get_object(i)
+            spec_dict['title'].append(spec.title) #Required
+            spec_dict['description'].append(spec.description or '')
+            spec_dict['sampletype'].append(spec.getSampleType().title or '')
+            ranges = spec.ResultsRange
+            specl = []
+            for j in ranges:
+                specl.append(str((j['keyword'],j['min'],j['max'])))
+            spec_str = ','.join(specl)
+            spec_dict['specifications'].append(spec_str)
+
+    return pd.DataFrame(spec_dict)[cols]
+
+def get_calculations_as_df():
+    """
+    :return: Returns a DataFrame of active Calculations
+    :rtype: DataFrame
+    """
+
+    calculations = api.search({'portal_type':"Calculation"})
+    cols = [
+        'title',
+        'description',
+        'formula',
+    ]
+
+    calc_dict = {}
+    for i in cols:
+        calc_dict[i] = []
+
+    for i in calculations:
+        if api.get_workflow_status_of(i) == 'active':
+            calc = api.get_object(i)
+            calc_dict['title'].append(calc.title) #Required
+            calc_dict['description'].append(calc.description or '')
+            calc_dict['formula'].append(calc.getFormula() or '')
+
+    return pd.DataFrame(calc_dict)[cols]
+
+def get_analysis_profiles_as_df():
+    """
+    :return: Returns a DataFrame of active AnalysisProfiles
+    :rtype: DataFrame
+    """
+
+    profiles = api.search({'portal_type':"AnalysisProfile"})
     cols = [
         'title',
         'description',
     ]
 
-    xxx_dict = {}
+    profile_dict = {}
     for i in cols:
-        xxx_dict[i] = []
+        profile_dict[i] = []
 
-    for i in instruments:
-        if api.get_workflow_status_of(i) == 'active':
-            instrument = api.get_object(i)
-            xxx_dict['title'].append(instrument.title) #Required
-            xxx_dict['description'].append(instrument.description or '')
+    for i in profiles:
+        if api.get_workflow_status_of(i) not in ['inactive','invalid','cancelled','rejected','retracted','unassigned','dispatched']:
+            profile = api.get_object(i)
+            profile_dict['title'].append(profile.title) #Required
+            profile_dict['description'].append(profile.description or '')
 
-    return pd.DataFrame(xxx_dict)[cols]
+    return pd.DataFrame(profile_dict)[cols]
 
-def get_XXX_as_df():
+def get_samples_as_df():
     """
-    :return: Returns a DataFrame of active XXX
+    :return: Returns a DataFrame of active Samples
     :rtype: DataFrame
     """
 
-    instruments = api.search({'portal_type':"XXX"})
+    samples = api.search({'portal_type':"AnalysisRequest"})
     cols = [
         'title',
         'description',
     ]
 
-    xxx_dict = {}
+    sample_dict = {}
     for i in cols:
-        xxx_dict[i] = []
+        sample_dict[i] = []
 
-    for i in instruments:
-        if api.get_workflow_status_of(i) == 'active':
-            instrument = api.get_object(i)
-            xxx_dict['title'].append(instrument.title) #Required
-            xxx_dict['description'].append(instrument.description or '')
+    for i in samples:
+        if api.get_workflow_status_of(i) not in ['inactive','invalid','cancelled','rejected','retracted','unassigned','dispatched']:
+            sample = api.get_object(i)
+            sample_dict['title'].append(sample.title) #Required
+            sample_dict['description'].append(sample.description or '')
 
-    return pd.DataFrame(xxx_dict)[cols]
-
-def get_XXX_as_df():
-    """
-    :return: Returns a DataFrame of active XXX
-    :rtype: DataFrame
-    """
-
-    instruments = api.search({'portal_type':"XXX"})
-    cols = [
-        'title',
-        'description',
-    ]
-
-    xxx_dict = {}
-    for i in cols:
-        xxx_dict[i] = []
-
-    for i in instruments:
-        if api.get_workflow_status_of(i) == 'active':
-            instrument = api.get_object(i)
-            xxx_dict['title'].append(instrument.title) #Required
-            xxx_dict['description'].append(instrument.description or '')
-
-    return pd.DataFrame(xxx_dict)[cols]
-
-def get_XXX_as_df():
-    """
-    :return: Returns a DataFrame of active XXX
-    :rtype: DataFrame
-    """
-
-    instruments = api.search({'portal_type':"XXX"})
-    cols = [
-        'title',
-        'description',
-    ]
-
-    xxx_dict = {}
-    for i in cols:
-        xxx_dict[i] = []
-
-    for i in instruments:
-        if api.get_workflow_status_of(i) == 'active':
-            instrument = api.get_object(i)
-            xxx_dict['title'].append(instrument.title) #Required
-            xxx_dict['description'].append(instrument.description or '')
-
-    return pd.DataFrame(xxx_dict)[cols]
-
-def get_XXX_as_df():
-    """
-    :return: Returns a DataFrame of active XXX
-    :rtype: DataFrame
-    """
-
-    instruments = api.search({'portal_type':"XXX"})
-    cols = [
-        'title',
-        'description',
-    ]
-
-    xxx_dict = {}
-    for i in cols:
-        xxx_dict[i] = []
-
-    for i in instruments:
-        if api.get_workflow_status_of(i) == 'active':
-            instrument = api.get_object(i)
-            xxx_dict['title'].append(instrument.title) #Required
-            xxx_dict['description'].append(instrument.description or '')
-
-    return pd.DataFrame(xxx_dict)[cols]
+    return pd.DataFrame(sample_dict)[cols]
