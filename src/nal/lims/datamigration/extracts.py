@@ -545,7 +545,7 @@ def get_samplelocations_as_df():
     for i in cols:
         location_dict[i] = []
 
-    for i in instruments:
+    for i in locations:
         if api.get_workflow_status_of(i) == 'active':
             instrument = api.get_object(i)
             location_dict['title'].append(instrument.title) #Required
