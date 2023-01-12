@@ -550,9 +550,18 @@ def get_samplelocations_as_df():
             location = api.get_object(i)
             location_dict['title'].append(location.title) #Required
             location_dict['description'].append(location.description or '')
-            location_dict['formatted address'].append(location.FormattedAddress or '')
-            location_dict['water source type'].append(location.WaterSourceType or '')
-            location_dict['wssn'].append(location.WSSN or '')
+            try:
+                location_dict['formatted address'].append(location.FormattedAddress)
+            except AttributeError:
+                location_dict['formatted address'].append('')
+            try:
+                location_dict['water source type'].append(location.WaterSourceType)
+            except AttributeError:
+                location_dict['water source type'].append('')
+            try:
+                location_dict['wssn'].append(location.WSSN)
+            except AttributeError:
+                location_dict['wssn'].append('')
 
     return pd.DataFrame(location_dict)[cols]
 
