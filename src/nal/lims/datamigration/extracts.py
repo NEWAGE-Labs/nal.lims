@@ -615,7 +615,7 @@ def get_clientcontacts_as_df():
     for i in clientcontacts:
         if api.get_workflow_status_of(i) == 'active':
             clientcontact = api.get_object(i)
-            clientcontact_dict['ClientID'].append(clientcontact.getClient().ClientID or '') #Required
+            clientcontact_dict['ClientID'].append(clientcontact.getParent().ClientID or '') #Required
             clientcontact_dict['Firstname'].append(clientcontact.Firstname)
             clientcontact_dict['Initials'].append(clientcontact.Initials)
             clientcontact_dict['Middlename'].append(clientcontact.Middlename)
