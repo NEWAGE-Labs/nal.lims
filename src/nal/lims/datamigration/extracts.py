@@ -545,14 +545,23 @@ def get_samplelocations_as_df():
     for i in cols:
         location_dict[i] = []
 
-    for i in instruments:
+    for i in locations:
         if api.get_workflow_status_of(i) == 'active':
-            instrument = api.get_object(i)
-            location_dict['title'].append(instrument.title) #Required
-            location_dict['description'].append(instrument.description or '')
-            location_dict['formatted address'].append(instrument.FormattedAddress or '')
-            location_dict['water source type'].append(instrument.WaterSourceType or '')
-            location_dict['wssn'].append(instrument.WSSN or '')
+            location = api.get_object(i)
+            location_dict['title'].append(location.title) #Required
+            location_dict['description'].append(location.description or '')
+            try:
+                location_dict['formatted address'].append(location.FormattedAddress)
+            except AttributeError:
+                location_dict['formatted address'].append('')
+            try:
+                location_dict['water source type'].append(location.WaterSourceType)
+            except AttributeError:
+                location_dict['water source type'].append('')
+            try:
+                location_dict['wssn'].append(location.WSSN)
+            except AttributeError:
+                location_dict['wssn'].append('')
 
     return pd.DataFrame(location_dict)[cols]
 
