@@ -92,12 +92,12 @@ def extract_to_csvs():
     print("-Extracted Analysis Spec Data to "+file)
 
     #Calculations
-    file = '{}/sdgs_{}.csv'.format(dir,now)
+    file = '{}/calculations_{}.csv'.format(dir,now)
     get_calculations_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Calculation Data to "+file)
 
     #Analysis Profiles
-    file = '{}/sdgs_{}.csv'.format(dir,now)
+    file = '{}/analysisprofiles_{}.csv'.format(dir,now)
     get_analysis_profiles_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Analysis Profile Data to "+file)
 
