@@ -974,7 +974,7 @@ def get_analyses_as_df():
     for i in analyses:
         if api.get_workflow_status_of(i) not in ['inactive','invalid','cancelled','rejected','retracted','unassigned','dispatched']:
             analysis = api.get_object(i)
-            analysis_dict['sid'].append(api.get_id(analysis.ac_parent) #Required
+            analysis_dict['sid'].append(api.get_id(analysis.ac_parent)) #Required
             analysis_dict['Keyword'].append(analysis.Keyword or '')
             analysis_dict['method'].append(analysis.getMethod() or '')
             analysis_dict['instrument'].append(analysis.getInstrument() or '')
