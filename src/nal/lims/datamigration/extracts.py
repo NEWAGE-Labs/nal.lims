@@ -520,9 +520,9 @@ def get_instruments_as_df():
             instrument_dict['serial number'].append(instrument.SerialNo or '')
             methods = instrument.getReferences('InstrumentMethods')
             if methods:
-                instrument_dict['methods'].append([m.title for m in map(api.get_object,methods)])
+                instrument_dict['methods'].append(','.join([m.title for m in map(api.get_object,methods)]) or '')
             else:
-                instrument_dict['methods'].append(set(['']))
+                instrument_dict['methods'].append('')
 
     return pd.DataFrame(instrument_dict)[cols]
 
@@ -535,6 +535,7 @@ def get_samplelocations_as_df():
     locations = api.search({'portal_type':"SamplePoint"})
     cols = [
         'locationid',
+        'client',
         'title',
         'description',
         'formatted address',
@@ -550,6 +551,11 @@ def get_samplelocations_as_df():
         if api.get_workflow_status_of(i) == 'active':
             location = api.get_object(i)
             location_dict['locationid'].append(location.getId()) #Required
+            client = location.getClient()
+            if client:
+                location_dict['client'].append(client.ClientID or '')
+            else:
+                location_dict['client'].append('')
             location_dict['title'].append(location.title) #Required
             location_dict['description'].append(location.description or '')
             try:
@@ -712,7 +718,7 @@ def get_sdgs_as_df():
             sdg_dict['BatchID'].append(sdg.id or '')
             sdg_dict['Client'].append(sdg.aq_parent.ClientID or '')
             sdg_dict['ClientBatchID'].append(sdg.ClientBatchID or '')
-            sdg_dict['BatchLabels'].append(sdg.getLabelNames() or '')
+            sdg_dict['BatchLabels'].append(','.join(sdg.getLabelNames()) or '')
             sdg_dict['SDGDate'].append(sdg.SDGDate or '')
             sdg_dict['SDGTime'].append(sdg.SDGTime or '')
             sdg_dict['ReportContact'].append(sdg.ReportContact or '')
@@ -886,7 +892,7 @@ def get_samples_as_df():
             sample_dict['sid'].append(sample.getId())
             contacts = sample.getReferences('AnalysisRequestCCContact')
             if contacts:
-                sample_dict['contacts'].append([c.Firstname + ' ' + c.Surname for c in contacts] or '')
+                sample_dict['contacts'].append(','.join([c.Firstname + ' ' + c.Surname for c in contacts]) or '')
             else:
                 sample_dict['contacts'].append('')
             sample_dict['client'].append(sample.getClient().ClientID or '')
@@ -898,7 +904,7 @@ def get_samples_as_df():
                 sample_dict['sdg'].append('')
             sample_dict['clientsid'].append(sample.ClientSampleID or '')
             sample_dict['labid'].append(sample.InternalLabID or '')
-            sample_dict['datesampled'].append(sample.DateOfSampling.strftime('%d/%m/%Y') or '')
+            sample_dict['datesampled'].append(sample.DateOfSampling.strftime('%m/%d/%Y') or '')
             sample_dict['timesampled'].append(sample.TimeOfSampling or '')
             type = sample.getSampleType()
             if type:
