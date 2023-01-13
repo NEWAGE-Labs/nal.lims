@@ -101,10 +101,15 @@ def extract_to_csvs():
     get_analysis_profiles_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Analysis Profile Data to "+file)
 
-    # #Samples
+    # Samples
     file = '{}/samples_{}.csv'.format(dir,now)
     get_samples_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Sample Data to "+file)
+
+    # Analyses
+    file = '{}/analyses_{}.csv'.format(dir,now)
+    get_analyses_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Analysis Data to "+file)
 
     return None
 
