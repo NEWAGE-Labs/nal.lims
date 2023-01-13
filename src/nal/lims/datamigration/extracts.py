@@ -551,7 +551,7 @@ def get_samplelocations_as_df():
         if api.get_workflow_status_of(i) == 'active':
             location = api.get_object(i)
             location_dict['locationid'].append(location.getId()) #Required
-            client = location.getClient()
+            client = location.getParent()
             if client:
                 location_dict['client'].append(client.ClientID or '')
             else:
