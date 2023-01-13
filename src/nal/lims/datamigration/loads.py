@@ -155,7 +155,7 @@ def import_analysisservices(file):
     keywords = [a.Keyword for a in analysisservices]
     for i,row in df.iterrows():
         if str(row["Keyword"]) not in keywords:
-            cateogries = api.search({'portal_type':'AnalysisCategory','title':str(row['category'])})
+            categories = api.search({'portal_type':'AnalysisCategory','title':str(row['category'])})
             if categories:
                 category = api.get_uid(categories[0])
             api.create( create_loc,
