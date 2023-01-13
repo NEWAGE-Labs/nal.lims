@@ -552,6 +552,7 @@ def get_samplelocations_as_df():
             location = api.get_object(i)
             location_dict['locationid'].append(location.getId()) #Required
             client = location.aq_parent
+            print("Client is: {}".format(client))
             if client:
                 location_dict['client'].append(client.ClientID or '')
             else:
