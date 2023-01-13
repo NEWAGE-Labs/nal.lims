@@ -22,6 +22,38 @@ class AnalysisServiceSchemaExtender(object):
     layer = INalLimsLayer
 
     fields = [
+        ExtBooleanField(
+            'ShowTotal',
+            schemata="Analysis",
+            widget=BooleanWidget(
+                label="Total",
+                description="Toggle whether to display the word 'Total' on the report for the element. Ex. Total Nitrogen",
+                render_own_label=True,
+                visible={
+                    'edit':'visible',
+                    'view':'visible',
+                    'add':'edit',
+                    'header_table':'visible',
+                },
+            )
+        ),
+
+        ExtBooleanField(
+            'ShowMethodInName',
+            schemata="Analysis",
+            widget=BooleanWidget(
+                label="Show Method",
+                description="Toggle whether to display the name of the method on the report",
+                render_own_label=True,
+                visible={
+                    'edit':'visible',
+                    'view':'visible',
+                    'add':'edit',
+                    'header_table':'visible',
+                },
+            )
+        ),
+
         ExtRecordsField(
             "MethodRecords",
             schemata="Method",

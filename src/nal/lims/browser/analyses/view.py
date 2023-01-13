@@ -45,7 +45,13 @@ class AnalysesView(BikaAnalysesView):
         self.columns['SubmittedBy']['toggle'] = False
         self.columns['Hidden']['toggle'] = False
         self.columns['DueDate']['toggle'] = False
+        self.columns['Unit']['toggle'] = True
         self.columns['Instrument']['toggle'] = True
+        self.columns['Weight']['toggle'] = True
+        self.columns['Dilution']['toggle'] = True
+        self.columns['Volume']['toggle'] = True
+        self.columns['ShowTotal']['toggle'] = True
+        self.columns['ShowMethodInName']['toggle'] = True
 
         #Add New columns
         ## Analysis Date/Time
@@ -72,6 +78,39 @@ class AnalysesView(BikaAnalysesView):
             "ajax": True,
             "type": "decimal",
         }
+        ## Dilution
+        self.columns["Weight"] = {
+            "title": _("Weight"),
+            "toggle": True,
+            "sortable": False,
+            "ajax": True,
+            "type": "decimal",
+        }
+        ## Volume
+        self.columns["Volume"] = {
+            "title": _("Volume"),
+            "toggle": True,
+            "sortable": False,
+            "ajax": True,
+            "type": "decimal",
+        }
+        ## ShowTotal
+        self.columns["ShowTotal"] = {
+            "title": _("Total"),
+            "toggle": True,
+            "sortable": False,
+            "ajax": True,
+            "type": "boolean"
+        }
+        ## ShowMethodInName
+        self.columns["ShowMethodInName"] = {
+            "title": _("Show Method"),
+            "toggle": True,
+            "sortable": False,
+            "ajax": True,
+            "type": "boolean"
+        }
+
         ## Update each contentfilter with the added and modified column keys
         for i in self.review_states:
             i["columns"] = self.columns.keys()
@@ -88,21 +127,25 @@ class AnalysesView(BikaAnalysesView):
             item['Inconclusive'] = obj.Inconclusive
         if obj.Weight is not None:
             item['Weight'] = obj.Weight
-        # if obj.WeightUnit is not None:
-        #     item['WeightUnit'] = obj.WeightUnit
-
-        if api.get_workflow_status_of(obj) == 'unassigned':
-            item['allow_edit'].append('Analyst')
-            item['allow_edit'].append('AnalysisDateTime')
-            item['allow_edit'].append('Weight')
+        if obj.Dilution is not None:
+            item['Dilution'] = obj.Dilution
+        if obj.Volume is not None:
+            item['Volume'] = obj.Volume
+        if obj.Unit is not None:
+            item['Unit'] = obj.Unit
+        if obj.ShowTotal is not None:
+            item['ShowTotal'] = obj.ShowTotal
+        if obj.ShowMethodInName is not None:
+            item['ShowMethodInName'] = obj.ShowMethodInName
 
         item['allow_edit'].append('Inconclusive')
+        item['allow_edit'].append('ShowTotal')
+        item['allow_edit'].append('ShowMethodInName')
+        item['allow_edit'].append('Analyst')
+        item['allow_edit'].append('AnalysisDateTime')
+        item['allow_edit'].append('Weight')
+        item['allow_edit'].append('Dilution')
+        item['allow_edit'].append('Volume')
+        item['allow_edit'].append('Unit')
 
         return item
-
-    def folderitems(self):
-        items = super(AnalysesView, self).folderitems()
-
-        # self.columns["Method"]["toggle"] = True
-        # self.columns["Instrument"]["toggle"] = False
-        return items

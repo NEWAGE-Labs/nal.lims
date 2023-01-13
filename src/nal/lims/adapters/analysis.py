@@ -23,6 +23,37 @@ class AnalysisSchemaExtender(object):
     layer = INalLimsLayer
 
     fields = [
+        ExtBooleanField(
+            'ShowTotal',
+            schemata="Analysis",
+            widget=BooleanWidget(
+                label="Total",
+                description="Toggle whether to display the word 'Total' on the report for the element. Ex. Total Nitrogen",
+                render_own_label=True,
+                visible={
+                    'edit':'visible',
+                    'view':'visible',
+                    'add':'edit',
+                    'header_table':'visible',
+                },
+            )
+        ),
+
+        ExtBooleanField(
+            'ShowMethodInName',
+            schemata="Analysis",
+            widget=BooleanWidget(
+                label="Show Method",
+                description="Toggle whether to display the name of the method on the report",
+                render_own_label=True,
+                visible={
+                    'edit':'visible',
+                    'view':'visible',
+                    'add':'edit',
+                    'header_table':'visible',
+                },
+            )
+        ),
         ExtStringField(
             'AnalysisDateTime',
             write_permission=View,
@@ -47,6 +78,24 @@ class AnalysisSchemaExtender(object):
             read_permission=View,
             widget=DecimalWidget(
                 label=_("Weight (in Grams)"),
+            )
+        ),
+
+        ExtFloatField(
+            'Volume',
+            write_permission=View,
+            read_permission=View,
+            widget=DecimalWidget(
+                label=_("Volume"),
+            )
+        ),
+
+        ExtFloatField(
+            'Dilution',
+            write_permission=View,
+            read_permission=View,
+            widget=DecimalWidget(
+                label=_("Dilution"),
             )
         ),
     ]
