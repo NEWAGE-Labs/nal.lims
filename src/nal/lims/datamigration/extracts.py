@@ -884,7 +884,11 @@ def get_samples_as_df():
         if api.get_workflow_status_of(i) not in ['inactive','invalid','cancelled','rejected','retracted','unassigned','dispatched']:
             sample = api.get_object(i)
             sample_dict['sid'].append(sample.getId())
-            sample_dict['contacts'].append(sample.getReferences('AnalysisRequestCCContact') or '')
+            contacts = sample.getReferences('AnalysisRequestCCContact')
+            if contacts:
+                sample_dict['contacts'].append([c.Firstname + ' ' + c.Surname for c in contacts] or '')
+            else:
+                sample_dict['contacts'].append('')
             sample_dict['client'].append(sample.getClient().ClientID or '')
             sample_dict['ccemails'].append(sample.CCEmails or '')
             batch = sample.getBatch()
@@ -894,7 +898,7 @@ def get_samples_as_df():
                 sample_dict['sdg'].append('')
             sample_dict['clientsid'].append(sample.ClientSampleID or '')
             sample_dict['labid'].append(sample.InternalLabID or '')
-            sample_dict['datesampled'].append(sample.DateOfSampling or '')
+            sample_dict['datesampled'].append(sample.DateOfSampling.strftime('%d/%m/%Y') or '')
             sample_dict['timesampled'].append(sample.TimeOfSampling or '')
             type = sample.getSampleType()
             if type:
