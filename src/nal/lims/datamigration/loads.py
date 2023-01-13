@@ -152,7 +152,7 @@ def import_analysisservices(file):
 
     df = pd.read_csv(file,keep_default_na=False)
     analysisservices = map(api.get_object,api.search({'portal_type':'AnalysisService'}))
-    keywords = [as.Keyword for as in analysisservices]
+    keywords = [a.Keyword for a in analysisservices]
     for i,row in df.iterrows():
         if str(row["Keyword"]) not in keywords:
             api.create( create_loc,
