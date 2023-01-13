@@ -949,23 +949,42 @@ def get_analyses_as_df():
     :rtype: DataFrame
     """
 
-    samples = api.search({'portal_type':"AnalysisRequest"})
+    analyses = api.search({'portal_type':"Analyses"})
     cols = [
-        'title',
-        'description',
+        'sid',
+        'Keyword',
+        'method',
+        'instrument',
+        'analyst',
+        'result',
+        'lod',
+        'unit',
+        'analysisdatetime',
+        # 'inconclusive',
+        # 'weight',
+        # 'volume',
+        # 'dilution',
+        # ''
     ]
 
-    sample_dict = {}
+    analysis_dict = {}
     for i in cols:
-        sample_dict[i] = []
+        analysis_dict[i] = []
 
-    for i in samples:
+    for i in analyses:
         if api.get_workflow_status_of(i) not in ['inactive','invalid','cancelled','rejected','retracted','unassigned','dispatched']:
-            sample = api.get_object(i)
-            sample_dict['title'].append(sample.title) #Required
-            sample_dict['description'].append(sample.description or '')
+            analysis = api.get_object(i)
+            analysis_dict['sid'].append(api.get_id(analysis.ac_parent) #Required
+            analysis_dict['Keyword'].append(analysis.Keyword or '')
+            analysis_dict['method'].append(analysis.getMethod() or '')
+            analysis_dict['instrument'].append(analysis.getInstrument() or '')
+            analysis_dict['analyst'].append(analysis.getAnalyst() or '')
+            analysis_dict['result'].append(analysis.Result or '')
+            analysis_dict['lod'].append(analysis.LowerDetectionLimit or '')
+            analysis_dict['unit'].append(analysis.Unit or '')
+            analysis_dict['analysisdatetime'].append(analysis.AnalysisDateTime or '')
 
-    return pd.DataFrame(sample_dict)[cols]
+    return pd.DataFrame(analysis_dict)[cols]
 
 def get_reports_as_df():
     """
