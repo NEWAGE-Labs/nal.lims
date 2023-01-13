@@ -954,7 +954,7 @@ def get_analyses_as_df():
     :rtype: DataFrame
     """
 
-    analyses = api.search({'portal_type':"Analyses"})
+    analyses = api.search({'portal_type':"Analysis"})
     cols = [
         'sid',
         'Keyword',
