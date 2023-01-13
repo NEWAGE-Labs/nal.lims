@@ -82,7 +82,7 @@ def extract_to_csvs():
     print("-Extracted SDG Data to "+file)
 
     #Analysis Services
-    file = '{}/analysisservice_{}.csv'.format(dir,now)
+    file = '{}/analysisservices_{}.csv'.format(dir,now)
     get_analysis_services_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Analysis Service Data to "+file)
 
