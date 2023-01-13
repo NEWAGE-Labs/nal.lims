@@ -12,101 +12,121 @@ def extract_to_csvs():
     os.mkdir(path)
 
     #Client
+    print("-Extracting Client Data")
     file = '{}/clients_{}.csv'.format(dir,now)
     get_clients_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Client Data to "+file)
 
     #Lab Contact
+    print("-Extracting LabContact Data")
     file = '{}/labcontacts_{}.csv'.format(dir,now)
     get_labcontacts_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted LabContact Data to "+file)
 
     #Method
+    print("-Extracting Method Data")
     file = '{}/methods_{}.csv'.format(dir,now)
     get_methods_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Method Data to "+file)
 
     #SDG Label
+    print("-Extracting SDG Label Data")
     file = '{}/sdglabels_{}.csv'.format(dir,now)
     get_sdglabels_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted SDG Label Data to "+file)
 
     #Sample Type
+    print("-Extracting Sample Type Data")
     file = '{}/sampletypes_{}.csv'.format(dir,now)
     get_sample_types_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Sample Type Data to "+file)
 
     #Analysis Category
+    print("-Extracting Analysis Category Data")
     file = '{}/analysiscategories_{}.csv'.format(dir,now)
     get_analysis_categories_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Analysis Category Data to "+file)
 
     #Instrument Type
+    print("-Extracting Instrument Type Data")
     file = '{}/instrumenttypes_{}.csv'.format(dir,now)
     get_instrument_types_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Instrument Type Data to "+file)
 
     #Manufacturer
+    print("-Extracting Manufacturer Data")
     file = '{}/manufacturers_{}.csv'.format(dir,now)
     get_manufacturers_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Manufacturer Data to "+file)
 
     #Supplier
+    print("-Extracting Supplier Data")
     file = '{}/suppliers_{}.csv'.format(dir,now)
     get_suppliers_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Supplier Data to "+file)
 
     #Instrument
+    print("-Extracting Instrument Data")
     file = '{}/instruments_{}.csv'.format(dir,now)
     get_instruments_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Instrument Data to "+file)
 
     #Sample Locations
+    print("-Extracting Sample Location Data")
     file = '{}/samplelocations_{}.csv'.format(dir,now)
     get_samplelocations_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Sample Location Data to "+file)
 
     #Client Contact
+    print("-Extracting Client Contact Data")
     file = '{}/clientcontacts_{}.csv'.format(dir,now)
     get_clientcontacts_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Client Contact Data to "+file)
 
-    #Sub-Groups (Pairs)
+    #SubGroups (Pairs)
+    print("-Extracting SubGroup Data")
     file = '{}/subgroups_{}.csv'.format(dir,now)
     get_subgroups_as_df().to_csv(file,encoding='utf-8')
-    print("-Extracted Subgroup Data to "+file)
+    print("-Extracted SubGroup Data to "+file)
 
     #SDG
+    print("-Extracting SDG Data")
     file = '{}/sdgs_{}.csv'.format(dir,now)
     get_sdgs_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted SDG Data to "+file)
 
     #Analysis Services
+    print("-Extracting Analysis Service Data")
     file = '{}/analysisservices_{}.csv'.format(dir,now)
     get_analysis_services_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Analysis Service Data to "+file)
 
     #Analysis Specs
+    print("-Extracting Analysis Spec Data")
     file = '{}/analysisspecs_{}.csv'.format(dir,now)
     get_analysis_specs_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Analysis Spec Data to "+file)
 
     #Calculations
+    print("-Extracting Calculation Data")
     file = '{}/calculations_{}.csv'.format(dir,now)
     get_calculations_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Calculation Data to "+file)
 
     #Analysis Profiles
+    print("-Extracting Analysis Profile Data")
     file = '{}/analysisprofiles_{}.csv'.format(dir,now)
     get_analysis_profiles_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Analysis Profile Data to "+file)
 
     # Samples
+    print("-Extracting Sample Data")
     file = '{}/samples_{}.csv'.format(dir,now)
     get_samples_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Sample Data to "+file)
 
     # Analyses
+    print("-Extracting Analysis Data")
     file = '{}/analyses_{}.csv'.format(dir,now)
     get_analyses_as_df().to_csv(file,encoding='utf-8')
     print("-Extracted Analysis Data to "+file)
