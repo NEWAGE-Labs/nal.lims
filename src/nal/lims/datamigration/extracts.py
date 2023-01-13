@@ -102,9 +102,9 @@ def extract_to_csvs():
     print("-Extracted Analysis Profile Data to "+file)
 
     # #Samples
-    # file = '{}/clientcontacts_{}.csv'.format(dir,now)
-    # get_samples_as_df().to_csv(file,encoding='utf-8')
-    # print("-Extracted Sample Data to "+file)
+    file = '{}/samples_{}.csv'.format(dir,now)
+    get_samples_as_df().to_csv(file,encoding='utf-8')
+    print("-Extracted Sample Data to "+file)
 
     return None
 
@@ -534,6 +534,7 @@ def get_samplelocations_as_df():
 
     locations = api.search({'portal_type':"SamplePoint"})
     cols = [
+        'locationid',
         'title',
         'description',
         'formatted address',
@@ -548,6 +549,7 @@ def get_samplelocations_as_df():
     for i in locations:
         if api.get_workflow_status_of(i) == 'active':
             location = api.get_object(i)
+            location_dict['locationid'].append(location.getId()) #Required
             location_dict['title'].append(location.title) #Required
             location_dict['description'].append(location.description or '')
             try:
@@ -703,7 +705,7 @@ def get_sdgs_as_df():
         sdg_dict[i] = []
 
     for i in sdgs:
-        if api.get_workflow_status_of(i) in ['open','closed']:
+        if api.get_workflow_status_of(i) == 'closed':
             sdg = api.get_object(i)
             sdg_dict['title'].append(sdg.title) #Required
             sdg_dict['description'].append(sdg.description or '')
@@ -851,6 +853,116 @@ def get_samples_as_df():
     """
 
     samples = api.search({'portal_type':"AnalysisRequest"})
+    cols = [
+        'sid',
+        'contacts',
+        'client',
+        'ccemails',
+        'sdg',
+        'clientsid',
+        'labid',
+        'datesampled',
+        'timesampled',
+        'sampletype',
+        'location',
+        'profile',
+        'ol',
+        'pair',
+        'wst',
+        'plant',
+        'variety',
+        'growth',
+        'newold',
+        'vigor'
+    ]
+
+    sample_dict = {}
+    for i in cols:
+        sample_dict[i] = []
+
+    for i in samples:
+        if api.get_workflow_status_of(i) not in ['inactive','invalid','cancelled','rejected','retracted','unassigned','dispatched']:
+            sample = api.get_object(i)
+            sample_dict['sid'].append(sample.getId())
+            sample_dict['contacts'].append(sample.getReferences('AnalysisRequestCCContact') or '')
+            sample_dict['client'].append(sample.getClient().ClientID or '')
+            sample_dict['ccemails'].append(sample.CCEmails or '')
+            batch = sample.getBatch()
+            if batch:
+                sample_dict['sdg'].append(batch.getId() or '')
+            else:
+                sample_dict['sdg'].append('')
+            sample_dict['clientsid'].append(sample.ClientSampleID or '')
+            sample_dict['labid'].append(sample.InternalLabID or '')
+            sample_dict['datesampled'].append(sample.DateOfSampling or '')
+            sample_dict['timesampled'].append(sample.TimeOfSampling or '')
+            type = sample.getSampleType()
+            if type:
+                sample_dict['sampletype'].append(type.title or '')
+            else:
+                sample_dict['sampletype'].append('')
+            location = sample.getSamplePoint()
+            if location:
+                sample_dict['location'].append(location.getId() or '')
+            else:
+                sample_dict['location'].append('')
+            sample_dict['profile'].append(','.join(map(api.get_title,sample.getProfiles())) or '')
+            spec = sample.getSpecification()
+            if spec:
+                sample_dict['ol'].append(spec.title or '')
+            else:
+                sample_dict['ol'].append('')
+            pair = sample.getSubGroup()
+            if pair:
+                sample_dict['pair'].append(pair.title or '')
+            else:
+                sample_dict['pair'].append('')
+            if hasattr(sample,'WaterSourceType'):
+                sample_dict['wst'].append(sample.WaterSourceType or '')
+            else:
+                sample_dict['wst'].append('')
+            sample_dict['plant'].append(sample.PlantType or '')
+            sample_dict['variety'].append(sample.Variety or '')
+            sample_dict['growth'].append(sample.GrowthStage or '')
+            sample_dict['newold'].append(sample.NewLeaf or '')
+            if hasattr(sample,'Vigor'):
+                sample_dict['vigor'].append(sample.Vigor or '')
+            else:
+                sample_dict['vigor'].append('')
+
+    return pd.DataFrame(sample_dict)[cols]
+
+def get_analyses_as_df():
+    """
+    :return: Returns a DataFrame of active Analyses
+    :rtype: DataFrame
+    """
+
+    samples = api.search({'portal_type':"AnalysisRequest"})
+    cols = [
+        'title',
+        'description',
+    ]
+
+    sample_dict = {}
+    for i in cols:
+        sample_dict[i] = []
+
+    for i in samples:
+        if api.get_workflow_status_of(i) not in ['inactive','invalid','cancelled','rejected','retracted','unassigned','dispatched']:
+            sample = api.get_object(i)
+            sample_dict['title'].append(sample.title) #Required
+            sample_dict['description'].append(sample.description or '')
+
+    return pd.DataFrame(sample_dict)[cols]
+
+def get_reports_as_df():
+    """
+    :return: Returns a DataFrame of active Reports
+    :rtype: DataFrame
+    """
+
+    reports = api.search({'portal_type':"Report"})
     cols = [
         'title',
         'description',
