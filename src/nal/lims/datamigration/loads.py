@@ -31,103 +31,103 @@ def import_from_csvs(eid):
 
     #labcontacts
     print("Importing labcontacts")
-    import_labcontacts(labcontacts)
-    print("Sucessfully Imported labcontacts")
+    count = import_labcontacts(labcontacts)
+    print("Sucessfully Imported {} labcontacts".format(count))
 
     #analysiscategories
     print("Importing analysiscategories")
-    import_analysiscategories(analysiscategories)
-    print("Sucessfully Imported analysiscategories")
+    count = import_analysiscategories(analysiscategories)
+    print("Sucessfully Imported {} analysiscategories".format(count))
 
     #instrumenttypes
     print("Importing instrumenttypes")
-    import_instrumenttypes(instrumenttypes)
-    print("Sucessfully Imported instrumenttypes")
+    count = import_instrumenttypes(instrumenttypes)
+    print("Sucessfully Imported {} instrumenttypes".format(count))
 
     #manufacturers
     print("Importing manufacturers")
-    import_manufacturers(manufacturers)
-    print("Sucessfully Imported manufacturers")
+    count = import_manufacturers(manufacturers)
+    print("Sucessfully Imported {} manufacturers".format(count))
 
     #suppliers
     print("Importing suppliers")
-    import_suppliers(suppliers)
-    print("Sucessfully Imported suppliers")
+    count = import_suppliers(suppliers)
+    print("Sucessfully Imported {} suppliers".format(count))
 
     #subgroups
     print("Importing subgroups")
-    import_subgroups(subgroups)
-    print("Sucessfully Imported subgroups")
+    count = import_subgroups(subgroups)
+    print("Sucessfully Imported {} subgroups".format(count))
 
     #sdglabels
     print("Importing sdglabels")
-    import_sdglabels(sdglabels)
-    print("Sucessfully Imported sdglabels")
+    count = import_sdglabels(sdglabels)
+    print("Sucessfully Imported {} sdglabels".format(count))
 
     #sampletypes
     print("Importing sampletypes")
-    import_sampletypes(sampletypes)
-    print("Sucessfully Imported sampletypes")
+    count = import_sampletypes(sampletypes)
+    print("Sucessfully Imported {} sampletypes".format(count))
 
     #methods
     print("Importing methods")
-    import_methods(methods)
-    print("Sucessfully Imported methods")
+    count = import_methods(methods)
+    print("Sucessfully Imported {} methods".format(count))
 
     #instruments
     print("Importing instruments")
-    import_instruments(instruments)
-    print("Sucessfully Imported instruments")
+    count = import_instruments(instruments)
+    print("Sucessfully Imported {} instruments".format(count))
 
     #analysisservices
     print("Importing analysisservices")
-    import_analysisservices(analysisservices)
-    print("Sucessfully Imported analysisservices")
+    count = import_analysisservices(analysisservices)
+    print("Sucessfully Imported {} analysisservices".format(count))
 
     #analysisspecs
     print("Importing analysisspecs")
-    import_analysisspecs(analysisspecs)
-    print("Sucessfully Imported analysisspecs")
+    count = import_analysisspecs(analysisspecs)
+    print("Sucessfully Imported {} analysisspecs".format(count))
 
     #analysisprofiles
     print("Importing analysisprofiles")
-    import_analysisprofiles(analysisprofiles)
-    print("Sucessfully Imported analysisprofiles")
+    count = import_analysisprofiles(analysisprofiles)
+    print("Sucessfully Imported {} analysisprofiles".format(count))
 
     #calculations
     print("Importing calculations")
-    import_calculations(calculations)
-    print("Sucessfully Imported calculations")
+    count = import_calculations(calculations)
+    print("Sucessfully Imported {} calculations".format(count))
 
     ## Transaction Entities ##
 
     #clients
     print("Importing clients")
-    import_clients(clients)
-    print("Sucessfully Imported clients")
+    count = import_clients(clients)
+    print("Sucessfully Imported {} clients".format(count))
 
-    #clientcontacts
-    print("Importing clientcontacts")
-    import_clientcontacts(clientcontacts)
-    print("Sucessfully Imported clientcontacts")
+    # #clientcontacts
+    # print("Importing clientcontacts")
+    # count = import_clientcontacts(clientcontacts)
+    # print("Sucessfully Imported {} clientcontacts".format(count))
 
     #samplelocations
     print("Importing samplelocations")
-    import_samplelocations(samplelocations)
-    print("Sucessfully Imported samplelocations")
+    count = import_samplelocations(samplelocations)
+    print("Sucessfully Imported {} samplelocations".format(count))
 
     #sdgs
     print("Importing sdgs")
-    import_sdgs(sdgs)
-    print("Sucessfully Imported sdgs")
+    count = import_sdgs(sdgs)
+    print("Sucessfully Imported {} sdgs".format(count))
 
     #samples
     print("Importing samples")
-    import_samples(samples)
-    print("Sucessfully Imported samples")
+    count = import_samples(samples)
+    print("Sucessfully Imported {} samples".format(count))
 
 def import_analysiscategories(file):
-
+    count = 0
     create_loc = api.get_portal().bika_setup.bika_analysiscategories
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     analysiscategories = map(api.get_object,api.search({'portal_type':'AnalysisCategory'}))
@@ -135,19 +135,20 @@ def import_analysiscategories(file):
     for i,row in df.iterrows():
         if str(row["title"]) not in titles:
             api.create(create_loc, "AnalysisCategory", title=row["title"],description=row["description"])
-    return None
+            count = (count + 1)
+    return count
 
 def import_analysisprofiles(file):
-
+    count = 0
     create_loc = api.get_portal().bika_setup.bika_analysisprofiles
 
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     # for i,row in df.iterrows():
 
-    return None
+    return count
 
 def import_analysisservices(file):
-
+    count = 0
     create_loc = api.get_portal().bika_setup.bika_analysisservices
 
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
@@ -167,35 +168,49 @@ def import_analysisservices(file):
                         LowerDetectionLimit=row["LowerDetectionLimit"],
                         ShowTotal=row["ShowTotal"],
                         ShowMethodInName=row["ShowMethodInName"])
-    return None
+            count = (count + 1)
+    return count
 
 def import_analysisspecs(file):
-
+    count = 0
     create_loc = api.get_portal().bika_setup.bika_analysisspecs
 
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     # for i,row in df.iterrows():
 
-    return None
+    return count
 
 def import_calculations(file):
-
+    count = 0
     create_loc = api.get_portal().bika_setup.bika_calculations
 
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     # for i,row in df.iterrows():
 
-    return None
+    return count
 
 def import_clientcontacts(file):
-
+    count = 0
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
-    # for i,row in df.iterrows():
-
-    return None
+    clients = map(api.get_object,api.search({'portal_type':'Client'}))
+    for i,row in df.iterrows():
+        name = str(row["Firstname"] or '') + ' ' + str(row["Surname"] or '')
+        for j in clients:
+            if row["ClientID"] == j.ClientID:
+            # and name not in [str(c.Firstname or '') + ' ' + str(c.Surname or '') for c in j.getContacts()]:
+                create_loc = api.get_object(j)
+                api.create( create_loc,
+                            "Contact",
+                            Firstname=row["Firstname"],
+                            Surname=row["Surname"],
+                            BusinessPhone=row["BusinessPhone"],
+                            EmailAddress=row["EmailAddress"]
+                            )
+                count = (count + 1)
+    return count
 
 def import_clients(file):
-
+    count = 0
     create_loc = api.get_portal().clients
 
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
@@ -226,7 +241,7 @@ def import_clients(file):
 
             api.create( create_loc,
                         "Client",
-                        Name=row["Name"],
+                        title=row["Name"],
                         ClientID=row["NAL Number"],
                         Phone=row["Phone"],
                         Fax=row["Fax"],
@@ -238,11 +253,12 @@ def import_clients(file):
                         MBGNumber=row["MBGNumber"],
                         TrueBlueNumber=row["TrueBlueNumber"],
                         )
+            count = (count + 1)
 
-    return None
+    return count
 
 def import_instruments(file):
-
+    count = 0
     create_loc = api.get_portal().bika_setup.bika_instruments
 
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
@@ -267,10 +283,11 @@ def import_instruments(file):
                         Model=row["model"],
                         SerialNo=row["serial number"],
                         Methods=methods)
-    return None
+            count = (count + 1)
+    return count
 
 def import_instrumenttypes(file):
-
+    count = 0
     create_loc = api.get_portal().bika_setup.bika_instrumenttypes
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     instrumenttypes = map(api.get_object,api.search({'portal_type':'InstrumentType'}))
@@ -278,9 +295,11 @@ def import_instrumenttypes(file):
     for i,row in df.iterrows():
         if str(row["title"]) not in titles:
             api.create(create_loc, "InstrumentType", title=row["title"],description=row["description"])
-    return None
+            count = (count + 1)
+    return count
 
 def import_labcontacts(file):
+    count = 0
     create_loc = api.get_portal().bika_setup.bika_labcontacts
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     labcontacts = map(api.get_object,api.search({'portal_type':'LabContact'}))
@@ -288,10 +307,11 @@ def import_labcontacts(file):
     for i,row in df.iterrows():
         if str(row["Firstname"] + ' ' + row["Surname"]) not in names:
             api.create(create_loc, "LabContact", Firstname = row["Firstname"], Surname=row["Surname"], Initials=row["Initials"],EmailAddress=row["EmailAddress"])
-    return None
+            count = (count + 1)
+    return count
 
 def import_manufacturers(file):
-
+    count = 0
     create_loc = api.get_portal().bika_setup.bika_manufacturers
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     manufacturers = map(api.get_object,api.search({'portal_type':'Manufacturer'}))
@@ -299,10 +319,11 @@ def import_manufacturers(file):
     for i,row in df.iterrows():
         if str(row["title"]) not in titles:
             api.create(create_loc, "Manufacturer", title=row["title"],description=row["description"])
-    return None
+            count = (count + 1)
+    return count
 
 def import_methods(file):
-
+    count = 0
     create_loc = api.get_portal().methods
 
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
@@ -311,24 +332,48 @@ def import_methods(file):
     for i,row in df.iterrows():
         if str(row["title"]) not in titles:
             api.create(create_loc, "Method", title=row["title"],description=row["description"])
-    return None
+            count = (count + 1)
+    return count
 
 def import_samplelocations(file):
-
+    count = 0
     df= pd.read_csv(file,keep_default_na=False,encoding="latin1")
-    # for i,row in df.iterrows():
-
-    return None
+    clients = map(api.get_object,api.search({'portal_type':'Client'}))
+    locations = map(api.get_object,api.search({'portal_type':'SamplePoint'}))
+    loc_ids = [l.id for l in locations]
+    for i,row in df.iterrows():
+        for j in clients:
+            if row["client"] == j.ClientID and str(row["locationid"]) not in loc_ids:
+                create_loc = j
+                loc = api.create(create_loc, "SamplePoint", title=row["title"],description=row["description"],ArchiveID=str(row["locationid"]))
+                count= (count + 1)
+    return count
 
 def import_samples(file):
+    count = 0
+    # df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
+    # clients = map(api.get_object,api.search({'portal_type':'Client'}))
+    # locations = map(api.get_object,api.search({'portal_type':'SamplePoint'}))
+    # contacts = map(api.get_object,api.search({'portal_type':'Contact'}))
+    # sdgs = map(api.get_object,api.search({'portal_type':'Batch'}))
+    # samples = map(api.get_object,api.search({'portal_type':'AnalysisRequest'}))
+    # sids = [s.id for s in samples]
+    # # for i,row in df.iterrows():
+    # #     if row['sid'] not in sids:
+    # #         client = api.get_object(api.search({'portal_type':'Client','getClientID':row['client']})[0])
+    # #         create_loc = client
+    # #         sdg = api.get_object(api.search({'portal_type':'Batch','id':row['sdg']})[0])
+    # #         location =
+    # #         #profile
+    # #         type =
+    # #         #ol
+    # #         subgroup =
+    # #         api.create
 
-    df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
-    # for i,row in df.iterrows():
-
-    return None
+    return count
 
 def import_sampletypes(file):
-
+    count = 0
     create_loc = api.get_portal().bika_setup.bika_sampletypes
 
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
@@ -337,10 +382,11 @@ def import_sampletypes(file):
     for i,row in df.iterrows():
         if str(row["title"]) not in titles:
             api.create(create_loc, "SampleType", title=row["title"],description=row["description"])
-    return None
+            count = (count + 1)
+    return count
 
 def import_sdglabels(file):
-
+    count = 0
     create_loc = api.get_portal().bika_setup.bika_batchlabels
 
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
@@ -349,17 +395,61 @@ def import_sdglabels(file):
     for i,row in df.iterrows():
         if str(row["title"]) not in titles:
             api.create(create_loc, "BatchLabel", title=row["title"],description=row["description"])
-    return None
+            count = (count + 1)
+    return count
 
 def import_sdgs(file):
-
+    count = 0
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
-    # for i,row in df.iterrows():
+    clients = map(api.get_object,api.search({'portal_type':'Client'}))
+    contacts = map(api.get_object,api.search({'portal_type':'Contact'}))
+    sdgs = map(api.get_object,api.search({'portal_type':'Batch'}))
+    bids = [s.BatchID for s in sdgs]
+    for i,row in df.iterrows():
+        for j in clients:
+            if row["Client"] == j.ClientID and str(row["BatchID"]) not in bids:
+                print("We should be creating an SDG for: {}".format(row["title"]))
+                create_loc = j
+                client_uid = api.get_uid(j)
+                sdglabels = []
+                # for label in row["BatchLabels"].split(","):
+                #     blabels = api.search({'portal_type':'BatchLabel','title':label})
+                #     if blabels:
+                #         sdglabels.append(api.get_object(blabels[0]))
+                pcontact = None
+                scontact = None
+                gcontact = None
+                for contact in contacts:
+                    name = contact.Firstname + ' ' + contact.Surname
+                    contact_uid = api.get_uid(contact)
+                    if name == row["ProjectContact"] and contact.aq_parent == j:
+                        pcontact = contact_uid
+                    if name == row["SamplerContact"] and contact.aq_parent == j:
+                        scontact = contact_uid
+                    if name == row["GrowerContact"] and contact.aq_parent == j:
+                        gcontact = contact_uid
+                b = api.create( create_loc,
+                            "Batch",
+                            title=row["title"],
+                            description=row["description"],
+                            BatchID=row["BatchID"],
+                            Client=client_uid,
+                            BatchLabels=sdglabels,
+                            SDGDate=row["SDGDate"],
+                            SDGTime=row["SDGTime"],
+                            ReportContact=row["ReportContact"],
+                            ProjectContact=pcontact,
+                            SamplerContact=scontact,
+                            GrowerContact=gcontact
+                            )
+                b.BatchID = row["BatchID"]
+                b.aq_parent.manage_renameObject(b.id,str(row["BatchID"]))
+                count = (count + 1)
 
-    return None
+    return count
 
 def import_subgroups(file):
-
+    count = 0
     create_loc = api.get_portal().bika_setup.bika_subgroups
 
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
@@ -368,10 +458,11 @@ def import_subgroups(file):
     for i,row in df.iterrows():
         if str(row["title"]) not in titles:
             api.create(create_loc, "SubGroup", title=row["title"],description=row["description"])
-    return None
+            count = (count + 1)
+    return count
 
 def import_suppliers(file):
-
+    count = 0
     create_loc = api.get_portal().bika_setup.bika_suppliers
 
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
@@ -379,5 +470,6 @@ def import_suppliers(file):
     names = [s.Name for s in suppliers]
     for i,row in df.iterrows():
         if str(row["Name"]) not in names:
-            api.create(create_loc, "Supplier", Name=row["Name"],EmailAddress=row["EmailAddress"])
-    return None
+            api.create(create_loc, "Supplier", title=row["Name"],EmailAddress=row["EmailAddress"])
+            count = (count + 1)
+    return count
