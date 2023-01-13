@@ -41,6 +41,13 @@ class SamplePointSchemaExtender(object):
                 description="How the address should appear on a Report if different from the \"title\""
             ),
         ),
+        ExtStringField(
+            "ArchiveID",
+            widget=StringWidget(
+                label=_("Archive ID for database organization"),
+                description="How the address should appear on a Report if different from the \"title\""
+            ),
+        ),
     ]
 
     def __init__(self, context):
