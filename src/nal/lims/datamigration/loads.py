@@ -199,7 +199,45 @@ def import_clients(file):
     create_loc = api.get_portal().clients
 
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
-    # for i,row in df.iterrows():
+    clients = map(api.get_object,api.search({'portal_type':'Client'}))
+    cids = [c.ClientID for c in clients]
+    for i,row in df.iterrows():
+        if row["NAL Number"] not in cids:
+            PhysAddress={'country':row['PhysCountry']
+                        ,'state':row['PhysState']
+                        ,'district':row['PhysDistrict']
+                        ,'city':row['PhysCity']
+                        ,'zip':row['PhysPostal']
+                        ,'address':row['PhysAddress']}
+
+            PostAddress={'country':row['PostCountry']
+                        ,'state':row['PostState']
+                        ,'district':row['PostDistrict']
+                        ,'city':row['PostCity']
+                        ,'zip':row['PostPostal']
+                        ,'address':row['PostAddress']}
+
+            BillAddress={'country':row['BillCountry']
+                        ,'state':row['BillState']
+                        ,'district':row['BillDistrict']
+                        ,'city':row['BillCity']
+                        ,'zip':row['BillPostal']
+                        ,'address':row['BillAddress']}
+
+            api.create( create_loc,
+                        "Client",
+                        Name=row["Name"],
+                        ClientID=row["NAL Number"],
+                        Phone=row["Phone"],
+                        Fax=row["Fax"],
+                        EmailAddress=row["Email"],
+                        CSV=row["CSV"],
+                        PhysicalAddress=PhysAddress,
+                        PostalAddress=PostAddress,
+                        BillingAddress=BillAddress,
+                        MBGNumber=row["MBGNumber"],
+                        TrueBlueNumber=row["TrueBlueNumber"],
+                        )
 
     return None
 
