@@ -165,11 +165,11 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
         title = api.get_title(obj)
         client = obj.getClient()
         created = api.get_creation_date(obj)
-	grower = obj.getReferences(relationship="SDGGrowerContact")
-	if grower != []:
+        grower = obj.getReferences(relationship="SDGGrowerContact")
+        if grower != []:
             grower = grower[0]
-	else:
-	    grower = None
+        else:
+            grower = None
         date = obj.SDGDate.strftime("%b %d, %Y") + ' ' + obj.SDGTime
         matrices = []
         for i in obj.getAnalysisRequests():
@@ -198,8 +198,8 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
         item["replace"]["Title"] = get_link(url, title)
         item["created"] = self.ulocalized_time(created, long_format=True)
         item["BatchDate"] = date
-	if grower is not None:
-	    item["GrowerContact"] = grower.Firstname + " " + grower.Surname
+        if grower is not None:
+            item["GrowerContact"] = grower.Firstname + " " + grower.Surname
 
         if client:
             client_url = api.get_url(client)
