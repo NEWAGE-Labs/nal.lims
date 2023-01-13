@@ -129,7 +129,7 @@ def import_from_csvs(eid):
 def import_analysiscategories(file):
 
     create_loc = api.get_portal().bika_setup.bika_analysiscategories
-    df = pd.read_csv(file,keep_default_na=False)
+    df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     analysiscategories = map(api.get_object,api.search({'portal_type':'AnalysisCategory'}))
     titles = [ac.title for ac in analysiscategories]
     for i,row in df.iterrows():
@@ -141,7 +141,7 @@ def import_analysisprofiles(file):
 
     create_loc = api.get_portal().bika_setup.bika_analysisprofiles
 
-    df = pd.read_csv(file,keep_default_na=False)
+    df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     # for i,row in df.iterrows():
 
     return None
@@ -150,7 +150,7 @@ def import_analysisservices(file):
 
     create_loc = api.get_portal().bika_setup.bika_analysisservices
 
-    df = pd.read_csv(file,keep_default_na=False)
+    df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     analysisservices = map(api.get_object,api.search({'portal_type':'AnalysisService'}))
     keywords = [a.Keyword for a in analysisservices]
     for i,row in df.iterrows():
@@ -173,7 +173,7 @@ def import_analysisspecs(file):
 
     create_loc = api.get_portal().bika_setup.bika_analysisspecs
 
-    df = pd.read_csv(file,keep_default_na=False)
+    df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     # for i,row in df.iterrows():
 
     return None
@@ -182,14 +182,14 @@ def import_calculations(file):
 
     create_loc = api.get_portal().bika_setup.bika_calculations
 
-    df = pd.read_csv(file,keep_default_na=False)
+    df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     # for i,row in df.iterrows():
 
     return None
 
 def import_clientcontacts(file):
 
-    df = pd.read_csv(file,keep_default_na=False)
+    df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     # for i,row in df.iterrows():
 
     return None
@@ -198,7 +198,7 @@ def import_clients(file):
 
     create_loc = api.get_portal().clients
 
-    df = pd.read_csv(file,keep_default_na=False)
+    df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     # for i,row in df.iterrows():
 
     return None
@@ -207,7 +207,7 @@ def import_instruments(file):
 
     create_loc = api.get_portal().bika_setup.bika_instruments
 
-    df = pd.read_csv(file,keep_default_na=False)
+    df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     instruments = map(api.get_object,api.search({'portal_type':'Instrument'}))
     titles = [i.title for i in instruments]
     for i,row in df.iterrows():
@@ -234,7 +234,7 @@ def import_instruments(file):
 def import_instrumenttypes(file):
 
     create_loc = api.get_portal().bika_setup.bika_instrumenttypes
-    df = pd.read_csv(file,keep_default_na=False)
+    df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     instrumenttypes = map(api.get_object,api.search({'portal_type':'InstrumentType'}))
     titles = [it.title for it in instrumenttypes]
     for i,row in df.iterrows():
@@ -244,7 +244,7 @@ def import_instrumenttypes(file):
 
 def import_labcontacts(file):
     create_loc = api.get_portal().bika_setup.bika_labcontacts
-    df = pd.read_csv(file,keep_default_na=False)
+    df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     labcontacts = map(api.get_object,api.search({'portal_type':'LabContact'}))
     names = [lc.Firstname + ' ' + lc.Surname for lc in labcontacts]
     for i,row in df.iterrows():
@@ -255,7 +255,7 @@ def import_labcontacts(file):
 def import_manufacturers(file):
 
     create_loc = api.get_portal().bika_setup.bika_manufacturers
-    df = pd.read_csv(file,keep_default_na=False)
+    df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     manufacturers = map(api.get_object,api.search({'portal_type':'Manufacturer'}))
     titles = [m.title for m in manufacturers]
     for i,row in df.iterrows():
@@ -267,7 +267,7 @@ def import_methods(file):
 
     create_loc = api.get_portal().methods
 
-    df = pd.read_csv(file,keep_default_na=False)
+    df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     methods = map(api.get_object,api.search({'portal_type':'Method'}))
     titles = [m.title for m in methods]
     for i,row in df.iterrows():
@@ -277,14 +277,14 @@ def import_methods(file):
 
 def import_samplelocations(file):
 
-    df= pd.read_csv(file,keep_default_na=False)
+    df= pd.read_csv(file,keep_default_na=False,encoding="latin1")
     # for i,row in df.iterrows():
 
     return None
 
 def import_samples(file):
 
-    df = pd.read_csv(file,keep_default_na=False)
+    df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     # for i,row in df.iterrows():
 
     return None
@@ -293,7 +293,7 @@ def import_sampletypes(file):
 
     create_loc = api.get_portal().bika_setup.bika_sampletypes
 
-    df = pd.read_csv(file,keep_default_na=False)
+    df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     sampletypes = map(api.get_object,api.search({'portal_type':'SampleType'}))
     titles = [st.title for st in sampletypes]
     for i,row in df.iterrows():
@@ -305,7 +305,7 @@ def import_sdglabels(file):
 
     create_loc = api.get_portal().bika_setup.bika_batchlabels
 
-    df = pd.read_csv(file,keep_default_na=False)
+    df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     batchlabels = map(api.get_object,api.search({'portal_type':'BatchLabel'}))
     titles = [bl.title for bl in batchlabels]
     for i,row in df.iterrows():
@@ -315,7 +315,7 @@ def import_sdglabels(file):
 
 def import_sdgs(file):
 
-    df = pd.read_csv(file,keep_default_na=False)
+    df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     # for i,row in df.iterrows():
 
     return None
@@ -324,7 +324,7 @@ def import_subgroups(file):
 
     create_loc = api.get_portal().bika_setup.bika_subgroups
 
-    df = pd.read_csv(file,keep_default_na=False)
+    df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     subgroups = map(api.get_object,api.search({'portal_type':'SubGroup'}))
     titles = [sg.title for sg in subgroups]
     for i,row in df.iterrows():
@@ -336,7 +336,7 @@ def import_suppliers(file):
 
     create_loc = api.get_portal().bika_setup.bika_suppliers
 
-    df = pd.read_csv(file,keep_default_na=False)
+    df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     suppliers = map(api.get_object,api.search({'portal_type':'Supplier'}))
     names = [s.Name for s in suppliers]
     for i,row in df.iterrows():
