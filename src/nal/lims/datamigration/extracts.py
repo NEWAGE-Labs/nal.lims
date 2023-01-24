@@ -1012,3 +1012,27 @@ def get_reports_as_df():
             sample_dict['description'].append(sample.description or '')
 
     return pd.DataFrame(sample_dict)[cols]
+
+def query_samples_as_df():
+    """
+    :return: Returns a DataFrame of the queried samples
+    :rtype: DataFrame
+    """
+
+    reports = api.search({'portal_type':"Report"})
+    cols = [
+        'title',
+        'description',
+    ]
+
+    sample_dict = {}
+    for i in cols:
+        sample_dict[i] = []
+
+    for i in samples:
+        if api.get_workflow_status_of(i) not in ['inactive','invalid','cancelled','rejected','retracted','unassigned','dispatched']:
+            sample = api.get_object(i)
+            sample_dict['title'].append(sample.title) #Required
+            sample_dict['description'].append(sample.description or '')
+
+    return pd.DataFrame(sample_dict)[cols]
