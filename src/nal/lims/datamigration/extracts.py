@@ -864,7 +864,7 @@ def get_samples_as_df():
     :rtype: DataFrame
     """
 
-    samples = api.search({'portal_type':"AnalysisRequest"})
+    samples = map(api.get_object,api.search({'portal_type':"AnalysisRequest"}))
     cols = [
         'sid',
         'contacts',
@@ -892,9 +892,8 @@ def get_samples_as_df():
     for i in cols:
         sample_dict[i] = []
 
-    for i in samples:
-        if api.get_workflow_status_of(i) not in ['inactive','invalid','cancelled','rejected','retracted','unassigned','dispatched']:
-            sample = api.get_object(i)
+    for sample in samples:
+        if api.get_workflow_status_of(sample) not in ['inactive','invalid','cancelled','rejected','retracted','unassigned','dispatched']:
             sample_dict['sid'].append(sample.getId())
             contacts = sample.getReferences('AnalysisRequestCCContact')
             if contacts:
@@ -954,7 +953,7 @@ def get_analyses_as_df():
     :rtype: DataFrame
     """
 
-    analyses = api.search({'portal_type':"Analyses"})
+    analyses = map(api.get_object,api.search({'portal_type':"Analysis"}))
     cols = [
         'sid',
         'Keyword',
@@ -976,9 +975,8 @@ def get_analyses_as_df():
     for i in cols:
         analysis_dict[i] = []
 
-    for i in analyses:
-        if api.get_workflow_status_of(i) not in ['inactive','invalid','cancelled','rejected','retracted','unassigned','dispatched']:
-            analysis = api.get_object(i)
+    for analysis in analyses:
+        if api.get_workflow_status_of(analysis) not in ['inactive','invalid','cancelled','rejected','retracted','unassigned','dispatched']:
             analysis_dict['sid'].append(api.get_id(analysis.ac_parent)) #Required
             analysis_dict['Keyword'].append(analysis.Keyword or '')
             analysis_dict['method'].append(analysis.getMethod() or '')
