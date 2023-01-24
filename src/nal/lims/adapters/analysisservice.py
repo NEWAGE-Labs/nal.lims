@@ -15,6 +15,7 @@ from nal.lims.fields import ExtBooleanField
 from nal.lims.fields import ExtRecordsField
 from bika.lims.browser.widgets.recordswidget import RecordsWidget
 from bika.lims.interfaces import IAnalysisService
+from nal.lims.vocabularies import units_vocabulary
 
 class AnalysisServiceSchemaExtender(object):
     adapts(IAnalysisService)
@@ -62,33 +63,38 @@ class AnalysisServiceSchemaExtender(object):
             subfields=(
                 "methodid",
                 "loq",
+                "unit",
                 "iso",
                 "egle",
             ),
-            required_subfields=(
-                "methodid",
-                "loq",
-                "iso",
-                "egle",
-            ),
+            # required_subfields=(
+            #     "methodid",
+            #     "loq",
+            #     "iso",
+            #     "egle",
+            # ),
             subfield_labels={
                 "methodid": _("Method"),
                 "loq": _("Detection Limit"),
+                "unit": _("Unit"),
                 "iso": _("ISO 17025 Accredited?"),
                 "egle": _("EGLE Accredited?"),
             },
             subfield_types={
                 "methodid": "string",
                 "loq": "string",
+                "unit": "string",
                 "iso": "boolean",
                 "egle": "boolean",
             },
             subfield_sizes={
                 "methodid": 1,
                 "loq": 1,
+                "unit": 1,
             },
             subfield_vocabularies={
                 "methodid": "_methods_vocabulary",
+                "unit": units_vocabulary,
             },
             widget=RecordsWidget(
                 label=_("Methods"),
@@ -97,6 +103,8 @@ class AnalysisServiceSchemaExtender(object):
             )
         )
     ]
+
+
 
     def __init__(self, context):
         self.context = context
