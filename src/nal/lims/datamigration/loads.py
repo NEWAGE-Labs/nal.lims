@@ -30,101 +30,101 @@ def import_from_csvs(eid):
     ## Setup Entities ##
 
     #labcontacts
-    print("Importing labcontacts")
+    print("-Importing labcontacts")
     count = import_labcontacts(labcontacts)
-    print("Sucessfully Imported {} labcontacts".format(count))
+    print("-Imported {} labcontacts".format(count))
 
     #analysiscategories
-    print("Importing analysiscategories")
+    print("-Importing analysiscategories")
     count = import_analysiscategories(analysiscategories)
-    print("Sucessfully Imported {} analysiscategories".format(count))
+    print("-Imported {} analysiscategories".format(count))
 
     #instrumenttypes
-    print("Importing instrumenttypes")
+    print("-Importing instrumenttypes")
     count = import_instrumenttypes(instrumenttypes)
-    print("Sucessfully Imported {} instrumenttypes".format(count))
+    print("-Imported {} instrumenttypes".format(count))
 
     #manufacturers
-    print("Importing manufacturers")
+    print("-Importing manufacturers")
     count = import_manufacturers(manufacturers)
-    print("Sucessfully Imported {} manufacturers".format(count))
+    print("-Imported {} manufacturers".format(count))
 
     #suppliers
-    print("Importing suppliers")
+    print("-Importing suppliers")
     count = import_suppliers(suppliers)
-    print("Sucessfully Imported {} suppliers".format(count))
+    print("-Imported {} suppliers".format(count))
 
     #subgroups
-    print("Importing subgroups")
+    print("-Importing subgroups")
     count = import_subgroups(subgroups)
-    print("Sucessfully Imported {} subgroups".format(count))
+    print("-Imported {} subgroups".format(count))
 
     #sdglabels
-    print("Importing sdglabels")
+    print("-Importing sdglabels")
     count = import_sdglabels(sdglabels)
-    print("Sucessfully Imported {} sdglabels".format(count))
+    print("-Imported {} sdglabels".format(count))
 
     #sampletypes
-    print("Importing sampletypes")
+    print("-Importing sampletypes")
     count = import_sampletypes(sampletypes)
-    print("Sucessfully Imported {} sampletypes".format(count))
+    print("-Imported {} sampletypes".format(count))
 
     #methods
-    print("Importing methods")
+    print("-Importing methods")
     count = import_methods(methods)
-    print("Sucessfully Imported {} methods".format(count))
+    print("-Imported {} methods".format(count))
 
     #instruments
-    print("Importing instruments")
+    print("-Importing instruments")
     count = import_instruments(instruments)
-    print("Sucessfully Imported {} instruments".format(count))
+    print("-Imported {} instruments".format(count))
 
     #analysisservices
-    print("Importing analysisservices")
+    print("-Importing analysisservices")
     count = import_analysisservices(analysisservices)
-    print("Sucessfully Imported {} analysisservices".format(count))
+    print("-Imported {} analysisservices".format(count))
 
     #analysisspecs
-    print("Importing analysisspecs")
+    print("-Importing analysisspecs")
     count = import_analysisspecs(analysisspecs)
-    print("Sucessfully Imported {} analysisspecs".format(count))
+    print("-Imported {} analysisspecs".format(count))
 
     #analysisprofiles
-    print("Importing analysisprofiles")
+    print("-Importing analysisprofiles")
     count = import_analysisprofiles(analysisprofiles)
-    print("Sucessfully Imported {} analysisprofiles".format(count))
+    print("-Imported {} analysisprofiles".format(count))
 
     #calculations
-    print("Importing calculations")
+    print("-Importing calculations")
     count = import_calculations(calculations)
-    print("Sucessfully Imported {} calculations".format(count))
+    print("-Imported {} calculations".format(count))
 
     ## Transaction Entities ##
 
     #clients
-    print("Importing clients")
+    print("-Importing clients")
     count = import_clients(clients)
-    print("Sucessfully Imported {} clients".format(count))
+    print("-Imported {} clients".format(count))
 
     # #clientcontacts
-    # print("Importing clientcontacts")
+    # print("-Importing clientcontacts")
     # count = import_clientcontacts(clientcontacts)
-    # print("Sucessfully Imported {} clientcontacts".format(count))
+    # print("-Imported {} clientcontacts".format(count))
 
     #samplelocations
-    print("Importing samplelocations")
-    count = import_samplelocations(samplelocations)
-    print("Sucessfully Imported {} samplelocations".format(count))
-
-    #sdgs
-    print("Importing sdgs")
-    count = import_sdgs(sdgs)
-    print("Sucessfully Imported {} sdgs".format(count))
+    # print("-Importing samplelocations")
+    # count = import_samplelocations(samplelocations)
+    # print("-Imported {} samplelocations".format(count))
+    #
+    # #sdgs
+    # print("-Importing sdgs")
+    # count = import_sdgs(sdgs)
+    # print("-Imported {} sdgs".format(count))
 
     #samples
-    print("Importing samples")
+    print("-Importing samples")
     count = import_samples(samples)
-    print("Sucessfully Imported {} samples".format(count))
+    print("-Imported {} samples".format(count))
 
 def import_analysiscategories(file):
     count = 0
@@ -351,24 +351,94 @@ def import_samplelocations(file):
 
 def import_samples(file):
     count = 0
-    # df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
-    # clients = map(api.get_object,api.search({'portal_type':'Client'}))
-    # locations = map(api.get_object,api.search({'portal_type':'SamplePoint'}))
-    # contacts = map(api.get_object,api.search({'portal_type':'Contact'}))
-    # sdgs = map(api.get_object,api.search({'portal_type':'Batch'}))
-    # samples = map(api.get_object,api.search({'portal_type':'AnalysisRequest'}))
-    # sids = [s.id for s in samples]
-    # # for i,row in df.iterrows():
-    # #     if row['sid'] not in sids:
-    # #         client = api.get_object(api.search({'portal_type':'Client','getClientID':row['client']})[0])
-    # #         create_loc = client
-    # #         sdg = api.get_object(api.search({'portal_type':'Batch','id':row['sdg']})[0])
-    # #         location =
-    # #         #profile
-    # #         type =
-    # #         #ol
-    # #         subgroup =
-    # #         api.create
+    df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
+    clients = map(api.get_object,api.search({'portal_type':'Client'}))
+    locations = map(api.get_object,api.search({'portal_type':'SamplePoint'}))
+    sdgs = map(api.get_object,api.search({'portal_type':'Batch'}))
+    samples = map(api.get_object,api.search({'portal_type':'AnalysisRequest'}))
+    sids = [s.id for s in samples]
+    for i,row in df.iterrows():
+        if row['sid'] not in sids:
+            client = api.get_object(api.search({'portal_type':'Client','getClientID':row['client']})[0])
+            create_loc = client
+            client_uid = client.UID()
+            #SDG
+            sdg_raw = row['sdg']
+            sdg_uid= None
+            if sdg_raw:
+                sdg_objs = api.search({'portal_type':'Batch','id':sdg_raw})
+                if len(sdg_objs) > 0:
+                    sdg_obj = api.get_object(sdg_objs[0])
+                    sdg_uid = sdg_obj.UID()
+            #Contacts
+            contacts_raw = row['contacts'].split(',')
+            contacts_uids = None
+            if contacts_raw:
+                contacts_objs = map(api.get_object,api.search({'portal_type':'Contact','getFullname':contacts_raw}))
+                if contacts_objs == []:
+                    print("Error with {} - Contacts: {}".format(row['sid'],contacts_raw))
+                contacts_uids = map(api.get_uid,contacts_objs)
+            #SampleLocation
+            location_raw = row['location']
+
+            location_uid = None
+            if 'samplepoint-' in location_raw:
+                location_objs = api.search({'portal_type':'SamplePoint','id':location_raw})
+                if len(location_objs) > 0:
+                    location_obj = api.get_object(location_objs[0])
+                    location_uid = location_obj.UID()
+            # #AnalysisProfile
+            # profiles_raw = row['profile'].split(',')
+            #     profiles_uids = None
+            #     if profiles_raw:
+            #         profiles_objs = map(api.get_object,api.search({'portal_type':'AnalysisProfile','title':profiles_raw}))
+            #         if profiles_objs == []:
+            #             print("Error with {} - Profiles: {}".format(row['sid'],profiles_raw))
+            #         profiles_uids = map(api.get_uid,profiles_objs)
+            #SampleType
+            stype_raw = row['sampletype']
+            stype_obj = None
+            if stype_raw:
+                stype_obj = api.get_object(api.search({'portal_type':'SampleType','title':stype_raw})[0])
+                stype_uid = stype_obj.UID()
+            print("Sample Type is: {}".format(stype_obj.title))
+            #AnalysisSpecification
+            spec_raw = row['ol'].split(',')
+            spec_uids = None
+            if spec_raw:
+                spec_objs = map(api.get_object,api.search({'portal_type':'AnalysisSpec','title':spec_raw}))
+                if spec_objs == []:
+                    print("Error with {} - Specs: {}".format(row['sid'],spec_raw))
+                else:
+                    spec_uids = map(api.get_uid,spec_objs)
+            #SubGroup
+            sgroup_raw = row['pair']
+            sgroup_uid = None
+            if sgroup_raw:
+                sgroup_obj = api.get_object(api.search({'portal_type':'SubGroup','title':sgroup_raw})[0])
+                sgroup_uid = sgroup_obj.UID()
+
+            api.create(
+                create_loc,
+                "AnalysisRequest",
+                Client=client_uid,
+                Batch=sdg_uid,
+                CCConact=contacts_uids,
+                SamplePoint=location_uid,
+                Profiles=None,
+                SampleType=stype_uid,
+                AnalysisSpec=None,
+                SubGroup=sgroup_uid,
+                ClientSampleID=row['clientsid'],
+                InternalLabID=row['labid'],
+                DateOfSampling=row['datesampled'],
+                TimeOfSampling=row['timesampled'],
+                PlantType=row['plant'],
+                Variety=row['variety'],
+                GrowthStage=row['growth'],
+                NewLeaf=row['newold'],
+                Vigor=row['vigor']
+            )
 
     return count
 
@@ -454,6 +524,7 @@ def import_subgroups(file):
 
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     subgroups = map(api.get_object,api.search({'portal_type':'SubGroup'}))
+
     titles = [sg.title for sg in subgroups]
     for i,row in df.iterrows():
         if str(row["title"]) not in titles:
