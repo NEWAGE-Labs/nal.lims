@@ -2,6 +2,7 @@ from bika.lims import api
 import pandas as pd
 from datetime import datetime
 import os
+import transaction
 
 def import_from_csvs(eid):
 
@@ -101,26 +102,26 @@ def import_from_csvs(eid):
 
     ## Transaction Entities ##
 
-    #clients
-    print("-Importing clients")
-    count = import_clients(clients)
-    print("-Imported {} clients".format(count))
-
-    # #clientcontacts
+    # #clients
+    # print("-Importing clients")
+    # count = import_clients(clients)
+    # print("-Imported {} clients".format(count))
+    #
+    # # #clientcontacts
     # print("-Importing clientcontacts")
     # count = import_clientcontacts(clientcontacts)
     # print("-Imported {} clientcontacts".format(count))
-
-    #samplelocations
+    #
+    # #samplelocations
     # print("-Importing samplelocations")
     # count = import_samplelocations(samplelocations)
     # print("-Imported {} samplelocations".format(count))
-    #
+    # #
     # #sdgs
-    # print("-Importing sdgs")
-    # count = import_sdgs(sdgs)
-    # print("-Imported {} sdgs".format(count))
-
+    print("-Importing sdgs")
+    count = import_sdgs(sdgs)
+    print("-Imported {} sdgs".format(count))
+    #
     #samples
     print("-Importing samples")
     count = import_samples(samples)
@@ -193,20 +194,29 @@ def import_clientcontacts(file):
     count = 0
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     clients = map(api.get_object,api.search({'portal_type':'Client'}))
+    client_dict = {}
+    for i in clients:
+        client_dict[i.ClientID] = i
+
     for i,row in df.iterrows():
         name = str(row["Firstname"] or '') + ' ' + str(row["Surname"] or '')
-        for j in clients:
-            if row["ClientID"] == j.ClientID:
-            # and name not in [str(c.Firstname or '') + ' ' + str(c.Surname or '') for c in j.getContacts()]:
-                create_loc = api.get_object(j)
-                api.create( create_loc,
-                            "Contact",
-                            Firstname=row["Firstname"],
-                            Surname=row["Surname"],
-                            BusinessPhone=row["BusinessPhone"],
-                            EmailAddress=row["EmailAddress"]
+        print("name is: {}".format(name))
+        client = client_dict[row["ClientID"]]
+        contacts = [str(c.Firstname or '') + ' ' + str(c.Surname or '') for c in client.getContacts()]
+        print("{} - contacts are: {}".format(count,contacts))
+        if name not in contacts:
+            create_loc = client
+            api.create( create_loc,
+                        "Contact",
+                        Firstname=row["Firstname"],
+                        Surname=row["Surname"],
+                        BusinessPhone=row["BusinessPhone"],
+                        EmailAddress=row["EmailAddress"]
                             )
-                count = (count + 1)
+            count = (count + 1)
+            if count % 100 == 0:
+                transaction.get().commit()
+
     return count
 
 def import_clients(file):
@@ -254,6 +264,8 @@ def import_clients(file):
                         TrueBlueNumber=row["TrueBlueNumber"],
                         )
             count = (count + 1)
+            if count % 100 == 0:
+                transaction.get().commit()
 
     return count
 
@@ -339,12 +351,15 @@ def import_samplelocations(file):
     count = 0
     df= pd.read_csv(file,keep_default_na=False,encoding="latin1")
     clients = map(api.get_object,api.search({'portal_type':'Client'}))
+    client_dict = {}
+    for i in clients:
+        client_dict[i.ClientID] = i
     locations = map(api.get_object,api.search({'portal_type':'SamplePoint'}))
     loc_ids = [l.id for l in locations]
     for i,row in df.iterrows():
-        for j in clients:
-            if row["client"] == j.ClientID and str(row["locationid"]) not in loc_ids:
-                create_loc = j
+        client = client_dict.get(row["client"], None)
+        if client is not None and str(row["locationid"]) not in loc_ids:
+                create_loc = client
                 loc = api.create(create_loc, "SamplePoint", title=row["title"],description=row["description"],ArchiveID=str(row["locationid"]))
                 count= (count + 1)
     return count
@@ -353,23 +368,27 @@ def import_samples(file):
     count = 0
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     clients = map(api.get_object,api.search({'portal_type':'Client'}))
+    client_dict = {}
+    for i in clients:
+        client_dict[i.ClientID] = i
     locations = map(api.get_object,api.search({'portal_type':'SamplePoint'}))
     sdgs = map(api.get_object,api.search({'portal_type':'Batch'}))
+    sdg_dict = {}
+    for i in sdgs:
+        sdg_dict[i.title] = i
     samples = map(api.get_object,api.search({'portal_type':'AnalysisRequest'}))
     sids = [s.id for s in samples]
     for i,row in df.iterrows():
         if row['sid'] not in sids:
-            client = api.get_object(api.search({'portal_type':'Client','getClientID':row['client']})[0])
-            create_loc = client
-            client_uid = client.UID()
+            client = client_dict.get(row['client'],None)
+            if client is not None:
+                create_loc = client
+                client_uid = client.UID()
             #SDG
-            sdg_raw = row['sdg']
-            sdg_uid= None
-            if sdg_raw:
-                sdg_objs = api.search({'portal_type':'Batch','id':sdg_raw})
-                if len(sdg_objs) > 0:
-                    sdg_obj = api.get_object(sdg_objs[0])
-                    sdg_uid = sdg_obj.UID()
+            sdg = sdg_dict.get(row['sdg'],None)
+            sdg_uid = None
+            if sdg is not None:
+                sdg_uid = sdg.UID()
             #Contacts
             contacts_raw = row['contacts'].split(',')
             contacts_uids = None
@@ -401,7 +420,6 @@ def import_samples(file):
             if stype_raw:
                 stype_obj = api.get_object(api.search({'portal_type':'SampleType','title':stype_raw})[0])
                 stype_uid = stype_obj.UID()
-            print("Sample Type is: {}".format(stype_obj.title))
             #AnalysisSpecification
             spec_raw = row['ol'].split(',')
             spec_uids = None
@@ -418,7 +436,7 @@ def import_samples(file):
                 sgroup_obj = api.get_object(api.search({'portal_type':'SubGroup','title':sgroup_raw})[0])
                 sgroup_uid = sgroup_obj.UID()
 
-            api.create(
+            s = api.create(
                 create_loc,
                 "AnalysisRequest",
                 Client=client_uid,
@@ -439,6 +457,11 @@ def import_samples(file):
                 NewLeaf=row['newold'],
                 Vigor=row['vigor']
             )
+
+            s.title = str(row["sid"])
+            s.id = str(row["sid"])
+            s.reindexObject()
+            s.reindexObject(idxs=['title','id'])
 
     return count
 
@@ -472,15 +495,18 @@ def import_sdgs(file):
     count = 0
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     clients = map(api.get_object,api.search({'portal_type':'Client'}))
+    client_dict = {}
+    for i in clients:
+        client_dict[i.ClientID] = i
     contacts = map(api.get_object,api.search({'portal_type':'Contact'}))
     sdgs = map(api.get_object,api.search({'portal_type':'Batch'}))
     bids = [s.BatchID for s in sdgs]
     for i,row in df.iterrows():
-        for j in clients:
-            if row["Client"] == j.ClientID and str(row["BatchID"]) not in bids:
+        client = client_dict.get(row["Client"], None)
+        if client is not None and str(row["BatchID"]) not in bids:
                 print("We should be creating an SDG for: {}".format(row["title"]))
-                create_loc = j
-                client_uid = api.get_uid(j)
+                create_loc = client
+                client_uid = api.get_uid(client)
                 sdglabels = []
                 # for label in row["BatchLabels"].split(","):
                 #     blabels = api.search({'portal_type':'BatchLabel','title':label})
@@ -492,11 +518,11 @@ def import_sdgs(file):
                 for contact in contacts:
                     name = contact.Firstname + ' ' + contact.Surname
                     contact_uid = api.get_uid(contact)
-                    if name == row["ProjectContact"] and contact.aq_parent == j:
+                    if name == row["ProjectContact"] and contact.aq_parent == client:
                         pcontact = contact_uid
-                    if name == row["SamplerContact"] and contact.aq_parent == j:
+                    if name == row["SamplerContact"] and contact.aq_parent == client:
                         scontact = contact_uid
-                    if name == row["GrowerContact"] and contact.aq_parent == j:
+                    if name == row["GrowerContact"] and contact.aq_parent == client:
                         gcontact = contact_uid
                 b = api.create( create_loc,
                             "Batch",
@@ -515,6 +541,7 @@ def import_sdgs(file):
                 b.BatchID = row["BatchID"]
                 b.aq_parent.manage_renameObject(b.id,str(row["BatchID"]))
                 count = (count + 1)
+                print("SDG #{} Created".format(count))
 
     return count
 
