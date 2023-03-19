@@ -4,10 +4,11 @@ from datetime import datetime
 import os
 import transaction
 
-def import_from_csvs(eid):
+def load_from_csvs(eid):
 
     dir = 'Extracts ' + eid + '/'
 
+    analyses = dir + 'analyses_'+eid+'.csv'
     analysiscategories = dir + 'analysiscategories_'+eid+'.csv'
     analysisprofiles = dir + 'analysisprofiles_'+eid+'.csv'
     analysisservices = dir + 'analysisservices_'+eid+'.csv'
@@ -31,103 +32,107 @@ def import_from_csvs(eid):
     ## Setup Entities ##
 
     #labcontacts
-    print("-Importing labcontacts")
-    count = import_labcontacts(labcontacts)
-    print("-Imported {} labcontacts".format(count))
+    print("-Loading labcontacts")
+    count = load_labcontacts(labcontacts)
+    print("-Loaded {} labcontacts".format(count))
 
     #analysiscategories
-    print("-Importing analysiscategories")
-    count = import_analysiscategories(analysiscategories)
-    print("-Imported {} analysiscategories".format(count))
+    print("-Loading analysiscategories")
+    count = load_analysiscategories(analysiscategories)
+    print("-Loaded {} analysiscategories".format(count))
 
     #instrumenttypes
-    print("-Importing instrumenttypes")
-    count = import_instrumenttypes(instrumenttypes)
-    print("-Imported {} instrumenttypes".format(count))
+    print("-Loading instrumenttypes")
+    count = load_instrumenttypes(instrumenttypes)
+    print("-Loaded {} instrumenttypes".format(count))
 
     #manufacturers
-    print("-Importing manufacturers")
-    count = import_manufacturers(manufacturers)
-    print("-Imported {} manufacturers".format(count))
+    print("-Loading manufacturers")
+    count = load_manufacturers(manufacturers)
+    print("-Loaded {} manufacturers".format(count))
 
     #suppliers
-    print("-Importing suppliers")
-    count = import_suppliers(suppliers)
-    print("-Imported {} suppliers".format(count))
+    print("-Loading suppliers")
+    count = load_suppliers(suppliers)
+    print("-Loaded {} suppliers".format(count))
 
     #subgroups
-    print("-Importing subgroups")
-    count = import_subgroups(subgroups)
-    print("-Imported {} subgroups".format(count))
+    print("-Loading subgroups")
+    count = load_subgroups(subgroups)
+    print("-Loaded {} subgroups".format(count))
 
     #sdglabels
-    print("-Importing sdglabels")
-    count = import_sdglabels(sdglabels)
-    print("-Imported {} sdglabels".format(count))
+    print("-Loading sdglabels")
+    count = load_sdglabels(sdglabels)
+    print("-Loaded {} sdglabels".format(count))
 
     #sampletypes
-    print("-Importing sampletypes")
-    count = import_sampletypes(sampletypes)
-    print("-Imported {} sampletypes".format(count))
+    print("-Loading sampletypes")
+    count = load_sampletypes(sampletypes)
+    print("-Loaded {} sampletypes".format(count))
 
     #methods
-    print("-Importing methods")
-    count = import_methods(methods)
-    print("-Imported {} methods".format(count))
+    print("-Loading methods")
+    count = load_methods(methods)
+    print("-Loaded {} methods".format(count))
 
     #instruments
-    print("-Importing instruments")
-    count = import_instruments(instruments)
-    print("-Imported {} instruments".format(count))
+    print("-Loading instruments")
+    count = load_instruments(instruments)
+    print("-Loaded {} instruments".format(count))
 
     #analysisservices
-    print("-Importing analysisservices")
-    count = import_analysisservices(analysisservices)
-    print("-Imported {} analysisservices".format(count))
+    print("-Loading analysisservices")
+    count = load_analysisservices(analysisservices)
+    print("-Loaded {} analysisservices".format(count))
 
     #analysisspecs
-    print("-Importing analysisspecs")
-    count = import_analysisspecs(analysisspecs)
-    print("-Imported {} analysisspecs".format(count))
+    print("-Loading analysisspecs")
+    count = load_analysisspecs(analysisspecs)
+    print("-Loaded {} analysisspecs".format(count))
 
     #analysisprofiles
-    print("-Importing analysisprofiles")
-    count = import_analysisprofiles(analysisprofiles)
-    print("-Imported {} analysisprofiles".format(count))
+    print("-Loading analysisprofiles")
+    count = load_analysisprofiles(analysisprofiles)
+    print("-Loaded {} analysisprofiles".format(count))
 
     #calculations
-    print("-Importing calculations")
-    count = import_calculations(calculations)
-    print("-Imported {} calculations".format(count))
+    print("-Loading calculations")
+    count = load_calculations(calculations)
+    print("-Loaded {} calculations".format(count))
 
     ## Transaction Entities ##
 
     # #clients
-    # print("-Importing clients")
-    # count = import_clients(clients)
-    # print("-Imported {} clients".format(count))
+    print("-Loading clients")
+    count = load_clients(clients)
+    print("-Loaded {} clients".format(count))
     #
     # # #clientcontacts
-    # print("-Importing clientcontacts")
-    # count = import_clientcontacts(clientcontacts)
-    # print("-Imported {} clientcontacts".format(count))
+    # print("-Loading clientcontacts")
+    # count = load_clientcontacts(clientcontacts)
+    # print("-Loaded {} clientcontacts".format(count))
     #
     # #samplelocations
-    # print("-Importing samplelocations")
-    # count = import_samplelocations(samplelocations)
-    # print("-Imported {} samplelocations".format(count))
+    # print("-Loading samplelocations")
+    # count = load_samplelocations(samplelocations)
+    # print("-Loaded {} samplelocations".format(count))
     # #
     # #sdgs
-    print("-Importing sdgs")
-    count = import_sdgs(sdgs)
-    print("-Imported {} sdgs".format(count))
+    # print("-Loading sdgs")
+    # count = load_sdgs(sdgs)
+    # print("-Loaded {} sdgs".format(count))
     #
     #samples
-    print("-Importing samples")
-    count = import_samples(samples)
-    print("-Imported {} samples".format(count))
+    print("-Loading samples")
+    count = load_samples(samples)
+    print("-Loaded {} samples".format(count))
+    #analyses
+    # print("-Loading analyses")
+    # count = load_samples(analyses)
+    # print("-Loaded {} analyses".format(count))
 
-def import_analysiscategories(file):
+def load_analysiscategories(file):
     count = 0
     create_loc = api.get_portal().bika_setup.bika_analysiscategories
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
@@ -139,7 +144,7 @@ def import_analysiscategories(file):
             count = (count + 1)
     return count
 
-def import_analysisprofiles(file):
+def load_analysisprofiles(file):
     count = 0
     create_loc = api.get_portal().bika_setup.bika_analysisprofiles
 
@@ -148,7 +153,7 @@ def import_analysisprofiles(file):
 
     return count
 
-def import_analysisservices(file):
+def load_analysisservices(file):
     count = 0
     create_loc = api.get_portal().bika_setup.bika_analysisservices
 
@@ -172,7 +177,7 @@ def import_analysisservices(file):
             count = (count + 1)
     return count
 
-def import_analysisspecs(file):
+def load_analysisspecs(file):
     count = 0
     create_loc = api.get_portal().bika_setup.bika_analysisspecs
 
@@ -181,7 +186,7 @@ def import_analysisspecs(file):
 
     return count
 
-def import_calculations(file):
+def load_calculations(file):
     count = 0
     create_loc = api.get_portal().bika_setup.bika_calculations
 
@@ -190,19 +195,18 @@ def import_calculations(file):
 
     return count
 
-def import_clientcontacts(file):
+def load_clientcontacts(file):
     count = 0
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     clients = map(api.get_object,api.search({'portal_type':'Client'}))
     client_dict = {}
     for i in clients:
         client_dict[i.ClientID] = i
-
     for i,row in df.iterrows():
         name = str(row["Firstname"] or '') + ' ' + str(row["Surname"] or '')
         print("name is: {}".format(name))
         client = client_dict[row["ClientID"]]
-        contacts = [str(c.Firstname or '') + ' ' + str(c.Surname or '') for c in client.getContacts()]
+        contacts = [str(c.Firstname) + ' ' + str(c.Surname) for c in client.getContacts()]
         print("{} - contacts are: {}".format(count,contacts))
         if name not in contacts:
             create_loc = client
@@ -219,7 +223,7 @@ def import_clientcontacts(file):
 
     return count
 
-def import_clients(file):
+def load_clients(file):
     count = 0
     create_loc = api.get_portal().clients
 
@@ -269,7 +273,7 @@ def import_clients(file):
 
     return count
 
-def import_instruments(file):
+def load_instruments(file):
     count = 0
     create_loc = api.get_portal().bika_setup.bika_instruments
 
@@ -298,7 +302,7 @@ def import_instruments(file):
             count = (count + 1)
     return count
 
-def import_instrumenttypes(file):
+def load_instrumenttypes(file):
     count = 0
     create_loc = api.get_portal().bika_setup.bika_instrumenttypes
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
@@ -310,7 +314,7 @@ def import_instrumenttypes(file):
             count = (count + 1)
     return count
 
-def import_labcontacts(file):
+def load_labcontacts(file):
     count = 0
     create_loc = api.get_portal().bika_setup.bika_labcontacts
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
@@ -322,7 +326,7 @@ def import_labcontacts(file):
             count = (count + 1)
     return count
 
-def import_manufacturers(file):
+def load_manufacturers(file):
     count = 0
     create_loc = api.get_portal().bika_setup.bika_manufacturers
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
@@ -334,7 +338,7 @@ def import_manufacturers(file):
             count = (count + 1)
     return count
 
-def import_methods(file):
+def load_methods(file):
     count = 0
     create_loc = api.get_portal().methods
 
@@ -347,7 +351,7 @@ def import_methods(file):
             count = (count + 1)
     return count
 
-def import_samplelocations(file):
+def load_samplelocations(file):
     count = 0
     df= pd.read_csv(file,keep_default_na=False,encoding="latin1")
     clients = map(api.get_object,api.search({'portal_type':'Client'}))
@@ -364,7 +368,7 @@ def import_samplelocations(file):
                 count= (count + 1)
     return count
 
-def import_samples(file):
+def load_samples(file):
     count = 0
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     clients = map(api.get_object,api.search({'portal_type':'Client'}))
@@ -375,9 +379,10 @@ def import_samples(file):
     sdgs = map(api.get_object,api.search({'portal_type':'Batch'}))
     sdg_dict = {}
     for i in sdgs:
-        sdg_dict[i.title] = i
+        sdg_dict[i.getId()] = i
     samples = map(api.get_object,api.search({'portal_type':'AnalysisRequest'}))
     sids = [s.id for s in samples]
+    rnl = []
     for i,row in df.iterrows():
         if row['sid'] not in sids:
             client = client_dict.get(row['client'],None)
@@ -426,7 +431,7 @@ def import_samples(file):
             if spec_raw:
                 spec_objs = map(api.get_object,api.search({'portal_type':'AnalysisSpec','title':spec_raw}))
                 if spec_objs == []:
-                    print("Error with {} - Specs: {}".format(row['sid'],spec_raw))
+                    pass # print("Error with {} - Specs: {}".format(row['sid'],spec_raw))
                 else:
                     spec_uids = map(api.get_uid,spec_objs)
             #SubGroup
@@ -458,14 +463,27 @@ def import_samples(file):
                 Vigor=row['vigor']
             )
 
-            s.title = str(row["sid"])
-            s.id = str(row["sid"])
-            s.reindexObject()
-            s.reindexObject(idxs=['title','id'])
+            rnl.append((create_loc,
+                        s.getId(),
+                        row["sid"].encode('utf-8'),
+                        s)
+                    )
+            count = count + 1
+
+            if count % 100 == 0:
+                print("Loaded {} Samples".format(count))
+                for i in range(len(rnl)):
+                    rnl[i][0].manage_renameObject(rnl[i][1], rnl[i][2])
+                    rnl[i][3].title = rnl[i][2]
+                    rnl[i][3].id = rnl[i][2]
+                    rnl[i][3].reindexObject()
+                    rnl[i][3].reindexObject(idxs=['title','id'])
+                rnl = []
+                print("Renamed {} Samples".format(count))
 
     return count
 
-def import_sampletypes(file):
+def load_sampletypes(file):
     count = 0
     create_loc = api.get_portal().bika_setup.bika_sampletypes
 
@@ -478,7 +496,7 @@ def import_sampletypes(file):
             count = (count + 1)
     return count
 
-def import_sdglabels(file):
+def load_sdglabels(file):
     count = 0
     create_loc = api.get_portal().bika_setup.bika_batchlabels
 
@@ -491,7 +509,7 @@ def import_sdglabels(file):
             count = (count + 1)
     return count
 
-def import_sdgs(file):
+def load_sdgs(file):
     count = 0
     df = pd.read_csv(file,keep_default_na=False,encoding="latin1")
     clients = map(api.get_object,api.search({'portal_type':'Client'}))
@@ -500,18 +518,21 @@ def import_sdgs(file):
         client_dict[i.ClientID] = i
     contacts = map(api.get_object,api.search({'portal_type':'Contact'}))
     sdgs = map(api.get_object,api.search({'portal_type':'Batch'}))
+    labels = map(api.get_object,api.search({'portal_type':'BatchLabel'}))
+    label_dict = {}
+    for i in labels:
+        label_dict[i.title] = i
     bids = [s.BatchID for s in sdgs]
     for i,row in df.iterrows():
         client = client_dict.get(row["Client"], None)
         if client is not None and str(row["BatchID"]) not in bids:
-                print("We should be creating an SDG for: {}".format(row["title"]))
                 create_loc = client
                 client_uid = api.get_uid(client)
                 sdglabels = []
-                # for label in row["BatchLabels"].split(","):
-                #     blabels = api.search({'portal_type':'BatchLabel','title':label})
-                #     if blabels:
-                #         sdglabels.append(api.get_object(blabels[0]))
+                for label in row["BatchLabels"].split(","):
+                    blabels = label_dict[label]
+                    if blabel is not None:
+                        sdglabels.append(api.get_object(blabel))
                 pcontact = None
                 scontact = None
                 gcontact = None
@@ -538,14 +559,14 @@ def import_sdgs(file):
                             SamplerContact=scontact,
                             GrowerContact=gcontact
                             )
-                b.BatchID = row["BatchID"]
                 b.aq_parent.manage_renameObject(b.id,str(row["BatchID"]))
+                b.BatchID = row["BatchID"]
+                b.id = row["BatchID"])
                 count = (count + 1)
-                print("SDG #{} Created".format(count))
 
     return count
 
-def import_subgroups(file):
+def load_subgroups(file):
     count = 0
     create_loc = api.get_portal().bika_setup.bika_subgroups
 
@@ -559,7 +580,7 @@ def import_subgroups(file):
             count = (count + 1)
     return count
 
-def import_suppliers(file):
+def load_suppliers(file):
     count = 0
     create_loc = api.get_portal().bika_setup.bika_suppliers
 
@@ -570,4 +591,8 @@ def import_suppliers(file):
         if str(row["Name"]) not in names:
             api.create(create_loc, "Supplier", title=row["Name"],EmailAddress=row["EmailAddress"])
             count = (count + 1)
+    return count
+
+def load_analyses(file):
+
     return count
