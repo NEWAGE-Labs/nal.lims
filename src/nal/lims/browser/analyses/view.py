@@ -47,11 +47,6 @@ class AnalysesView(BikaAnalysesView):
         self.columns['DueDate']['toggle'] = False
         self.columns['Unit']['toggle'] = True
         self.columns['Instrument']['toggle'] = True
-        self.columns['Weight']['toggle'] = True
-        self.columns['Dilution']['toggle'] = True
-        self.columns['Volume']['toggle'] = True
-        self.columns['ShowTotal']['toggle'] = True
-        self.columns['ShowMethodInName']['toggle'] = True
 
         #Add New columns
         ## Analysis Date/Time
@@ -79,8 +74,8 @@ class AnalysesView(BikaAnalysesView):
             "type": "decimal",
         }
         ## Dilution
-        self.columns["Weight"] = {
-            "title": _("Weight"),
+        self.columns["Dilution"] = {
+            "title": _("Dilution"),
             "toggle": True,
             "sortable": False,
             "ajax": True,
@@ -110,6 +105,11 @@ class AnalysesView(BikaAnalysesView):
             "ajax": True,
             "type": "boolean"
         }
+        self.columns['Weight']['toggl'] = True
+        self.columns['Dilution']['toggle'] = True
+        self.columns['Volume']['toggle'] = True
+        self.columns['ShowTotal']['toggle'] = True
+        self.columns['ShowMethodInName']['toggle'] = True
 
         ## Update each contentfilter with the added and modified column keys
         for i in self.review_states:

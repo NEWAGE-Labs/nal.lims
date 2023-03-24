@@ -17,8 +17,7 @@
   <include package=".behaviors" />
   <include package=".adapters" />
   <include package=".impress" />
-
-  <include file="permissions.zcml" />
+  <include package=".controlpanel" />
 
   <genericsetup:registerProfile
       name="default"

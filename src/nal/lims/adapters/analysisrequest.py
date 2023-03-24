@@ -27,22 +27,6 @@ class AnalysisRequestSchemaExtender(object):
 
     fields = [
         ExtStringField(
-            "WaterSourceType",
-            vocabulary=WaterSourceTypes,
-            widget=SelectionWidget(
-                label="Water Source Type",
-                format="radio",
-                render_own_label=True,
-                visible={
-                    'edit':'visible',
-                    'view':'visible',
-                    'add':'edit',
-                    'header_table':'visible',
-                },
-            )
-        ),
-
-        ExtStringField(
             'PlantType',
             widget=StringWidget(
                 label="Plant Type (Sap Samples)",
@@ -233,6 +217,7 @@ class AnalysisRequestSchemaModifier(object):
         schema['PublicationSpecification'].widget.visible = False
         schema['MemberDiscount'].widget.visible = False
         schema['DateReceived'].widget.visible = False
+	schema['NumSamples'].widget.visible = False
 
         schema['CCEmails'].widget.visible={
             'edit':'visible',
@@ -276,8 +261,7 @@ class AnalysisRequestSchemaModifier(object):
         schema.moveField('Profiles', after='SamplePoint')
         schema.moveField('Specification', after='Profiles')
         schema.moveField('SubGroup', after='Specification')
-        schema.moveField('WaterSourceType', after='SubGroup')
-        schema.moveField('PlantType', after='WaterSourceType')
+        schema.moveField('PlantType', after='SubGroup')
         schema.moveField('Variety', after='PlantType')
         schema.moveField('GrowthStage', after='Variety')
         schema.moveField('NewLeaf', after='GrowthStage')

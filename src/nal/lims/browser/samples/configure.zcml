@@ -16,7 +16,7 @@
         for="bika.lims.interfaces.IAnalysisRequest"
         name="table_lab_analyses"
         class=".tables.LabAnalysesTable"
-        permission="senaite.core.permissions.ManageAnalysisRequests"
+        permission="cmf.ListFolderContents"
         layer="nal.lims.interfaces.INalLimsLayer"
         />
 

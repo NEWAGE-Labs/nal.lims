@@ -39,7 +39,8 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
         self.columns = collections.OrderedDict((
             ("Title", {
                 "title": _("Internal SDG ID"),
-                "index": "title", }),
+                "index": "title",
+		"sortable": True}),
             ("Progress", {
                 "title": _("Progress"),
                 "index": "getProgress",
@@ -58,8 +59,12 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
             ("Description", {
                 "title": _("Description"),
                 "sortable": False, }),
-            ("BatchDate", {
-                "title": _("SDG Received Date"), }),
+            ("SDGDate", {
+                "title": _("SDG Received Date"),
+                "sortable": True, }),
+            ("SDGTime", {
+                "title": _("SDG Received Time"),
+                "sortable": True, }),
             ("Client", {
                 "title": _("Client"),
                 "index": "getClientTitle", }),
@@ -170,7 +175,8 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
             grower = grower[0]
         else:
             grower = None
-        date = obj.SDGDate.strftime("%b %d, %Y") + ' ' + obj.SDGTime
+        date = obj.SDGDate.strftime("%m/%d/%Y")
+	time = obj.SDGTime
         matrices = []
         for i in obj.getAnalysisRequests():
             matrix = i.getSampleType().Title() if i.getSampleType() else ''
@@ -197,7 +203,8 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
         item["Title"] = title
         item["replace"]["Title"] = get_link(url, title)
         item["created"] = self.ulocalized_time(created, long_format=True)
-        item["BatchDate"] = date
+        item["SDGDate"] = date
+	item["SDGTime"] = time
         if grower is not None:
             item["GrowerContact"] = grower.Firstname + " " + grower.Surname
 

@@ -717,7 +717,7 @@ def get_sdgs_as_df():
         sdg_dict[i] = []
 
     for i in sdgs:
-        if api.get_workflow_status_of(i) == 'closed':
+        if api.get_workflow_status_of(i) == 'open':
             sdg = api.get_object(i)
             sdg_dict['title'].append(sdg.title) #Required
             sdg_dict['description'].append(sdg.description or '')

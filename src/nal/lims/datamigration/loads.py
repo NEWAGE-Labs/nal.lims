@@ -38,7 +38,7 @@ def load_from_csvs(eid):
 
     #analysiscategories
     print("-Loading analysiscategories")
-    count = load_analysiscategories(analysiscategories)
+#    count = load_analysiscategories(analysiscategories)
     print("-Loaded {} analysiscategories".format(count))
 
     #instrumenttypes
@@ -83,7 +83,7 @@ def load_from_csvs(eid):
 
     #analysisservices
     print("-Loading analysisservices")
-    count = load_analysisservices(analysisservices)
+ #   count = load_analysisservices(analysisservices)
     print("-Loaded {} analysisservices".format(count))
 
     #analysisspecs
@@ -105,23 +105,23 @@ def load_from_csvs(eid):
 
     # #clients
     print("-Loading clients")
-    count = load_clients(clients)
+#    count = load_clients(clients)
     print("-Loaded {} clients".format(count))
     #
     # # #clientcontacts
-    # print("-Loading clientcontacts")
-    # count = load_clientcontacts(clientcontacts)
-    # print("-Loaded {} clientcontacts".format(count))
+    print("-Loading clientcontacts")
+    count = load_clientcontacts(clientcontacts)
+    print("-Loaded {} clientcontacts".format(count))
     #
     # #samplelocations
-    # print("-Loading samplelocations")
-    # count = load_samplelocations(samplelocations)
-    # print("-Loaded {} samplelocations".format(count))
+    print("-Loading samplelocations")
+    count = load_samplelocations(samplelocations)
+    print("-Loaded {} samplelocations".format(count))
     # #
     # #sdgs
-    # print("-Loading sdgs")
-    # count = load_sdgs(sdgs)
-    # print("-Loaded {} sdgs".format(count))
+    print("-Loading sdgs")
+    count = load_sdgs(sdgs)
+    print("-Loaded {} sdgs".format(count))
     #
     #samples
     print("-Loading samples")
@@ -530,9 +530,10 @@ def load_sdgs(file):
                 client_uid = api.get_uid(client)
                 sdglabels = []
                 for label in row["BatchLabels"].split(","):
-                    blabels = label_dict[label]
-                    if blabel is not None:
-                        sdglabels.append(api.get_object(blabel))
+                    blabel = label_dict.get(label,None)
+                    if blabel is not None and blabel:
+                        sdglabels.append(blabel.UID())
+		print(sdglabels)
                 pcontact = None
                 scontact = None
                 gcontact = None
@@ -545,6 +546,7 @@ def load_sdgs(file):
                         scontact = contact_uid
                     if name == row["GrowerContact"] and contact.aq_parent == client:
                         gcontact = contact_uid
+		print("Contacts: {}\n{}\n{}".format(pcontact,scontact,gcontact))
                 b = api.create( create_loc,
                             "Batch",
                             title=row["title"],
@@ -559,9 +561,15 @@ def load_sdgs(file):
                             SamplerContact=scontact,
                             GrowerContact=gcontact
                             )
-                b.aq_parent.manage_renameObject(b.id,str(row["BatchID"]))
-                b.BatchID = row["BatchID"]
-                b.id = row["BatchID"])
+		bid = row["BatchID"]
+		if bid not in bids and bid:
+			print("BatchID is: {}".format(bid))
+                	b.aq_parent.manage_renameObject(b.id,str(bid))
+			print("renamed")
+                	b.BatchID = str(bid)
+			print("got new BatchID")
+                	b.id = str(bid)
+			print("done")
                 count = (count + 1)
 
     return count
