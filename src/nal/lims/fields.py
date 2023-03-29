@@ -1,6 +1,7 @@
 import six
 from archetypes.schemaextender.interfaces import IExtensionField
 from Products.Archetypes.public import *
+from Products.Archetypes.atapi import *
 from zope.interface import implements
 from zope.site.hooks import getSite
 from senaite.core.browser.fields.records import RecordsField
@@ -101,6 +102,10 @@ class ExtTextField(ExtensionField, TextField):
     "Field extender"
 
 class ExtRecordsField(ExtensionField, RecordsField):
+
+    "Field extender"
+
+class ExtFileField(ExtensionField, FileField):
 
     "Field extender"
 

@@ -23,6 +23,7 @@ from bika.lims import bikaMessageFactory as _
 from bika.lims.utils import get_link
 from bika.lims.utils import get_link_for
 from bika.lims.utils import check_permission
+from bika.lims.utils import getUsers
 from bika.lims.browser.analyses import AnalysesView as BikaAnalysesView
 
 class AnalysesView(BikaAnalysesView):
@@ -37,7 +38,8 @@ class AnalysesView(BikaAnalysesView):
 
         #Alter existing Columns
         self.columns['state_title']['toggle'] = False
-        self.columns['Specification']['title'] = "Range"
+        self.columns['Specification']['title'] = "OL Range"
+	self.columns['Specification']['toggle'] = False
         self.columns['Uncertainty']['toggle'] = False
         self.columns['retested']['toggle'] = False
         self.columns['Attachments']['toggle'] = False
@@ -47,6 +49,8 @@ class AnalysesView(BikaAnalysesView):
         self.columns['DueDate']['toggle'] = False
         self.columns['Unit']['toggle'] = True
         self.columns['Instrument']['toggle'] = True
+	self.columns['Analyst']['ajax'] = True
+	self.columns['Method']['toggle'] = True
 
         #Add New columns
         ## Analysis Date/Time
@@ -55,7 +59,8 @@ class AnalysesView(BikaAnalysesView):
             "toggle": True,
             "sortable": False,
             "ajax": True,
-            "type": "string"
+            "type": "string",
+	    "input_width": "13",
         }
         ## Inconclusive
         self.columns["Inconclusive"] = {
@@ -147,5 +152,13 @@ class AnalysesView(BikaAnalysesView):
         item['allow_edit'].append('Dilution')
         item['allow_edit'].append('Volume')
         item['allow_edit'].append('Unit')
+
+	analysts = getUsers(self.context, ['Manager','LabManager','Analyst'])
+	analysts = analysts.sortedByKey()
+	results = list()
+	for analyst_id, analyst_name in analysts.items():
+		results.append({'ResultValue' : analyst_id, 'ResultText' : analyst_name})
+	item['choices']['Analyst'] = results
+	item['Analyst'] = obj.getAnalyst() or api.get_current_user().id
 
         return item

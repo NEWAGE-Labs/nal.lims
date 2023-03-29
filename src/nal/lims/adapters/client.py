@@ -6,6 +6,7 @@ from archetypes.schemaextender.interfaces import ISchemaModifier
 # from Products.Archetypes.public import StringField as ExtStringField
 from nal.lims.fields import ExtStringField
 from nal.lims.fields import ExtBooleanField
+from nal.lims.fields import ExtFileField
 from Products.Archetypes.atapi import ReferenceField as ExtReferenceField
 from bika.lims.browser.widgets import ReferenceWidget
 from bika.lims import bikaMessageFactory as _
@@ -15,6 +16,7 @@ from nal.lims.interfaces import INalLimsLayer
 from Products.Archetypes.public import StringField
 from Products.Archetypes.public import StringWidget
 from Products.Archetypes.public import BooleanWidget
+from Products.Archetypes.atapi import FileWidget
 
 class ClientSchemaExtender(object):
     adapts(IClient)
@@ -75,6 +77,22 @@ class ClientSchemaExtender(object):
                 ui_item='Name',
             ),
         ),
+        ExtFileField(
+            'Logo',
+            widget=FileWidget(
+                label="Logo",
+                description="Logo for the client to add to reports",
+                visible = True,
+            )
+        ),
+        ExtStringField(
+            "ReferralComment",
+            required=False,
+            widget=StringWidget(
+                label="Referral Comment",
+                description="How was this Client referred to NEW AGE?",
+            )
+        ),
     ]
 
     def __init__(self, context):
@@ -94,10 +112,13 @@ class ClientSchemaModifier(object):
         self.context = context
 
     def fiddle(self, schema):
+	schema.moveField('ReferralComment', after='EmailAddress')
+
         schema["BulkDiscount"].widget.visible = False
         schema["MemberDiscountApplies"].widget.visible = False
         schema["TaxNumber"].widget.visible = False
         schema["ClientID"].widget.label = "NAL Number"
+	schema["ClientID"].widget.description = "The Unique ID associated with the client. Example: 'NAL23-456'"
         schema["PhysicalAddress"].required = True
         schema["CSV"].widget.visible = True
         # schema["PhysicalAddress"].schemata = "default"
