@@ -39,7 +39,7 @@ class AnalysesView(BikaAnalysesView):
         #Alter existing Columns
         self.columns['state_title']['toggle'] = False
         self.columns['Specification']['title'] = "OL Range"
-	self.columns['Specification']['toggle'] = False
+        self.columns['Specification']['toggle'] = False
         self.columns['Uncertainty']['toggle'] = False
         self.columns['retested']['toggle'] = False
         self.columns['Attachments']['toggle'] = False
@@ -105,7 +105,7 @@ class AnalysesView(BikaAnalysesView):
         }
         ## ShowMethodInName
         self.columns["ShowMethodInName"] = {
-            "title": _("Method in Name"),
+            "title": _("Name [Method]"),
             "toggle": True,
             "sortable": False,
             "ajax": True,
@@ -157,12 +157,15 @@ class AnalysesView(BikaAnalysesView):
         item['allow_edit'].append('Volume')
         item['allow_edit'].append('Unit')
 
-	analysts = getUsers(self.context, ['Manager','LabManager','Analyst'])
-	analysts = analysts.sortedByKey()
-	results = list()
-	for analyst_id, analyst_name in analysts.items():
-		results.append({'ResultValue' : analyst_id, 'ResultText' : analyst_name})
-	item['choices']['Analyst'] = results
-	item['Analyst'] = obj.getAnalyst() or api.get_current_user().id
+        analysts = getUsers(self.context, ['Manager','LabManager','Analyst'])
+        analysts = analysts.sortedByKey()
+        results = list()
+        for analyst_id, analyst_name in analysts.items():
+            results.append({'ResultValue' : analyst_id, 'ResultText' : analyst_name})
+
+        item['choices']['Analyst'] = results
+        item['Analyst'] = obj.Analyst or api.get_current_user().id
+        print(item.keys())
+        item['Method']['toggle'] = True
 
         return item
