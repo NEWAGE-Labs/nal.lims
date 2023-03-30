@@ -27,7 +27,7 @@ class AnalysisSchemaExtender(object):
             'ShowTotal',
             schemata="Analysis",
             widget=BooleanWidget(
-                label="Total",
+                label="Analyte, Total",
                 description="Toggle whether to display the word 'Total' on the report for the element. Ex. Total Nitrogen",
                 render_own_label=True,
                 visible={
@@ -43,7 +43,7 @@ class AnalysisSchemaExtender(object):
             'ShowMethodInName',
             schemata="Analysis",
             widget=BooleanWidget(
-                label="Show Method",
+                label="Analyte [Method]",
                 description="Toggle whether to display the name of the method on the report",
                 render_own_label=True,
                 visible={
@@ -97,6 +97,36 @@ class AnalysisSchemaExtender(object):
             widget=DecimalWidget(
                 label=_("Dilution"),
             )
+        ),
+
+        ExtFloatField(
+            'LOQOverride',
+            write_permission=View,
+            read_permission=View,
+            widget=DecimalWidget(
+                label=_("LOQ Override"),
+                visible={
+                    'edit':'visible',
+                    'view':'visible',
+                    'add':'edit',
+                    'header_table':'visible',
+                },
+            )
+        ),
+
+        ExtBooleanField(
+            'ResultOverride',
+            write_permission=View,
+            read_permission=View,
+            widget=BooleanWidget(
+                label=_("Result < Override"),
+                visible={
+                    'edit':'visible',
+                    'view':'visible',
+                    'add':'edit',
+                    'header_table':'visible',
+                },
+            ),
         ),
     ]
 

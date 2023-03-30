@@ -63,18 +63,10 @@ class AnalysesView(BikaAnalysesView):
             "type": "string",
 	    "input_width": "13",
         }
-        ## Inconclusive
-        self.columns["Inconclusive"] = {
-            "title": _("Inconclusive"),
-            "toggle": True,
-            "sortable": False,
-            "ajax": True,
-            "type": "boolean"
-        }
         ## Weight
         self.columns["Weight"] = {
-            "title": _("Weight (grams)"),
-            "toggle": True,
+            "title": _("Weight (g)"),
+            "toggle": False,
             "sortable": False,
             "ajax": True,
             "type": "decimal",
@@ -87,17 +79,41 @@ class AnalysesView(BikaAnalysesView):
             "ajax": True,
             "type": "decimal",
         }
-        ## Volume
-        self.columns["Volume"] = {
-            "title": _("Volume"),
+        ## LOQ Override
+        self.columns["LOQOverride"] = {
+            "title": _("LOQ Override"),
             "toggle": True,
             "sortable": False,
             "ajax": True,
             "type": "decimal",
         }
+        ## Result < Override
+        self.columns["ResultOverride"] = {
+            "title": _("Result < Override"),
+            "toggle": True,
+            "sortable": False,
+            "ajax": True,
+            "type": "boolean"
+        }
+        ## Volume
+        self.columns["Volume"] = {
+            "title": _("Volume (mL)"),
+            "toggle": False,
+            "sortable": False,
+            "ajax": True,
+            "type": "decimal",
+        }
+        ## Inconclusive
+        self.columns["Inconclusive"] = {
+            "title": _("Inconclusive"),
+            "toggle": True,
+            "sortable": False,
+            "ajax": True,
+            "type": "boolean"
+        }
         ## ShowTotal
         self.columns["ShowTotal"] = {
-            "title": _("Total"),
+            "title": _("Analyte, Total"),
             "toggle": True,
             "sortable": False,
             "ajax": True,
@@ -105,24 +121,16 @@ class AnalysesView(BikaAnalysesView):
         }
         ## ShowMethodInName
         self.columns["ShowMethodInName"] = {
-            "title": _("Name [Method]"),
+            "title": _("Analyte [Method]"),
             "toggle": True,
             "sortable": False,
             "ajax": True,
             "type": "boolean"
         }
-        self.columns['Weight']['toggl'] = True
-        self.columns['Dilution']['toggle'] = True
-        self.columns['Volume']['toggle'] = True
-        self.columns['ShowTotal']['toggle'] = True
-        self.columns['ShowMethodInName']['toggle'] = True
 
         ## Update each contentfilter with the added and modified column keys
         for i in self.review_states:
             i["columns"] = self.columns.keys()
-
-	i["columns"].remove("Inconclusive")
-	i["columns"].append("Inconclusive")
 
         #No return
 
@@ -138,6 +146,8 @@ class AnalysesView(BikaAnalysesView):
             item['Weight'] = obj.Weight
         if obj.Dilution is not None:
             item['Dilution'] = obj.Dilution
+	else:
+            item['Dilution'] = 1
         if obj.Volume is not None:
             item['Volume'] = obj.Volume
         if obj.Unit is not None:
@@ -146,15 +156,19 @@ class AnalysesView(BikaAnalysesView):
             item['ShowTotal'] = obj.ShowTotal
         if obj.ShowMethodInName is not None:
             item['ShowMethodInName'] = obj.ShowMethodInName
+        if obj.LOQOverride is not None:
+            item['LOQOverride'] = obj.LOQOverride
+        if obj.ResultOverride is not None:
+            item['ResultOverride'] = obj.ResultOverride
 
         item['allow_edit'].append('Inconclusive')
         item['allow_edit'].append('ShowTotal')
         item['allow_edit'].append('ShowMethodInName')
         item['allow_edit'].append('Analyst')
         item['allow_edit'].append('AnalysisDateTime')
-        item['allow_edit'].append('Weight')
+        item['allow_edit'].append('LOQOverride')
         item['allow_edit'].append('Dilution')
-        item['allow_edit'].append('Volume')
+        item['allow_edit'].append('ResultOverride')
         item['allow_edit'].append('Unit')
 
         analysts = getUsers(self.context, ['Manager','LabManager','Analyst'])
@@ -165,7 +179,14 @@ class AnalysesView(BikaAnalysesView):
 
         item['choices']['Analyst'] = results
         item['Analyst'] = obj.Analyst or api.get_current_user().id
-        print(item.keys())
-        item['Method']['toggle'] = True
+	print(item.keys())
+        print("Method is: {}".format(item['Method']))
+        print("Analyst is: {}".format(item['Analyst']))
 
         return item
+
+    def folderitems(self):
+	items = super(AnalysesView, self).folderitems()
+	self.columns['Method']['toggle'] = True
+	
+	return items
