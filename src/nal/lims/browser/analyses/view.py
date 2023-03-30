@@ -51,6 +51,7 @@ class AnalysesView(BikaAnalysesView):
         self.columns['Instrument']['toggle'] = True
 	self.columns['Analyst']['ajax'] = True
 	self.columns['Method']['toggle'] = True
+	self.columns['Method']['ajax'] = True
 
         #Add New columns
         ## Analysis Date/Time
@@ -104,7 +105,7 @@ class AnalysesView(BikaAnalysesView):
         }
         ## ShowMethodInName
         self.columns["ShowMethodInName"] = {
-            "title": _("Show Method"),
+            "title": _("Method in Name"),
             "toggle": True,
             "sortable": False,
             "ajax": True,
@@ -119,6 +120,9 @@ class AnalysesView(BikaAnalysesView):
         ## Update each contentfilter with the added and modified column keys
         for i in self.review_states:
             i["columns"] = self.columns.keys()
+
+	i["columns"].remove("Inconclusive")
+	i["columns"].append("Inconclusive")
 
         #No return
 
