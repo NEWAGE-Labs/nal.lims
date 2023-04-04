@@ -15,7 +15,7 @@
 # this program; if not, write to the Free Software Foundation, Inc., 51
 # Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
-# Copyright 2018-2021 by it's authors.
+# Copyright 2018-2023 by it's authors.
 # Some rights reserved, see README and LICENSE.
 
 from collections import Iterable
@@ -62,6 +62,125 @@ class ReportView(Base):
     """AR specific Report View
     """
 #Start Custom Methods
+    def get_state(self, state):
+        state_dict= {
+        'ALABAMA': 'AL',
+        'ALASKA': 'AK',
+        'AMERICAN SAMOA': 'AS',
+        'ARIZONA': 'AZ',
+        'ARKANSAS': 'AR',
+        'CALIFORNIA': 'CA',
+        'COLORADO': 'CO',
+        'CONNECTICUT': 'CT',
+        'DELAWARE': 'DE',
+        'DISTRICT OF COLUMBIA': 'DC',
+        'FLORIDA': 'FL',
+        'GEORGIA': 'GA',
+        'GUAM': 'GU',
+        'HAWAII': 'HI',
+        'IDAHO': 'ID',
+        'ILLINOIS': 'IL',
+        'INDIANA': 'IN',
+        'IOWA': 'IA',
+        'KANSAS': 'KS',
+        'KENTUCKY': 'KY',
+        'LOUISIANA': 'LA',
+        'MAINE': 'ME',
+        'MARYLAND': 'MD',
+        'MASSACHUSETTS': 'MA',
+        'MICHIGAN': 'MI',
+        'MINNESOTA': 'MN',
+        'MISSISSIPPI': 'MS',
+        'MISSOURI': 'MO',
+        'MONTANA': 'MT',
+        'NEBRASKA': 'NE',
+        'NEVADA': 'NV',
+        'NEW HAMPSHIRE': 'NH',
+        'NEW JERSEY': 'NJ',
+        'NEW MEXICO': 'NM',
+        'NEW YORK': 'NY',
+        'NORTH CAROLINA': 'NC',
+        'NORTH DAKOTA': 'ND',
+        'NORTHERN MARIANA IS': 'MP',
+        'OHIO': 'OH',
+        'OKLAHOMA': 'OK',
+        'OREGON': 'OR',
+        'PENNSYLVANIA': 'PA',
+        'PUERTO RICO': 'PR',
+        'RHODE ISLAND': 'RI',
+        'SOUTH CAROLINA': 'SC',
+        'SOUTH DAKOTA': 'SD',
+        'TENNESSEE': 'TN',
+        'TEXAS': 'TX',
+        'UTAH': 'UT',
+        'VERMONT': 'VT',
+        'VIRGINIA': 'VA',
+        'VIRGIN ISLANDS': 'VI',
+        'WASHINGTON': 'WA',
+        'WEST VIRGINIA': 'WV',
+        'WISCONSIN': 'WI',
+        'WYOMING': 'WY',
+
+        'BRITISH COLUMBIA': 'BC',
+        }
+        abbrev = None
+        if state is not None and state in state_dict:
+            abbrev = state_dict[state.upper()]
+        if abbrev is not None:
+            state = abbrev
+        return state
+
+    def isEGLE(self, analysis):
+	egle = False
+	if analysis.Keyword in ['nitrate','copper','lead','c18_ecoli_pa','c18_coliforms_pa','c18_coliforms_mpn','c18_ecoli_mpn','c18_fecal_coliforms_pa']:
+		egle = True
+	return egle
+
+    def get_sap_increase(self, new, old, ol):
+	if new is None or old is None:
+		return 0
+
+	new = float(new)
+	old = float(old)
+	yellow = None
+	if new <= 0:
+		return 0
+	if old < 0:
+		old = 0
+	perc = ((new-old)/new)*(-100)
+	if ol is not None and ol:
+		ol = float(ol)
+		cutoff = 0.70
+		if new < (cutoff * ol):
+			yellow = 'yellowize'
+	return (perc,yellow)
+
+    def get_sap_colors(self, perc):
+	if perc[1] == 'yellowize':
+		return ('#FDFD96','black')
+	perc = float(perc[0])
+	if perc <= -20:
+		return ('#FFCCCC', 'rgb(121,23,23)')
+	elif perc >= 20:
+		return ('#99CCFF', 'rgb(23,23,121)')
+	else:
+		return ('#FFFFFF','black')
+
+    def get_nce_bar(self, perc):
+        print("Percent = {0}".format(perc))
+        color = 'rgb(0,0,0)'
+        if perc <= 60:
+            color = 'rgb(136, 8, 8)' #Blood Red
+        elif perc <= 70:
+            color = 'rgb(204, 85, 0)' #Rusty Orange
+        elif perc <= 80:
+            color = 'rgb(255, 195, 0)' #Yellow
+        elif perc <= 90:
+            color = 'rgb(100, 212, 70)' #Light Green
+        elif perc <= 100:
+            color = 'rgb(46, 99, 29)' #Dark Leaf Green
+        return color
+
     def get_IDs(self, model_or_collection):
         """Returns the IDs of all of the ARs
         """
@@ -91,7 +210,7 @@ class ReportView(Base):
         count = sample_pages + cover_letter + blank_page + COC
         return count
 
-    def get_hydro_report_count(self, model_or_collection):
+    def get_liqfert_report_count(self, model_or_collection):
         """Returns the number of pages in a comparison sap report.
         """
         samples = self.get_sample_count(model_or_collection)
@@ -124,6 +243,7 @@ class ReportView(Base):
                 subcollection.append(x)
         return subcollection
 
+
     def get_new_model(self, subcollection):
         """Returns only the model listed as *New Growth*
         """
@@ -132,10 +252,12 @@ class ReportView(Base):
         for x in id_list:
             if x.NewLeaf == True:
                 new_growth.append(x)
-        try:
+
+        if new_growth == []:
+            print("failed to get New Leaf for " + x.getId())
+            return self.get_old_model(subcollection)
+        else:
             return new_growth[0]
-        except IndexError:
-            raise NameError('No New-Leaf Samples Found')
 
     def get_old_model(self, subcollection):
         """Returns only the model listed as *Old Growth*
@@ -166,12 +288,12 @@ class ReportView(Base):
         """
         analyses = self.get_analyses(model_or_collection)
         if keyword is not None:
-            analyses = filter(lambda an: an.getKeyword() == keyword, analyses)
+            analyses = filter(lambda an: an.getKeyword() == keyword and an.review_state not in ['rejected','retracted','cancelled','invalid'], analyses)
 
+        test = None
         if len(analyses) > 0:
-            return analyses[0]
-        else:
-            return None
+            test = analyses[0]
+        return test
 #End Custom Methods
 
     @property
@@ -298,7 +420,12 @@ class ReportView(Base):
         """Groups the given analyses by their point of capture
         """
         analyses = self.get_analyses(model_or_collection)
-        return self.group_items_by("PointOfCapture", analyses)
+        groups = self.group_items_by("PointOfCapture", analyses)
+        # Ensure always alphabetic sorting of PoC
+        by_poc = OrderedDict()
+        for key in sorted(groups):
+            by_poc[key] = groups[key]
+        return by_poc
 
     def get_analyses_by_category(self, model_or_collection):
         """Groups the Analyses by their Category

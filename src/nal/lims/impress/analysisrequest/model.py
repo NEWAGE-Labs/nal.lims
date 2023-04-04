@@ -15,7 +15,7 @@
 # this program; if not, write to the Free Software Foundation, Inc., 51
 # Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
-# Copyright 2018-2021 by it's authors.
+# Copyright 2018-2023 by it's authors.
 # Some rights reserved, see README and LICENSE.
 
 import itertools
@@ -30,13 +30,155 @@ from senaite.impress import logger
 from senaite.impress.decorators import returns_super_model
 from math import floor
 from math import log10
-
+import re
 
 class SuperModel(BaseModel):
     """Analysis Request SuperModel
     """
 
 #Start Custom Methods
+    def getCRA(self):
+	model = self
+	CRA_ans = []
+	for i in model.getAnalyses():
+	    analysis = api.get_object(i)
+	    print(analysis)
+	    for j in ['arsenic','antimony','cadmium','chromium','copper','lead','mercury','nickel']:
+		if j in analysis.Keyword:
+		    CRA_ans.append(analysis)
+	def sort_func(a):
+	    return api.get_title(a).lower()
+	CRA_ans.sort(key=sort_func)
+	return tuple(CRA_ans)
+
+    def getPairType(self):
+        """
+        :return: Returns a string of how to identify the sample type on a report
+        :rtype: String
+        """
+        types = {
+            'NewSap':'New',
+            'OldSap':'Old',
+            'Root':'Root',
+            #Waters
+        }
+        stype = self.getSampleType().title
+        if stype == 'Sap':
+            if self.NewLeaf:
+                stype = 'New'+stype
+            else:
+                stype = 'Old'+stype
+
+        return types[stype]
+
+    def getPairRGB(self):
+        """
+        :return: Returns a 3-element RGB Tuple
+        :rtype: Tuple
+        """
+        colors = {
+            'NewSap':(100,212,70),
+            'OldSap':(46,99,29),
+            'Root':(150,75,0),
+        }
+        stype = self.getSampleType().title
+        if stype == 'Sap':
+            if self.NewLeaf:
+                stype = 'New'+stype
+            else:
+                stype = 'Old'+stype
+
+        return colors[stype]
+
+
+    def getSampleComments(self):
+    	list_of_text = self.ResultsInterpretationDepts
+    	if list_of_text:
+    	    text_with_html = list_of_text[0]['richtext']
+    	else:
+    	    return ''
+    	headtags = re.compile('<.?>')
+    	text2 = re.sub(headtags,'',text_with_html)
+    	tailtags = re.compile('</.?>')
+    	text3 = re.sub(tailtags,'',text2)
+    	linefeeds = re.compile('&nbsp;')
+    	text4 = re.sub(linefeeds,'',text3)
+    	return text4
+
+    def isRoot(self):
+        return self.getSampleType().title == 'Root'
+
+    def hasLeadCopper(self):
+       if 'Lead/Copper - Drinking Water' in [i.title for i in self.getProfiles()]:
+           return True
+       else:
+           return False
+
+    def get_nitrogen_conversion_effeciency(self):
+        total_n = 0
+        no3 = 0
+        nh4 = 0
+        ncr = ''
+
+        found = False
+        for i in range(20, 0, -1):
+            if found==False:
+                version = 'nitrogen-'+str(i)
+                if hasattr(self,version):
+                    found = True
+                    total_n = float(self[version].Result)
+        if found == False and hasattr(self,'nitrogen'):
+            if self.sap_total_nitrogen.Result == '':
+                total_n = 'NT'
+            else:
+                total_n = float(self.sap_total_nitrogen.Result)
+
+        found = False
+        for i in range(20, 0, -1):
+            if found==False:
+                version = 'nitrogen_nitrate-'+str(i)
+                if hasattr(self,version):
+                    found = True
+                    no3 = float(self[version].Result)
+        if found == False and hasattr(self,'nitrogen_nitrate'):
+            if self.sap_nitrogen_as_nitrate.Result == '':
+                no3 = 'NT'
+            else:
+                no3 = float(self.sap_nitrogen_as_nitrate.Result)
+
+        found = False
+        for i in range(20, 0, -1):
+            if found==False:
+                version = 'nitrogen_ammonium-'+str(i)
+                if hasattr(self,version):
+                    found = True
+                    nh4 = float(self[version].Result)
+        if found == False and hasattr(self,'nitrogen_ammonium'):
+            if self.sap_nitrogen_as_ammonium.Result == '':
+                nh4 = 'NT'
+            else:
+                nh4 = float(self.sap_nitrogen_as_ammonium.Result)
+
+        if total_n == 'NT' or no3 == 'NT' or nh4 == 'NT':
+            ncr = 'NT'
+        elif total_n < 0.01:
+            ncr = '-'
+        else:
+            if total_n == '':
+                total_n = 0
+            if nh4 == '' or nh4 < 0:
+                nh4 = 0
+            if no3 == '' or no3 < 0:
+                no3 = 0
+            print("total nitrogen is: " + str(total_n))
+            print("nitrogen as nitrate is: " + str(no3))
+            print("nitrogen as ammonium is: " + str(nh4))
+            ncr = float(1 - ((nh4 + no3)/total_n))*100
+
+            ncr = round(ncr, 3-int(floor(log10(abs(ncr))))-1)
+
+        return ncr
+
     def get_project_contact(self):
         batch = api.get_object(self.getBatch())
         project_contact = batch.getReferences(relationship="SDGProjectContact")[0]
@@ -46,31 +188,63 @@ class SuperModel(BaseModel):
     def get_grower_contact(self):
         batch = api.get_object(self.getBatch())
         project_contact = batch.getReferences(relationship="SDGGrowerContact")[0]
-        project_contact_name = project_contact.Firstname + " " + project_contact.Surname
+        project_contact_name = ''
+        if project_contact:
+            project_contact_name = project_contact.Firstname + " " + project_contact.Surname
         return project_contact_name
 
     def get_attachment_file(self):
         attachment = self.Attachment[0]
         return attachment
 
+    def get_attachment_files(self):
+        attachments = []
+        for i in self.Attachment:
+            attachments.append(i)
+        return attachments
+
     def get_analyst_initials(self, analysis):
         return analysis.getAnalystInitials()
 
-    def get_optimal_high_level(self, analysis):
-        specs = analysis.getResultsRange()
-        return specs.get('max', '')
+    def get_optimal_high_level(self, keyword):
+        max = ''
+        for i in self.getResultsRange():
+            if i['keyword'] ==  keyword:
+                max = i.get('max', '')
+        return max
 
-    def get_optimal_low_level(self, analysis):
-        specs = analysis.getResultsRange()
-        return specs.get('min', '')
+    def get_optimal_low_level(self, keyword):
+        min = ''
+        for i in self.getResultsRange():
+            if i['keyword'] ==  keyword:
+                min = i.get('min', '')
+        return min
 
-    def get_result_bar_percentage(self, analysis):
-        specs = analysis.getResultsRange()
+    def get_result_bar_percentage(self, keyword, rperc=False):
+
+        specs = ''
+        for i in self.getResultsRange():
+            if i['keyword'] ==  keyword:
+                specs = i
+
         perc = 0
+	result_str = ''
+	ldl = 0.01
         if specs:
+            found = False
+            for i in range(10, 0, -1):
+                if found==False:
+                    version = keyword+'-'+str(i)
+                    if hasattr(self,version):
+                        found = True
+                        result_str = str(self[version].Result).strip()
+                        ldl = 0.01
+            if found == False and hasattr(self,keyword):
+                result_str = str(self[keyword].Result).strip()
+                ldl = 0.01
+
             min_str = str(specs.get('min', 0)).strip()
             max_str = str(specs.get('max', 99999)).strip()
-            result_str = str(analysis.getResult()).strip()
             min = -1
             max = -1
             result = -1
@@ -88,9 +262,11 @@ class SuperModel(BaseModel):
             except ValueError:
                 pass
 
-            if result < float(analysis.getLowerDetectionLimit()):
+            if result < ldl:
                 result = 0
             if min != -1 and max != -1 and result != -1 and max != 0:
+		if rperc:
+		    result = result*.0001
                 if result <= min:
                     perc = (result/min)*(100/3)
                 elif result >= max:
@@ -99,22 +275,142 @@ class SuperModel(BaseModel):
                     perc = (100/3) + (((result-min)/(max-min))*(100/3))
         return perc
 
-    def get_formatted_result_or_NT(self, analysis, digits):
+    def get_effeciency_percentage(self, analysis):
+
+        found = False
+        analyte = None
+        for j in range(20, 0, -1):
+            if found==False:
+                sap_version = analysis+str(j)
+                if hasattr(self,sap_version):
+                    found = True
+                    analyte = self[sap_version]
+        if found == False and hasattr(self,analysis):
+            analyte = self[analysis]
+
+        found = False
+        total_n = None
+        for j in range(20, 0, -1):
+            if found==False:
+                sap_version = 'sap_total_nitrogen'+str(j)
+                if hasattr(self,sap_version):
+                    found = True
+                    total_n = self[sap_version]
+        if found == False and hasattr(self,'sap_total_nitrogen'):
+            total_n = self.sap_total_nitrogen
+
+        result = None
+        tn = None
+        perc = None
+
+        if analyte is None:
+            result = 0
+        else:
+            result = analyte.getResult()
+
+        if total_n is None:
+            tn = 0
+        else:
+            tn = total_n.getResult()
+
+        if tn is None or tn == 0 or not tn.replace('.', '', 1).isdigit():
+            perc = 0
+        elif (result is None or result == 0 or not result.replace('.', '', 1).isdigit()):
+            perc = 0
+        else:
+            perc = (float(result)/float(tn))*100
+
+        return perc
+
+    def get_conversion_effeciency_percentage(self):
+
+        found = False
+        n_as_ammonium = None
+        for j in range(20, 0, -1):
+            if found==False:
+                sap_version = 'sap_nitrogen_as_ammonium'+str(j)
+                if hasattr(self,sap_version):
+                    found = True
+                    n_as_ammonium = self[sap_version]
+        if found == False and hasattr(self,'sap_nitrogen_as_ammonium'):
+            n_as_ammonium = self.sap_nitrogen_as_ammonium
+
+        found = False
+        n_as_nitrate = None
+        for j in range(20, 0, -1):
+            if found==False:
+                sap_version = 'sap_nitrogen_as_nitrate'+str(j)
+                if hasattr(self,sap_version):
+                    found = True
+                    n_as_nitrate = self[sap_version]
+        if found == False and hasattr(self,'sap_nitrogen_as_nitrate'):
+            n_as_nitrate = self.sap_nitrogen_as_nitrate
+
+        found = False
+        total_n = None
+        for j in range(20, 0, -1):
+            if found==False:
+                sap_version = 'sap_total_nitrogen'+str(j)
+                if hasattr(self,sap_version):
+                    found = True
+                    total_n = self[sap_version]
+        if found == False and hasattr(self,'sap_total_nitrogen'):
+            total_n = self.sap_total_nitrogen
+
+        no3 = None
+        nh4 = None
+        tn = None
+        perc = None
+
+        if n_as_ammonium is None:
+            nh4 = 0
+        else:
+            nh4 = n_as_ammonium.getResult()
+            # nh4_str = str(nh4).strip()
+
+        if n_as_nitrate is None:
+            no3 = 0
+        else:
+            no3 = n_as_nitrate.getResult()
+            # no3_str = str(no3).strip()
+
+        if total_n is None:
+            tn = 0
+        else:
+            tn = total_n.getResult()
+            # tn_str = str(tn).strip()
+
+        if tn is None or tn == 0 or not tn.replace('.', '', 1).isdigit():
+            perc = 0
+        elif (no3 is None or no3 == 0 or not no3.replace('.', '', 1).isdigit()) and (nh4 is None or nh4 == 0 or not nh4.replace('.', '', 1).isdigit()):
+            perc = 0
+        else:
+            perc = (1 - ((float(no3)+float(nh4))/float(tn)))*100
+
+        print('no3 is: {0} and isdigit is {1}'.format(no3,no3.replace('.', '', 1).isdigit()))
+        print('nh4 is: {0} and isdigit is {1}'.format(nh4,nh4.replace('.', '', 1).isdigit()))
+        print('tn is: {0} and isdigit is {1}'.format(tn,tn.replace('.', '', 1).isdigit()))
+        print('perc is: {0}'.format(perc))
+        return perc
+
+    def get_formatted_result_or_NT(self, analysis, digits, perc=False):
         """Return formatted result or NT
         """
         result = analysis.getResult()
         if analysis is None or result == "":
             return "NT" #Only if Analysis Service is listed, but not filled out
-        elif float(result) < float(analysis.getLowerDetectionLimit()):
-            return "< " + "0.1"
+        elif float(result) < 0.01:
+            return "< " + "0.01"
         else:
             result = float(result)
+	    if perc:
+		result = result*0.0001
             result = round(result, digits-int(floor(log10(abs(result))))-1)
-            if result >= 10:
+            if result >= 10**(digits-1):
                 result = int(result)
             return result
 
-    def get_hydro_sf(self, analysis, digits):
+    def get_liqfert_sf(self, analysis, digits):
         """Return formatted result or NT
         """
         result = analysis.getResult()
@@ -133,7 +429,7 @@ class SuperModel(BaseModel):
         if analysis is None or result == "":
             return "NT" #Only if Analysis Service is listed, but not filled out
         #Common Citizen Hack
-        elif self.getClient().ClientID == "NAL20-004" and analysis.Keyword in ('hydro_nickel','hydro_copper'):
+        elif self.getClient().ClientID == "NAL20-004" and analysis.Keyword in ('liqfert_nickel','liqfert_copper'):
             if float(result) < 0.02:
                 return "< 0.02"
             else:
@@ -142,7 +438,7 @@ class SuperModel(BaseModel):
                 if result >= 100:
                     result = int(result)
                 return result
-        elif self.getClient().ClientID == "NAL20-004" and analysis.Keyword == 'hydro_molybdenum':
+        elif self.getClient().ClientID == "NAL20-004" and analysis.Keyword == 'liqfert_molybdenum':
             if float(result) < 0.01:
                 return "< 0.01"
             else:
@@ -159,26 +455,79 @@ class SuperModel(BaseModel):
                 return "> " + str(int(analysis.getUpperDetectionLimit()))
             else:
                 return "> " + str(analysis.getUpperDetectionLimit())
-        elif analysis.Keyword in ('surface_ecoli_mpn_10x','surface_coliform_mpn_10x','surface_ecoli_mpn_100x','surface_coliform_mpn_100x','surface_coliform_mpn','surface_ecoli_mpn'):
+        elif analysis.Keyword in ('surface_ecoli_mpn_10x','surface_coliform_mpn_10x','surface_ecoli_mpn_100x','surface_coliform_mpn_100x','surface_coliform_mpn','surface_coli_mpn'):
             result = float(result)
             if result < 100:
-                result = round(result, digits-int(floor(log10(abs(result))))-1)
+		result = round(result, digits-int(floor(log10(abs(result))))-1)
             if result >= 100 and result < 1000:
-                result = round(result, 4-int(floor(log10(abs(result))))-1)
+		result = round(result, 4-int(floor(log10(abs(result))))-1)
                 intresult = int(result)
                 if intresult == result: result = intresult
             if result >= 1000 and result < 10000:
-                result = round(result, 5-int(floor(log10(abs(result))))-1)
+		result = round(result, 5-int(floor(log10(abs(result))))-1)
             if result >= 10000:
-                result = round(result, 5-int(floor(log10(abs(result))))-1)
+		result = round(result, 5-int(floor(log10(abs(result))))-1)
                 result = int(result)
             return result
         else:
             result = float(result)
             result = round(result, digits-int(floor(log10(abs(result))))-1)
-            if result >= 100:
+            if result >= 10**(digits-1):
                 result = int(result)
             return result
+
+    def get_report_result(self, analysis, digits):
+	"""Return formatted result or NT
+        """
+        result = analysis.getResult()
+        choices = analysis.getResultOptions()
+        if choices:
+            # Create a dict for easy mapping of result options
+            values_texts = dict(map(
+                lambda c: (str(c["ResultValue"]), c["ResultText"]), choices
+            ))
+
+            # Result might contain a single result option
+            match = values_texts.get(str(result))
+            if match:
+                return match
+
+        if analysis is None or result == "":
+            return "NT"
+        dil = 1
+	print("Result is: {}".format(result))
+	result = float(result)
+        if hasattr(analysis,'Dilution') and analysis.Dilution is not None and analysis.Dilution != '':
+	    print("Dilution is: {}".format(analysis.Dilution))
+	    dil = float(analysis.Dilution)
+        if analysis.getAnalysisService().getCategory().title == "Microbiology":
+	    print("Result is: {}".format(result))
+	    uloq = ''
+	    for i in analysis.getAnalysisService().MethodRecords:
+		print("Method comp is: {} : {}".format(i['methodid'],analysis.CustomMethod.UID()))
+		if i['methodid'] == analysis.CustomMethod.UID():
+		    print("uloq is: {}".format(i['uloq']))
+		    uloq = i['uloq']
+	    if result == 0:
+                return '< {}'.format(dil)
+	    if result > 1 and result < float(uloq):
+		return round(result, digits-int(floor(log10(abs(result))))-1)
+	    if result > float(uloq):
+		return '> {}'.format(float(uloq)*dil)
+        else:
+	    loq = ''
+	    for i in analysis.getAnalysisService().MethodRecords:
+		print("{}:\nmethodid: {}\nCustomMethod UID:{}".format(analysis.title,i['methodid'],analysis.CustomMethod.UID()))
+		if i['methodid'] == analysis.CustomMethod.UID():
+		    print("loq for {} is: {}".format(api.get_object(analysis),i['loq']))
+		    loq = float(i['loq'])
+            if loq == '':
+		raise Exception("LOQ not set for {} with method {}".format(analysis.title,analysis.CustomMethod.title))
+	    elif result < loq:
+                return '< {}'.format(loq*dil)
+            else:
+                return round((result*dil), digits-int(floor(log10(abs(result*dil))))-1)
+	return result
 
     def get_received_date(self):
         """Returns the batch date formatted as [Month Day, Year]
@@ -297,7 +646,6 @@ class SuperModel(BaseModel):
     def get_formatted_uncertainty(self, analysis):
         uncertainty = format_uncertainty(
             analysis.instance,
-            analysis.getResult(),
             decimalmark=self.decimal_mark,
             sciformat=self.scientific_notation)
         return "[&plusmn; {}]".format(uncertainty)
@@ -393,10 +741,14 @@ class SuperModel(BaseModel):
         """Returns a list of user objects
         """
         out = []
-        userids = reduce(lambda v1, v2: v1+v2,
-                         map(lambda v: v.Verificators.split(","),
-                             self.Analyses))
+        # extract the ids of the verifiers from all analyses
+        userids = [analysis.getVerificators() for analysis in self.Analyses]
+        # flatten the list
+        userids = list(itertools.chain.from_iterable(userids))
+        # get the users
         for userid in set(userids):
+            if not userid:
+                continue
             user = api.get_user(userid)
             if user is None:
                 logger.warn("Could not find user '{}'".format(userid))
