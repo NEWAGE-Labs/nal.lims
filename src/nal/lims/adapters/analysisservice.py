@@ -1,3 +1,4 @@
+from Products.CMFCore.permissions import View
 from bika.lims.interfaces import ILabContact
 from Products.ATContentTypes.content import schemata
 from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
@@ -25,11 +26,12 @@ class AnalysisServiceSchemaExtender(object):
     fields = [
         ExtBooleanField(
             'ShowTotal',
-            schemata="Analysis",
+	    read_permission=View,
+	    write_permission=View,
+            schemata="Description",
             widget=BooleanWidget(
                 label="Total",
                 description="Toggle whether to display the word 'Total' on the report for the element. Ex. Total Nitrogen",
-                render_own_label=True,
                 visible={
                     'edit':'visible',
                     'view':'visible',
@@ -41,11 +43,12 @@ class AnalysisServiceSchemaExtender(object):
 
         ExtBooleanField(
             'ShowMethodInName',
-            schemata="Analysis",
+	    read_permission=View,
+	    write_permission=View,
+            schemata="Description",
             widget=BooleanWidget(
                 label="Show Method",
                 description="Toggle whether to display the name of the method on the report",
-                render_own_label=True,
                 visible={
                     'edit':'visible',
                     'view':'visible',
@@ -63,7 +66,7 @@ class AnalysisServiceSchemaExtender(object):
             subfields=(
                 "methodid",
                 "loq",
-                "unit",
+		"uloq",
                 "iso",
                 "egle",
             ),
@@ -75,26 +78,25 @@ class AnalysisServiceSchemaExtender(object):
             # ),
             subfield_labels={
                 "methodid": _("Method"),
-                "loq": _("Detection Limit"),
-                "unit": _("Unit"),
+                "loq": _("Lower Detection Limit"),
+		"uloq": _("Upper Detection Limit"),
                 "iso": _("ISO 17025 Accredited?"),
                 "egle": _("EGLE Accredited?"),
             },
             subfield_types={
                 "methodid": "string",
                 "loq": "string",
-                "unit": "string",
+		"uloq": "string",
                 "iso": "boolean",
                 "egle": "boolean",
             },
             subfield_sizes={
                 "methodid": 1,
                 "loq": 1,
-                "unit": 1,
+                "uloq": 1,
             },
             subfield_vocabularies={
                 "methodid": "_methods_vocabulary",
-                "unit": units_vocabulary,
             },
             widget=RecordsWidget(
                 label=_("Methods"),
@@ -172,6 +174,10 @@ class AnalysisServiceSchemaModifier(object):
         schema['Keyword'].widget.label = _("Keyword")
         schema['Keyword'].widget.description = _("The unqiue keyword used to identify the analysis in imports, exports, and calculations regardless of if the Title changes. Cannot be changed once at least 1 analysis has been made.")
 
+        schema['ShowTotal'].widget.visible = True
+        schema['ShowMethodInName'].widget.visible = True
+
         schema['Methods'].widget.visible = False
+        schema['Method'].widget.visible = False
         schema.moveField('MethodRecords', before='Method')
         return schema

@@ -48,12 +48,20 @@ class AnalysesView(BikaAnalysesView):
         self.columns['Hidden']['toggle'] = False
         self.columns['DueDate']['toggle'] = False
         self.columns['Unit']['toggle'] = True
-        self.columns['Instrument']['toggle'] = True
+        self.columns['Instrument']['toggle'] = False
 	self.columns['Analyst']['ajax'] = True
-	self.columns['Method']['toggle'] = True
-	self.columns['Method']['ajax'] = True
+	self.columns['Method']['toggle'] = False
+	self.columns['Method']['ajax'] = False
 
         #Add New columns
+        ## Custom Method
+        self.columns['CustomMethod'] = {
+            "title": _("Method"),
+            "toggle": True,
+            "sortable": False,
+            "ajax": True,
+	    "type":"select",
+        }
         ## Analysis Date/Time
         self.columns['AnalysisDateTime'] = {
             "title": _("Analysis DateTime"),
@@ -61,12 +69,12 @@ class AnalysesView(BikaAnalysesView):
             "sortable": False,
             "ajax": True,
             "type": "string",
-	    "input_width": "13",
+	    "size": "30",
         }
         ## Weight
         self.columns["Weight"] = {
-            "title": _("Weight (g)"),
-            "toggle": False,
+            "title": _("Sample Size (g)"),
+            "toggle": True,
             "sortable": False,
             "ajax": True,
             "type": "decimal",
@@ -161,6 +169,8 @@ class AnalysesView(BikaAnalysesView):
         if obj.ResultOverride is not None:
             item['ResultOverride'] = obj.ResultOverride
 
+	self._folder_item_custommethod(obj, item)
+
         item['allow_edit'].append('Inconclusive')
         item['allow_edit'].append('ShowTotal')
         item['allow_edit'].append('ShowMethodInName')
@@ -170,6 +180,8 @@ class AnalysesView(BikaAnalysesView):
         item['allow_edit'].append('Dilution')
         item['allow_edit'].append('ResultOverride')
         item['allow_edit'].append('Unit')
+        item['allow_edit'].append('CustomMethod')
+        item['allow_edit'].append('Weight')
 
         analysts = getUsers(self.context, ['Manager','LabManager','Analyst'])
         analysts = analysts.sortedByKey()
@@ -179,14 +191,23 @@ class AnalysesView(BikaAnalysesView):
 
         item['choices']['Analyst'] = results
         item['Analyst'] = obj.Analyst or api.get_current_user().id
-	print(item.keys())
-        print("Method is: {}".format(item['Method']))
-        print("Analyst is: {}".format(item['Analyst']))
 
         return item
 
     def folderitems(self):
 	items = super(AnalysesView, self).folderitems()
-	self.columns['Method']['toggle'] = True
-	
+	self.columns['Method']['toggle'] = False
+	self.columns['Instrument']['toggle'] = False
+
 	return items
+
+    def _folder_item_custommethod(self, brain, item):
+	obj = api.get_object(brain)
+	item['allow_edit'].append('CustomMethod')
+	item['choices']['CustomMethod'] = [dict({'ResultValue':'','ResultTest':''})] + [{'ResultValue':j.UID(),'ResultText':j.title} for j in map(api.get_object_by_uid,[i['methodid'] for i in obj.getAnalysisService().MethodRecords])]
+	print("obj is: {}\nCustom Method is: {}\nobj.__dict__ is: {}".format(obj,obj.get('CustomMethod',''),obj.__dict__))
+	if hasattr(obj,'CustomMethod'):
+	    print("obj[CustomMethod] is {}".format(obj['CustomMethod']))
+	    item['CustomMethod'] = obj['CustomMethod']
+	print("Item[obj] is: {}".format(api.get_object(item['obj'])))
+	print("Method Choices are: {}".format(item['choices']['CustomMethod']))

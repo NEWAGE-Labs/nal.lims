@@ -1,3 +1,4 @@
+from Products.Archetypes.references import HoldingReference
 from bika.lims.interfaces import IAnalysis
 from Products.ATContentTypes.content import schemata
 from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
@@ -16,6 +17,9 @@ from Products.Archetypes.Widget import DecimalWidget
 from Products.CMFCore.permissions import View
 from bika.lims.permissions import FieldEditAnalysisResult
 from Products.Archetypes.Schema import Schema
+from nal.lims.fields import ExtReferenceField
+from bika.lims.browser.widgets import SelectionWidget
+
 
 class AnalysisSchemaExtender(object):
     adapts(IAnalysis)
@@ -26,6 +30,8 @@ class AnalysisSchemaExtender(object):
         ExtBooleanField(
             'ShowTotal',
             schemata="Analysis",
+            write_permission=View,
+            read_permission=View,
             widget=BooleanWidget(
                 label="Analyte, Total",
                 description="Toggle whether to display the word 'Total' on the report for the element. Ex. Total Nitrogen",
@@ -41,6 +47,8 @@ class AnalysisSchemaExtender(object):
 
         ExtBooleanField(
             'ShowMethodInName',
+            write_permission=View,
+            read_permission=View,
             schemata="Analysis",
             widget=BooleanWidget(
                 label="Analyte [Method]",
@@ -128,6 +136,21 @@ class AnalysisSchemaExtender(object):
                 },
             ),
         ),
+
+	ExtReferenceField(
+            'CustomMethod',
+            write_permission=View,
+            read_permission=View,
+            allowed_types=('Method',),
+            referenceClass=HoldingReference,
+            relationship="AnalysisCustomMethod",
+            mode="rw",
+            accessor="getCustomMethod",
+    	    widget=SelectionWidget(
+        	format="select",
+        	label=_("Method"),
+            )
+        ),
     ]
 
     def __init__(self, context):
@@ -150,5 +173,10 @@ class AnalysisSchemaModifier(object):
 
         schema['Analyst'].write_permission = View
         schema['Analyst'].read_permission = View
+
+        schema['Method'].write_permission = View
+        schema['Method'].read_permission = View
+
+
 
         return schema

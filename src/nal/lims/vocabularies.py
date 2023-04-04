@@ -13,6 +13,7 @@ WaterSourceTypes = DisplayList((
 ))
 
 units_vocabulary = DisplayList((
+    ('P|A','Presence|Absence'),
     ('%','Percent'),
     # ('pp1000','Parts-Per-Thousand'),
     ('ppm','Parts-Per-Million'),
