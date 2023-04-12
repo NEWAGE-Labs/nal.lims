@@ -128,10 +128,10 @@ class SuperModel(BaseModel):
                     found = True
                     total_n = float(self[version].Result)
         if found == False and hasattr(self,'nitrogen'):
-            if self.sap_total_nitrogen.Result == '':
+            if self.nitrogen.Result == '':
                 total_n = 'NT'
             else:
-                total_n = float(self.sap_total_nitrogen.Result)
+                total_n = float(self.nitrogen.Result)
 
         found = False
         for i in range(20, 0, -1):
@@ -141,10 +141,10 @@ class SuperModel(BaseModel):
                     found = True
                     no3 = float(self[version].Result)
         if found == False and hasattr(self,'nitrogen_nitrate'):
-            if self.sap_nitrogen_as_nitrate.Result == '':
+            if self.nitrogen_nitrate.Result == '':
                 no3 = 'NT'
             else:
-                no3 = float(self.sap_nitrogen_as_nitrate.Result)
+                no3 = float(self.nitrogen_nitrate.Result)
 
         found = False
         for i in range(20, 0, -1):
@@ -154,10 +154,10 @@ class SuperModel(BaseModel):
                     found = True
                     nh4 = float(self[version].Result)
         if found == False and hasattr(self,'nitrogen_ammonium'):
-            if self.sap_nitrogen_as_ammonium.Result == '':
+            if self.nitrogen_ammonium.Result == '':
                 nh4 = 'NT'
             else:
-                nh4 = float(self.sap_nitrogen_as_ammonium.Result)
+                nh4 = float(self.nitrogen_ammonium.Result)
 
         if total_n == 'NT' or no3 == 'NT' or nh4 == 'NT':
             ncr = 'NT'
@@ -275,210 +275,10 @@ class SuperModel(BaseModel):
                     perc = (100/3) + (((result-min)/(max-min))*(100/3))
         return perc
 
-    def get_effeciency_percentage(self, analysis):
-
-        found = False
-        analyte = None
-        for j in range(20, 0, -1):
-            if found==False:
-                sap_version = analysis+str(j)
-                if hasattr(self,sap_version):
-                    found = True
-                    analyte = self[sap_version]
-        if found == False and hasattr(self,analysis):
-            analyte = self[analysis]
-
-        found = False
-        total_n = None
-        for j in range(20, 0, -1):
-            if found==False:
-                sap_version = 'sap_total_nitrogen'+str(j)
-                if hasattr(self,sap_version):
-                    found = True
-                    total_n = self[sap_version]
-        if found == False and hasattr(self,'sap_total_nitrogen'):
-            total_n = self.sap_total_nitrogen
-
-        result = None
-        tn = None
-        perc = None
-
-        if analyte is None:
-            result = 0
-        else:
-            result = analyte.getResult()
-
-        if total_n is None:
-            tn = 0
-        else:
-            tn = total_n.getResult()
-
-        if tn is None or tn == 0 or not tn.replace('.', '', 1).isdigit():
-            perc = 0
-        elif (result is None or result == 0 or not result.replace('.', '', 1).isdigit()):
-            perc = 0
-        else:
-            perc = (float(result)/float(tn))*100
-
-        return perc
-
-    def get_conversion_effeciency_percentage(self):
-
-        found = False
-        n_as_ammonium = None
-        for j in range(20, 0, -1):
-            if found==False:
-                sap_version = 'sap_nitrogen_as_ammonium'+str(j)
-                if hasattr(self,sap_version):
-                    found = True
-                    n_as_ammonium = self[sap_version]
-        if found == False and hasattr(self,'sap_nitrogen_as_ammonium'):
-            n_as_ammonium = self.sap_nitrogen_as_ammonium
-
-        found = False
-        n_as_nitrate = None
-        for j in range(20, 0, -1):
-            if found==False:
-                sap_version = 'sap_nitrogen_as_nitrate'+str(j)
-                if hasattr(self,sap_version):
-                    found = True
-                    n_as_nitrate = self[sap_version]
-        if found == False and hasattr(self,'sap_nitrogen_as_nitrate'):
-            n_as_nitrate = self.sap_nitrogen_as_nitrate
-
-        found = False
-        total_n = None
-        for j in range(20, 0, -1):
-            if found==False:
-                sap_version = 'sap_total_nitrogen'+str(j)
-                if hasattr(self,sap_version):
-                    found = True
-                    total_n = self[sap_version]
-        if found == False and hasattr(self,'sap_total_nitrogen'):
-            total_n = self.sap_total_nitrogen
-
-        no3 = None
-        nh4 = None
-        tn = None
-        perc = None
-
-        if n_as_ammonium is None:
-            nh4 = 0
-        else:
-            nh4 = n_as_ammonium.getResult()
-            # nh4_str = str(nh4).strip()
-
-        if n_as_nitrate is None:
-            no3 = 0
-        else:
-            no3 = n_as_nitrate.getResult()
-            # no3_str = str(no3).strip()
-
-        if total_n is None:
-            tn = 0
-        else:
-            tn = total_n.getResult()
-            # tn_str = str(tn).strip()
-
-        if tn is None or tn == 0 or not tn.replace('.', '', 1).isdigit():
-            perc = 0
-        elif (no3 is None or no3 == 0 or not no3.replace('.', '', 1).isdigit()) and (nh4 is None or nh4 == 0 or not nh4.replace('.', '', 1).isdigit()):
-            perc = 0
-        else:
-            perc = (1 - ((float(no3)+float(nh4))/float(tn)))*100
-
-        print('no3 is: {0} and isdigit is {1}'.format(no3,no3.replace('.', '', 1).isdigit()))
-        print('nh4 is: {0} and isdigit is {1}'.format(nh4,nh4.replace('.', '', 1).isdigit()))
-        print('tn is: {0} and isdigit is {1}'.format(tn,tn.replace('.', '', 1).isdigit()))
-        print('perc is: {0}'.format(perc))
-        return perc
-
-    def get_formatted_result_or_NT(self, analysis, digits, perc=False):
-        """Return formatted result or NT
-        """
-        result = analysis.getResult()
-        if analysis is None or result == "":
-            return "NT" #Only if Analysis Service is listed, but not filled out
-        elif float(result) < 0.01:
-            return "< " + "0.01"
-        else:
-            result = float(result)
-	    if perc:
-		result = result*0.0001
-            result = round(result, digits-int(floor(log10(abs(result))))-1)
-            if result >= 10**(digits-1):
-                result = int(result)
-            return result
-
-    def get_liqfert_sf(self, analysis, digits):
-        """Return formatted result or NT
-        """
-        result = analysis.getResult()
-        choices = analysis.getResultOptions()
-        if choices:
-            # Create a dict for easy mapping of result options
-            values_texts = dict(map(
-                lambda c: (str(c["ResultValue"]), c["ResultText"]), choices
-            ))
-
-            # Result might contain a single result option
-            match = values_texts.get(str(result))
-            if match:
-                return match
-
-        if analysis is None or result == "":
-            return "NT" #Only if Analysis Service is listed, but not filled out
-        #Common Citizen Hack
-        elif self.getClient().ClientID == "NAL20-004" and analysis.Keyword in ('liqfert_nickel','liqfert_copper'):
-            if float(result) < 0.02:
-                return "< 0.02"
-            else:
-                result = float(result)
-                result = round(result, digits-int(floor(log10(abs(result))))-1)
-                if result >= 100:
-                    result = int(result)
-                return result
-        elif self.getClient().ClientID == "NAL20-004" and analysis.Keyword == 'liqfert_molybdenum':
-            if float(result) < 0.01:
-                return "< 0.01"
-            else:
-                result = float(result)
-                result = round(result, digits-int(floor(log10(abs(result))))-1)
-                if result >= 100:
-                    result = int(result)
-                return result
-        #End Common Citizen Hack
-        elif float(result) < float(analysis.getLowerDetectionLimit()):
-            return "< " + str(analysis.getLowerDetectionLimit())
-        elif float(result) > float(analysis.getUpperDetectionLimit()):
-            if analysis.getUpperDetectionLimit() >= 10000:
-                return "> " + str(int(analysis.getUpperDetectionLimit()))
-            else:
-                return "> " + str(analysis.getUpperDetectionLimit())
-        elif analysis.Keyword in ('surface_ecoli_mpn_10x','surface_coliform_mpn_10x','surface_ecoli_mpn_100x','surface_coliform_mpn_100x','surface_coliform_mpn','surface_coli_mpn'):
-            result = float(result)
-            if result < 100:
-		result = round(result, digits-int(floor(log10(abs(result))))-1)
-            if result >= 100 and result < 1000:
-		result = round(result, 4-int(floor(log10(abs(result))))-1)
-                intresult = int(result)
-                if intresult == result: result = intresult
-            if result >= 1000 and result < 10000:
-		result = round(result, 5-int(floor(log10(abs(result))))-1)
-            if result >= 10000:
-		result = round(result, 5-int(floor(log10(abs(result))))-1)
-                result = int(result)
-            return result
-        else:
-            result = float(result)
-            result = round(result, digits-int(floor(log10(abs(result))))-1)
-            if result >= 10**(digits-1):
-                result = int(result)
-            return result
-
     def get_report_result(self, analysis, digits):
 	"""Return formatted result or NT
         """
+	analysis = api.get_object(analysis)
         result = analysis.getResult()
         choices = analysis.getResultOptions()
         if choices:
@@ -497,36 +297,53 @@ class SuperModel(BaseModel):
         dil = 1
 	print("Result is: {}".format(result))
 	result = float(result)
+
+	#Get Custom Method
+	method = api.get_object_by_uid(analysis.CustomMethod)
+	if method is not None:
+            print("Method for {}-{} is {}".format(api.get_id(analysis.aq_parent),analysis.title,method))
+	else:
+	    raise Exception("{} for sample {} does not have an assigned Method".format(analysis.title, api.get_id(analysis.aq_parent)))
+
+	#Get Dilution if it exists
         if hasattr(analysis,'Dilution') and analysis.Dilution is not None and analysis.Dilution != '':
 	    print("Dilution is: {}".format(analysis.Dilution))
 	    dil = float(analysis.Dilution)
+
         if analysis.getAnalysisService().getCategory().title == "Microbiology":
 	    print("Result is: {}".format(result))
 	    uloq = ''
 	    for i in analysis.getAnalysisService().MethodRecords:
-		print("Method comp is: {} : {}".format(i['methodid'],analysis.CustomMethod.UID()))
-		if i['methodid'] == analysis.CustomMethod.UID():
+		print("Method comp is: {} : {}".format(i['methodid'],method.UID()))
+		if i['methodid'] == method.UID():
 		    print("uloq is: {}".format(i['uloq']))
 		    uloq = i['uloq']
 	    if result == 0:
                 return '< {}'.format(dil)
 	    if result > 1 and result < float(uloq):
-		return round(result, digits-int(floor(log10(abs(result))))-1)
+		xresult = round(result, digits-int(floor(log10(abs(result))))-1)
+		if int(xresult) == xresult:
+		    return int(xresult)
+		else:
+		    return xresult
 	    if result > float(uloq):
 		return '> {}'.format(float(uloq)*dil)
         else:
 	    loq = ''
 	    for i in analysis.getAnalysisService().MethodRecords:
-		print("{}:\nmethodid: {}\nCustomMethod UID:{}".format(analysis.title,i['methodid'],analysis.CustomMethod.UID()))
-		if i['methodid'] == analysis.CustomMethod.UID():
+		if i['methodid'] == method.UID():
 		    print("loq for {} is: {}".format(api.get_object(analysis),i['loq']))
 		    loq = float(i['loq'])
             if loq == '':
-		raise Exception("LOQ not set for {} with method {}".format(analysis.title,analysis.CustomMethod.title))
+		raise Exception("LOQ not set for {} with method {}".format(analysis.title,method))
 	    elif result < loq:
                 return '< {}'.format(loq*dil)
             else:
-                return round((result*dil), digits-int(floor(log10(abs(result*dil))))-1)
+		xresult = round((result*dil), digits-int(floor(log10(abs(result*dil))))-1)
+		if int(xresult) == xresult:
+		    return int(xresult)
+		else:
+		    return xresult
 	return result
 
     def get_received_date(self):

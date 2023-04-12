@@ -205,8 +205,8 @@ class AnalysesView(BikaAnalysesView):
 	obj = api.get_object(brain)
 	item['allow_edit'].append('CustomMethod')
 	item['choices']['CustomMethod'] = [dict({'ResultValue':'','ResultTest':''})] + [{'ResultValue':j.UID(),'ResultText':j.title} for j in map(api.get_object_by_uid,[i['methodid'] for i in obj.getAnalysisService().MethodRecords])]
-	print("obj is: {}\nCustom Method is: {}\nobj.__dict__ is: {}".format(obj,obj.get('CustomMethod',''),obj.__dict__))
-	if hasattr(obj,'CustomMethod'):
+	print("obj is: {}\nCustom Method is: {}\nobj.keys() : {}".format(obj,obj['CustomMethod'],obj.keys()))
+	if hasattr(obj,'CustomMethod') and obj['CustomMethod'] is not None and obj['CustomMethod'] != '':
 	    print("obj[CustomMethod] is {}".format(obj['CustomMethod']))
 	    item['CustomMethod'] = obj['CustomMethod']
 	print("Item[obj] is: {}".format(api.get_object(item['obj'])))

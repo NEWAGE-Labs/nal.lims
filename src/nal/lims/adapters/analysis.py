@@ -18,6 +18,7 @@ from Products.CMFCore.permissions import View
 from bika.lims.permissions import FieldEditAnalysisResult
 from Products.Archetypes.Schema import Schema
 from nal.lims.fields import ExtReferenceField
+from nal.lims.fields import ExtUIDReferenceField
 from bika.lims.browser.widgets import SelectionWidget
 
 
@@ -137,7 +138,7 @@ class AnalysisSchemaExtender(object):
             ),
         ),
 
-	ExtReferenceField(
+	ExtUIDReferenceField(
             'CustomMethod',
             write_permission=View,
             read_permission=View,
@@ -146,9 +147,16 @@ class AnalysisSchemaExtender(object):
             relationship="AnalysisCustomMethod",
             mode="rw",
             accessor="getCustomMethod",
+	    mutator="setCustomMethod",
     	    widget=SelectionWidget(
         	format="select",
         	label=_("Method"),
+                visible={
+                    'edit':'visible',
+                    'view':'visible',
+                    'add':'edit',
+                    'header_table':'visible',
+                },
             )
         ),
     ]
