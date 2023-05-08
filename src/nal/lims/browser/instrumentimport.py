@@ -1346,6 +1346,158 @@ class pHImportView(edit.DefaultEditForm):
         contextURL = self.context.absolute_url()
         self.request.response.redirect(contextURL)
 
+class ManualImportView(edit.DefaultEditForm):
+
+    def __init__(self, context, request):
+          self.context = context
+          self.request = request
+
+    def saveCSV(self, context, request):
+        return context.absolute_url_path()
+
+    def processCSV(self, data):
+        """Process the CSV"""
+        #Get logger for output messages
+        logger = logging.getLogger("Plone")
+
+        ph_method = map(api.get_object, api.search({'portal_type':'Method','title':'AOAC 973.41'}))[0].UID()
+        ec_method = map(api.get_object, api.search({'portal_type':'Method','title':'SM2510B'}))[0].UID()
+	brix_method = map(api.get_object, api.search({'portal_type':'Method','title':'AOAC 932.14'}))[0].UID()
+	alk_method = map(api.get_object, api.search({'portal_type':'Method','title':'SM2320B'}))[0].UID()
+
+        #Convert CSV data to a dataframe
+        df = pd.read_csv(StringIO.StringIO(data),keep_default_na=False, dtype=str)
+        #Get a list of Unique sample names from the imported DataFrame
+        sample_ids = df['Sample ID'].unique()
+	#Check for poorly formatted IDs
+	bad_ids = []
+	for i in sample_ids:
+		if len(i) != 12 or i[-2:].upper() != 'FL':
+			bad_ids.append(i)
+			df = df[df['Sample ID'] != i]
+	print("Invalid Samples are: ".format(bad_ids))
+        #Take off the '-001' to get a list of SDG titles to search
+        batch_titles = df['Sample ID'].str[:-4].unique().tolist()
+        #Get a brain of the list of sdgs
+        batch_brain = api.search({'portal_type':'Batch','title':batch_titles})
+        batch_objs = map(api.get_object,batch_brain)
+        batch_dict = {}
+
+        for i in batch_objs:
+	    if api.get_workflow_status_of(i) == 'open':
+                bars = map(api.get_object,i.getAnalysisRequests())
+                if bars != []:
+                    batch_dict[i.title] = bars
+
+        #Instantiate an empty list to fill with Senaite samples that will be imported into
+        import_samples = []
+
+        for i in sample_ids:
+            xsdg = i[:-4]
+            ili = i[-3:]
+            if xsdg in batch_dict.keys():
+                ars = batch_dict[xsdg]
+                for j in ars:
+                    if (
+			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled']
+		        and (j.InternalLabID == ili
+                        or api.get_id(j) == i)
+		    ):
+                        import_samples.append(j)
+                        df.loc[df['Sample ID'] == i,['Sample ID']] = api.get_id(j)
+
+        #Get the list of Senaite Sample IDs that will be imported into.
+        ids = map(api.get_id, import_samples)
+        logger.info("IDs: {0}".format(ids))
+
+        #Get a filter dataframe for only the samples that exist
+        bool_series = df['Sample Name'].isin(ids)
+        filtered_df = df[bool_series]
+        clean_ids = []
+        for i in import_samples:
+	    if not filtered_df[(filtered_df['Sample ID']==api.get_id(i))].empty:
+		#Analytes
+		tests = [
+		'ph',
+		'ec',
+		'solublesalts',
+		'dissolved_solids',
+		'brix',
+		'alkalinity',
+		'carbonate',
+		'bicarbonate'
+		]
+
+		col_dict = {
+		'ph':('pH',ph_method),
+		'ec':('EC',ec_method),
+		'solublesalts':('Soluble Salts',ec_method),
+		'dissolved_solids':('Dissolved Solids',ec_method),
+		'brix':('Brix',brix_method),
+		'alkalinity':('Alkalinity',alk_method),
+		'carbonate':('Carbonate',alk_method),
+		'bicarbonate':('Bicarbonate',alk_method)
+	    	}
+
+            	test_dict = {}
+	    	for test in tests:
+		    test_dict[test] = None
+
+		for analyte in map(api.get_object,i.getAnalyses()):
+		if api.get_workflow_status_of(analyte) not in ['retracted','rejected','invalid','cancelled']:
+		    for test in tests:
+			if analyte.Keyword == test:
+			    test_dict[test] = analyte
+
+		for test in tests:
+		    if test_dict[test] is not None and api.get_workflow_status_of(test_dict[test]) in ['unassigned']:
+                    test_dict[test].Result = unicode(filtered_df[(filtered_df['Sample ID']==api.get_id(i))][col_dict[test][0]].values[0].strip(), "utf-8")
+                    test_dict[test].AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date'].values[0]
+                    test_dict[test].CustomMethod = col_dict[test][1]
+                    test_dict[test].reindexObject(idxs=['Result','AnalysisDateTime','CustomMethod'])
+                if [j for j in api.get_transitions_for(test_dict[test]) if 'submit' in j.values()]:
+                    try:
+                        api.do_transition_for(test_dict[test], "submit")
+                    except AttributeError:
+                        pass
+                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample ID']==api.get_id(i))]['Analyst'].empty:
+                    test_dict[test].Analyst = filtered_df[(filtered_df['Sample ID']==api.get_id(i))]['Analyst'].values[0]
+                    test_dict[test].reindexObject(idxs=['Analyst'])
+
+	    t.get().commit()
+
+        return ','.join(clean_ids)
+
+    @button.buttonAndHandler(u'Import')
+    def handleApply(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        # Redirect back to the front page with a status message
+
+        # get the actual data
+        if data["IInstrumentReadFolder.sample"] is not None:
+            file = data["IInstrumentReadFolder.sample"].data
+            # do the processing
+            number = self.processCSV(file)
+
+            if not number:
+                IStatusMessage(self.request).addStatusMessage(
+                        u"The .CSV file was successfully read, but there were no new samples to import."
+                    )
+            else:
+                IStatusMessage(self.request).addStatusMessage(
+                        u"Manually imported data successfully imported for Samples: "+str(number)
+                    )
+        else:
+            IStatusMessage(self.request).addStatusMessage(
+                    u"No .CSV File for manual data"
+                )
+
+        contextURL = self.context.absolute_url()
+        self.request.response.redirect(contextURL)
+
 class ECImportView(edit.DefaultEditForm):
 
     def __init__(self, context, request):
