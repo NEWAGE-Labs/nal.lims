@@ -32,6 +32,7 @@ class SDGCSVExportView(BrowserView):
             'client_name',
             'client_address',
             'sample_delivery_group',
+	    'internal_lab_id',
             'date_received',
             'time_received',
             'project_contact',
@@ -102,6 +103,8 @@ class SDGCSVExportView(BrowserView):
 
                 #SDG
                 export_dict['sample_delivery_group'].append(sdg.title)
+                #SDG
+                export_dict['internal_lab_id'].append(i.InternalLabID)
 
                 #Date Received
                 dreceived = sdg.SDGDate.strftime('%m-%d-%Y')
@@ -174,7 +177,8 @@ class SDGCSVExportView(BrowserView):
                 for j in map(api.get_object,i.getAnalyses()):
                     if api.get_workflow_status_of(j) not in ['cancelled','invalid','retracted','rejected'] and 'nitrogen_conversion_efficiency' not in j.Keyword:
                         sigfigs = 3
-                        result = j.Result
+                        result = j.getResult()
+			dil = (1 if (j.Dilution is None or j.Dilution == '') else j.Dilution)
                         if result.replace('.','',1).replace('-','',1).isdigit() is False:
                             export_dict[j.Keyword].append(result)
                         else:
@@ -183,11 +187,29 @@ class SDGCSVExportView(BrowserView):
 			    for k in j.getAnalysisService().MethodRecords:
 				print("MethodRecord is: {}\nCustomMethod is: {}".format(k, j.CustomMethod))
 				if k['methodid'] == j.CustomMethod:
-				    loq = float(k['loq'])
-                            if result < loq:
-                                result = '< {}'.format(loq)
+				    loq = k['loq']
+			    print("LOQ is {}".format(loq))
+			    if loq == 'P|A':
+				choices = j.getResultOptions()
+				print("Choices are {}".format(choices))
+				if choices:
+            				# Create a dict for easy mapping of result options
+            				values_texts = dict(map(lambda c: (str(c["ResultValue"]), c["ResultText"]), choices))
+					print("Result is {}\nvalues_texts is {}".format(result,values_texts))
+            				# Result might contain a single result option
+            				match = values_texts.get(str(int(result)))
+					print("match is {}".format(match))
+            				if match:
+                				result = match
+					else:
+						result = '-'
+				else:
+					result = '-'
+                            elif result < float(loq):
+                                result = '< {}'.format(float(loq) * float(dil))
                             else:
-                                result = round(result, sigfigs-int(floor(log10(abs(result))))-1)
+                                result = round((result*float(dil)), sigfigs-int(floor(log10(abs(result*float(dil)))))-1)
+
                             export_dict[j.Keyword].append(result)
 
                 if i.getSampleType().title == 'Sap':

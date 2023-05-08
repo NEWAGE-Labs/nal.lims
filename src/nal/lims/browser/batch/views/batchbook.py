@@ -10,8 +10,12 @@ class BatchBookView(BikaBatchBookView):
     def __init__(self, context, request):
         super(BatchBookView, self).__init__(context, request)
 
+	self.context = context
+	self.request = request
+
         #Show Column Toggle
         self.show_column_toggles = True
+	self.allow_edit = True
 
         #Alter existing Columns
         self.columns['SampleType']['sortable'] = True
@@ -27,6 +31,7 @@ class BatchBookView(BikaBatchBookView):
             "title": _("Replace Optimal Level"),
             "toggle": False,
             "sortable": True,
+	    "ajax":True,
         }
         self.columns['PlantType'] = {
             "title": _("Crop"),
@@ -59,10 +64,10 @@ class BatchBookView(BikaBatchBookView):
             item["PlantType"] = ar.PlantType
             item["Variety"] = ar.Variety
             item["GrowthStage"] = ar.GrowthStage
-            item["CurrentSpecification"] = ar.getSpecification().Title() if ar.getSpecification() else ''
-            item["Specification"] = ar.getSpecification().Title() if ar.getSpecification() else ''
+            item["CurrentSpecification"] = ar.getSpecification().title if ar.getSpecification() else ''
+            item["Specification"] = ar.getSpecification().title if ar.getSpecification() else ''
 
-            if ar.getSampleType().Title() == 'Sap':
+            if ar.getSampleType().Title() in ['Sap','Root','Fruit','Tissue']:
                 spec_vocab = self.get_spec_vocabulary()
                 item['choices']['Specification'] = spec_vocab
                 self.columns['CurrentSpecification']['toggle'] = True

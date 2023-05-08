@@ -87,22 +87,6 @@ class AnalysesView(BikaAnalysesView):
             "ajax": True,
             "type": "decimal",
         }
-        ## LOQ Override
-        self.columns["LOQOverride"] = {
-            "title": _("LOQ Override"),
-            "toggle": True,
-            "sortable": False,
-            "ajax": True,
-            "type": "decimal",
-        }
-        ## Result < Override
-        self.columns["ResultOverride"] = {
-            "title": _("Result < Override"),
-            "toggle": True,
-            "sortable": False,
-            "ajax": True,
-            "type": "boolean"
-        }
         ## Volume
         self.columns["Volume"] = {
             "title": _("Volume (mL)"),
@@ -164,10 +148,6 @@ class AnalysesView(BikaAnalysesView):
             item['ShowTotal'] = obj.ShowTotal
         if obj.ShowMethodInName is not None:
             item['ShowMethodInName'] = obj.ShowMethodInName
-        if obj.LOQOverride is not None:
-            item['LOQOverride'] = obj.LOQOverride
-        if obj.ResultOverride is not None:
-            item['ResultOverride'] = obj.ResultOverride
 
 	self._folder_item_custommethod(obj, item)
 
@@ -198,6 +178,7 @@ class AnalysesView(BikaAnalysesView):
 	items = super(AnalysesView, self).folderitems()
 	self.columns['Method']['toggle'] = False
 	self.columns['Instrument']['toggle'] = False
+	self.columns['Unit']['toggle'] = False
 
 	return items
 
