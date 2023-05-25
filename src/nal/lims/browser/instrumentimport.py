@@ -1444,17 +1444,17 @@ class ManualImportView(edit.DefaultEditForm):
 		    test_dict[test] = None
 
 		for analyte in map(api.get_object,i.getAnalyses()):
-		if api.get_workflow_status_of(analyte) not in ['retracted','rejected','invalid','cancelled']:
-		    for test in tests:
-			if analyte.Keyword == test:
-			    test_dict[test] = analyte
+		    if api.get_workflow_status_of(analyte) not in ['retracted','rejected','invalid','cancelled']:
+		        for test in tests:
+			    if analyte.Keyword == test:
+			        test_dict[test] = analyte
 
 		for test in tests:
 		    if test_dict[test] is not None and api.get_workflow_status_of(test_dict[test]) in ['unassigned']:
-                    test_dict[test].Result = unicode(filtered_df[(filtered_df['Sample ID']==api.get_id(i))][col_dict[test][0]].values[0].strip(), "utf-8")
-                    test_dict[test].AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date'].values[0]
-                    test_dict[test].CustomMethod = col_dict[test][1]
-                    test_dict[test].reindexObject(idxs=['Result','AnalysisDateTime','CustomMethod'])
+                        test_dict[test].Result = unicode(filtered_df[(filtered_df['Sample ID']==api.get_id(i))][col_dict[test][0]].values[0].strip(), "utf-8")
+                        test_dict[test].AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analysis Date'].values[0]
+                        test_dict[test].CustomMethod = col_dict[test][1]
+                        test_dict[test].reindexObject(idxs=['Result','AnalysisDateTime','CustomMethod'])
                 if [j for j in api.get_transitions_for(test_dict[test]) if 'submit' in j.values()]:
                     try:
                         api.do_transition_for(test_dict[test], "submit")

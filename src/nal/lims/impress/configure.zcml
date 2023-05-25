@@ -4,7 +4,7 @@
     i18n_domain="nal.lims">
 
     <plone:static
-      directory="templates"
+      directory="templates/reports"
       type="senaite.impress.reports"/>
 
 </configure>

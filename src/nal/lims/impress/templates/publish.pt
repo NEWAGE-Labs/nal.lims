@@ -1,0 +1,49 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      i18n:domain="senaite.impress" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title i18n:translate="">SENAITE IMPRESS</title>
+    <!-- SENAITE IMPRESS HTML head -->
+    <div tal:replace="structure provider:senaite.impress.publishhead" />
+    <!-- SENANITE IMPRESS Custom HTML head (after impress core resources)  -->
+    <div tal:replace="structure provider:senaite.impress.publishcustomhead" />
+    <!-- /END -->
+
+    <!-- CUSTOM JS
+         N.B. we render the JS inline, because traversal seems to not work for plone:static resouces!
+    -->
+    <tal:custom_js repeat="script view/get_custom_javascripts">
+      <!-- <tal:t replace="script/filename"/> -->
+      <script type="text/javascript" tal:content="script/filecontents"></script>
+    </tal:custom_js>
+    <!-- /CUSTOM JS -->
+  </head>
+  <body>
+    <div class="container">
+      <div class="card my-4 p-4">
+
+        <div class="row">
+          <div class="col-sm-12 text-right">
+            <!-- Viewlet manager: publish top -->
+            <div tal:replace="structure provider:senaite.impress.publishtop" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-12">
+            <!-- Viewlet manager: report header -->
+            <div tal:replace="structure provider:senaite.impress.publishcontent" />
+          </div>
+        </div>
+
+        <!-- ReactJS controlled component -->
+        <div class="row" id="publish_controller"></div>
+
+      </div> <!-- /card -->
+    </div> <!-- /container -->
+  </body>
+</html>

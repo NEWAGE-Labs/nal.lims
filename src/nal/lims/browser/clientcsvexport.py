@@ -190,30 +190,47 @@ class ClientCSVExportView(BrowserView):
                     export_dict['new_old'].append(new_old)
 
                 for j in map(api.get_object,i.getAnalyses()):
-                    if api.get_workflow_status_of(j) not in ['cancelled','invalid','retracted','rejected']:
+                    if api.get_workflow_status_of(j) not in ['cancelled','invalid','retracted','rejected'] and 'nitrogen_conversion_efficiency' not in j.Keyword:
                         sigfigs = 3
-                        result = j.Result
+                        result = j.getResult()
+                        dil = (1 if (j.Dilution is None or j.Dilution == '') else j.Dilution)
                         if result.replace('.','',1).replace('-','',1).isdigit() is False:
                             export_dict[j.Keyword].append(result)
                         else:
                             result = float(result)
-                            if i.getSampleType().title == 'Sap':
-                                if result < 0.01:
-                                    result = '< 0.01'
+                            loq = 0.01
+                            for k in j.getAnalysisService().MethodRecords:
+                                print("MethodRecord is: {}\nCustomMethod is: {}".format(k, j.CustomMethod))
+                                if k['methodid'] == j.CustomMethod:
+                                    loq = k['loq']
+                            print("LOQ is {}".format(loq))
+                            if loq == 'P|A':
+                                choices = j.getResultOptions()
+                                print("Choices are {}".format(choices))
+                                if choices:
+                                        # Create a dict for easy mapping of result options
+                                        values_texts = dict(map(lambda c: (str(c["ResultValue"]), c["ResultText"]), choices))
+                                        print("Result is {}\nvalues_texts is {}".format(result,values_texts))
+                                        # Result might contain a single result option
+                                        match = values_texts.get(str(int(result)))
+                                        print("match is {}".format(match))
+                                        if match:
+                                                result = match
+                                        else:
+                                                result = '-'
                                 else:
-                                    result = round(result, sigfigs-int(floor(log10(abs(result))))-1)
-                                export_dict[j.Keyword].append(result)
+                                        result = '-'
+                            elif result < float(loq):
+                                result = '< {}'.format(float(loq) * float(dil))
                             else:
-                                if result < float(j.getLowerDetectionLimit()):
-                                    result = '< ' + str(j.getLowerDetectionLimit())
-                                else:
-                                    result = round(result, sigfigs-int(floor(log10(abs(result))))-1)
-                                export_dict[j.Keyword].append(result)
+                                result = round((result*float(dil)), sigfigs-int(floor(log10(abs(result*float(dil)))))-1)
+
+                            export_dict[j.Keyword].append(result)
 
                 if i.getSampleType().title == 'Sap':
-                    nh4 = export_dict['sap_nitrogen_as_ammonium'][-1]
-                    no3 = export_dict['sap_nitrogen_as_nitrate'][-1]
-                    tn = export_dict['sap_total_nitrogen'][-1]
+                    nh4 = export_dict['nitrogen_ammonium'][-1]
+                    no3 = export_dict['nitrogen_nitrate'][-1]
+                    tn = export_dict['nitrogen'][-1]
                     nce = 0
 
                     if nh4 is None or nh4 == '< 0.01' or nh4 == '':

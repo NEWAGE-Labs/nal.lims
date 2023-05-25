@@ -50,8 +50,18 @@ class BatchBookView(BikaBatchBookView):
         }
 
         ## Update each contentfilter with the added and modified column keys
-        for i in self.review_states:
-            i["columns"] = self.columns.keys()
+	self.review_states = [
+            {
+                "id": "default",
+                "title": _("Main"),
+                "contentFilter": {
+			"is_active":True,
+			"sort_on":"created",
+			"sort_order":"descending",
+		},
+                "columns": self.columns.keys()
+            },
+        ]
 
         #No return
 

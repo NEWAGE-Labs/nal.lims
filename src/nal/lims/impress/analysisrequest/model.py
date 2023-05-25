@@ -119,7 +119,7 @@ class SuperModel(BaseModel):
         no3 = 0
         nh4 = 0
         ncr = ''
-
+	logger.warn("Starting {}".format(self))
         found = False
         for i in range(20, 0, -1):
             if found==False:
@@ -139,12 +139,15 @@ class SuperModel(BaseModel):
                 version = 'nitrogen_nitrate-'+str(i)
                 if hasattr(self,version):
                     found = True
-                    no3 = float(self[version].Result)
+		    try:
+                    	no3 = float(self[version].Result)
+		    except ValueError as ve:
+			no3 = 'NT'
         if found == False and hasattr(self,'nitrogen_nitrate'):
-            if self.nitrogen_nitrate.Result == '':
-                no3 = 'NT'
-            else:
-                no3 = float(self.nitrogen_nitrate.Result)
+		try:
+                    no3 = float(self.nitrogen_nitrate.Result)
+		except ValueError as ve:
+		    no3 = 'NT'
 
         found = False
         for i in range(20, 0, -1):
@@ -159,8 +162,10 @@ class SuperModel(BaseModel):
             else:
                 nh4 = float(self.nitrogen_ammonium.Result)
 
-        if total_n == 'NT' or no3 == 'NT' or nh4 == 'NT':
+	logger.warn("NO3 for {} is: {}".format(self, no3))
+        if total_n == 0 or total_n == 'NT' or no3 == 0 or no3 == 'NT' or nh4 == 0 or nh4 == 'NT':
             ncr = 'NT'
+	    print("{} is 'NT'".format(self))
         elif total_n < 0.01:
             ncr = '-'
         else:
@@ -170,11 +175,7 @@ class SuperModel(BaseModel):
                 nh4 = 0
             if no3 == '' or no3 < 0:
                 no3 = 0
-            print("total nitrogen is: " + str(total_n))
-            print("nitrogen as nitrate is: " + str(no3))
-            print("nitrogen as ammonium is: " + str(nh4))
             ncr = float(1 - ((nh4 + no3)/total_n))*100
-
             ncr = round(ncr, 3-int(floor(log10(abs(ncr))))-1)
 
         return ncr
