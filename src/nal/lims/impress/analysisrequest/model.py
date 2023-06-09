@@ -163,7 +163,7 @@ class SuperModel(BaseModel):
                 nh4 = float(self.nitrogen_ammonium.Result)
 
 	logger.warn("NO3 for {} is: {}".format(self, no3))
-        if total_n == 0 or total_n == 'NT' or no3 == 0 or no3 == 'NT' or nh4 == 0 or nh4 == 'NT':
+        if total_n == 0 or total_n == 'NT' or no3 == 'NT' or nh4 == 'NT':
             ncr = 'NT'
 	    print("{} is 'NT'".format(self))
         elif total_n < 0.01:

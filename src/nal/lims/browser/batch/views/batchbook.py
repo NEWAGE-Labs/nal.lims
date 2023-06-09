@@ -1,15 +1,19 @@
 from bika.lims import api
 from bika.lims import bikaMessageFactory as _
+from bika.lims import logger
 from bika.lims.permissions import AddBatch
 from bika.lims.utils import get_link
 from bika.lims.utils import get_link_for
 from bika.lims.browser.batch.batchbook import BatchBookView as BikaBatchBookView
+from Products.statusmessages.interfaces import IStatusMessage
+from plone import api as papi
 
 class BatchBookView(BikaBatchBookView):
 
     def __init__(self, context, request):
         super(BatchBookView, self).__init__(context, request)
 
+	self.smessages = IStatusMessage(self.request)
 	self.context = context
 	self.request = request
 
@@ -68,6 +72,9 @@ class BatchBookView(BikaBatchBookView):
     def folderitems(self):
         items = super(BatchBookView, self).folderitems()
 
+	print("CHECKING NITROGEN")
+	self.check_bad_nitrogen(self.context, items)
+
         for item in items:
             ar = item["obj"]
             item["allow_edit"].append('Specification')
@@ -87,6 +94,11 @@ class BatchBookView(BikaBatchBookView):
                 self.columns['GrowthStage']['toggle'] = True
 
         return items
+
+#    def before_render(self):
+#        super(BatchBookView, self).before_render()
+#	self.smessages.addStatusMessage("Test Message")
+#	self.smessages.show()
 
     def update(self):
         super(BatchBookView, self).update()
@@ -124,3 +136,29 @@ class BatchBookView(BikaBatchBookView):
                 "ResultText": api.get_title(spec),
             })
         return vocab
+
+    def check_bad_nitrogen(self,context,items):
+	bad = []
+	for item in items:
+	    ar = item["obj"]
+	    n = None
+	    parts = 0
+	    for analysis in map(api.get_object,ar.getAnalyses()):
+		if api.get_workflow_status_of(analysis) not in ['cancelled','invalid','retracted','rejected']:
+		    keyword = analysis.Keyword
+		    if keyword in ['nitrogen_nitrate','nitrogen_ammonium','nitrogen_ammonia','nitrogen_nitrite']:
+			try:
+			    parts += float(analysis.Result)
+			except ValueError:
+			    pass
+		    if keyword == 'nitrogen':
+			try:
+			    n = float(analysis.Result)
+			except ValueError:
+			    pass
+	    if n is not None and n < parts:
+		bad.append(ar.id)
+#	if len(bad) == 1:
+#	    self.smessages.addStatusMessage("{} includes Nitrogen Errors".format(bad[0]), "error")
+#	elif len(bad) > 1:
+#	    self.smessages.addStatusMessage("{} inlcude Nitrogen Errors".format(','.join(bad)), "error")
