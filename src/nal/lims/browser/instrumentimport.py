@@ -787,7 +787,7 @@ class GalleryImportView(edit.DefaultEditForm):
         analysts = []
         dict_to_df = {}
         for i, row in dirty_df.iterrows():
-            if ('fl-0' in row["Sample/ctrl ID"].lower() or 'test-0' in row["Sample/ctrl ID"].lower()) and 'MA' in row['Status']:
+            if ('fl-' in row["Sample/ctrl ID"].lower() or 'test-' in row["Sample/ctrl ID"].lower()) and 'MA' in row['Status']:
                 dirty_sample = row["Sample/ctrl ID"] # '1234 ppm'
                 if 'x' in row["Sample/ctrl ID"].lower():
                     radix = dirty_sample.lower().find('x')

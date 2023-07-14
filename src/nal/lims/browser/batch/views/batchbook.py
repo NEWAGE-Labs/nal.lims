@@ -108,6 +108,11 @@ class BatchBookView(BikaBatchBookView):
                 "permission": AddBatch,
                 "icon": "++resource++bika.lims.images/control_big.png"
             },
+            _("Reset OL"): {
+                "url": "@@olreset/",
+                "permission": AddBatch,
+                "icon": "++resource++bika.lims.images/control_big.png"
+            },
         }
 
     def get_spec_vocabulary(self):

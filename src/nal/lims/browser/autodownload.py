@@ -38,9 +38,12 @@ class AutoDownloadView(BrowserView):
 	    if pdfname in files or csvname in files:
 		pass
 	    else:
-		os.makedirs(rpath+sdg_title)
 		napi.getSDGCSV(sdg).to_csv(path+'/'+csvname)
-		napi.getSDGCSV(sdg).to_csv(rpath+sdg_title+'/'+csvname)
+		try:
+		    napi.getSDGCSV(sdg).to_csv(rpath+sdg_title+'/'+csvname)
+		except IOError as ioe:
+		    os.makedirs(rpath+sdg_title)
+		    napi.getSDGCSV(sdg).to_csv(rpath+sdg_title+'/'+csvname)
 		with arr.getRawPdf().blob.open() as f:
 		    print("blob is: {}".format(f))
 		    shutil.copyfile(f.name, path+'/'+pdfname)

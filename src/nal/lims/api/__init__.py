@@ -1,7 +1,41 @@
 from bika.lims import api
+from plone import api as papi
 from math import floor
 from math import log10
 import pandas as pd
+
+def moveSDG(sdg_title,target_client_id):
+	sdg_brain = api.search({'portal_type':'Batch','title':sdg_title})
+	sdg_count = len(sdg_brain)
+	if sdg_count == 1:
+		sdg = api.get_object(sdg_brain[0])
+	elif sdg_count > 1:
+		sdgs = map(api.get_object,sdg_brain)
+		open = 0
+		for i in sdgs:
+			if api.get_workflow_status_of(i) == 'open':
+				sdg = i
+				open += 1
+		if open > 1:
+			raise Exception("Ambiguous SDG title. Please Close/Cancel duplicate SDGs.")
+	else:
+		raise Exception("No SDG found with that title. Please confirm SDG exists.")
+
+	clients = api.search({'portal_type':'Client'})
+	for i in clients:
+		if i.getClientID == target_client_id:
+			client = api.get_object(i)
+	if client is None:
+		raise Exception("Client ID does not exist.")
+
+	if sdg is not None and client is not None:
+		papi.content.move(sdg,client)
+		returnstr = "The following items were moved to {}:\n{}".format(client.ClientID + " - " + client.Name,sdg.title)
+		ars = sdg.getAnalysisRequests()
+		for i in ars:
+			papi.content.move(source=i,target=client)
+			returnstr = returnstr + "\n{}".format(i.id)
+	return returnstr
 
 def login():
     from AccessControl import getSecurityManager
@@ -234,3 +268,186 @@ def getSDGCSV(batch):
             df[i] = export_dict[i]
 	#Return DataFrame
 	return df
+
+def get_sap_by_samples(samples):
+	cols = [
+		'id',
+		'Client',
+		'Crop',
+		'Growth Stage',
+		'Variety',
+		'Vigor',
+		'Sugars',
+		'Brix',
+		'pH',
+		'EC',
+		'Chloride',
+		'Phosphorus',
+		'Sulfur',
+		'Calcium',
+		'Potassium',
+		'K/Ca Ratio',
+		'Magnesium',
+		'Sodium',
+		'Aluminum',
+		'Boron',
+		'Cobalt',
+		'Copper',
+		'Iron',
+		'Manganese',
+		'Molybdenum',
+		'Nickel',
+		'Selenium',
+		'Silica',
+		'Zinc',
+		'Ammonium-Nitrogen',
+		'Nitrate-Nitrogen',
+		'Nitrogen',
+		'Nitrogen Conversion Efficiency'
+	]
+	dict = {}
+	for i in cols:
+		dict[i] = []
+
+	for sample in samples:
+		dict['id'].append(sample.id)
+		dict['Client'].append(sample.aq_parent.Name)
+		dict['Crop'].append(('' if not hasattr(sample,'PlantType') else sample.PlantType))
+		dict['Growth Stage'].append(('' if not hasattr(sample,'GrowthStage') else sample.GrowthStage))
+		dict['Variety'].append(('' if not hasattr(sample,'Variety') else sample.Variety))
+		dict['Vigor'].append(('' if not hasattr(sample,'Vigor') else sample.Vigor))
+		sugars = None
+		brix = None
+		ph = None
+		ec = None
+		chloride = None
+		phosphorus = None
+		sulfur = None
+		calcium = None
+		potassium = None
+		magnesium = None
+		sodium = None
+		aluminum = None
+		boron = None
+		cobalt = None
+		copper = None
+		iron = None
+		manganese = None
+		molybdenum = None
+		nickel = None
+		selenium = None
+		silica = None
+		zinc = None
+		ammonium = None
+		nitrate = None
+		nitrogen = None
+		nce = None
+
+		for analysis in map(api.get_object,sample.getAnalyses()):
+			if api.get_workflow_status_of(analysis) not in ['retracted','rejected','invalid','cancelled']:
+				keyword = analysis.Keyword
+				try:
+					result = float(analysis.Result)
+					if result < 0:
+						result = 0
+				except ValueError as ve:
+					result = ''
+					print("Saving {} for {} - {}".format(result,analysis,keyword))
+				if 'sugar' in keyword:
+					sugars = result
+				elif 'brix' in keyword:
+					brix = result
+				elif 'ph' in keyword and 'phos' not in keyword:
+					ph = result
+				elif 'ec' in keyword:
+					ec = result
+				elif 'chloride' in keyword:
+					chloride = result
+				elif 'phosph' in keyword:
+					phosphorus = result
+				elif 'sulfur' in keyword:
+					sulfur = result
+				elif 'calcium' in keyword:
+					calcium = result
+				elif 'potassium' in keyword:
+					potassium = result
+				elif 'magnesium' in keyword:
+					magnesium = result
+				elif 'sodium' in keyword:
+					sodium = result
+				elif 'aluminum' in keyword:
+					aluminum = result
+				elif 'boron' in keyword:
+					boron = result
+				elif 'cobalt' in keyword:
+					cobalt = result
+				elif 'copper' in keyword:
+					copper = result
+				elif 'iron' in keyword:
+					iron = result
+				elif 'manganese' in keyword:
+					manganese = result
+				elif 'molybdenum' in keyword:
+					molybdenum = result
+				elif 'nickel' in keyword:
+					nickel = result
+				elif 'selenium' in keyword:
+					selenium = result
+				elif 'silica' in keyword:
+					silica = result
+				elif 'zinc' in keyword:
+					zinc = result
+				elif 'nitrate' in keyword:
+					nitrate = result
+				elif 'ammoni' in keyword:
+					ammonium = result
+				elif 'nitrogen' == keyword:
+					nitrogen = result
+
+		dict['Sugars'].append(sugars)
+		dict['Brix'].append(brix)
+		dict['pH'].append(ph)
+		dict['EC'].append(ec)
+		dict['Chloride'].append(chloride)
+		dict['Phosphorus'].append(phosphorus)
+		dict['Sulfur'].append(sulfur)
+		dict['Calcium'].append(calcium)
+		dict['Potassium'].append(potassium)
+		if potassium is None or calcium is None or potassium == '' or calcium == '':
+			dict['K/Ca Ratio'].append('')
+		else:
+			dict['K/Ca Ratio'].append(potassium/calcium)
+		dict['Magnesium'].append(magnesium)
+		dict['Sodium'].append(sodium)
+		dict['Aluminum'].append(aluminum)
+		dict['Boron'].append(boron)
+		dict['Cobalt'].append(cobalt)
+		dict['Copper'].append(copper)
+		dict['Iron'].append(iron)
+		dict['Manganese'].append(manganese)
+		dict['Molybdenum'].append(molybdenum)
+		dict['Nickel'].append(nickel)
+		dict['Selenium'].append(selenium)
+		dict['Silica'].append(silica)
+		dict['Zinc'].append(zinc)
+		dict['Ammonium-Nitrogen'].append(ammonium)
+		dict['Nitrate-Nitrogen'].append(nitrate)
+		dict['Nitrogen'].append(nitrogen)
+		if ammonium < 0.01:
+			ammonium = 0
+		elif ammonium is None:
+			ammonium = ''
+		if nitrate < 0.01:
+			nitrate = 0
+		elif nitrate is None:
+			nitrate = ''
+		if nitrogen is None or nitrogen < 0.01:
+			nitrogen = 0
+		if nitrogen > 0 and nitrate != '' and ammonium != '':
+			from math import log10
+			from math import floor
+			nce_raw = (1 - (ammonium + nitrate) / (nitrogen))*100
+			nce = round(nce_raw,3-int(floor(log10(abs(nce_raw))))-1)
+		dict['Nitrogen Conversion Efficiency'].append(nce)
+
+	return pd.DataFrame(dict)

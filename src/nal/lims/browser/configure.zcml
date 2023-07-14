@@ -133,6 +133,15 @@
       />
 
   <browser:page
+      name="olreset"
+      class=".optimallevels.OLResetView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/optimallevels.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
       name="autodownload"
       class=".autodownload.AutoDownloadView"
       permission="cmf.ListFolderContents"

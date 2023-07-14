@@ -38,7 +38,8 @@ class SDGCSVExportView(BrowserView):
             'project_contact',
             'sampler_contact'
             ]
-        if hasattr(sdg,'GrowerContact'):
+	grower_brain = sdg.getReferences(relationship="SDGGrowerContact")
+        if len(grower_brain) > 0:
             cols.append('grower_contact')
 
         xtra_cols = [
@@ -49,7 +50,7 @@ class SDGCSVExportView(BrowserView):
             'sample_type',
             'sample_location'
         ]
-        cols = cols + xtra_cols
+
         ARs = self.context.getAnalysisRequests()
         for i in ARs:
             if i.getSampleType().title == 'Sap' and 'plant_type' not in cols and api.get_workflow_status_of(i) not in ['cancelled','invalid']:
@@ -61,15 +62,24 @@ class SDGCSVExportView(BrowserView):
                     'new_old',
                     'nitrogen_conversion_efficiency'
                 ]
-                cols = cols + sap_cols
 
 	    ar_cols = []
             for j in map(api.get_object,i.getAnalyses()):
-                if j.Keyword not in cols and j.Keyword not in ar_cols:
+                if j.Keyword not in cols and j.Keyword not in sap_cols and j.Keyword not in ar_cols:
                     ar_cols.append(str(j.Keyword))
 	    ar_cols.sort()
 
-	    cols = cols + ar_cols
+	#Combine Columns
+	if sap_cols is not None and len(sap_cols) > 0:
+		if 'grower_contact' not in cols:
+			cols.append('grower_contact')
+		cols = cols + xtra_cols
+		cols = cols + sap_cols
+		cols = cols + ar_cols
+	else:
+		cols = cols + xtra_cols
+		cols = cols + ar_cols
+
         #initialize dictionary of lists
         for i in range(len(cols)):
             export_dict[cols[i]] = []
@@ -124,8 +134,8 @@ class SDGCSVExportView(BrowserView):
                 export_dict['sampler_contact'].append(sampler_contact_name)
 
                 #Grower Contact
-                grower_contact = sdg.getReferences(relationship="SDGGrowerContact")
-                if len(grower_contact) > 0 and 'grower_contact' in cols:
+                if len(grower_brain) > 0 and 'grower_contact' in cols:
+		    grower_contact = grower_brain[0]
                     grower_contact_name = grower_contact.Firstname + " " + grower_contact.Surname
                     export_dict['grower_contact'].append(grower_contact_name)
 

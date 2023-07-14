@@ -29,3 +29,37 @@ class OptimalLevelView(BrowserView):
             )
 
         self.request.response.redirect(api.get_url(self.context) + '/batchbook')
+
+class OLResetView(BrowserView):
+
+    def __init__(self, context, request):
+        alsoProvides(request, IDisableCSRFProtection)
+        self.context = context
+        self.request = request
+
+
+    def __call__(self):
+
+        ars = self.context.getAnalysisRequests()
+
+        for i in ars:
+	    ol = i.getSpecification()
+	    newbrain = api.search({'portal_type':'AnalysisSpec','title':ol.title})
+	    blank = api.get_object(api.search({'portal_type':'AnalysisSpec','title':'-'})[0])
+	    if len(newbrain) > 0:
+		newobj = api.get_object(newbrain[0])
+		i.setSpecification(blank)
+            	i.reindexObject(idxs=['Specification'])
+		i.setSpecification(newobj)
+            	i.reindexObject(idxs=['Specification'])
+	    else:
+		IStatusMessage(self.request).addStatusMessage(
+                    u"No OL found with title: {}".format(ol.title), type="warning"
+            	)
+	        self.request.response.redirect(api.get_url(self.context) + '/batchbook')
+
+        IStatusMessage(self.request).addStatusMessage(
+                u"OLs have been reset"
+            )
+
+        self.request.response.redirect(api.get_url(self.context) + '/batchbook')

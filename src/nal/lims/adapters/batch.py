@@ -10,14 +10,16 @@ from bika.lims import bikaMessageFactory as _
 from bika.lims.interfaces import IBatch
 from Products.Archetypes.atapi import FileField as ExtFileField
 from nal.lims.fields import ExtReferenceField
+from nal.lims.fields import ExtIntegerField
 # from Products.Archetypes.public import StringField as ExtStringField
 # from Products.Archetypes.public import DateTimeField as ExtDateTimeField
 from nal.lims.fields import ExtStringField
 from nal.lims.fields import ExtDateTimeField
 from Products.Archetypes.public import StringWidget
+from Products.Archetypes.public import IntegerWidget
 from Products.Archetypes.atapi import FileWidget
 from bika.lims.browser.widgets import DateTimeWidget
-from bika.lims.browser.widgets import ReferenceWidget
+from senaite.core.browser.widgets.referencewidget import ReferenceWidget
 from zope.component import adapts
 from zope.interface import implements
 from nal.lims.interfaces import INalLimsLayer
@@ -79,12 +81,12 @@ class BatchSchemaExtender(object):
                 showOn=True,
                 popup_width='400px',
                 colModel=[
-                    {'columnName': 'Fullname', 'width': '50',
+                    {'columnName': 'getFullname', 'width': '50',
                      'label': _('Name')},
-                    {'columnName': 'EmailAddress', 'width': '50',
+                    {'columnName': 'getEmailAddress', 'width': '50',
                      'label': _('Email Address')},
                 ],
-                ui_item='Fullname',
+                ui_item='getFullname',
             ),
         ),
 
@@ -110,12 +112,12 @@ class BatchSchemaExtender(object):
                 showOn=True,
                 popup_width='400px',
                 colModel=[
-                    {'columnName': 'Fullname', 'width': '50',
+                    {'columnName': 'getFullname', 'width': '50',
                      'label': _('Name')},
                     {'columnName': 'EmailAddress', 'width': '50',
-                     'label': _('Email Address')},
+                     'label': _('getEmail Address')},
                 ],
-                ui_item='Fullname',
+                ui_item='getFullname',
             ),
         ),
 
@@ -141,12 +143,12 @@ class BatchSchemaExtender(object):
                 showOn=True,
                 popup_width='400px',
                 colModel=[
-                    {'columnName': 'Fullname', 'width': '50',
+                    {'columnName': 'getFullname', 'width': '50',
                      'label': _('Name')},
-                    {'columnName': 'EmailAddress', 'width': '50',
+                    {'columnName': 'getEmailAddress', 'width': '50',
                      'label': _('Email Address')},
                 ],
-                ui_item='Fullname',
+                ui_item='getFullname',
             ),
         ),
         ExtFileField(
@@ -154,6 +156,21 @@ class BatchSchemaExtender(object):
             widget=FileWidget(
                 label="Chain Of Custody",
                 description="Select a printed COC to attach.",
+                visible=True,
+            )
+        ),
+        ExtIntegerField(
+            'LabIDCount',
+            widget=IntegerWidget(
+                label="Number of Samples to print for this SDG",
+                description="Controls the auto-incremented number for stickers.",
+            )
+        ),
+        ExtIntegerField(
+            'LabIDCurr',
+            widget=IntegerWidget(
+                label="Current increment number for stickers",
+                description="",
                 visible=False,
             )
         ),

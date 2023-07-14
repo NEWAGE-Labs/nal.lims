@@ -8,7 +8,7 @@ from nal.lims.fields import ExtStringField
 from nal.lims.fields import ExtBooleanField
 from nal.lims.fields import ExtFileField
 from Products.Archetypes.atapi import ReferenceField as ExtReferenceField
-from bika.lims.browser.widgets import ReferenceWidget
+from senaite.core.browser.widgets.referencewidget import ReferenceWidget
 from bika.lims import bikaMessageFactory as _
 from zope.component import adapts
 from zope.interface import implements
@@ -17,6 +17,8 @@ from Products.Archetypes.public import StringField
 from Products.Archetypes.public import StringWidget
 from Products.Archetypes.public import BooleanWidget
 from Products.Archetypes.atapi import FileWidget
+from senaite.core.permissions import ManageInvoices
+from senaite.core.permissions import FieldEditClient
 
 class ClientSchemaExtender(object):
     adapts(IClient)
@@ -119,6 +121,7 @@ class ClientSchemaModifier(object):
         schema["TaxNumber"].widget.visible = False
         schema["ClientID"].widget.label = "NAL Number"
 	schema["ClientID"].widget.description = "The Unique ID associated with the client. Example: 'NAL23-456'"
+	schema["ClientID"].write_permission = ManageInvoices
         schema["PhysicalAddress"].required = True
         schema["CSV"].widget.visible = True
         # schema["PhysicalAddress"].schemata = "default"
