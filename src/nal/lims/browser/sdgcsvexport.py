@@ -52,6 +52,7 @@ class SDGCSVExportView(BrowserView):
         ]
 
         ARs = self.context.getAnalysisRequests()
+	ar_cols = []
         for i in ARs:
             if i.getSampleType().title == 'Sap' and 'plant_type' not in cols and api.get_workflow_status_of(i) not in ['cancelled','invalid']:
                 sap_cols = [
@@ -63,11 +64,10 @@ class SDGCSVExportView(BrowserView):
                     'nitrogen_conversion_efficiency'
                 ]
 
-	    ar_cols = []
             for j in map(api.get_object,i.getAnalyses()):
                 if j.Keyword not in cols and j.Keyword not in sap_cols and j.Keyword not in ar_cols:
                     ar_cols.append(str(j.Keyword))
-	    ar_cols.sort()
+	ar_cols.sort()
 
 	#Combine Columns
 	if sap_cols is not None and len(sap_cols) > 0:

@@ -451,3 +451,27 @@ def get_sap_by_samples(samples):
 		dict['Nitrogen Conversion Efficiency'].append(nce)
 
 	return pd.DataFrame(dict)
+
+def get_sap_emails():
+	samples = map(api.get_object,api.search({'portal_type':'AnalysisRequest'}))
+	sap = []
+	for i in samples:
+		if i.getSampleType().title == 'Sap' and i not in sap:
+			sap.append(i)
+	emails = {}
+	emails['email'] = []
+	emails['name'] = []
+	clients = []
+	for i in sap:
+		client = i.getClient()
+		if client and client not in clients:
+			clients.append(client)
+		if client and client.EmailAddress not in emails['email']:
+			emails['email'].append(i.getClient().EmailAddress)
+			emails['name'].append(i.getClient().Name)
+	for i in clients:
+		for j in i.getContacts():
+			if j.EmailAddress not in emails['email']:
+				emails['email'].append(j.EmailAddress)
+				emails['name'].append(j.Firstname + ' ' + j.Surname)
+	return pd.DataFrame(emails)

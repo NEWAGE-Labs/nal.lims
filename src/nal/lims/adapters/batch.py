@@ -8,7 +8,7 @@ from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
 from archetypes.schemaextender.interfaces import ISchemaModifier
 from bika.lims import bikaMessageFactory as _
 from bika.lims.interfaces import IBatch
-from Products.Archetypes.atapi import FileField as ExtFileField
+from nal.lims.fields import ExtFileField
 from nal.lims.fields import ExtReferenceField
 from nal.lims.fields import ExtIntegerField
 # from Products.Archetypes.public import StringField as ExtStringField
