@@ -65,7 +65,7 @@ class SDGCSVExportView(BrowserView):
                 ]
 
             for j in map(api.get_object,i.getAnalyses()):
-                if j.Keyword not in cols and j.Keyword not in sap_cols and j.Keyword not in ar_cols:
+                if j.Keyword not in cols and j.Keyword not in ar_cols:
                     ar_cols.append(str(j.Keyword))
 	ar_cols.sort()
 
