@@ -53,6 +53,7 @@ class SDGCSVExportView(BrowserView):
 
         ARs = self.context.getAnalysisRequests()
 	ar_cols = []
+	sap_cols = None
         for i in ARs:
             if i.getSampleType().title == 'Sap' and 'plant_type' not in cols and api.get_workflow_status_of(i) not in ['cancelled','invalid']:
                 sap_cols = [

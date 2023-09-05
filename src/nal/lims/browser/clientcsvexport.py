@@ -32,6 +32,7 @@ class ClientCSVExportView(BrowserView):
             'client_name',
             'client_address',
             'sample_delivery_group',
+	    'internal_lab_id',
             'date_received',
             'time_received',
             'project_contact',
@@ -119,6 +120,9 @@ class ClientCSVExportView(BrowserView):
 
                 #SDG
                 export_dict['sample_delivery_group'].append(sdg.title)
+
+		#InternalLabId
+		export_dict['internal_lab_id'].append(i.InternalLabID)
 
                 #Date Received
                 dreceived = sdg.SDGDate.strftime('%m-%d-%Y')
