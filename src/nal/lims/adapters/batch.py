@@ -9,7 +9,7 @@ from archetypes.schemaextender.interfaces import ISchemaModifier
 from bika.lims import bikaMessageFactory as _
 from bika.lims.interfaces import IBatch
 from nal.lims.fields import ExtFileField
-from nal.lims.fields import ExtReferenceField
+from nal.lims.fields import ExtUIDReferenceField
 from nal.lims.fields import ExtIntegerField
 # from Products.Archetypes.public import StringField as ExtStringField
 # from Products.Archetypes.public import DateTimeField as ExtDateTimeField
@@ -23,6 +23,7 @@ from senaite.core.browser.widgets.referencewidget import ReferenceWidget
 from zope.component import adapts
 from zope.interface import implements
 from nal.lims.interfaces import INalLimsLayer
+from senaite.core.catalog import CONTACT_CATALOG
 
 class BatchSchemaExtender(object):
     adapts(IBatch)
@@ -59,10 +60,9 @@ class BatchSchemaExtender(object):
             ),
         ),
 
-        ExtReferenceField(
+        ExtUIDReferenceField(
             'ProjectContact',
             required=True,
-            default_method='getContactUIDForUser',
             allowed_types=('Contact',),
             referenceClass=HoldingReference,
             relationship="SDGProjectContact",
@@ -73,27 +73,24 @@ class BatchSchemaExtender(object):
                 helper_js=("bika_widgets/referencewidget.js",
                            "++resource++bika.lims.js/contact.js"),
                 description=_("The main contact for the project"),
-                catalog_name="portal_catalog",
-                base_query={"is_active": True,
-                            "sort_limit": 50,
-                            "sort_on": "sortable_title",
-                            "sort_order": "ascending"},
-                showOn=True,
-                popup_width='400px',
-                colModel=[
-                    {'columnName': 'getFullname', 'width': '50',
-                     'label': _('Name')},
-                    {'columnName': 'getEmailAddress', 'width': '50',
-                     'label': _('Email Address')},
+                ui_item='Title',
+                catalog=CONTACT_CATALOG,
+                query={
+                    "getParentUID": "",
+                    "is_active": True,
+                    "sort_on": "sortable_title",
+                    "sort_order": "ascending"
+                },
+                columns=[
+                    {"name": "Title", "label": _("Name")},
+                    {"name": "EmailAddress", "label": _("Email")},
                 ],
-                ui_item='getFullname',
             ),
         ),
 
-        ExtReferenceField(
+        ExtUIDReferenceField(
             'SamplerContact',
             required=True,
-            default_method='getContactUIDForUser',
             allowed_types=('Contact',),
             referenceClass=HoldingReference,
             relationship="SDGSamplerContact",
@@ -104,27 +101,24 @@ class BatchSchemaExtender(object):
                 helper_js=("bika_widgets/referencewidget.js",
                            "++resource++bika.lims.js/contact.js"),
                 description=_("The person who performed the sampling method."),
-                catalog_name="portal_catalog",
-                base_query={"is_active": True,
-                            "sort_limit": 50,
-                            "sort_on": "sortable_title",
-                            "sort_order": "ascending"},
-                showOn=True,
-                popup_width='400px',
-                colModel=[
-                    {'columnName': 'getFullname', 'width': '50',
-                     'label': _('Name')},
-                    {'columnName': 'EmailAddress', 'width': '50',
-                     'label': _('getEmail Address')},
+                ui_item='Title',
+                catalog=CONTACT_CATALOG,
+                query={
+                    "getParentUID": "",
+                    "is_active": True,
+                    "sort_on": "sortable_title",
+                    "sort_order": "ascending"
+                },
+                columns=[
+                    {"name": "Title", "label": _("Name")},
+                    {"name": "EmailAddress", "label": _("Email")},
                 ],
-                ui_item='getFullname',
             ),
         ),
 
-        ExtReferenceField(
+        ExtUIDReferenceField(
             'GrowerContact',
             required=False,
-            default_method='getContactUIDForUser',
             allowed_types=('Contact',),
             referenceClass=HoldingReference,
             relationship="SDGGrowerContact",
@@ -135,20 +129,18 @@ class BatchSchemaExtender(object):
                 helper_js=("bika_widgets/referencewidget.js",
                            "++resource++bika.lims.js/contact.js"),
                 description=_("Optional. Independant grower testing via a consultation client."),
-                catalog_name="portal_catalog",
-                base_query={"is_active": True,
-                            "sort_limit": 50,
-                            "sort_on": "sortable_title",
-                            "sort_order": "ascending"},
-                showOn=True,
-                popup_width='400px',
-                colModel=[
-                    {'columnName': 'getFullname', 'width': '50',
-                     'label': _('Name')},
-                    {'columnName': 'getEmailAddress', 'width': '50',
-                     'label': _('Email Address')},
+                ui_item='Title',
+                catalog=CONTACT_CATALOG,
+                query={
+                    "getParentUID": "",
+                    "is_active": True,
+                    "sort_on": "sortable_title",
+                    "sort_order": "ascending"
+                },
+                columns=[
+                    {"name": "Title", "label": _("Name")},
+                    {"name": "EmailAddress", "label": _("Email")},
                 ],
-                ui_item='getFullname',
             ),
         ),
         ExtFileField(

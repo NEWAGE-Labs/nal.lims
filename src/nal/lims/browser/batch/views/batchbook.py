@@ -135,11 +135,16 @@ class BatchBookView(BikaBatchBookView):
         if not specs:
             return [{"ResultValue": "", "ResultText": _("None")}]
         vocab = []
-        for spec in specs:
-            vocab.append({
+	dict = {}
+	for spec in specs:
+	    title = api.get_title(spec)
+	    dict[title] = {
                 "ResultValue": api.get_uid(spec),
-                "ResultText": api.get_title(spec),
-            })
+                "ResultText": title,}
+	keylist = dict.keys()
+	keylist.sort()
+        for key in keylist:
+            vocab.append(dict[key])
         return vocab
 
     def check_bad_nitrogen(self,context,items):
