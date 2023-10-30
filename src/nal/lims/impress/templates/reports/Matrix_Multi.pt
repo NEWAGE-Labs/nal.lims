@@ -288,7 +288,7 @@ EDITS:
                                 <div tal:replace="model/Batch/ReportContact"></div>
                               </div>
                               <div tal:condition="python: not model.Batch.ReportContact">
-                                <div tal:replace="model/Batch/ProjectContact/Fullname|nothing"></div>
+                                <div tal:replace="python:model.get_project_contact()"></div>
                               </div>
                             </td>
                           </tr>
@@ -299,7 +299,7 @@ EDITS:
                           </tr>
                           <tr>
                             <td class="detail">
-                              <div tal:replace="model/Batch/SamplerContact/Fullname|nothing"></div>
+                              <div tal:replace="python:model.get_sampler_contact()"></div>
                             </td>
                           </tr>
                         </table>

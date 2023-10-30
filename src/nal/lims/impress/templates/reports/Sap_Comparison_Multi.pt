@@ -270,13 +270,13 @@ EDITS:
 		    </div>
 		    <div class="branch-manager">
 			<div style="margin-left: 20px;" class="header-label" tal:content="string:Contact"></div>
-			<div style="margin-left: 20px;" class="header-detail" tal:content="newmodel/Batch/ProjectContact/Fullname|nothing"></div>
+			<div style="margin-left: 20px;" class="header-detail" tal:content="python:newmodel.get_project_contact()"></div>
 		    </div>
 		  </div>
 		  <div class="logo-row-2">
 		    <div class="collected-by">
 		        <div class="header-label" tal:content="string:Collected By"></div>
-		        <div class="header-detail" tal:content="newmodel/Batch/SamplerContact/Fullname|nothing"></div>
+		        <div class="header-detail" tal:content="python:newmodel.get_sampler_contact()"></div>
       		    </div>
 		    <div class="collected-date">
             	        <div class="header-label">Date/Time Sampled</div>

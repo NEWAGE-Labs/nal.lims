@@ -24,9 +24,9 @@ class AutoDownloadView(BrowserView):
 	arr = self.context
 	sdg = api.get_object(arr.getAnalysisRequest().getBatch())
 	sdg_title = sdg.title
-	rpath = '/Mnt/Data/Pending Email/'
+	rpath = '/mnt/Data/Pending Email/'
 
-	for r,d,f in os.walk('/Mnt/Data/Data 2023'):
+	for r,d,f in os.walk('/mnt/Data/Data 2023'):
 	    if sdg_title == r[-12:]:
 		path = r
 		files = f
