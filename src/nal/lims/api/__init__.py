@@ -717,26 +717,27 @@ def get_sap_by_samples(samples):
 
 	return pd.DataFrame(dict)
 
-def get_sap_emails():
-	samples = map(api.get_object,api.search({'portal_type':'AnalysisRequest'}))
-	sap = []
-	for i in samples:
-		if i.getSampleType().title == 'Sap' and i not in sap:
-			sap.append(i)
+def get_emails(sampletype=[]):
 	emails = {}
 	emails['email'] = []
 	emails['name'] = []
-	clients = []
-	for i in sap:
-		client = i.getClient()
-		if client and client not in clients:
-			clients.append(client)
-		if client and client.EmailAddress not in emails['email']:
-			emails['email'].append(i.getClient().EmailAddress)
-			emails['name'].append(i.getClient().Name)
-	for i in clients:
-		for j in i.getContacts():
-			if j.EmailAddress not in emails['email']:
-				emails['email'].append(j.EmailAddress)
-				emails['name'].append(j.Firstname + ' ' + j.Surname)
+	if len(sampletype) == 0:
+		clients = map(api.get_object,api.search({'portal_type':'Client'}))
+	else:
+		samples = map(api.get_object,api.search({'portal_type':'AnalysisRequest'}))
+		clients = []
+		for i in samples:
+			client = i.getClient()
+			if client is not None and i.getSampleType().title in sampletype and i not in typelist and client not in clients:
+				clients.append(i.getClient())
+
+	for client in clients:
+		if client.EmailAddress != "" and client.EmailAddress not in emails['email']:
+			emails['email'].append(client.EmailAddress)
+			emails['name'].append(client.Name)
+		for contact in client.getContacts():
+			if contact.EmailAddress != "" and contact.EmailAddress not in emails['email']:
+				emails['email'].append(contact.EmailAddress)
+				emails['name'].append(contact.Firstname + ' ' + contact.Surname)
+
 	return pd.DataFrame(emails)
