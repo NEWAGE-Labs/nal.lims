@@ -47,124 +47,23 @@ class ClientFolderContentsView(BikaClientFolderContentsView):
     def __init__(self, context, request):
         super(ClientFolderContentsView, self).__init__(context, request)
 
-        self.title = self.context.translate(_("Clients"))
-        self.description = ""
-        self.form_id = "list_clientsfolder"
-        self.sort_on = "sortable_title"
-        # Landing page to be added to the link of each client from the list
-        self.landing_page = get_registry_value(
-            self._LANDING_PAGE_REGISTRY_KEY, self._DEFAULT_LANDING_PAGE)
+	self.context = context
+	self.request = request
 
-        self.contentFilter = {
-            "portal_type": "Client",
-            "sort_on": "sortable_title",
-            "sort_order": "ascending"
-        }
+	self.show_column_toggles = True
+	self.allow_edit = True
 
-        self.show_select_row = False
+        self.show_select_row = True
         self.show_select_all_checkbox = True
         self.show_select_column = True
-        self.pagesize = 25
-        self.icon = "{}/{}".format(
-            self.portal_url, "++resource++bika.lims.images/client_big.png")
 
-        self.columns = collections.OrderedDict((
-            ("title", {
-                "title": _("Name"),
-                "index": "sortable_title"},),
-            ("getClientID", {
-                "title": _("Client ID")}),
-            ("EmailAddress", {
-                "title": _("Email Address"),
-                "sortable": False}),
-            ("getCountry", {
-                "toggle": False,
-                "sortable": False,
-                "title": _("Country")}),
-            ("getProvince", {
-                "toggle": False,
-                "sortable": False,
-                "title": _("Province")}),
-            ("getDistrict", {
-                "toggle": False,
-                "sortable": False,
-                "title": _("District")}),
-            ("Phone", {
-                "title": _("Phone"),
-                "sortable": False}),
-            ("Fax", {
-                "toggle": False,
-                "sortable": False,
-                "title": _("Fax")}),
-            ("BulkDiscount", {
-                "toggle": False,
-                "sortable": False,
-                "title": _("Bulk Discount")}),
-            ("MemberDiscountApplies", {
-                "toggle": False,
-                "sortable": False,
-                "title": _("Member Discount")}),
-            ("MBGGrowerNumber", {
-                "sortable": False,
-                "title": _("MBG Grower #")}),
-            ("TBGrowerNumber", {
-                "sortable": False,
-                "title": _("True Blue Grower #")}),
-            # ("GrowerList", {
-            #     "sortable": False,
-            #     "title": _("Grower List")}),
-        ))
+	#Add New Columns
+	self.columns['MBGGrowerNumber'] = {"title": _("MBG Grower #")}
+	self.columns['TBGrowerNumber'] = {"title": _("True Blue Grower #"), "toggle": False}
+	#self.columns['Recent SDG'] = {"title": _("Most Recent SDG")}
 
-        self.review_states = [
-            {
-                "id": "default",
-                "contentFilter": {"review_state": "active"},
-                "title": _("Active"),
-                "transitions": [{"id": "deactivate"}, ],
-                "columns": self.columns.keys(),
-            }, {
-                "id": "inactive",
-                "title": _("Inactive"),
-                "contentFilter": {"review_state": "inactive"},
-                "transitions": [{"id": "activate"}, ],
-                "columns": self.columns.keys(),
-            }, {
-                "id": "all",
-                "title": _("All"),
-                "contentFilter": {},
-                "transitions": [],
-                "columns": self.columns.keys(),
-            },
-        ]
-
-    def before_render(self):
-        """Before template render hook
-        """
-        # Call `before_render` from the base class
-        super(ClientFolderContentsView, self).before_render()
-
-        # Render the Add button if the user has the AddClient permission
-        if check_permission(AddClient, self.context):
-            self.context_actions[_("Add")] = {
-                "url": "createObject?type_name=Client",
-                "icon": "++resource++bika.lims.images/add.png"
-            }
-
-        # Display a checkbox next to each client in the list if the user has
-        # rights for ModifyPortalContent
-        self.show_select_column = check_permission(ModifyPortalContent,
-                                                   self.context)
-
-    def isItemAllowed(self, obj):
-        """Returns true if the current user has Manage AR rights for the
-        current Client (item) to be rendered.
-
-        :param obj: client to be rendered as a row in the list
-        :type obj: ATContentType/DexterityContentType
-        :return: True if the current user can see this Client. Otherwise, False.
-        :rtype: bool
-        """
-        return check_permission(ManageAnalysisRequests, obj)
+	for i in self.review_states:
+		i["columns"] = self.columns.keys()
 
     def folderitem(self, obj, item, index):
         """Applies new properties to the item (Client) that is currently being
@@ -179,32 +78,14 @@ class ClientFolderContentsView(BikaClientFolderContentsView):
         :return: the dict representation of the item
         :rtype: dict
         """
-        obj = api.get_object(obj)
-        # render a link to the defined start page
-        link_url = "{}/{}".format(item["url"], self.landing_page)
-        item["replace"]["title"] = get_link(link_url, item["title"])
-        item["replace"]["getClientID"] = get_link(link_url, item["getClientID"])
-        # render an email link
-        item["replace"]["EmailAddress"] = get_email_link(item["EmailAddress"])
-        # translate True/FALSE values
-        item["replace"]["BulkDiscount"] = obj.getBulkDiscount() and _("Yes") or _("No")
-        item["replace"]["MemberDiscountApplies"] = obj.getMemberDiscountApplies() and _("Yes") or _("No")
-        # render a phone link
-        phone = obj.getPhone()
-        if phone:
-            item["replace"]["Phone"] = get_link("tel:{}".format(phone), phone)
+	super(ClientFolderContentsView, self).folderitem(obj, item, index)
+	obj = api.get_object(obj)
+	if hasattr(obj,'MBGGrowerNumber') and obj.MBGGrowerNumber is not None:
+		item['MBGGrowerNumber'] = obj.MBGGrowerNumber
+	if hasattr(obj,'TBGrowerNumber') and obj.TBGrowerNumber is not None:
+		item['TBGrowerNumber'] = obj.TBGrowerNumber
+	url = api.get_url(obj)
+	item["replace"]["title"] = get_link(url+"/batches", item["title"])
+	item["replace"]["ClientID"] = get_link(url+"/batches", item["ClientID"])
 
         return item
-
-
-def client_match(client, search_term):
-    # Check if the search_term matches some common fields
-    if search_term in client.getClientID().lower():
-        return True
-    if search_term in client.Title().lower():
-        return True
-    if search_term in client.getName().lower():
-        return True
-    if search_term in client.Description().lower():
-        return True
-    return False

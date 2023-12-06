@@ -139,8 +139,8 @@ EDITS:
       <div tal:define="newmodel python:view.get_new_model(subcollection);
                       oldmodel python:view.get_old_model(subcollection);" class="report-image">
         <div class="header row">
-		<img class="client-logo" tal:condition="newmodel/Client/Logo/filename" tal:attributes="src string:++plone++nal.lims/images/Nutrien.png"/>
-		<img class="sap-logo" style="margin-top:-10px;" tal:condition="not:newmodel/Client/Logo/filename" tal:attributes="src string:++plone++nal.lims/images/Nutrien.png"/>
+		<img class="client-logo" tal:condition="newmodel/Client/Logo/filename" tal:attributes="src string:++plone++nal.lims/images/Sap Badge 2.png"/>
+		<img class="sap-logo" style="margin-top:-10px;" tal:condition="not:newmodel/Client/Logo/filename" tal:attributes="src string:++plone++nal.lims/images/Sap Badge 2.png"/>
 		<img class="nal-logo" tal:attributes="src string:++plone++nal.lims/images/logo.png"/>
 		<div class="text-between-logos">
 		  <div class="logo-row-1">
