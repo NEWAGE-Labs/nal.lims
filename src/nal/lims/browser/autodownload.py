@@ -26,7 +26,7 @@ class AutoDownloadView(BrowserView):
 	sdg_title = sdg.title
 	rpath = '/mnt/Data/Pending Email/'
 
-	for r,d,f in os.walk('/mnt/Data/Data 2023'):
+	for r,d,f in os.walk('/mnt/Data/Data 2024'):
 	    if sdg_title == r[-12:]:
 		path = r
 		files = f

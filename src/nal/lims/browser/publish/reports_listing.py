@@ -30,6 +30,13 @@ class ReportsListingView(BikaReportsListingView):
 
         #No return
 
+    def before_render(self):
+        super(ReportsListingView, self).before_render()
+        self.smessages = IStatusMessage(self.request)
+        client = self.context
+        if hasattr(client,"Overdue") and client.Overdue:
+            self.smessages.addStatusMessage("Account {} is Overdue".format(client.getClientID()), "warning")
+
     def folderitem(self, obj, item, index):
 	item = super(ReportsListingView, self).folderitem(obj, item, index)
 

@@ -452,14 +452,8 @@ EDITS:
                         <td>
                          <span tal:content="python:analysis.Unit"></span>
                         </td>
-                        <td tal:define="loq python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])">
-			  <div tal:condition="python:loq.replace('.','').isdigit()">
-                            <span tal:condition="python:model.getSampleType().title not in ['Soil','Solids','Fertilizer, Solid','Fertilizer, Concentrated'] or analysis.getCategory().title == 'Microbiology'" tal:content="python:float(loq)*(1 if analysis.Dilution == '' or analysis.Dilution is None else analysis.Dilution)"></span>
-                            <span tal:condition="python:model.SampleType.title in ['Soil','Solids','Fertilizer, Solid','Fertilizer, Concentrated'] and analysis.getCategory().title != 'Microbiology'" tal:content="python:float(loq)*10*(1 if analysis.Dilution == '' or analysis.Dilution is None else analysis.Dilution)"></span>
-			  </div>
-			  <div tal:condition="python:not loq.replace('.','').isdigit()">
-                            <span tal:content="loq"></span>
-			  </div>
+                        <td tal:define="loq python:model.get_loq(analysis)">
+                          <span tal:content="loq"></span>
                         </td>
                         <td>
                           <span tal:content="analysis/AnalysisDateTime|nothing"></span>

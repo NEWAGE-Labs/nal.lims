@@ -37,6 +37,30 @@ class SuperModel(BaseModel):
     """
 
 #Start Custom Methods
+    def get_cf(self):
+        weight = None
+        volume = None
+        for i in map(api.get_object,self.getAnalyses()):
+            if api.get_workflow_status_of(i) not in ['cancelled','retracted','rejected','invalid']:
+                if i.Keyword == 'weight':
+                    weight = i
+                elif i.Keyword == 'volume':
+                    volume = i
+        if weight is None or volume is None:
+            return 1
+        else:
+            try:
+                w = float(weight.Result)
+                v = float(volume.Result)
+            except ValueError as ve:
+                raise("Problem calculating correction factor from Weight and Volume. Please enter valid values.")
+            return volume/weight
+
+    def getAnalysisByKey(self, keyword):
+	for i in map(api.get_object,self.getAnalyses()):
+	    if i.Keyword == keyword and api.get_workflow_status_of(i) not in ['cancelled','invalid','rejected','retracted']:
+		return i
+
     def getCRA(self):
 	model = self
 	CRA_ans = []
@@ -126,12 +150,15 @@ class SuperModel(BaseModel):
                 version = 'nitrogen-'+str(i)
                 if hasattr(self,version):
                     found = True
-                    total_n = float(self[version].Result)
+		    try:
+                    	total_n = float(self[version].Result)
+		    except ValueError as ve:
+			total_n = 'NT'
         if found == False and hasattr(self,'nitrogen'):
-            if self.nitrogen.Result == '':
-                total_n = 'NT'
-            else:
+	    try:
                 total_n = float(self.nitrogen.Result)
+	    except ValueError as ve:
+		no3 = 'NT'
 
         found = False
         for i in range(20, 0, -1):
@@ -144,10 +171,10 @@ class SuperModel(BaseModel):
 		    except ValueError as ve:
 			no3 = 'NT'
         if found == False and hasattr(self,'nitrogen_nitrate'):
-		try:
-                    no3 = float(self.nitrogen_nitrate.Result)
-		except ValueError as ve:
-		    no3 = 'NT'
+	    try:
+                no3 = float(self.nitrogen_nitrate.Result)
+	    except ValueError as ve:
+		no3 = 'NT'
 
         found = False
         for i in range(20, 0, -1):
@@ -155,12 +182,15 @@ class SuperModel(BaseModel):
                 version = 'nitrogen_ammonium-'+str(i)
                 if hasattr(self,version):
                     found = True
-                    nh4 = float(self[version].Result)
+		    try:
+                    	nh4 = float(self[version].Result)
+		    except ValueError as ve:
+			nh4 = 'NT'
         if found == False and hasattr(self,'nitrogen_ammonium'):
-            if self.nitrogen_ammonium.Result == '':
-                nh4 = 'NT'
-            else:
+	    try:
                 nh4 = float(self.nitrogen_ammonium.Result)
+	    except ValueError as ve:
+		nh4 = 'NT'
 
 	logger.warn("NO3 for {} is: {}".format(self, no3))
         if total_n == 0 or total_n == 'NT' or no3 == 'NT' or nh4 == 'NT':
@@ -182,13 +212,31 @@ class SuperModel(BaseModel):
 
     def get_project_contact(self):
         batch = api.get_object(self.getBatch())
-        project_contact = batch.getReferences(relationship="SDGProjectContact")[0]
+        project_contact = batch.getReferences(relationship="SDGProjectContact")
+	if len(project_contact) > 0:
+	    project_contact = project_contact[0]
+	else:
+	    project_contact = api.get_object_by_uid(batch.ProjectContact)
+        project_contact_name = project_contact.Firstname + " " + project_contact.Surname
+        return project_contact_name
+
+    def get_sampler_contact(self):
+        batch = api.get_object(self.getBatch())
+        project_contact = batch.getReferences(relationship="SDGSamplerContact")
+	if len(project_contact) > 0:
+	    project_contact = project_contact[0]
+	else:
+	    project_contact = api.get_object_by_uid(batch.SamplerContact)
         project_contact_name = project_contact.Firstname + " " + project_contact.Surname
         return project_contact_name
 
     def get_grower_contact(self):
         batch = api.get_object(self.getBatch())
-        project_contact = batch.getReferences(relationship="SDGGrowerContact")[0]
+        project_contact = batch.getReferences(relationship="SDGGrowerContact")
+	if len(project_contact) > 0:
+	    project_contact = project_contact[0]
+	else:
+	    project_contact = api.get_object_by_uid(batch.GrowerContact)
         project_contact_name = ''
         if project_contact:
             project_contact_name = project_contact.Firstname + " " + project_contact.Surname
@@ -231,6 +279,10 @@ class SuperModel(BaseModel):
         perc = 0
 	result_str = ''
 	ldl = 0.01
+	if 'nitrogen' in keyword:
+	    ldl = 0.01
+	else:
+	    ldl = 0.05
         if specs:
             found = False
             for i in range(10, 0, -1):
@@ -239,10 +291,8 @@ class SuperModel(BaseModel):
                     if hasattr(self,version):
                         found = True
                         result_str = str(self[version].Result).strip()
-                        ldl = 0.01
             if found == False and hasattr(self,keyword):
                 result_str = str(self[keyword].Result).strip()
-                ldl = 0.01
 
             min_str = str(specs.get('min', 0)).strip()
             max_str = str(specs.get('max', 99999)).strip()
@@ -265,6 +315,8 @@ class SuperModel(BaseModel):
 
             if result < ldl:
                 result = 0
+	    if min == 0:
+		min = 0.01
             if min != -1 and max != -1 and result != -1 and max != 0:
 		if rperc:
 		    result = result*.0001
@@ -276,12 +328,14 @@ class SuperModel(BaseModel):
                     perc = (100/3) + (((result-min)/(max-min))*(100/3))
         return perc
 
-    def get_report_result(self, analysis, digits):
+    def get_report_result(self, analysis, digits, pflag=False):
 	"""Return formatted result or NT
         """
 	analysis = api.get_object(analysis)
         result = analysis.getResult()
         choices = analysis.getResultOptions()
+	sample = analysis.aq_parent
+
         if choices:
             # Create a dict for easy mapping of result options
             values_texts = dict(map(
@@ -302,9 +356,9 @@ class SuperModel(BaseModel):
 	#Get Custom Method
 	method = api.get_object_by_uid(analysis.CustomMethod)
 	if method is not None:
-            print("Method for {}-{} is {}".format(api.get_id(analysis.aq_parent),analysis.title,method))
+            print("Method for {}-{} is {}".format(api.get_id(sample),analysis.title,method))
 	else:
-	    raise Exception("{} for sample {} does not have an assigned Method".format(analysis.title, api.get_id(analysis.aq_parent)))
+	    raise Exception("{} for sample {} does not have an assigned Method".format(analysis.title, api.get_id(sample)))
 
 	#Get Dilution if it exists
         if hasattr(analysis,'Dilution') and analysis.Dilution is not None and analysis.Dilution != '':
@@ -321,8 +375,11 @@ class SuperModel(BaseModel):
 		    uloq = i['uloq']
 	    if result == 0:
                 return '< {}'.format(dil)
-	    if result > 1 and result < float(uloq):
-		xresult = round(result, digits-int(floor(log10(abs(result))))-1)
+	    if result >= 1 and result <= float(uloq):
+		if 'c18' not in analysis.Keyword:
+		    xresult = round(result*dil, digits-int(floor(log10(abs(result*dil))))-1)
+		else:
+		    xresult = result
 		if int(xresult) == xresult:
 		    return int(xresult)
 		else:
@@ -335,11 +392,15 @@ class SuperModel(BaseModel):
 		if i['methodid'] == method.UID():
 		    print("loq for {} is: {}".format(api.get_object(analysis),i['loq']))
 		    loq = float(i['loq'])
+		    if sample.getSampleType().title.lower() in ['solids','soil','fertilizer, solid', 'fertilizer, concentrated']:
+			loq = loq*10
             if loq == '':
 		raise Exception("LOQ not set for {} with method {}".format(analysis.title,method))
 	    elif result < loq:
-                return '< {}'.format(loq*dil)
+		    return '< {}'.format(loq*dil)
             else:
+		if pflag:
+		    result = result*0.0001
 		xresult = round((result*dil), digits-int(floor(log10(abs(result*dil))))-1)
 		if int(xresult) == xresult:
 		    return int(xresult)

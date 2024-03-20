@@ -21,6 +21,7 @@
 from bika.lims import api
 from senaite.core.browser.samples.view import SamplesView
 from bika.lims.permissions import AddBatch
+from Products.statusmessages.interfaces import IStatusMessage
 from bika.lims import bikaMessageFactory as _
 
 class BatchSamplesView(SamplesView):
@@ -33,6 +34,13 @@ class BatchSamplesView(SamplesView):
                               "sort_order": "reverse"}
 
         self.remove_column("BatchID")
+
+    def before_render(self):
+        super(BatchSamplesView, self).before_render()
+        self.smessages = IStatusMessage(self.request)
+        client = self.context.aq_parent
+        if hasattr(client,"Overdue") and client.Overdue:
+            self.smessages.addStatusMessage("Account {} is Overdue".format(client.getClientID()), "warning")
 
     def update(self):
         super(BatchSamplesView, self).update()

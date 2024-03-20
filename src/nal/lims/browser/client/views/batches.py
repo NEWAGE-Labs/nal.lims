@@ -21,8 +21,16 @@
 from nal.lims.browser.batchfolder import BatchFolderContentsView
 from bika.lims import bikaMessageFactory as _
 from bika.lims import api
+from Products.statusmessages.interfaces import IStatusMessage
 
 class ClientBatchesView(BatchFolderContentsView):
+
+    def before_render(self):
+        super(ClientBatchesView, self).before_render()
+        self.smessages = IStatusMessage(self.request)
+        client = self.context
+        if hasattr(client,"Overdue") and client.Overdue:
+            self.smessages.addStatusMessage("Account {} is Overdue".format(client.getClientID()), "warning")
 
     def __init__(self, context, request):
         super(ClientBatchesView, self).__init__(context, request)

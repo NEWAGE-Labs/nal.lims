@@ -47,13 +47,13 @@ class AnalysisSchemaExtender(object):
         ),
 
         ExtBooleanField(
-            'ShowMethodInName',
+            'LOQMultiplier',
             write_permission=View,
             read_permission=View,
             schemata="Analysis",
             widget=BooleanWidget(
-                label="Analyte [Method]",
-                description="Toggle whether to display the name of the method on the report",
+                label="LOQ x10",
+                description="Toggle to multiply LOQ by 10x",
                 render_own_label=True,
                 visible={
                     'edit':'visible',

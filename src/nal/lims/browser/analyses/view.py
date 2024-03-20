@@ -112,12 +112,12 @@ class AnalysesView(BikaAnalysesView):
             "type": "boolean"
         }
         ## ShowMethodInName
-        self.columns["ShowMethodInName"] = {
-            "title": _("Analyte [Method]"),
+        self.columns["LOQOverride"] = {
+            "title": _("LOQ Override"),
             "toggle": True,
             "sortable": False,
             "ajax": True,
-            "type": "boolean"
+            "type": "decimal"
         }
 
         ## Update each contentfilter with the added and modified column keys
@@ -146,14 +146,14 @@ class AnalysesView(BikaAnalysesView):
             item['Unit'] = obj.Unit
         if obj.ShowTotal is not None:
             item['ShowTotal'] = obj.ShowTotal
-        if obj.ShowMethodInName is not None:
-            item['ShowMethodInName'] = obj.ShowMethodInName
+        if hasattr(obj,'LOQOverride') and obj.LOQOverride is not None:
+            item['LOQOverride'] = obj.LOQOverride
 
 	self._folder_item_custommethod(obj, item)
 
         item['allow_edit'].append('Inconclusive')
         item['allow_edit'].append('ShowTotal')
-        item['allow_edit'].append('ShowMethodInName')
+        item['allow_edit'].append('LOQMultiplier')
         item['allow_edit'].append('Analyst')
         item['allow_edit'].append('AnalysisDateTime')
         item['allow_edit'].append('LOQOverride')

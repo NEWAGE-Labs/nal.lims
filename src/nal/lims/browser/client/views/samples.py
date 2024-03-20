@@ -20,6 +20,7 @@
 
 from bika.lims import api
 from senaite.core.browser.samples.view import SamplesView
+from Products.statusmessages.interfaces import IStatusMessage
 
 class ClientSamplesView(SamplesView):
 
@@ -31,6 +32,13 @@ class ClientSamplesView(SamplesView):
             "level": 0}
 
         self.remove_column("Client")
+
+    def before_render(self):
+        super(ClientSamplesView, self).before_render()
+        self.smessages = IStatusMessage(self.request)
+        client = self.context
+        if hasattr(client,"Overdue") and client.Overdue:
+            self.smessages.addStatusMessage("Account {} is Overdue".format(client.getClientID()), "warning")
 
     def update(self):
         super(ClientSamplesView, self).update()

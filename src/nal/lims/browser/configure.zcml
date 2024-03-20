@@ -204,6 +204,15 @@
       layer="nal.lims.interfaces.INalLimsLayer"
       />
 
+  <browser:page
+      name="manualimport"
+      class=".instrumentimport.ManualImportView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/instrumentimport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
   <!-- <browser:page
       name="icptestadd"
       class=".instrumentimport.ICPTestAddView"

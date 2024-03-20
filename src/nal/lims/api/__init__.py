@@ -80,6 +80,7 @@ def getCSVDFbyAR(ARList, excl_client=False):
 	for i in ARs:
             if i.getSampleType().title in ['Sap','Root','Fruit','Soil'] and 'plant_type' not in cols and api.get_workflow_status_of(i) not in ['cancelled','invalid']:
                 sap_cols = [
+                    'pair',
                     'plant_type',
                     'variety',
                     'growth_stage',
@@ -198,6 +199,12 @@ def getCSVDFbyAR(ARList, excl_client=False):
                     export_dict['sample_location'].append('')
 
                 if 'plant_type' in cols:
+                    #Pair
+                    if hasattr(i,'SubGroup') and i.getSubGroup() is not None:
+                        export_dict['pair'].append(i.getSubGroup().title)
+                    else:
+                        ''
+
                     #Plant Type
                     export_dict['plant_type'].append(i.PlantType)
 
@@ -255,7 +262,7 @@ def getCSVDFbyAR(ARList, excl_client=False):
 
                             export_dict[j.Keyword].append(result)
 
-                if i.getSampleType().title == 'Sap':
+                if i.getSampleType().title == 'Sap' and hasattr(export_dict,'nitrogen_nitrate'):
                     nh4 = export_dict['nitrogen_ammonium'][-1]
                     no3 = export_dict['nitrogen_nitrate'][-1]
                     tn = export_dict['nitrogen'][-1]

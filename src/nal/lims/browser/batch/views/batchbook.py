@@ -147,6 +147,13 @@ class BatchBookView(BikaBatchBookView):
             vocab.append(dict[key])
         return vocab
 
+    def before_render(self):
+        super(BatchBookView, self).before_render()
+        self.smessages = IStatusMessage(self.request)
+        client = self.context.aq_parent
+        if hasattr(client,"Overdue") and client.Overdue:
+            self.smessages.addStatusMessage("Account {} is Overdue".format(client.getClientID()), "warning")
+
     def check_bad_nitrogen(self,context,items):
 	bad = []
 	for item in items:

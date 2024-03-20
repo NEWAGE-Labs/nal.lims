@@ -209,7 +209,7 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
             item["GrowerContact"] = grower.Firstname + " " + grower.Surname
 
         if client:
-            client_url = api.get_url(client)
+            client_url = api.get_url(client) + "/batches"
             client_name = client.getName()
             client_id = client.getClientID()
             item["Client"] = client_name

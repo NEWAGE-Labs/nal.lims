@@ -52,6 +52,14 @@ class ClientSchemaExtender(object):
                 description="Does this client get a .CSV file sent with their results?",
             )
         ),
+        ExtBooleanField(
+            "Overdue",
+            required=False,
+            widget=BooleanWidget(
+                label="Account Overdue",
+                description="Client account is overdue with outstanding payments.",
+            )
+        ),
          ExtReferenceField(
             'GrowerList',
             schemata="Grower Info",
@@ -115,6 +123,7 @@ class ClientSchemaModifier(object):
 
     def fiddle(self, schema):
 	schema.moveField('ReferralComment', after='EmailAddress')
+	schema.moveField('Logo', after='Overdue')
 
         schema["BulkDiscount"].widget.visible = False
         schema["MemberDiscountApplies"].widget.visible = False
@@ -124,5 +133,6 @@ class ClientSchemaModifier(object):
 	schema["ClientID"].write_permission = ManageInvoices
         schema["PhysicalAddress"].required = True
         schema["CSV"].widget.visible = True
+        schema["Overdue"].widget.visible = True
         # schema["PhysicalAddress"].schemata = "default"
         return schema

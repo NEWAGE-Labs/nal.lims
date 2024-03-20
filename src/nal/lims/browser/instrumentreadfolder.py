@@ -36,13 +36,6 @@ class InstrumentReadFolderView(BikaListingView):
 
 
         self.columns = collections.OrderedDict((
-            # ("instrument", {
-            #     "title": _("Instrument"),
-            #     "index": "title", }),
-            # ("start", {
-            #     "title": _("Start of Read"),}),
-            # ("end", {
-            #     "title": _("End of Read"),}),
         ))
 
         self.review_states = [
@@ -52,12 +45,6 @@ class InstrumentReadFolderView(BikaListingView):
                 "transitions": [],
                 "columns": self.columns.keys(),
             },
-            # {
-            #     "id": "all",
-            #     "title": _("All"),
-            #     "transitions": [],
-            #     "columns": self.columns.keys(),
-            # },
         ]
 
     def update(self):
@@ -99,34 +86,11 @@ class InstrumentReadFolderView(BikaListingView):
                 "url": "@@briximport/",
                 "permission": AddBatch,
                 "icon": "++resource++bika.lims.images/add.png"
-            }
+            },
+            _("Manual Import"): {
+                "url": "@@manualimport/",
+                "permission": AddBatch,
+                "icon": "++resource++bika.lims.images/add.png"
+            },
         }
 
-    def folderitem(self, obj, item, index):
-        # obj = api.get_object(obj)
-        # url = api.get_url(obj)
-        # instrument = obj.instrument
-        # desc = api.get_description(obj)
-        # item['instrument'] = instrument
-        # item["replace"]["instrument"] = get_link(url, instrument)
-        # item['start'] = obj.start
-        # item['end'] = obj.end
-        return item
-    #
-    # def before_render(self):
-    #     """Before template render hook
-    #     """
-    #     # Call `before_render` from the base class
-    #     super(ICPDisplayView, self).before_render()
-    #
-    #     # Render the Add button if the user has the AddClient permission
-    #     if check_permission(AddClient, self.context):
-    #         self.context_actions[_("Add")] = {
-    #             "url": "createObject?type_name=Client",
-    #             "icon": "++resource++bika.lims.images/add.png"
-    #         }
-    #
-    #     # Display a checkbox next to each client in the list if the user has
-    #     # rights for ModifyPortalContent
-    #     self.show_select_column = check_permission(ModifyPortalContent,
-    #                                                self.context)
