@@ -1,10 +1,18 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="nal.lims">
 
     <plone:static
       directory="templates/reports"
       type="senaite.impress.reports"/>
+    
+    <browser:page
+      for="*"
+      name="nalmacros"
+      template="templates/macros.pt"
+      permission="zope2.View"
+    />
 
 </configure>

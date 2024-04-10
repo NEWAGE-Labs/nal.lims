@@ -45,40 +45,46 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
                 "title": _("Progress"),
                 "index": "getProgress",
                 "sortable": True,
-                "toggle": True}),
-            ("BatchID", {
-                "title": _("SDG ID"),  #Customized the Title
-                "index": "getId", }),
+                "toggle": False}),
             ("Matrices", {
                 "title": _("Matrices"),
                 "toggle": True, }),
-	        ("GrowerContact", {
-		        "title": _("Grower Contact"),
-		        "toggle": True,
-		        "sortable": True, }),
-            ("Description", {
-                "title": _("Description"),
-                "sortable": False, }),
-            ("SDGDate", {
-                "title": _("SDG Received Date"),
-                "sortable": True, }),
-            ("SDGTime", {
-                "title": _("SDG Received Time"),
-                "sortable": True, }),
+            ("Platforms", {
+                "title": _("Platforms"),
+                "toggle": True, }),
             ("Client", {
                 "title": _("Client"),
                 "index": "getClientTitle", }),
+            ("Grower", {
+                "title": _("Grower"),
+                "toggle": True,
+                "sortable": True, }),
             ("ClientID", {
                 "title": _("Client ID"),
                 "index": "getClientID", }),
+            ("Description", {
+                "title": _("Description"),
+                "toggle": False,
+                "sortable": False, }),
+            ("SDGDate", {
+                "title": _("Received Date"),
+                "sortable": True, }),
+            ("SDGTime", {
+                "title": _("Received Time"),
+                "sortable": True, }),
+            ("BatchID", {
+                "title": _("SDG ID"),  #Customized the Title
+                "index": "getId", }),
             # ("ClientBatchID", {
             #     "title": _("Client Batch ID"),
             #     "index": "getClientBatchID", }),  #Hid this field
             ("state_title", {
                 "title": _("State"),
+                "toggle": False,
                 "sortable": False, }),
             ("created", {
                 "title": _("Created"),
+                "toggle": False,
                 "index": "created",
             }),
         ))
@@ -149,6 +155,72 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
                 self.context_actions[_("Add")]["url"] = add_url
                 del(self.context_actions[_("Add")]["permission"])
 
+    def get_platforms(self, obj):
+        platforms = []
+        #Get Analysis Services from Analyses from Analysis Requests from Batch
+        analyses = [api.get_object(an) for ar in obj.getAnalysisRequests() for an in map(api.get_object,ar.getAnalyses())]
+
+        for analysis in analyses:
+            service = analysis.getAnalysisService()
+            keyword = service.Keyword
+            category = service.getCategory().title
+            if category == 'Metals and Trace Elements' and keyword not in ['mercury','flouride', 'chloride', 'sulfate'] and "ICP" not in platforms:
+                platforms.append("ICP")
+            if keyword in ['mercury'] and "Mercury" not in platforms:
+                platforms.append("Mercury")
+            if keyword in ['lead','copper'] and any(['EGLE' in p.title for p in analysis.aq_parent.getProfiles()]) and "EGLE Pb/Cu" not in platforms:
+                platforms.append("EGLE Pb/Cu")
+            if keyword in ['chloride','ammonia','ammonium','nitrogen_nitrate','nitrogen_nitrite','nitrogen_ammonia','nitrogen_ammonium','sugars','sugars_fructose','sugars_glucose','sugars_sucrose'] and "Gallery" not in platforms:
+                platforms.append("Gallery")
+            if keyword in ['nitrogen','carbon'] and "LECO" not in platforms:
+                platforms.append("LECO")
+            if keyword in ['brix'] and "Brix" not in platforms:
+                platforms.append("Brix")
+            if keyword in ['ph'] and "pH" not in platforms:
+                platforms.append("pH")
+            if keyword in ['out_of_scope'] and "Outside Scope" not in platforms:
+                platforms.append("Outside Scope")
+            if keyword in ["temperature","volume","weight"] and "Common" not in platforms:
+                platforms.append("Common")
+            if keyword in ['carbonate','bicarbonate','alkalinity'] and "Carbonates" not in platforms:
+                platforms.append("Carbonates")
+            if keyword in ['ec','soluble_salts'] and "Conductivity" not in platforms:
+                platforms.append("Conductivity")
+            if 'plate' in keyword and "Petrifilm" not in platforms:
+                platforms.append("Petrifilm")
+            if 'aspergillus' in keyword or keyword in ['pythium','fusarium','hop_latent_viroid','cryptosporidium_parvum'] and "External Micro" not in platforms:
+                platforms.append("External Micro")
+            if 'c18' in keyword and "EGLE Micro" not in platforms:
+                platforms.append("EGLE Micro")
+            if 'pa' in keyword and 'c18' not in keyword and "PCR" not in platforms:
+                platforms.append("PCR")
+
+        return platforms
+
+    def get_matrices(self, obj):
+        matrices = []
+        moptions = ['sap','waste','drinking','water','fertilizer','soil','root','swab','tissue','solid','food','fruit','air']
+        for i in obj.getAnalysisRequests():
+            matrix = i.getSampleType().Title() if i.getSampleType() else ''
+            for option in moptions:
+                if option in matrix.lower() and option not in matrices:
+                    matrices.append(option)
+        return matrices
+
+    def get_grower_contact(self, obj):
+        batch = obj
+        contact = batch.getReferences(relationship="SDGGrowerContact")
+	if len(contact) > 0:
+	    contact = contact[0]
+	elif hasattr(batch,'GrowerContact') and batch.GrowerContact is not None and batch.GrowerContact != '':
+	    contact = api.get_object_by_uid(batch.GrowerContact)
+        else:
+            contact = None
+        contact_name = ''
+        if contact:
+            contact_name = contact.Firstname + " " + contact.Surname
+        return contact_name
+
     def folderitem(self, obj, item, index):
         """Applies new properties to the item (Batch) that is currently being
         rendered as a row in the list
@@ -170,26 +242,12 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
         title = api.get_title(obj)
         client = obj.getClient()
         created = api.get_creation_date(obj)
-        grower = obj.getReferences(relationship="SDGGrowerContact")
-        if grower != []:
-            grower = grower[0]
-        else:
-            grower = None
         date = obj.SDGDate.strftime("%m/%d/%Y")
 	time = obj.SDGTime
-        matrices = []
-        for i in obj.getAnalysisRequests():
-            matrix = i.getSampleType().Title() if i.getSampleType() else ''
-            if matrix == 'Sap' and 'sap' not in matrices:
-                matrices.append('sap')
-            elif matrix == 'Water, Drinking' and 'drinking water' not in matrices:
-                matrices.append('drinking water')
-            elif matrix == 'Water, Surface' and 'surface water' not in matrices:
-                matrices.append('surface water')
-            elif matrix == 'Water, Liquid Fertilizer' and 'liquid fertilizer' not in matrices:
-                matrices.append('liquid fertilizer')
-            elif matrix == 'Soil' and 'soil' not in matrices:
-                matrices.append('soil')
+        #Get Matrices
+        matrices = self.get_matrices(obj)
+        #Get Platforms
+        platforms = self.get_platforms(obj)
 
         # total sample progress
         progress = obj.getProgress()
@@ -198,15 +256,15 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
 
         item["BatchID"] = bid
         item["ClientBatchID"] = cbid
-        item["Matrices"] = ','.join(matrices)
+        item["Matrices"] = ', '.join(matrices)
+        item["Platforms"] = ', '.join(platforms)
         item["replace"]["BatchID"] = get_link(url, bid)
         item["Title"] = title
         item["replace"]["Title"] = get_link(url, title)
         item["created"] = self.ulocalized_time(created, long_format=True)
         item["SDGDate"] = date
 	item["SDGTime"] = time
-        if grower is not None:
-            item["GrowerContact"] = grower.Firstname + " " + grower.Surname
+        item["Grower"] = self.get_grower_contact(obj)
 
         if client:
             client_url = api.get_url(client) + "/batches"

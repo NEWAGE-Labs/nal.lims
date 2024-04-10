@@ -1,0 +1,3 @@
+<div metal:define-macro="instructions">
+    <p>THESE ARE THE REAL INSTRUCTIONS!!! HUZZAH!</p>
+</div>
