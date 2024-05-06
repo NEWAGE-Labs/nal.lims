@@ -238,7 +238,8 @@ EDITS:
               </colgroup>
               <tr>
                 <td class="align-left text-left">
-                  <img class="logo"
+                  <img style = "width: 230px; padding-top: 30px;" class="client-logo" tal:condition="model/Client/Logo/filename" tal:attributes="src python:model.getClient().Logo.absolute_url()"/>
+                  <img class="logo" tal:condition="not: model/Client/Logo/filename"
                        tal:attributes="src python:view.get_resource_url('++plone++nal.lims/images/logo.png')"/>
                 </td>
                 <td class="align-middle">
@@ -447,7 +448,7 @@ EDITS:
 			  <span tal:condition="python:view.isEGLE(analysis)" tal:content="egle_symbol"></span>
                         </td>
                         <td>
-                          <span tal:content="python:model.get_report_result(analysis,3)"></span>
+                          <span tal:condition="not: analysis/Hidden" tal:content="python:model.get_report_result(analysis,3)"></span>
                         </td>
                         <td>
                          <span tal:content="python:analysis.Unit"></span>

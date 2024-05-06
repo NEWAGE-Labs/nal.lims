@@ -148,7 +148,7 @@ class BatchSchemaExtender(object):
             widget=FileWidget(
                 label="Chain Of Custody",
                 description="Select a printed COC to attach.",
-                visible=True,
+                visible=False,
             )
         ),
         ExtIntegerField(
@@ -156,6 +156,7 @@ class BatchSchemaExtender(object):
             widget=IntegerWidget(
                 label="Number of Samples to print for this SDG",
                 description="Controls the auto-incremented number for stickers.",
+                visible=False,
             )
         ),
         ExtIntegerField(

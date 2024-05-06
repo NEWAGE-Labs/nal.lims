@@ -17,6 +17,7 @@ import codecs
 import pandas as pd
 import logging
 import copy
+from DateTime import DateTime
 
 class ICPImportView(edit.DefaultEditForm):
 
@@ -125,9 +126,11 @@ class ICPImportView(edit.DefaultEditForm):
             potassium_percent = None
             magnesium_percent = None
             sodium_percent = None
+            sodium_honee = None
             cec = None
             bec = None
             acidity = None
+            weight = None
 
 
             for j in i:
@@ -176,7 +179,7 @@ class ICPImportView(edit.DefaultEditForm):
                         silica = i[j]
                     if 'silver' in j and 'perc' not in j:
                         silver = i[j]
-                    if 'sodium' in j and 'perc' not in j and 'ratio' not in j:
+                    if 'sodium' in j and 'perc' not in j and 'ratio' not in j and 'mg' not in j:
                         sodium = i[j]
                     if 'sulfur' in j and 'perc' not in j:
                         sulfur = i[j]
@@ -200,14 +203,18 @@ class ICPImportView(edit.DefaultEditForm):
                         potassium_percent = i[j]
                     if 'magnesium' in j and 'perc' in j:
                         magnesium_percent = i[j]
-                    if 'esp' in j or ('sodium' in j and 'perc' in j):
+                    if ('esp' in j or ('sodium' in j and 'perc' in j)) and 'mg' not in j:
                         sodium_percent = i[j]
+                    if 'sodium' in j and 'mg' in j:
+                        sodium_honee = i[j]
                     if 'cation_exchange_capacity' in j:
                         cec = i[j]
                     if 'base_exchange_capacity' in j:
                         bec = i[j]
                     if 'acidity' in j:
                         acidity = i[j]
+                    if 'weight' == j:
+                        weight = i[j]
 
 
         #Aluminum
@@ -236,7 +243,7 @@ class ICPImportView(edit.DefaultEditForm):
                     print("Reindexing Analyst")
                     aluminum.reindexObject(idxs=['Analyst'])
                 print("Setting Imported to True")
-                imported.append(True)
+                found = True
         #Arsenic
             if arsenic is not None and api.get_workflow_status_of(arsenic) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='As')].empty:
                 print("Importing arsenic")
@@ -252,7 +259,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='As')]['Analyst'].empty:
                     arsenic.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='As')]['Analyst'].values[0]
                     arsenic.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Barium
             if barium is not None and api.get_workflow_status_of(barium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ba')].empty:
                 print("Importing Barium")
@@ -268,7 +275,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ba')]['Analyst'].empty:
                     barium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ba')]['Analyst'].values[0]
                     barium.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Beryllium
             if beryllium is not None and api.get_workflow_status_of(beryllium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Be')].empty:
                 print("Importing Beryllium")
@@ -284,7 +291,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Be')]['Analyst'].empty:
                     beryllium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Be')]['Analyst'].values[0]
                     beryllium.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Boron
             if boron is not None and api.get_workflow_status_of(boron) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')].empty:
                 print("Importing Boron")
@@ -300,7 +307,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')]['Analyst'].empty:
                     boron.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='B')]['Analyst'].values[0]
                     boron.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Calcium:
             if calcium  is not None and api.get_workflow_status_of(calcium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')].empty:
                 print("Importing Calcium")
@@ -316,7 +323,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Analyst'].empty:
                     calcium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ca')]['Analyst'].values[0]
                     calcium.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Cadmium
             if cadmium is not None and api.get_workflow_status_of(cadmium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cd')].empty:
                 print("Importing cadmium")
@@ -332,7 +339,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cd')]['Analyst'].empty:
                     cadmium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cd')]['Analyst'].values[0]
                     cadmium.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Cobalt
             if cobalt is not None and api.get_workflow_status_of(cobalt) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')].empty:
                 print("Importing Cobalt")
@@ -348,7 +355,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')]['Analyst'].empty:
                     cobalt.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Co')]['Analyst'].values[0]
                     cobalt.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Chromium
             if chromium is not None and api.get_workflow_status_of(chromium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cr')].empty:
                 print("Importing chromium")
@@ -364,7 +371,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cr')]['Analyst'].empty:
                     chromium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cr')]['Analyst'].values[0]
                     chromium.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Copper
             if copper is not None and api.get_workflow_status_of(copper) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')].empty:
                 print("Importing Copper")
@@ -380,7 +387,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')]['Analyst'].empty:
                     copper.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Cu')]['Analyst'].values[0]
                     copper.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Iron
             if iron is not None and api.get_workflow_status_of(iron) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')].empty:
                 print("Importing Iron")
@@ -396,7 +403,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')]['Analyst'].empty:
                     iron.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Fe')]['Analyst'].values[0]
                     iron.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Lead
             if lead is not None and api.get_workflow_status_of(lead) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Pb')].empty:
                 print("Importing Lead")
@@ -412,7 +419,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Pb')]['Analyst'].empty:
                     lead.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Pb')]['Analyst'].values[0]
                     lead.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Magnesium
             if magnesium is not None and api.get_workflow_status_of(magnesium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')].empty:
                 print("Importing Magnesium")
@@ -428,7 +435,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')]['Analyst'].empty:
                     magnesium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mg')]['Analyst'].values[0]
                     magnesium.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Manganese
             if manganese is not None and api.get_workflow_status_of(manganese) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')].empty:
                 print("Importing Manganese")
@@ -444,7 +451,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')]['Analyst'].empty:
                     manganese.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mn')]['Analyst'].values[0]
                     manganese.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Molybdenum
             if molybdenum is not None and api.get_workflow_status_of(molybdenum) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')].empty:
                 print("Importing Molybdenum")
@@ -460,7 +467,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')]['Analyst'].empty:
                     molybdenum.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Mo')]['Analyst'].values[0]
                     molybdenum.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Nickel
             if nickel is not None and api.get_workflow_status_of(nickel) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')].empty:
                 print("Importing Nickel")
@@ -476,7 +483,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')]['Analyst'].empty:
                     nickel.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ni')]['Analyst'].values[0]
                     nickel.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Phosphorus
             if phosphorus is not None and api.get_workflow_status_of(phosphorus) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')].empty:
                 print("Importing Phosphorus")
@@ -492,7 +499,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Analyst'].empty:
                     phosphorus.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='P')]['Analyst'].values[0]
                     phosphorus.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Potassium
             if potassium is not None and api.get_workflow_status_of(potassium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')].empty:
                 print("Importing Potassium")
@@ -509,7 +516,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]['Analyst'].empty:
                     potassium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='K')]['Analyst'].values[0]
                     potassium.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Selenium
             if selenium is not None and api.get_workflow_status_of(selenium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')].empty:
                 print("Importing Selenium")
@@ -525,7 +532,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')]['Analyst'].empty:
                     selenium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Se')]['Analyst'].values[0]
                     selenium.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Silica
             if silica is not None and api.get_workflow_status_of(silica) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')].empty:
                 print("Importing Silica")
@@ -541,7 +548,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')]['Analyst'].empty:
                     silica.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Si')]['Analyst'].values[0]
                     silica.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Silver
             if silver is not None and api.get_workflow_status_of(silver) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ag')].empty:
                 print("Importing Silver")
@@ -557,7 +564,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ag')]['Analyst'].empty:
                     silver.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Ag')]['Analyst'].values[0]
                     silver.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Sodium
             if sodium is not None and api.get_workflow_status_of(sodium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')].empty:
                 print("Importing Sodium")
@@ -573,7 +580,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')]['Analyst'].empty:
                     sodium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Na')]['Analyst'].values[0]
                     sodium.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Sulfur
             if sulfur is not None and api.get_workflow_status_of(sulfur) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')].empty:
                 print("Importing Sulfur")
@@ -589,7 +596,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')]['Analyst'].empty:
                     sulfur.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='S')]['Analyst'].values[0]
                     sulfur.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Thallium
             if thallium is not None and api.get_workflow_status_of(thallium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Tl')].empty:
                 print("Importing Thallium")
@@ -605,7 +612,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Tl')]['Analyst'].empty:
                     thallium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Tl')]['Analyst'].values[0]
                     thallium.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Uranium
             if uranium is not None and api.get_workflow_status_of(uranium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='U')].empty:
                 print("Importing uranium")
@@ -621,7 +628,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='U')]['Analyst'].empty:
                     uranium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='U')]['Analyst'].values[0]
                     uranium.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Vanadium
             if vanadium is not None and api.get_workflow_status_of(vanadium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='V')].empty:
                 print("Importing vanadium")
@@ -637,7 +644,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='V')]['Analyst'].empty:
                     vanadium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='V')]['Analyst'].values[0]
                     vanadium.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
         #Zinc
             if zinc is not None and api.get_workflow_status_of(zinc) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')].empty:
                 print("Importing Zinc")
@@ -653,7 +660,7 @@ class ICPImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')]['Analyst'].empty:
                     zinc.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Element']=='Zn')]['Analyst'].values[0]
                     zinc.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
 
         #K/Ca Ratio
             if kca_ratio is not None and api.get_workflow_status_of(kca_ratio) in ['unassigned'] and potassium.Result is not None and calcium.Result is not None:
@@ -672,7 +679,7 @@ class ICPImportView(edit.DefaultEditForm):
                             pass
                     kca_ratio.Analyst = potassium.Analyst or calcium.Analyst
                     kca_ratio.reindexObject(idxs=['Analyst'])
-                    imported.append(True)
+                    found = True
                 except ValueError:
                     print("--FLOAT CONVERSION ERROR--")
                     print("Sample is: {0}".format(i))
@@ -696,7 +703,7 @@ class ICPImportView(edit.DefaultEditForm):
                             pass
                     hardness.Analyst = magnesium.Analyst or calcium.Analyst
                     hardness.reindexObject(idxs=['Analyst'])
-                    imported.append(True)
+                    found = True
                 except ValueError:
                     print("--FLOAT CONVERSION ERROR--")
                     print("Sample is: {0}".format(i))
@@ -722,7 +729,7 @@ class ICPImportView(edit.DefaultEditForm):
                             pass
                     SAR.Analyst = magnesium.Analyst or calcium.Analyst or sodium.Analyst
                     SAR.reindexObject(idxs=['Analyst'])
-                    imported.append(True)
+                    found = True
                 except ValueError:
                     print("--FLOAT CONVERSION ERROR--")
                     print("Sample is: {0}".format(i))
@@ -749,7 +756,7 @@ class ICPImportView(edit.DefaultEditForm):
                             pass
                     potassium_percent.Analyst = potassium.Analyst or calcium.Analyst
                     potassium_percent.reindexObject(idxs=['Analyst'])
-                    imported.append(True)
+                    found = True
                 except ValueError:
                     print("--FLOAT CONVERSION ERROR--")
                     print("Sample is: {0}".format(i))
@@ -775,7 +782,7 @@ class ICPImportView(edit.DefaultEditForm):
                             pass
                     magnesium_percent.Analyst = potassium.Analyst or calcium.Analyst
                     magnesium_percent.reindexObject(idxs=['Analyst'])
-                    imported.append(True)
+                    found = True
                 except ValueError:
                     print("--FLOAT CONVERSION ERROR--")
                     print("Sample is: {0}".format(i))
@@ -802,7 +809,7 @@ class ICPImportView(edit.DefaultEditForm):
                             pass
                     sodium_percent.Analyst = potassium.Analyst or calcium.Analyst
                     sodium_percent.reindexObject(idxs=['Analyst'])
-                    imported.append(True)
+                    found = True
                 except ValueError:
                     print("--FLOAT CONVERSION ERROR--")
                     print("Sample is: {0}".format(i))
@@ -829,7 +836,7 @@ class ICPImportView(edit.DefaultEditForm):
                             pass
                     calcium_percent.Analyst = potassium.Analyst or calcium.Analyst
                     calcium_percent.reindexObject(idxs=['Analyst'])
-                    imported.append(True)
+                    found = True
                 except ValueError:
                     print("--FLOAT CONVERSION ERROR--")
                     print("Sample is: {0}".format(i))
@@ -857,7 +864,7 @@ class ICPImportView(edit.DefaultEditForm):
                             pass
                     cec.Analyst = potassium.Analyst or calcium.Analyst
                     cec.reindexObject(idxs=['Analyst'])
-                    imported.append(True)
+                    found = True
                 except ValueError:
                     pass
 
@@ -881,7 +888,7 @@ class ICPImportView(edit.DefaultEditForm):
                             pass
                     bec.Analyst = potassium.Analyst or calcium.Analyst
                     bec.reindexObject(idxs=['Analyst'])
-                    imported.append(True)
+                    found = True
                 except ValueError:
 		    pass
 
@@ -902,11 +909,33 @@ class ICPImportView(edit.DefaultEditForm):
                             pass
                     acidity.Analyst = aluminum.Analyst
                     acidity.reindexObject(idxs=['Analyst'])
-                    imported.append(True)
+                    found = True
                 except ValueError:
 		    pass
 
-            if imported:
+
+        #Honee Sodium
+            if sodium_honee is not None and api.get_workflow_status_of(sodium_honee) in ['unassigned'] and sodium is not None and weight is not None and sodium.Result is not None and weight.Result is not None:
+                print("Importing Calcium Percent")
+                try:
+                    sodium_float = float(sodium.Result)/1000
+                    weight_float = float(weight.Result)
+                    sodium_honee.Result = unicode(sodium_float * weight_float)
+                    sodium_honee.AnalysisDateTime = sodium.AnalysisDateTime
+		    sodium_honee.CustomMethod = method.UID()
+                    sodium_honee.reindexObject(idxs=['Result','AnalysisDateTime','CustomMethod'])
+                    if [j for j in api.get_transitions_for(sodium_honee) if 'submit' in j.values()]:
+                        try:
+                            api.do_transition_for(sodium_honee, "submit")
+                        except AttributeError:
+                            pass
+                    sodium_honee.Analyst = sodium.Analyst
+                    sodium_honee.reindexObject(idxs=['Analyst'])
+                    found = True
+                except ValueError:
+		    pass
+
+            if found:
                 clean_ids.append(api.get_id(i))
 	    t.get().commit()
 
@@ -938,6 +967,174 @@ class ICPImportView(edit.DefaultEditForm):
         else:
             IStatusMessage(self.request).addStatusMessage(
                     u"No .CSV File for ICP data"
+                )
+        contextURL = self.context.absolute_url()
+        self.request.response.redirect(contextURL)
+
+class pHECImportView(edit.DefaultEditForm):
+
+    def __init__(self, context, request):
+          self.context = context
+          self.request = request
+
+    def saveCSV(self, context, request):
+        return context.absolute_url_path()
+
+    def processCSV(self, data):
+        """Process the CSV"""
+        #Get logger for output messages
+        logger = logging.getLogger("Plone")
+
+        ph_method = map(api.get_object,api.search({'portal_type':'Method','title':'AOAC 973.41'}))[0]
+        ec_method = map(api.get_object,api.search({'portal_type':'Method','title':'SM2510B'}))[0]
+
+        #Convert CSV data to a dataframe
+        iostr = StringIO.StringIO(data)
+	print(iostr.readline())
+	print(iostr.readline())
+        df = pd.read_csv(iostr,keep_default_na=False, header=None, dtype=str)
+	print(df)
+        #Get a list of Unique sample names from the imported DataFrame
+        sample_names = df[1].str.strip().unique()
+        #Take off the '-001' to get a list of SDG titles to search
+        batch_titles = df[1].str[:-4].str.strip().unique().tolist()
+
+	for i in batch_titles:
+		print(i)
+        #Get a brain of the list of sdgs
+        batch_brain = api.search({'portal_type':'Batch','title':batch_titles})
+        batch_objs = map(api.get_object,batch_brain)
+        batch_dict = {}
+
+        for i in batch_objs:
+	    if api.get_workflow_status_of(i) == 'open':
+                bars = map(api.get_object,i.getAnalysisRequests())
+                if bars != []:
+                    batch_dict[i.title] = bars
+
+        #Instantiate an empty list to fill with Senaite samples that will be imported into
+        import_samples = []
+
+        for i in sample_names:
+            i = i.strip()
+            xsdg = i[:-4]
+            ili = i[-3:]
+	    print("SDG: {}\nILI: {}".format(xsdg,ili))
+            if xsdg in batch_dict.keys():
+                ars = batch_dict[xsdg]
+		print("ARs are: {}".format(ars))
+                for j in ars:
+                    if (
+			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled']
+		        and (j.InternalLabID == ili
+                        or api.get_id(j) == i)
+		    ):
+                        import_samples.append(j)
+                        df.loc[df[1] == i,[1]] = api.get_id(j)
+
+        #Get the list of Senaite Sample IDs that will be imported into.
+        ids = map(api.get_id, import_samples)
+        logger.info("IDs: {0}".format(ids))
+
+        #Get a filter dataframe for only the samples that exist
+        bool_series = df[1].isin(ids)
+        filtered_df = df[bool_series]
+        clean_ids = []
+        for i in import_samples:
+            print('IMPORTING - Sample {0} ID: {1}'.format(i,api.get_id(i)))
+
+            found = False
+            ph = None
+            ec = None
+            tds = None
+
+
+            for j in map(api.get_object,i.getAnalyses()):
+                if api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled']:
+                    if j.Keyword == 'ph':
+                        ph = j
+                    if j.Keyword == 'ec' or j.Keyword == 'solublesalts':
+                        ec = j
+                    if j.Keyword == 'dissolved_solids':
+                        tds = j
+
+
+        #pH
+            if ph is not None and api.get_workflow_status_of(ph) in ['unassigned'] and not filtered_df[(filtered_df[1]==api.get_id(i)) & (filtered_df[3].str.contains('pH = '))].empty:
+                ph_text = unicode(filtered_df[(filtered_df[1]==api.get_id(i)) & (filtered_df[3].str.contains('pH = '))][3].values[0].strip().replace('pH = ',''), "utf-8")
+                if ph_text != '0':
+                    ph.AnalysisDateTime = DateTime().Date()
+                    ph.CustomMethod = ph_method.UID()
+                    ph.reindexObject(idxs=['Result','AnalysisDateTime','CustomMethod'])
+                    if [j for j in api.get_transitions_for(ph) if 'submit' in j.values()]:
+                        try:
+                            api.do_transition_for(ph, "submit")
+                        except AttributeError:
+                            pass
+                    found = True
+        #ec
+            if ec is not None and api.get_workflow_status_of(ec) in ['unassigned'] and not filtered_df[(filtered_df[1]==api.get_id(i)) & (filtered_df[3].str.contains('Cond = '))].empty:
+                ec_text = unicode(filtered_df[(filtered_df[1]==api.get_id(i)) & (filtered_df[3].str.contains('Cond = '))][3].values[0].strip().replace('Cond = ',''), "utf-8")
+                if ec_text != '0':
+                    ec_float = float(ec_text)/1000
+                    ec.Result = unicode(ec_float)
+                    ec.AnalysisDateTime = DateTime().Date()
+                    ec.CustomMethod = ec_method.UID()
+                    ec.reindexObject(idxs=['Result','AnalysisDateTime','CustomMethod'])
+                    if [j for j in api.get_transitions_for(ec) if 'submit' in j.values()]:
+                        try:
+                            api.do_transition_for(ec, "submit")
+                        except AttributeError:
+                            pass
+                    found = True
+
+        #TDS
+            if tds is not None and ec is not None and api.get_workflow_status_of(tds)=='unassigned' and ec.Result is not None and not filtered_df[(filtered_df[1]==api.get_id(i))].empty:
+                logger.info("Caclulation TDS for {0}".format(i))
+                ec_text = unicode(ec.Result)
+                ec_float = float(ec_text)
+                tds.Result = unicode(ec_float*650)
+                tds.AnalysisDateTime = DateTime().Date()
+                tds.CustomMethod = ec_method.UID()
+                tds.reindexObject(idxs=['Result','AnalysisDateTime','CustomMethod'])
+                if [j for j in api.get_transitions_for(tds) if 'submit' in j.values()]:
+                    try:
+                        api.do_transition_for(tds, "submit")
+                    except AttributeError:
+                        pass
+                found = True
+
+            if found:
+                clean_ids.append(api.get_id(i))
+
+        return ','.join(clean_ids)
+
+
+    @button.buttonAndHandler(u'Import')
+    def handleApply(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        # Redirect back to the front page with a status message
+
+        # get the actual data
+        if data["IInstrumentReadFolder.sample"] is not None:
+            file = data["IInstrumentReadFolder.sample"].data
+            # do the processing
+            number = self.processCSV(file)
+
+            if not number:
+                IStatusMessage(self.request).addStatusMessage(
+                        u"The .CSV file was successfully read, but there were no new samples to import."
+                    )
+            else:
+                IStatusMessage(self.request).addStatusMessage(
+                        u"pH/Conductivity data successfully imported for Samples: "+str(number)
+                    )
+        else:
+            IStatusMessage(self.request).addStatusMessage(
+                    u"No .CSV File for pH/Conductivity data"
                 )
         contextURL = self.context.absolute_url()
         self.request.response.redirect(contextURL)
@@ -1225,7 +1422,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')]['Analyst'].empty:
                     ammonium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')]['Analyst'].values[0]
                     ammonium.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
 
             if ammonium is not None and api.get_workflow_status_of(ammonium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='AMMONIA SP')].empty:
                 logger.info("Importing Ammonium for {0}: {1}".format(i, ammonium))
@@ -1242,7 +1439,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='AMMONIA SP')]['Analyst'].empty:
                     ammonium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='AMMONIA SP')]['Analyst'].values[0]
                     ammonium.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
 
             #Total Sugar
             if total_sugar is not None and api.get_workflow_status_of(total_sugar) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')].empty:
@@ -1259,7 +1456,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')]['Analyst'].empty:
                     total_sugar.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')]['Analyst'].values[0]
                     total_sugar.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
 
             #Chloride
             if chloride is not None and api.get_workflow_status_of(chloride) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')].empty:
@@ -1276,7 +1473,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Analyst'].empty:
                     chloride.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Analyst'].values[0]
                     chloride.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
 
             #Sulfate
             if sulfate is not None and api.get_workflow_status_of(sulfate) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SO4 Low')].empty:
@@ -1294,7 +1491,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SO4 Low')]['Analyst'].empty:
                     sulfate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SO4 Low')]['Analyst'].values[0]
                     sulfate.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
 
             #Nitrogen as Nitrate
             #ADD LOGIC TO HANDLE
@@ -1317,7 +1514,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Analyst'].empty:
                     n_as_nitrate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Analyst'].values[0]
                     n_as_nitrate.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
             elif n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')].empty:
                 logger.info("Importing N from Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")))
                 n_as_nitrate.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")
@@ -1332,7 +1529,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analyst'].empty:
                     n_as_nitrate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analyst'].values[0]
                     n_as_nitrate.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
 	    elif n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')].empty:
                 logger.info("Importing N from Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Result'].values[0].strip(), "utf-8")))
                 n_as_nitrate.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Result'].values[0].strip(), "utf-8")
@@ -1347,7 +1544,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Analyst'].empty:
                     n_as_nitrate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Analyst'].values[0]
                     n_as_nitrate.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
 
             #Nitrite
             if nitrite is not None and api.get_workflow_status_of(nitrite) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')].empty:
@@ -1363,7 +1560,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')]['Analyst'].empty:
                     nitrite.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')]['Analyst'].values[0]
                     nitrite.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
 
             if imported:
                 clean_ids.append(api.get_id(i))
@@ -1788,7 +1985,7 @@ class ECImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].empty:
                     ec.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].values[0]
                     ec.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
 
             #TDS
             if tds is not None and api.get_workflow_status_of(tds)=='unassigned' and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))].empty:
@@ -1803,7 +2000,7 @@ class ECImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].empty:
                     tds.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i))]['Analyst'].values[0]
                     tds.reindexObject(idxs=['Analyst'])
-                imported.append(True)
+                found = True
 
             if imported:
                 clean_ids.append(api.get_id(i))

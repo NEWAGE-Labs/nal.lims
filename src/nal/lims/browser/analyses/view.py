@@ -45,7 +45,7 @@ class AnalysesView(BikaAnalysesView):
         self.columns['Attachments']['toggle'] = False
         self.columns['CaptureDate']['toggle'] = False
         self.columns['SubmittedBy']['toggle'] = False
-        self.columns['Hidden']['toggle'] = False
+        self.columns['Hidden']['toggle'] = True
         self.columns['DueDate']['toggle'] = False
         self.columns['Unit']['toggle'] = True
         self.columns['Instrument']['toggle'] = False
@@ -121,8 +121,10 @@ class AnalysesView(BikaAnalysesView):
         }
 
         ## Update each contentfilter with the added and modified column keys
+        key_cols = self.columns.keys()
+        key_cols.sort(key='Hidden'.__eq__)
         for i in self.review_states:
-            i["columns"] = self.columns.keys()
+            i["columns"] = key_cols
 
         #No return
 

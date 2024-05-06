@@ -3,6 +3,9 @@ from plone import api as papi
 from math import floor
 from math import log10
 import pandas as pd
+from management import get_samples_by_week
+
+bad = ['invalid','cancelled','rejected','retracted']
 
 def moveSDG(sdg_title,target_client_id):
 	sdg_brain = api.search({'portal_type':'Batch','title':sdg_title})
@@ -51,7 +54,7 @@ def getCSVDFbyAR(ARList, excl_client=False):
 	bad = []
 	#Remove invalid samples
 	for i in ARs:
-		if api.get_workflow_status_of(i) in ['cancelled','retracted','rejected','invalid']:
+		if api.get_workflow_status_of(i) in bad:
 			bad.append(i)
 	for i in bad:
 		ARs.remove(i)
@@ -78,7 +81,7 @@ def getCSVDFbyAR(ARList, excl_client=False):
         ]
 	cols = [col for col in client_cols]
 	for i in ARs:
-            if i.getSampleType().title in ['Sap','Root','Fruit','Soil'] and 'plant_type' not in cols and api.get_workflow_status_of(i) not in ['cancelled','invalid']:
+            if i.getSampleType().title in ['Sap','Root','Fruit','Soil'] and 'plant_type' not in cols and api.get_workflow_status_of(i) not in bad:
                 sap_cols = [
                     'pair',
                     'plant_type',
@@ -229,7 +232,7 @@ def getCSVDFbyAR(ARList, excl_client=False):
                     export_dict['new_old'].append(new_old)
 
                 for j in map(api.get_object,i.getAnalyses()):
-                    if api.get_workflow_status_of(j) not in ['cancelled','invalid','retracted','rejected'] and 'nitrogen_conversion_efficiency' not in j.Keyword:
+                    if api.get_workflow_status_of(j) not in bad and 'nitrogen_conversion_efficiency' not in j.Keyword:
                         sigfigs = 3
                         result = j.getResult()
 			dil = (1 if (j.Dilution is None or j.Dilution == '') else j.Dilution)

@@ -92,5 +92,10 @@ class InstrumentReadFolderView(BikaListingView):
                 "permission": AddBatch,
                 "icon": "++resource++bika.lims.images/add.png"
             },
+            _("pH & EC Import"): {
+                "url": "@@phecimport/",
+                "permission": AddBatch,
+                "icon": "++resource++bika.lims.images/add.png"
+            },
         }
 

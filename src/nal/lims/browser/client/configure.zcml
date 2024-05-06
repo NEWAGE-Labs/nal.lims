@@ -22,6 +22,14 @@
 
     <browser:page
       for="bika.lims.interfaces.IClient"
+      name="contacts"
+      class="nal.lims.browser.client.ClientContactsView"
+      permission="zope2.View"
+      layer="nal.lims.interfaces.INalLimsLayer"
+    />
+
+    <browser:page
+      for="bika.lims.interfaces.IClient"
       name="samplepoints"
       class="nal.lims.browser.client.ClientSamplePointsView"
       permission="zope2.View"

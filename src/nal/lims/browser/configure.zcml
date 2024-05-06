@@ -187,6 +187,15 @@
       />
 
   <browser:page
+      name="phecimport"
+      class=".instrumentimport.pHECImportView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/instrumentimport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
       name="totalnitrogenimport"
       class=".instrumentimport.TotalNitrogenImportView"
       permission="cmf.ListFolderContents"
