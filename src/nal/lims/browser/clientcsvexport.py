@@ -33,7 +33,7 @@ class ClientCSVExportView(BrowserView):
         ARs = []
         for i in sdgs:
 	    if api.get_workflow_status_of(i) not in ['cancelled','invalid']:
-            	ARs = ARs + map(api.get_object,i.getAnalysisRequests())
+            	ARs = ARs + [ar for ar in map(api.get_object,i.getAnalysisRequests()) if api.get_workflow_status_of(ar) not in ['retracted','rejected','invalid','cancelled']]
 
         df = napi.getCSVDFbyAR(ARs)
 

@@ -22,3 +22,10 @@ def get_samples_by_week():
 	dfdict = {'id':ids,'SDG':sdgs,'received':dates}
 	df = pd.DataFrame(dfdict)
 	df.to_csv('/mnt/Data/Lab Management Exports/Sample Count by Week/Week {} - Received {} Samples.csv'.format(wk, df['id'].count()))
+
+
+def get_sample_counts_by_year_and_week():
+	return
+
+def get_intake():
+	return

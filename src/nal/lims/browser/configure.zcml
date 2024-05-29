@@ -115,6 +115,42 @@
       />
 
   <browser:page
+      name="addpairs"
+      class=".sappairs.AddPairsView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/sdgcsvexport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="addnewleaf"
+      class=".sappairs.AddNewOldView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/sdgcsvexport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="addlabids"
+      class=".sappairs.AddILIView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/sdgcsvexport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="addfullpairs"
+      class=".sappairs.AddFullPairsView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/sdgcsvexport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
       name="clientcsvexport"
       class=".clientcsvexport.ClientCSVExportView"
       permission="cmf.ListFolderContents"

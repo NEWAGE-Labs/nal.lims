@@ -50,6 +50,26 @@ class BatchSamplesView(SamplesView):
                 "permission": AddBatch,
                 "icon": "++resource++bika.lims.images/control_big.png"
             },
+            _("Add Pairs Only"): {
+                "url": "@@addpairs/",
+                "permission": AddBatch,
+                "icon": "++resource++bika.lims.images/containertype_big.png"
+            },
+            _("Add New/Old Only"): {
+                "url": "@@addnewleaf/",
+                "permission": AddBatch,
+                "icon": "++resource++bika.lims.images/containertype_big.png"
+            },
+            _("Add Full Pairing"): {
+                "url": "@@addfullpairs/",
+                "permission": AddBatch,
+                "icon": "++resource++bika.lims.images/containertype_big.png"
+            },
+            _("Add Internal Lab ID"): {
+                "url": "@@addlabids/",
+                "permission": AddBatch,
+                "icon": "++resource++bika.lims.images/containertype_big.png"
+            },
         }
 
         # always redirect to the /analysisrequets view

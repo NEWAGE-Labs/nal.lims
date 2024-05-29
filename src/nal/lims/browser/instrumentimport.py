@@ -993,9 +993,11 @@ class pHECImportView(edit.DefaultEditForm):
 	print(iostr.readline())
 	print(iostr.readline())
         df = pd.read_csv(iostr,keep_default_na=False, header=None, dtype=str)
-	print(df)
+	print("Input DF is: {}\Columns are: {}".format(df,df.columns))
         #Get a list of Unique sample names from the imported DataFrame
         sample_names = df[1].str.strip().unique()
+        print("Sample Names: {}".format(sample_names))
+        print("DF[1] is:\n{}\n\nDF[1].str is:\n{}".format(df[1],df[1].str))
         #Take off the '-001' to get a list of SDG titles to search
         batch_titles = df[1].str[:-4].str.strip().unique().tolist()
 
@@ -1019,22 +1021,24 @@ class pHECImportView(edit.DefaultEditForm):
             i = i.strip()
             xsdg = i[:-4]
             ili = i[-3:]
-	    print("SDG: {}\nILI: {}".format(xsdg,ili))
+#	    print("SDG: {}\nILI: {}".format(xsdg,ili))
             if xsdg in batch_dict.keys():
                 ars = batch_dict[xsdg]
-		print("ARs are: {}".format(ars))
+#		print("ARs are: {}".format(ars))
                 for j in ars:
                     if (
 			api.get_workflow_status_of(j) not in ['retracted','rejected','invalid','cancelled']
 		        and (j.InternalLabID == ili
                         or api.get_id(j) == i)
 		    ):
+                        print("ADDING {} aka {} - {}".format(i,api.get_id(j),j))
                         import_samples.append(j)
-                        df.loc[df[1] == i,[1]] = api.get_id(j)
+                        print("UPdating: {} to {}".format(df.loc[df[1] == i,[1]], api.get_id(j)))
 
+#        print("DF is:\n {}".format(df))
         #Get the list of Senaite Sample IDs that will be imported into.
         ids = map(api.get_id, import_samples)
-        logger.info("IDs: {0}".format(ids))
+#        print("IDs: {0}".format(ids))
 
         #Get a filter dataframe for only the samples that exist
         bool_series = df[1].isin(ids)
@@ -1055,10 +1059,11 @@ class pHECImportView(edit.DefaultEditForm):
                         ph = j
                     if j.Keyword == 'ec' or j.Keyword == 'solublesalts':
                         ec = j
+                        print("ec analysis acquired")
                     if j.Keyword == 'dissolved_solids':
                         tds = j
 
-
+            print("filtered df: {}".format(filtered_df))
         #pH
             if ph is not None and api.get_workflow_status_of(ph) in ['unassigned'] and not filtered_df[(filtered_df[1]==api.get_id(i)) & (filtered_df[3].str.contains('pH = '))].empty:
                 ph_text = unicode(filtered_df[(filtered_df[1]==api.get_id(i)) & (filtered_df[3].str.contains('pH = '))][3].values[0].strip().replace('pH = ',''), "utf-8")
@@ -1073,9 +1078,12 @@ class pHECImportView(edit.DefaultEditForm):
                             pass
                     found = True
         #ec
+            print("ID:{} Row:{}".format(api.get_id(i),filtered_df[filtered_df[1]==api.get_id(i)]))
             if ec is not None and api.get_workflow_status_of(ec) in ['unassigned'] and not filtered_df[(filtered_df[1]==api.get_id(i)) & (filtered_df[3].str.contains('Cond = '))].empty:
                 ec_text = unicode(filtered_df[(filtered_df[1]==api.get_id(i)) & (filtered_df[3].str.contains('Cond = '))][3].values[0].strip().replace('Cond = ',''), "utf-8")
+                print("Found ec match")
                 if ec_text != '0':
+                    print("Uploading EC")
                     ec_float = float(ec_text)/1000
                     ec.Result = unicode(ec_float)
                     ec.AnalysisDateTime = DateTime().Date()

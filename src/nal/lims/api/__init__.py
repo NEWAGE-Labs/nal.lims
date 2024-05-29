@@ -5,7 +5,7 @@ from math import log10
 import pandas as pd
 from management import get_samples_by_week
 
-bad = ['invalid','cancelled','rejected','retracted']
+BAD = ['invalid','cancelled','rejected','retracted']
 
 def moveSDG(sdg_title,target_client_id):
 	sdg_brain = api.search({'portal_type':'Batch','title':sdg_title})
@@ -54,7 +54,7 @@ def getCSVDFbyAR(ARList, excl_client=False):
 	bad = []
 	#Remove invalid samples
 	for i in ARs:
-		if api.get_workflow_status_of(i) in bad:
+		if api.get_workflow_status_of(i) in BAD:
 			bad.append(i)
 	for i in bad:
 		ARs.remove(i)
@@ -81,7 +81,7 @@ def getCSVDFbyAR(ARList, excl_client=False):
         ]
 	cols = [col for col in client_cols]
 	for i in ARs:
-            if i.getSampleType().title in ['Sap','Root','Fruit','Soil'] and 'plant_type' not in cols and api.get_workflow_status_of(i) not in bad:
+            if i.getSampleType().title in ['Sap','Root','Fruit','Soil'] and 'plant_type' not in cols and api.get_workflow_status_of(i) not in BAD:
                 sap_cols = [
                     'pair',
                     'plant_type',
@@ -95,7 +95,7 @@ def getCSVDFbyAR(ARList, excl_client=False):
 
 	    ar_cols = []
             for j in map(api.get_object,i.getAnalyses()):
-                if j.Keyword not in cols and j.Keyword not in ar_cols:
+                if api.get_workflow_status_of(j) not in BAD and j.Keyword not in cols and j.Keyword not in ar_cols:
                     ar_cols.append(str(j.Keyword))
 	    ar_cols.sort()
 
@@ -105,9 +105,11 @@ def getCSVDFbyAR(ARList, excl_client=False):
             export_dict[cols[i]] = []
 
         sample_count = 0
+        sugar_dict = {}
+        sugarcount = 0
         for i in ARs:
 	    sdg = i.getBatch()
-            if api.get_workflow_status_of(i) not in ['cancelled','invalid'] and (sdg is not None and api.get_workflow_status_of(sdg) not in ['cancelled']):
+            if api.get_workflow_status_of(i) not in BAD and (sdg is not None and api.get_workflow_status_of(sdg) not in BAD):
 
                 sample_count = sample_count+1
 
@@ -230,9 +232,14 @@ def getCSVDFbyAR(ARList, excl_client=False):
                         elif i.NewLeaf is False:
                             new_old = 'Old'
                     export_dict['new_old'].append(new_old)
-
-                for j in map(api.get_object,i.getAnalyses()):
-                    if api.get_workflow_status_of(j) not in bad and 'nitrogen_conversion_efficiency' not in j.Keyword:
+                sugar_dict[i.getId()] = 0
+                if len(export_dict['sugars']) - sugarcount >= 2:
+                    print("Multiple Sugars for {}".format(i.getId()))
+                sugarcount = len(export_dict['sugars'])
+                for j in [an for an in map(api.get_object,i.getAnalyses()) if api.get_workflow_status_of(an) not in BAD]:
+                    if j.Keyword == 'sugars':
+                        sugar_dict[i.getId()] += 1
+                    if 'nitrogen_conversion_efficiency' not in j.Keyword:
                         sigfigs = 3
                         result = j.getResult()
 			dil = (1 if (j.Dilution is None or j.Dilution == '') else j.Dilution)
@@ -262,30 +269,29 @@ def getCSVDFbyAR(ARList, excl_client=False):
                                 result = '< {}'.format(float(loq) * float(dil))
                             else:
                                 result = round((result*float(dil)), sigfigs-int(floor(log10(abs(result*float(dil)))))-1)
+                        export_dict[j.Keyword].append(result)
 
-                            export_dict[j.Keyword].append(result)
+                    if i.getSampleType().title == 'Sap' and hasattr(export_dict,'nitrogen_nitrate'):
+                        nh4 = export_dict['nitrogen_ammonium'][-1]
+                        no3 = export_dict['nitrogen_nitrate'][-1]
+                        tn = export_dict['nitrogen'][-1]
+                        nce = 0
 
-                if i.getSampleType().title == 'Sap' and hasattr(export_dict,'nitrogen_nitrate'):
-                    nh4 = export_dict['nitrogen_ammonium'][-1]
-                    no3 = export_dict['nitrogen_nitrate'][-1]
-                    tn = export_dict['nitrogen'][-1]
-                    nce = 0
+                        if nh4 is None or nh4 == '< 0.01' or nh4 == '':
+                            nh4 = 0
+                        if no3 is None or no3 == '< 0.01' or no3 == '':
+                            no3 = 0
+                        if tn is None or tn == '< 0.01' or tn == '':
+                            tn = 0
+                        else:
+                            tn = float(tn)
 
-                    if nh4 is None or nh4 == '< 0.01' or nh4 == '':
-                        nh4 = 0
-                    if no3 is None or no3 == '< 0.01' or no3 == '':
-                        no3 = 0
-                    if tn is None or tn == '< 0.01' or tn == '':
-                        tn = 0
-                    else:
-                        tn = float(tn)
-
-                    if tn > 0:
-                        nce = (1 - ((float(nh4) + float(no3)) / float(tn)))*100
-                        nce = round(nce, sigfigs-int(floor(log10(abs(nce))))-1)
-                        export_dict['nitrogen_conversion_efficiency'].append(nce)
-                    else:
-                        export_dict['nitrogen_conversion_efficiency'].append('')
+                        if tn > 0:
+                            nce = (1 - ((float(nh4) + float(no3)) / float(tn)))*100
+                            nce = round(nce, sigfigs-int(floor(log10(abs(nce))))-1)
+                            export_dict['nitrogen_conversion_efficiency'].append(nce)
+                        else:
+                            export_dict['nitrogen_conversion_efficiency'].append('')
 
                 for j in cols:
                     if len(export_dict[j]) < sample_count:
@@ -296,6 +302,14 @@ def getCSVDFbyAR(ARList, excl_client=False):
 	    for col in [ccol for ccol in client_cols if ccol != 'nal_sample_id']:
 		del export_dict[col]
 		cols.remove(col)
+
+        for key,value in sugar_dict.items():
+            if value >= 2:
+                print("{} : {}".format(key,value))
+
+        for key in sugar_dict.keys():
+            if key not in export_dict['nal_sample_id']:
+                print("{} Not in Export".format(key))
 
 	#Convert to DataFrame
         df = pd.DataFrame()
@@ -334,7 +348,7 @@ def getSDGCSV(batch, excl_client=False):
 	cols = [col for col in client_cols]
         ARs = sdg.getAnalysisRequests()
         for i in ARs:
-            if i.getSampleType().title in ['Sap','Root','Fruit','Soil'] and 'plant_type' not in cols and api.get_workflow_status_of(i) not in ['cancelled','invalid']:
+            if i.getSampleType().title in ['Sap','Root','Fruit','Soil'] and 'plant_type' not in cols and api.get_workflow_status_of(i) not in BAD:
                 sap_cols = [
                     'plant_type',
                     'variety',
@@ -347,7 +361,7 @@ def getSDGCSV(batch, excl_client=False):
 
 	    ar_cols = []
             for j in map(api.get_object,i.getAnalyses()):
-                if j.Keyword not in cols and j.Keyword not in ar_cols:
+                if api.get_workflow_status_of(j) not in BAD and j.Keyword not in cols and j.Keyword not in ar_cols:
                     ar_cols.append(str(j.Keyword))
 	    ar_cols.sort()
 
@@ -358,7 +372,7 @@ def getSDGCSV(batch, excl_client=False):
 
         sample_count = 0
         for i in ARs:
-            if api.get_workflow_status_of(i) not in ['cancelled','invalid']:
+            if api.get_workflow_status_of(i) not in BAD:
 
                 sample_count = sample_count+1
 
@@ -471,7 +485,7 @@ def getSDGCSV(batch, excl_client=False):
                     export_dict['new_old'].append(new_old)
 
                 for j in map(api.get_object,i.getAnalyses()):
-                    if api.get_workflow_status_of(j) not in ['cancelled','invalid','retracted','rejected'] and 'nitrogen_conversion_efficiency' not in j.Keyword:
+                    if api.get_workflow_status_of(j) not in BAD and 'nitrogen_conversion_efficiency' not in j.Keyword:
                         sigfigs = 3
                         result = j.getResult()
 			dil = (1 if (j.Dilution is None or j.Dilution == '') else j.Dilution)
