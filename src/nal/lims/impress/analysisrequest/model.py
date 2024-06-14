@@ -37,6 +37,41 @@ class SuperModel(BaseModel):
     """
 
 #Start Custom Methods
+    def get_loq(self, analysis):
+        analysis = api.get_object(analysis)
+        #If Override is set, use Override as LOQ
+        if hasattr(analysis,'LOQOverride') and analysis.LOQOverride is not None and analysis.LOQOverride != '':
+            try:
+                loq = float(analysis.LOQOverride)
+                return loq
+            except:
+                pass
+
+        #Get Custom Method for base LOQ
+	method = api.get_object_by_uid(analysis.CustomMethod)
+	if method is not None:
+            print("Method for {}-{} is {} UID: {}".format(api.get_id(self),analysis.title,method, method.UID()))
+	else:
+	    raise Exception("{} for sample {} does not have an assigned Method".format(analysis.title, api.get_id(self)))
+        loq = None
+        for i in analysis.getAnalysisService().MethodRecords:
+            if i['methodid'] == method.UID():
+                if i['loq'] == 'P|A':
+                    return 'P|A'
+                print("loq for {} is: {}".format(api.get_object(analysis),i['loq']))
+                loq = float(i['loq'])
+                if hasattr(analysis,'Dilution') and analysis.Dilution is not None:
+                    try:
+                       loq = loq*float(analysis.Dilution)
+                    except:
+                        raise Exception("Dilution for {} is not a valid float - {}".format(analysis.title, analysis.Dilution))
+                #If the LOQ Multiplier is set, multiply the LOQ by 10
+                if hasattr(analysis,'LOQMultiplier') and analysis.LOQMultiplier is True:
+                    loq = loq*10
+        if loq is None:
+            raise Exception("LOQ not set for {} with method {}".format(analysis.title,method))
+	return loq
+
     def get_cf(self):
         weight = None
         volume = None
@@ -54,7 +89,7 @@ class SuperModel(BaseModel):
                 v = float(volume.Result)
             except ValueError as ve:
                 raise("Problem calculating correction factor from Weight and Volume. Please enter valid values.")
-            return volume/weight
+            return v/w
 
     def getAnalysisByKey(self, keyword):
 	for i in map(api.get_object,self.getAnalyses()):
@@ -328,7 +363,7 @@ class SuperModel(BaseModel):
                     perc = (100/3) + (((result-min)/(max-min))*(100/3))
         return perc
 
-    def get_report_result(self, analysis, digits, pflag=False):
+    def get_report_result(self, analysis, digits, pflag=False, corr = 1):
 	"""Return formatted result or NT
         """
 	analysis = api.get_object(analysis)
@@ -351,7 +386,7 @@ class SuperModel(BaseModel):
             return "NT"
         dil = 1
 	print("Result is: {}".format(result))
-	result = float(result)
+	result = float(result)*float(corr)
 
 	#Get Custom Method
 	method = api.get_object_by_uid(analysis.CustomMethod)
@@ -376,7 +411,7 @@ class SuperModel(BaseModel):
 	    if result == 0:
                 return '< {}'.format(dil)
 	    if result >= 1 and result <= float(uloq):
-		if 'c18' not in analysis.Keyword:
+		if 'c18' not in analysis.Keyword or dil > 1:
 		    xresult = round(result*dil, digits-int(floor(log10(abs(result*dil))))-1)
 		else:
 		    xresult = result
@@ -387,13 +422,7 @@ class SuperModel(BaseModel):
 	    if result > float(uloq):
 		return '> {}'.format(float(uloq)*dil)
         else:
-	    loq = ''
-	    for i in analysis.getAnalysisService().MethodRecords:
-		if i['methodid'] == method.UID():
-		    print("loq for {} is: {}".format(api.get_object(analysis),i['loq']))
-		    loq = float(i['loq'])
-		    if sample.getSampleType().title.lower() in ['solids','soil','fertilizer, solid', 'fertilizer, concentrated']:
-			loq = loq*10
+            loq = self.get_loq(analysis)
             if loq == '':
 		raise Exception("LOQ not set for {} with method {}".format(analysis.title,method))
 	    elif result < loq:

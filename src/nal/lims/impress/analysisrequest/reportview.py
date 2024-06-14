@@ -27,17 +27,18 @@ from string import Template
 
 import DateTime
 from bika.lims import POINTS_OF_CAPTURE
+from bika.lims import api
 from bika.lims.interfaces import IInternalUse
+from bika.lims.utils.analysis import format_interim
 from bika.lims.workflow import getTransitionDate
 from Products.CMFPlone.i18nl10n import ulocalized_time
 from Products.CMFPlone.utils import safe_unicode
-from bika.lims import api
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile as PT
 from senaite.app.supermodel.interfaces import ISuperModel
 from senaite.impress import logger
 from senaite.impress.decorators import returns_super_model
 from senaite.impress.reportview import ReportView as Base
 from datetime import date
-
 
 SINGLE_TEMPLATE = Template("""<!-- Single Report -->
 <div class="report" uids="${uids}" client_uid="${client_uid}">
@@ -61,6 +62,7 @@ MULTI_TEMPLATE = Template("""<!-- Multi Report -->
 class ReportView(Base):
     """AR specific Report View
     """
+
 #Start Custom Methods
     def get_state(self, state):
         state_dict= {
@@ -130,21 +132,73 @@ class ReportView(Base):
             state = abbrev
         return state
 
+    def getObj(self, brain):
+	return api.get_object(brain)
+
     def isEGLE(self, analysis):
 	egle = False
-	if analysis.Keyword in ['nitrate','copper','lead','c18_ecoli_pa','c18_coliforms_pa','c18_coliforms_mpn','c18_ecoli_mpn','c18_fecal_coliforms_pa']:
+	if analysis.Keyword in ['nitrate','nitrite','copper','lead','c18_ecoli_pa','c18_coliforms_pa','c18_coliforms_mpn','c18_ecoli_mpn','c18_fecal_coliforms_pa']:
 		egle = True
 	return egle
 
+    def getOneTest(self, mkeyword):
+	print("MKEYWORD: {}".format(mkeyword))
+	samples = self.collection
+	for sample in samples:
+	    if sample.id in mkeyword[1][1]:
+		return sample.getAnalysisByKey(mkeyword[0])
+
+    def getMatrixKeywords(self):
+	"""returns 2D Array:
+	Col 0 - (str) Keyword
+	Col 1 - (str) Analysis Title
+	Col 2 - [list] sample IDs containing Keyword
+	Col 3 - (str) Method
+	"""
+	samples = self.collection
+	keys = []
+	key_ids = {}
+	for sample in samples:
+	    analyses = map(api.get_object,sample.getAnalyses())
+	    for analysis in analyses:
+	        if api.get_workflow_status_of(analysis) not in ['rejected','retracted','cancelled','invalid']:
+		    key = analysis.Keyword
+		    keytitle = analysis.title
+		    keymethod = api.get_object_by_uid(analysis.CustomMethod).title
+		    if key not in keys:
+		        keys.append(key)
+		        key_ids[key] = (keytitle,[sample.id],keymethod)
+		    else:
+		        key_ids[key][1].append(sample.id)
+	return list(key_ids.items())
+
+    def getMicroCategory(self):
+	return api.get_object(api.search({'portal_type':'AnalysisCategory','title':'Microbiology'})[0])
+
     def get_sap_increase(self, new, old, ol):
 	if new is None or old is None:
-		return 0
+		return (0,'')
+	new = api.get_object(new)
+	old = api.get_object(old)
+	newr = new.Result
+	oldr = old.Result
+	try:
+	    newd = (1 if new.Dilution is None else new.Dilution)
+	    oldd = (1 if old.Dilution is None else old.Dilution)
+	except AttributeError:
+	    newd = 1
+	    oldd = 1
 
-	new = float(new)
-	old = float(old)
+	if newr is None or oldr is None:
+		return (0,'')
+	try:
+	    new = float(newr)*newd
+	    old = float(oldr)*oldd
+	except ValueError as ve:
+	    return (0,'')
 	yellow = None
 	if new <= 0:
-		return 0
+		return (0,'')
 	if old < 0:
 		old = 0
 	perc = ((new-old)/new)*(-100)
@@ -156,6 +210,8 @@ class ReportView(Base):
 	return (perc,yellow)
 
     def get_sap_colors(self, perc):
+	if perc == 0:
+		return ('#FFFFFF','black')
 	if perc[1] == 'yellowize':
 		return ('#FDFD96','black')
 	perc = float(perc[0])
@@ -296,6 +352,67 @@ class ReportView(Base):
         return test
 #End Custom Methods
 
+    JS_TEMPLATE = PT("templates/js.pt")
+    CSS_TEMPLATE = PT("templates/css.pt")
+    CONTROLS_TEMPLATE = PT("templates/controls.pt")
+    HEADER_TEMPLATE = PT("templates/header.pt")
+    INFO_TEMPLATE = PT("templates/info.pt")
+    ALERTS_TEMPLATE = PT("templates/alerts.pt")
+    SUMMARY_TEMPLATE = PT("templates/summary.pt")
+    RESULTS_TEMPLATE = PT("templates/results.pt")
+    RESULTS_TRANSPOSED_TEMPLATE = PT("templates/results_transposed.pt")
+    INTERPRETATIONS_TEMPLATE = PT("templates/interpretations.pt")
+    REMARKS_TEMPLATE = PT("templates/remarks.pt")
+    ATTACHMENTS_TEMPLATE = PT("templates/attachments.pt")
+    SIGNATURE_TEMPLATE = PT("templates/signatures.pt")
+    DISCREETER_TEMPLATE = PT("templates/discreeter.pt")
+    FOOTER_TEMPLATE = PT("templates/footer.pt")
+
+    def render_js(self, context, **kw):
+        return self.JS_TEMPLATE(context, **kw)
+
+    def render_css(self, context, **kw):
+        return self.CSS_TEMPLATE(context, **kw)
+
+    def render_controls(self, context, **kw):
+        return self.CONTROLS_TEMPLATE(context, **kw)
+
+    def render_header(self, context, **kw):
+        return self.HEADER_TEMPLATE(context, **kw)
+
+    def render_info(self, context, **kw):
+        return self.INFO_TEMPLATE(context, **kw)
+
+    def render_alerts(self, context, **kw):
+        return self.ALERTS_TEMPLATE(context, **kw)
+
+    def render_summary(self, context, **kw):
+        return self.SUMMARY_TEMPLATE(context, **kw)
+
+    def render_results(self, context, **kw):
+        return self.RESULTS_TEMPLATE(context, **kw)
+
+    def render_results_transposed(self, context, **kw):
+        return self.RESULTS_TRANSPOSED_TEMPLATE(context, **kw)
+
+    def render_interpretations(self, context, **kw):
+        return self.INTERPRETATIONS_TEMPLATE(context, **kw)
+
+    def render_remarks(self, context, **kw):
+        return self.REMARKS_TEMPLATE(context, **kw)
+
+    def render_attachments(self, context, **kw):
+        return self.ATTACHMENTS_TEMPLATE(context, **kw)
+
+    def render_signatures(self, context, **kw):
+        return self.SIGNATURE_TEMPLATE(context, **kw)
+
+    def render_discreeter(self, context, **kw):
+        return self.DISCREETER_TEMPLATE(context, **kw)
+
+    def render_footer(self, context, **kw):
+        return self.FOOTER_TEMPLATE(context, **kw)
+
     @property
     def points_of_capture(self):
         items = POINTS_OF_CAPTURE.items()
@@ -385,7 +502,7 @@ class ReportView(Base):
         return self.sort_items(analyses)
 
     def get_analyses_by(self, model_or_collection,
-                        title=None, service_title=None,
+                        title=None, keyword=None, service_title=None,
                         poc=None, category=None,
                         hidden=False, retracted=False, rejected=False):
         """Returns a sorted list of Analyses for the given POC which are in the
@@ -394,6 +511,8 @@ class ReportView(Base):
         analyses = self.get_analyses(model_or_collection)
         if title is not None:
             analyses = filter(lambda an: an.Title() == title, analyses)
+        if keyword is not None:
+            analyses = filter(lambda an: an.getKeyword() == keyword, analyses)
         if service_title is not None:
             def get_service_title(analysis):
                 service = analysis.getAnalysisService()
@@ -531,6 +650,31 @@ class ReportView(Base):
         """
         return ISuperModel.providedBy(obj)
 
+    def get_result_variables(self, analysis, report_only=True):
+        """Returns the result variables (aka interim fields) from the given
+        analysis, with additional attributes formatted_result and
+        formatted_unit. If report_only is True, only result variables that are
+        flagged with attribute "report" are returned.
+
+        :param analysis: Analysis' object/supermodel/brain or UID
+        :param report_only: Only result variables flagged with 'report:True'
+        :returns: List of result variable items
+        """
+        items = []
+        obj = api.get_object(analysis)
+        interim_fields = obj.getInterimFields() or []
+        for interim_field in interim_fields:
+
+            # skip interim not fields flagged with report
+            if report_only and not interim_field.get("report", False):
+                continue
+
+            # apply formatting
+            item = format_interim(interim_field)
+            items.append(item)
+
+        return items
+
 
 class SingleReportView(ReportView):
     """View for Single Reports
@@ -540,6 +684,8 @@ class SingleReportView(ReportView):
         logger.info("SingleReportView::__init__:model={}"
                     .format(model))
         super(SingleReportView, self).__init__(model, request)
+        # always provide a collection for simplicity
+        self.collection = [model]
         self.model = model
         self.request = request
 
@@ -566,6 +712,8 @@ class MultiReportView(ReportView):
                     .format(collection))
         super(MultiReportView, self).__init__(collection, request)
         self.collection = collection
+        # consider the first sample of the collection as the primary model
+        self.model = collection[0] if len(collection) > 0 else None
         self.request = request
 
     def render(self, template, **kw):

@@ -997,7 +997,7 @@ class pHECImportView(edit.DefaultEditForm):
         #Get a list of Unique sample names from the imported DataFrame
         sample_names = df[1].str.strip().unique()
         print("Sample Names: {}".format(sample_names))
-        print("DF[1] is:\n{}\n\nDF[1].str is:\n{}".format(df[1],df[1].str))
+        print("DF[1] is:\n{}\n\nDF[1].str is:\n{}".format(df[1],df[1].values))
         #Take off the '-001' to get a list of SDG titles to search
         batch_titles = df[1].str[:-4].str.strip().unique().tolist()
 
@@ -1033,7 +1033,7 @@ class pHECImportView(edit.DefaultEditForm):
 		    ):
                         print("ADDING {} aka {} - {}".format(i,api.get_id(j),j))
                         import_samples.append(j)
-                        print("UPdating: {} to {}".format(df.loc[df[1] == i,[1]], api.get_id(j)))
+                        print("Updating: {} to {}".format(df.loc[df[1] == i,['1']], api.get_id(j)))
 
 #        print("DF is:\n {}".format(df))
         #Get the list of Senaite Sample IDs that will be imported into.
