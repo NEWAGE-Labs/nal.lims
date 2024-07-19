@@ -1,0 +1,79 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="senaite.core">
+
+<browser:page
+      name="sdgcsvexport"
+      class=".sdgcsvexport.SDGCSVExportView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/sdgcsvexport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="addpairs"
+      class=".sappairs.AddPairsView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/sdgcsvexport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="addnewleaf"
+      class=".sappairs.AddNewOldView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/sdgcsvexport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="addlabids"
+      class=".sappairs.AddILIView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/sdgcsvexport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="addfullpairs"
+      class=".sappairs.AddFullPairsView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/sdgcsvexport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="optimallevels"
+      class=".optimallevels.OptimalLevelView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/optimallevels.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="olreset"
+      class=".optimallevels.OLResetView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/optimallevels.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="autodownload"
+      class=".autodownload.AutoDownloadView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/autodownload.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+</configure>

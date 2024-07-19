@@ -11,13 +11,18 @@
       layer="nal.lims.interfaces.INalLimsLayer"
       />
 
+  <!-- Include sub-directories -->
   <include package=".samples" />
   <include package=".client" />
   <include package=".batch" />
-  <!-- <include package=".analysisrequest" /> -->
   <include package=".analyses" />
   <include package=".publish" />
-
+  
+  <!-- Include files in this directory -->
+  <include file="imports.zcml"/>
+  <include file="sdg_functions.zcml"/>
+  <include file="client_functions.zcml"/>
+  
   <!-- Override View Classes -->
   <!-- Batch Folder from bika.lims-->
   <browser:page
@@ -104,185 +109,6 @@
       template="templates/mbgexport.pt"
       layer="nal.lims.interfaces.INalLimsLayer"
       />
-
-  <browser:page
-      name="sdgcsvexport"
-      class=".sdgcsvexport.SDGCSVExportView"
-      permission="cmf.ListFolderContents"
-      for="*"
-      template="templates/sdgcsvexport.pt"
-      layer="nal.lims.interfaces.INalLimsLayer"
-      />
-
-  <browser:page
-      name="addpairs"
-      class=".sappairs.AddPairsView"
-      permission="cmf.ListFolderContents"
-      for="*"
-      template="templates/sdgcsvexport.pt"
-      layer="nal.lims.interfaces.INalLimsLayer"
-      />
-
-  <browser:page
-      name="addnewleaf"
-      class=".sappairs.AddNewOldView"
-      permission="cmf.ListFolderContents"
-      for="*"
-      template="templates/sdgcsvexport.pt"
-      layer="nal.lims.interfaces.INalLimsLayer"
-      />
-
-  <browser:page
-      name="addlabids"
-      class=".sappairs.AddILIView"
-      permission="cmf.ListFolderContents"
-      for="*"
-      template="templates/sdgcsvexport.pt"
-      layer="nal.lims.interfaces.INalLimsLayer"
-      />
-
-  <browser:page
-      name="addfullpairs"
-      class=".sappairs.AddFullPairsView"
-      permission="cmf.ListFolderContents"
-      for="*"
-      template="templates/sdgcsvexport.pt"
-      layer="nal.lims.interfaces.INalLimsLayer"
-      />
-
-  <browser:page
-      name="clientcsvexport"
-      class=".clientcsvexport.ClientCSVExportView"
-      permission="cmf.ListFolderContents"
-      for="*"
-      template="templates/sdgcsvexport.pt"
-      layer="nal.lims.interfaces.INalLimsLayer"
-      />
-
-  <browser:page
-      name="optimallevels"
-      class=".optimallevels.OptimalLevelView"
-      permission="cmf.ListFolderContents"
-      for="*"
-      template="templates/optimallevels.pt"
-      layer="nal.lims.interfaces.INalLimsLayer"
-      />
-
-  <browser:page
-      name="olreset"
-      class=".optimallevels.OLResetView"
-      permission="cmf.ListFolderContents"
-      for="*"
-      template="templates/optimallevels.pt"
-      layer="nal.lims.interfaces.INalLimsLayer"
-      />
-
-  <browser:page
-      name="autodownload"
-      class=".autodownload.AutoDownloadView"
-      permission="cmf.ListFolderContents"
-      for="*"
-      template="templates/autodownload.pt"
-      layer="nal.lims.interfaces.INalLimsLayer"
-      />
-
-  <browser:page
-      name="icpimport"
-      class=".instrumentimport.ICPImportView"
-      permission="cmf.ListFolderContents"
-      for="*"
-      template="templates/instrumentimport.pt"
-      layer="nal.lims.interfaces.INalLimsLayer"
-      />
-
-  <browser:page
-      name="galleryimport"
-      class=".instrumentimport.GalleryImportView"
-      permission="cmf.ListFolderContents"
-      for="*"
-      template="templates/instrumentimport.pt"
-      layer="nal.lims.interfaces.INalLimsLayer"
-      />
-
-  <browser:page
-      name="phimport"
-      class=".instrumentimport.pHImportView"
-      permission="cmf.ListFolderContents"
-      for="*"
-      template="templates/instrumentimport.pt"
-      layer="nal.lims.interfaces.INalLimsLayer"
-      />
-
-  <browser:page
-      name="ecimport"
-      class=".instrumentimport.ECImportView"
-      permission="cmf.ListFolderContents"
-      for="*"
-      template="templates/instrumentimport.pt"
-      layer="nal.lims.interfaces.INalLimsLayer"
-      />
-
-  <browser:page
-      name="phecimport"
-      class=".instrumentimport.pHECImportView"
-      permission="cmf.ListFolderContents"
-      for="*"
-      template="templates/instrumentimport.pt"
-      layer="nal.lims.interfaces.INalLimsLayer"
-      />
-
-  <browser:page
-      name="totalnitrogenimport"
-      class=".instrumentimport.TotalNitrogenImportView"
-      permission="cmf.ListFolderContents"
-      for="*"
-      template="templates/instrumentimport.pt"
-      layer="nal.lims.interfaces.INalLimsLayer"
-      />
-
-  <browser:page
-      name="briximport"
-      class=".instrumentimport.BrixImportView"
-      permission="cmf.ListFolderContents"
-      for="*"
-      template="templates/instrumentimport.pt"
-      layer="nal.lims.interfaces.INalLimsLayer"
-      />
-
-  <browser:page
-      name="manualimport"
-      class=".instrumentimport.ManualImportView"
-      permission="cmf.ListFolderContents"
-      for="*"
-      template="templates/instrumentimport.pt"
-      layer="nal.lims.interfaces.INalLimsLayer"
-      />
-
-  <!-- <browser:page
-      name="icptestadd"
-      class=".instrumentimport.ICPTestAddView"
-      permission="cmf.ListFolderContents"
-      for="*"
-      template="templates/instrumentimport.pt"
-      layer="nal.lims.interfaces.INalLimsLayer"
-      /> -->
-
-  <!-- <browser:page
-      name="icp"
-      class=".icp.ICPDisplayView"
-      permission="cmf.ListFolderContents"
-      for="*"
-      layer="nal.lims.interfaces.INalLimsLayer"
-      />
-
-  <browser:page
-      name="icpjs"
-      class=".icp.ICPJSView"
-      permission="cmf.ListFolderContents"
-      for="*"
-      template="templates/icp.pt"
-      layer="nal.lims.interfaces.INalLimsLayer"
-      /> -->
 
   <!-- Publish static files -->
   <plone:static
