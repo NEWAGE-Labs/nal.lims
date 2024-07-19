@@ -1,3 +1,5 @@
-<div metal:define-macro="instructions">
-    <p>THESE ARE THE REAL INSTRUCTIONS!!! HUZZAH!</p>
+<div metal:define-macro="sap_instructions">
+      <img tal:condition="python:True" 
+           tal:attributes="src python:view.get_resource_url('++plone++nal.lims/images/sap_instructions.png')" 
+           style="margin-left: -57pt;margin-top: -57pt;height: 792pt;width: 612pt;background-size: 100% 100%;"/>
 </div>

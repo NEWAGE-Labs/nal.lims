@@ -244,7 +244,7 @@ EDITS:
   <!-- END Cover Letter -->
   <!-- BEGIN Blank Page-->
   <div class="blank-page">
-    <div class="blank-page-background">
+    <div metal:use-macro="context/@@nalmacros/sap_instructions">
       <h4 class="blank-text">This Page Is Intentionally Left Blank</h4>
     </div>
   </div>

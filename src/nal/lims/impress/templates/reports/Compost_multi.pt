@@ -434,7 +434,7 @@ EDITS:
                         <tal:unit replace="python:analysis.Unit"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
@@ -461,7 +461,7 @@ EDITS:
                         <tal:unit replace="python:analysis.Unit"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
@@ -488,7 +488,7 @@ EDITS:
                         <tal:unit replace="python:analysis.Unit"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
@@ -515,7 +515,7 @@ EDITS:
                         <tal:unit replace="python:analysis.Unit"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
@@ -542,7 +542,7 @@ EDITS:
                         <tal:unit replace="python:analysis.Unit"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
@@ -569,7 +569,7 @@ EDITS:
                         <tal:unit replace="python:analysis.Unit"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
@@ -584,6 +584,34 @@ EDITS:
                       </td>
                     </tal:analyte>
                   </tr>
+                  <tr tal:define="analysis python:view.get_analyses_by_keyword(model, 'carbon_nitrogen_ratio');">
+                    <tal:analyte condition="analysis">
+                      <td>
+                        <strong><tal:title replace="python:analysis.title"></tal:title></strong>
+                      </td>
+                      <td class="center">
+                        <tal:result replace="python:model.get_report_result(analysis,3,False)"></tal:result>
+                      </td>
+                      <td class="center">
+                        <tal:unit replace="python:analysis.Unit"></tal:unit>
+                      </td>
+                      <td class="center">
+                        <span tal:content="python:model.get_loq(analysis)"></span>
+                      </td>
+                      <td class="center">
+                        <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
+                      </td>
+                      <td class="center">
+
+                      </td>
+                      <td class="center">
+                        <div tal:condition="analysis/CustomMethod">
+                          <tal:title replace="python:analysis.CustomMethod.title"></tal:title>
+                        </div>
+                      </td>
+                    </tal:analyte>
+                  </tr>
+
                   <tr tal:define="analysis python:view.get_analyses_by_keyword(model, 'co2');">
                     <tal:analyte condition="analysis">
                       <td>
@@ -596,13 +624,12 @@ EDITS:
                         <tal:unit replace="python:analysis.Unit"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:replace="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
                       </td>
-                      <td class="center">
-                        
+                      <td class="center">                        
                       </td>
                       <td class="center">
                         <div tal:condition="analysis/CustomMethod">
@@ -611,33 +638,7 @@ EDITS:
                       </td>
                     </tal:analyte>
                   </tr>
-                  <tr tal:define="analysis python:view.get_analyses_by_keyword(model, 'ammonia');">
-                    <tal:analyte condition="analysis">
-                      <td>
-                        <strong><tal:title replace="python:analysis.title"></tal:title></strong>
-                      </td>
-                      <td class="center">
-                        <tal:result replace="python:model.get_report_result(analysis,3,False)"></tal:result>
-                      </td>
-                      <td class="center">
-                        <tal:unit replace="python:analysis.Unit"></tal:unit>
-                      </td>
-                      <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
-                      </td>
-		      <td class="center">
-                        <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
-                      </td>
-                      <td class="center">
-                        
-                      </td>
-                      <td class="center">
-                        <div tal:condition="analysis/CustomMethod">
-                          <tal:title replace="python:analysis.CustomMethod.title"></tal:title>
-                        </div>
-                      </td>
-                    </tal:analyte>
-                  </tr>
+
                   <tr style="height: 10pt;"></tr>
                   <tr style="height: 12pt; font-size: 12pt;"><td><strong>Macronutrients</strong></td></tr>
                   <tr tal:define="analysis python:view.get_analyses_by_keyword(model, 'nitrogen');">
@@ -652,7 +653,7 @@ EDITS:
                         <tal:unit replace="string:%"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
@@ -679,7 +680,7 @@ EDITS:
                         <tal:unit replace="string:%"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
@@ -706,7 +707,7 @@ EDITS:
                         <tal:unit replace="string:%"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
@@ -733,7 +734,7 @@ EDITS:
                         <tal:unit replace="string:%"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
@@ -760,7 +761,7 @@ EDITS:
                         <tal:unit replace="string:%"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
@@ -787,7 +788,7 @@ EDITS:
                         <tal:unit replace="string:%"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
@@ -818,7 +819,7 @@ EDITS:
                         <tal:unit replace="python:analysis.Unit"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
@@ -845,7 +846,7 @@ EDITS:
                         <tal:unit replace="python:analysis.Unit"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
@@ -872,7 +873,7 @@ EDITS:
                         <tal:unit replace="python:analysis.Unit"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
@@ -899,7 +900,7 @@ EDITS:
                         <tal:unit replace="python:analysis.Unit"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
@@ -926,7 +927,7 @@ EDITS:
                         <tal:unit replace="python:analysis.Unit"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
@@ -957,7 +958,7 @@ EDITS:
                         <tal:unit replace="python:analysis.Unit"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
@@ -984,7 +985,7 @@ EDITS:
                         <tal:unit replace="python:analysis.Unit"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
@@ -1011,7 +1012,7 @@ EDITS:
                         <tal:unit replace="python:analysis.Unit"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
@@ -1038,7 +1039,7 @@ EDITS:
                         <tal:unit replace="python:analysis.Unit"></tal:unit>
                       </td>
                       <td class="center">
-                        <span tal:content="python:('-' if analysis.CustomMethod is None else [i['loq'] for i in analysis.getAnalysisService().MethodRecords if analysis.CustomMethod.UID() == i['methodid']][0])"></span>
+                        <span tal:content="python:model.get_loq(analysis)"></span>
                       </td>
 		      <td class="center">
                         <tal:datetime replace="python:analysis.AnalysisDateTime"></tal:datetime>
