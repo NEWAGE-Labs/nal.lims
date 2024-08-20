@@ -14,6 +14,15 @@
       />
 
   <browser:page
+      name="newicpimport"
+      class=".instrumentimport.NewICPImportView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/instrumentimport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
       name="galleryimport"
       class=".instrumentimport.GalleryImportView"
       permission="cmf.ListFolderContents"

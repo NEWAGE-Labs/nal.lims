@@ -3,8 +3,9 @@ from plone import api as papi
 from math import floor
 from math import log10
 import pandas as pd
-from management import get_samples_by_week
-from retract import retract_batches_by_keyword
+from management import *
+from retract import *
+from DateTime import DateTime
 
 BAD = ['invalid','cancelled','rejected','retracted']
 CLIENT_COLS = [
@@ -794,10 +795,12 @@ def get_sap_by_samples(samples):
 
 	return pd.DataFrame(dict)
 
-def get_emails(sampletype=[]):
+def get_emails(sampletype=[],datefrom=None):
 	emails = {}
 	emails['email'] = []
 	emails['name'] = []
+	if datefrom is not None:
+		datefromDT = DateTime(datefrom) #yyyy/mm/dd
 	if len(sampletype) == 0:
 		clients = map(api.get_object,api.search({'portal_type':'Client'}))
 	else:
@@ -810,11 +813,13 @@ def get_emails(sampletype=[]):
 
 	for client in clients:
 		if client.EmailAddress != "" and client.EmailAddress not in emails['email']:
-			emails['email'].append(client.EmailAddress)
-			emails['name'].append(client.Name)
+			if datefrom is None or client.created() > datefromDT:
+				emails['email'].append(client.EmailAddress)
+				emails['name'].append(client.Name)
 		for contact in client.getContacts():
 			if contact.EmailAddress != "" and contact.EmailAddress not in emails['email']:
-				emails['email'].append(contact.EmailAddress)
-				emails['name'].append(contact.Firstname + ' ' + contact.Surname)
+				if datefrom is None or contact.created() > datefromDT:
+					emails['email'].append(contact.EmailAddress)
+					emails['name'].append(contact.Firstname + ' ' + contact.Surname)
 
 	return pd.DataFrame(emails)

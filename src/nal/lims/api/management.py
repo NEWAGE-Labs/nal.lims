@@ -2,6 +2,8 @@ import pandas as pd
 from bika.lims import api
 from DateTime import DateTime
 
+mgmt_dir = '/mnt/Data/Lab Management Exports/Overdue Accounts/'
+
 def get_samples_by_week(weeks_back=1):
 	ARs = api.search({'portal_type':'AnalysisRequest'})
 	recentARs = [api.get_object(ar) for ar in ARs if ar.getBatchUID is not None and DateTime(api.get_object_by_uid(ar.getBatchUID).SDGDate).year() == DateTime().year() and int(DateTime(api.get_object_by_uid(ar.getBatchUID).SDGDate).month()) > int((DateTime().month())-2)]
@@ -29,3 +31,17 @@ def get_sample_counts_by_year_and_week():
 
 def get_intake():
 	return
+
+def get_overdue_clients():
+	clients = map(api.get_object,api.search({'portal_type':'Client'}))
+	overdue = {}
+	overdue['NAL Number'] = []
+	overdue['Name'] = []
+
+	for client in clients:
+		if hasattr(client, 'Overdue') and client.Overdue:
+			overdue['NAL Number'] = client.ClientID
+			overdue['Name'] = client.Name
+
+	df = pd.DataFrame(overdue)
+	df.to_csv('/mnt/Data/Lab Management Exports/Overdue Accounts/{}.csv'.format(DateTime.day()))

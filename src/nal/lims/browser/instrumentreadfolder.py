@@ -57,8 +57,13 @@ class InstrumentReadFolderView(BikaListingView):
 
         #Fix permissions
         self.context_actions = {
-            _("Import ICP"): {
+            _("Import Thermo ICP"): {
                 "url": "@@icpimport/",
+                "permission": AddBatch,
+                "icon": "++resource++bika.lims.images/add.png"
+            },
+            _("Import Agilent ICP"): {
+                "url": "@@newicpimport/",
                 "permission": AddBatch,
                 "icon": "++resource++bika.lims.images/add.png"
             },

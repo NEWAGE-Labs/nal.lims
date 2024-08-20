@@ -3,3 +3,18 @@
            tal:attributes="src python:view.get_resource_url('++plone++nal.lims/images/sap_instructions.png')" 
            style="margin-left: -57pt;margin-top: -57pt;height: 792pt;width: 612pt;background-size: 100% 100%;"/>
 </div>
+
+<div metal:define-macro="pesticide_list">
+      <img tal:condition="python:True" 
+           tal:attributes="src python:view.get_resource_url('++plone++nal.lims/images/pesticide_loq_p1.png')" 
+           style="margin-left: -57pt;margin-top: -57pt;height: 792pt;width: 612pt;background-size: 100% 100%;"/>
+      <img tal:condition="python:True" 
+           tal:attributes="src python:view.get_resource_url('++plone++nal.lims/images/pesticide_loq_p2.png')" 
+           style="margin-left: -57pt;margin-top: -57pt;height: 792pt;width: 612pt;background-size: 100% 100%;"/>
+      <img tal:condition="python:True" 
+           tal:attributes="src python:view.get_resource_url('++plone++nal.lims/images/pesticide_loq_p3.png')" 
+           style="margin-left: -57pt;margin-top: -57pt;height: 792pt;width: 612pt;background-size: 100% 100%;"/>
+      <img tal:condition="python:True" 
+           tal:attributes="src python:view.get_resource_url('++plone++nal.lims/images/pesticide_loq_p4.png')" 
+           style="margin-left: -57pt;margin-top: -57pt;height: 792pt;width: 612pt;background-size: 100% 100%;"/>
+</div>
