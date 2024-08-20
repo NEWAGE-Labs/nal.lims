@@ -94,6 +94,23 @@
       />
 
   <browser:page
+      name="purchaseorderfolder"
+      class=".purchaseorderfolder.PurchaseOrderFolderView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
+      name="purchaseorder"
+      class=".purchaseorder.PurchaseOrderView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/purchaseorder.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
       name="mbgexportfolder"
       class=".mbgexportfolder.MBGExportFolderView"
       permission="cmf.ListFolderContents"

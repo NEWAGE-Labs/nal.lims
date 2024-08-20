@@ -14,7 +14,7 @@ long_description = '\n\n'.join([
 
 setup(
     name='nal.lims',
-    version='1.0a1',
+    version='1.1',
     description="A Plone Addon to change a Senaite LIMS site into a NEW AGE Laboratories LIMS site",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/

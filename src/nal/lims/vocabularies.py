@@ -12,6 +12,19 @@ WaterSourceTypes = DisplayList((
 
 ))
 
+POTypes = DisplayList((
+    ('', ('None')),
+    ('Lab Reagent','Lab Reagent'),
+    ('Lab Equipment','Lab Equipment'),
+    ('Other Lab Item', 'Other Lab Item'),
+    ('Office Supplies','Office Supplies'),
+    ('I.T. Supplies','I.T. Supplies'),
+    ('Property Maintenance','Property Maintenance'),
+    ('Contractor Service','Contractor Service'),
+    ('Inappropiate Purchase O.o','Inappropiate Purchase O.o'),
+
+))
+
 units_vocabulary = DisplayList((
     ('P|A','Presence|Absence'),
     ('%','Percent'),
