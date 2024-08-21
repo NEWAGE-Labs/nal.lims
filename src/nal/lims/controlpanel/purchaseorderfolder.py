@@ -8,6 +8,22 @@ from bika.lims.interfaces import IClient
 from bika.lims.permissions import AddBatch
 from bika.lims.utils import get_link
 from bika.lims.utils import get_progress_bar_html
+from nal.lims.interfaces import IPurchaseOrderFolder
+
+
+from bika.lims.browser.bika_listing import BikaListingView
+from bika.lims.config import PROJECTNAME
+from plone.app.folder.folder import ATFolder
+from plone.app.folder.folder import ATFolderSchema
+from Products.Archetypes import atapi
+from Products.ATContentTypes.content import schemata
+from senaite.core.interfaces import IHideActionsMenu
+from zope.interface.declarations import implements
+
+
+
+
+
 
 
 class PurchaseOrderFolderView(BikaListingView):
@@ -17,7 +33,7 @@ class PurchaseOrderFolderView(BikaListingView):
     def __init__(self, context, request):
         super(PurchaseOrderFolderView, self).__init__(context, request)
 
-        self.catalog = "portal_catalog"
+        self.catalog = "senaite_setup_catalog"
         self.contentFilter = {
             "portal_type": "PurchaseOrder",
             "sort_on": "created",
@@ -61,7 +77,7 @@ class PurchaseOrderFolderView(BikaListingView):
     def update(self):
         """Before template render hook
         """
-        super(TimeclockFolderView, self).update()
+        super(PurchaseOrderFolderView, self).update()
 
         if self.context.portal_type == "PurchaseOrderFolder":
             self.request.set("disable_border", 1)
@@ -86,3 +102,15 @@ class PurchaseOrderFolderView(BikaListingView):
 	item['types'] = set(sorted([li.type for li in obj.line_items]))
 
         return item
+
+schema = ATFolderSchema.copy()
+
+
+class PurchaseOrderFolder(ATFolder):
+    implements(IPurchaseOrderFolder, IHideActionsMenu)
+    displayContentsTab = False
+    schema = schema
+
+
+schemata.finalizeATCTSchema(schema, folderish=True, moveDiscussion=False)
+atapi.registerType(PurchaseOrderFolder, PROJECTNAME)

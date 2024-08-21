@@ -12,4 +12,12 @@
       layer="nal.lims.interfaces.INalLimsLayer"
     />
 
+    <browser:page
+      for="nal.lims.interfaces.IPurchaseOrderFolder"
+      name="folder_view"
+      class=".purchaseorderfolder.PurchaseOrderFolderView"
+      permission="cmf.ListFolderContents"
+      layer="nal.lims.interfaces.INalLimsLayer"
+    />
+
 </configure>

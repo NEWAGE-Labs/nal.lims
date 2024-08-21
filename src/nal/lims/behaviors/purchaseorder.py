@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from plone.autoform.interfaces import IFormFieldProvider
-from plone.supermodel import directives
+from plone.autoform import directives
 from plone.supermodel import model
 from zope import schema
 from zope.interface import provider
@@ -24,7 +24,7 @@ class ILineItemSchema(Interface):
         required=False,
     )
 
-    item_price = schema.Integer(
+    item_price = schema.Float(
         title=u'Price',
         required=False,
     )
@@ -38,7 +38,7 @@ class IPurchaseOrder(model.Schema):
         required=False,
     )
 
-    total_price = schema.Integer(
+    total_price = schema.Float(
 	title=u'Total Price',
 	required=False
     )
@@ -54,10 +54,10 @@ class IPurchaseOrder(model.Schema):
     )
 
     line_items = schema.List(
-	title = 'Line Items',
+	title = u'Line Items',
 	value_type = DictRow(title=u'Table', schema=ILineItemSchema),
 	default=[],
 	required=False,
-    )
+   )
 
-    directives.widget('datagrid_field', DataGridFieldFactory)
+#  directives.widget('datagrid_field', DataGridFieldFactory)

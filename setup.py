@@ -60,6 +60,7 @@ setup(
         'pandas==0.24.2',
         'numpy==1.16.6',
         'pyodbc',
+	'collective.z3cform.datagridfield'
         #'Products.PDBDebugMode',
         #'ipdb'
     ],

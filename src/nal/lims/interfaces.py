@@ -9,7 +9,11 @@ from senaite.lims.interfaces import ISenaiteLIMS
 from senaite.core.interfaces import ISenaiteCore
 # from zope.interface import Interface
 from bika.lims.interfaces import IBikaLIMS
+from zope.interface import Interface
 
 
 class INalLimsLayer(IDefaultBrowserLayer, IBikaLIMS, ISenaiteLIMS, ISenaiteImpressLayer, ISenaiteCore):
     """Marker interface that defines a browser layer."""
+
+class IPurchaseOrderFolder(Interface):
+    """Marker interface that defines PurchaseOrderFolder"""

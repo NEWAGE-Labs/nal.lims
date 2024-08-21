@@ -337,17 +337,17 @@ def getCSVDFbyAR(ARList, excl_client=False):
 	for sample in ARs:
 		#Skip invalid samples
 		if not ok(sample):
-			pass
+			continue
 
 		#Get SDG for this sample and skip if it is invalid
 	    	sdg = sample.getBatch()
 		if sdg is None or not ok(sdg):
-			pass
+			continue
 
 		#Get Client for this SDG and skip if it is invalid
 		client = sdg.getClient()
 		if client is None or not ok(client):
-			pass
+			continue
 
 		#Get Basic Sample information
 		export_dict = get_sample_basic_info(export_dict,sample,sdg,client)

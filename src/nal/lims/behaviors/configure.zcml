@@ -52,4 +52,18 @@
       provides=".timeclock.ITimeclock"
       />
 
+  <plone:behavior
+      title="purchaseorderfolder"
+      name="nal.lims.purchaseorderfolder"
+      description="Folder for Purchase orders"
+      provides=".purchaseorderfolder.IPurchaseOrderFolder"
+      />
+
+  <plone:behavior
+      title="purchaseorder"
+      name="nal.lims.purchaseorder"
+      description="Purchase Order Folder"
+      provides=".purchaseorder.IPurchaseOrder"
+      />
+
 </configure>
