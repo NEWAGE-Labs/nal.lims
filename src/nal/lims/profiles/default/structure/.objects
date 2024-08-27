@@ -1,3 +1,4 @@
 instrumentreads,InstrumentReadFolder
 timeclock,TimeclockFolder
 mbgexport,MBGExportFolder
+bika_setup,BikaSetup

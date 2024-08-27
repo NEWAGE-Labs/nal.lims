@@ -20,7 +20,7 @@ from Products.ATContentTypes.content import schemata
 from senaite.core.interfaces import IHideActionsMenu
 from zope.interface.declarations import implements
 
-
+from senaite.core.catalog import SETUP_CATALOG
 
 
 
@@ -33,7 +33,7 @@ class PurchaseOrderFolderView(BikaListingView):
     def __init__(self, context, request):
         super(PurchaseOrderFolderView, self).__init__(context, request)
 
-        self.catalog = "senaite_setup_catalog"
+        self.catalog = "portal_catalog"
         self.contentFilter = {
             "portal_type": "PurchaseOrder",
             "sort_on": "created",
@@ -41,13 +41,18 @@ class PurchaseOrderFolderView(BikaListingView):
             "is_active": True,
         }
 
-        self.context_actions = {}
+        self.context_actions = {
+            _("Add"): {
+                "url": "createObject?type_name=PurchaseOrder",
+                "permission": AddBatch,
+                "icon": "++resource++bika.lims.images/add.png"}
+        }
 
         self.show_select_all_checkbox = True
         self.show_select_column = True
         self.pagesize = 20
 
-        self.title = self.context.translate(_("PurchaseOrder"))
+        self.title = self.context.translate(_("Purchase Orders"))
         self.description = ""
 
 
@@ -55,12 +60,12 @@ class PurchaseOrderFolderView(BikaListingView):
             ("po_num", {
                 "title": _("Purchase Order Number"),
                 "index": "title", }),
+            ("details", {
+                "title": _("Order Details"),}),
             ("est_arrival", {
                 "title": _("Estimated Arrival"),}),
             ("cost", {
                 "title": _("Total Cost"),}),
-            ("product_number", {
-                "title": _("Product Number"),}),
             ("types", {
                 "title": _("Purchase Types"),}),
         ))
@@ -96,10 +101,10 @@ class PurchaseOrderFolderView(BikaListingView):
         url = api.get_url(obj)
         desc = api.get_description(obj)
         item['po_num'] = obj.po_num
-        item['est_arrival'] = obj.est_arrival.strftime('%m/%d/%Y')
+	item['details'] = obj.details
+        item['est_arrival'] = '' if obj.est_arrival is None else obj.est_arrival.strftime('%m/%d/%Y')
         item['cost'] = obj.total_price
-        item['product_number'] = obj.product_number
-	item['types'] = set(sorted([li.type for li in obj.line_items]))
+#	item['types'] = '' if obj.line_items is None else set(sorted([li.type for li in obj.line_items]))
 
         return item
 

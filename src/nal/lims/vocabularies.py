@@ -1,4 +1,7 @@
 from Products.Archetypes.utils import DisplayList
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
+from bika.lims import bikaMessageFactory as _
 
 WaterSourceTypes = DisplayList((
     ('', ('None')),
@@ -12,18 +15,18 @@ WaterSourceTypes = DisplayList((
 
 ))
 
-POTypes = DisplayList((
-    ('', ('None')),
-    ('Lab Reagent','Lab Reagent'),
-    ('Lab Equipment','Lab Equipment'),
-    ('Other Lab Item', 'Other Lab Item'),
-    ('Office Supplies','Office Supplies'),
-    ('I.T. Supplies','I.T. Supplies'),
-    ('Property Maintenance','Property Maintenance'),
-    ('Contractor Service','Contractor Service'),
-    ('Inappropiate Purchase O.o','Inappropiate Purchase O.o'),
-
-))
+POTypes = SimpleVocabulary(
+    [
+        SimpleTerm(value=u'', title=_(u'')),
+        SimpleTerm(value=u'Lab Reagent', title=_(u'Lab Reagent')),
+        SimpleTerm(value=u'Lab Equipment', title=_(u'Lab Equipment')),
+        SimpleTerm(value=u'Other Lab Item', title=_(u'Other Lab Item')),
+        SimpleTerm(value=u'Office Supplies', title=_(u'Office Supplies')),
+        SimpleTerm(value=u'I.T. Supplies', title=_(u'I.T. Supplies')),
+        SimpleTerm(value=u'Property Maintenance', title=_(u'Property Maintenance')),
+        SimpleTerm(value=u'Contractor Service', title=_(u'Contractor Service')),
+    ]
+)
 
 units_vocabulary = DisplayList((
     ('P|A','Presence|Absence'),

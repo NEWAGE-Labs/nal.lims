@@ -8,19 +8,23 @@ from zope.interface import Interface
 from collective.z3cform.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield import DictRow
 from plone.app.z3cform.widget import SelectFieldWidget
+from plone.app.z3cform.widget import DateFieldWidget
+from plone.app.z3cform.widget import DatetimeFieldWidget
+from nal.lims import POTypes
+from bika.lims.browser.widgets import DateTimeWidget
 
 class ILineItemSchema(Interface):
 
-    choice_field = schema.Choice(
-        title=u'Choice Field',
-        vocabulary='nal.lims.vocabularies.POTypes',
+    potype = schema.Choice(
+        title=u'item_type',
+        vocabulary=POTypes,
         required=False,
         )
 
-    directives.widget('objective', SelectFieldWidget)
+    directives.widget(potype=SelectFieldWidget)
 
     product_number = schema.TextLine(
-        title=u'Textline field',
+        title=u'Product Number',
         required=False,
     )
 
@@ -38,21 +42,29 @@ class IPurchaseOrder(model.Schema):
         required=False,
     )
 
+    details = schema.Text(
+        title=u'Order Details',
+        required=False,
+    )
+
     total_price = schema.Float(
 	title=u'Total Price',
 	required=False
     )
 
-    est_arrival = schema.Datetime(
+    est_arrival = schema.Date(
         title=u'Estimated Arrival',
         required=False,
     )
 
-    received = schema.Datetime(
+    received = schema.Date(
         title=u'Received Date',
         required=False,
     )
 
+    directives.widget('est_arrival',DateFieldWidget)
+    directives.widget(received=DateFieldWidget)
+'''
     line_items = schema.List(
 	title = u'Line Items',
 	value_type = DictRow(title=u'Table', schema=ILineItemSchema),
@@ -60,4 +72,5 @@ class IPurchaseOrder(model.Schema):
 	required=False,
    )
 
-#  directives.widget('datagrid_field', DataGridFieldFactory)
+    directives.widget(line_items=DataGridFieldFactory)
+'''

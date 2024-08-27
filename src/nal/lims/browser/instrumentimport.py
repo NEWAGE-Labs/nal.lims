@@ -2235,7 +2235,7 @@ class GalleryImportView(edit.DefaultEditForm):
         clean_ids = []
         for i in import_samples:
 
-            imported = []
+            imported = False
 
 	    sulfate = None
 	    for j in i:
@@ -2273,7 +2273,7 @@ class GalleryImportView(edit.DefaultEditForm):
             #Total Sugar
             found = False
             total_sugar = None
-            for j in range(20, 0, -1):
+            for j in range(5, 0, -1):
                 if found==False:
                     sap_version = 'sugars-'+str(j)
                     if hasattr(i,sap_version) and api.get_workflow_status_of(i[sap_version]) not in ['cancelled','invalid','retracted','rejected']:
@@ -2282,6 +2282,43 @@ class GalleryImportView(edit.DefaultEditForm):
             if found == False and hasattr(i,'sugars') and api.get_workflow_status_of(i['sugars']) not in ['retracted','rejected','cancelled','invalid']:
                 total_sugar = i.sugars
 
+            #Frutose
+            found = False
+            fructose = None
+            for j in range(5, 0, -1):
+                if found==False:
+                    sap_version = 'sugars_fructose-'+str(j)
+                    if hasattr(i,sap_version) and api.get_workflow_status_of(i[sap_version]) not in ['cancelled','invalid','retracted','rejected']:
+                        found = True
+                        fructose = i[sap_version]
+            if found == False and hasattr(i,'sugars_fructose') and api.get_workflow_status_of(i['sugars_fructose']) not in ['retracted','rejected','cancelled','invalid']:
+                fructose = i.sugars_fructose
+
+            #Glucose
+            found = False
+            glucose = None
+            for j in range(5, 0, -1):
+                if found==False:
+                    sap_version = 'sugars_glucose-'+str(j)
+                    if hasattr(i,sap_version) and api.get_workflow_status_of(i[sap_version]) not in ['cancelled','invalid','retracted','rejected']:
+                        found = True
+                        glucose = i[sap_version]
+            if found == False and hasattr(i,'sugars_glucose') and api.get_workflow_status_of(i['sugars_glucose']) not in ['retracted','rejected','cancelled','invalid']:
+                glucose = i.sugars_glucose
+
+            #Sucrose
+            found = False
+            sucrose = None
+            for j in range(5, 0, -1):
+                if found==False:
+                    sap_version = 'sugars_sucrose-'+str(j)
+                    if hasattr(i,sap_version) and api.get_workflow_status_of(i[sap_version]) not in ['cancelled','invalid','retracted','rejected']:
+                        found = True
+                        sucrose = i[sap_version]
+            if found == False and hasattr(i,'sugars_sucrose') and api.get_workflow_status_of(i['sugars_sucrose']) not in ['retracted','rejected','cancelled','invalid']:
+                sucrose = i.sugars_sucrose
+            if found:
+		print("Sucrose is found for {}".format(api.get_id(i)))
             # try:
             #     total_sugar = i.sap_total_sugar
             # except AttributeError:
@@ -2290,7 +2327,7 @@ class GalleryImportView(edit.DefaultEditForm):
             #Chloride
             found = False
             chloride = None
-            for j in range(20, 0, -1):
+            for j in range(5, 0, -1):
                 if found==False:
                     sap_version = 'chloride-'+str(j)
                     if hasattr(i,sap_version) and api.get_workflow_status_of(i[sap_version]) not in ['cancelled','invalid','retracted','rejected']:
@@ -2312,7 +2349,7 @@ class GalleryImportView(edit.DefaultEditForm):
             #Nitrate
             found = False
             nitrate = None
-            for j in range(20, 0, -1):
+            for j in range(5, 0, -1):
                 if found==False:
                     sap_version = 'nitrate-'+str(j)
                     if hasattr(i,sap_version) and api.get_workflow_status_of(i[sap_version]) not in ['cancelled','invalid','retracted','rejected']:
@@ -2339,7 +2376,7 @@ class GalleryImportView(edit.DefaultEditForm):
             #Nitrite
             found = False
             nitrite = None
-            for j in range(20, 0, -1):
+            for j in range(5, 0, -1):
                 if found==False:
                     drinking_version = 'nitrite-'+str(j)
                     if hasattr(i,drinking_version) and api.get_workflow_status_of(i[drinking_version]) not in ['cancelled','invalid','retracted','rejected']:
@@ -2357,7 +2394,7 @@ class GalleryImportView(edit.DefaultEditForm):
             #Nitrogen as Nitrate
             found = False
             n_as_nitrate = None
-            for j in range(20, 0, -1):
+            for j in range(5, 0, -1):
                 if found==False:
                     sap_version = 'nitrogen_nitrate-'+str(j)
                     if hasattr(i,sap_version) and api.get_workflow_status_of(i[sap_version]) not in ['cancelled','invalid','retracted','rejected']:
@@ -2403,10 +2440,10 @@ class GalleryImportView(edit.DefaultEditForm):
                 found = True
 
             #Total Sugar
-            if total_sugar is not None and api.get_workflow_status_of(total_sugar) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')].empty:
+            if total_sugar is not None and api.get_workflow_status_of(total_sugar) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test'].isin(['GluFruSucG','GEnzytec']))].empty:
                 logger.info("Importing Total Sugar for {0}".format(i))
-                total_sugar.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')]['Result'].values[0].strip(), "utf-8")
-                total_sugar.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')]['Analysis Date/Time'].values[0]
+                total_sugar.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test'].isin(['GluFruSucG','GEnzytec']))]['Result'].values[0].strip(), "utf-8")
+                total_sugar.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test'].isin(['GluFruSucG','GEnzytec']))]['Analysis Date/Time'].values[0]
 		total_sugar.CustomMethod = sugar_method
                 total_sugar.reindexObject(idxs=['Result','AnalysisDateTime','CustomMethod'])
                 if [j for j in api.get_transitions_for(total_sugar) if 'submit' in j.values()]:
@@ -2414,10 +2451,70 @@ class GalleryImportView(edit.DefaultEditForm):
                         api.do_transition_for(total_sugar, "submit")
                     except AttributeError:
                         pass
-                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')]['Analyst'].empty:
-                    total_sugar.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='GluFruSucG')]['Analyst'].values[0]
+                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test'].isin(['GluFruSucG','GEnzytec']))]['Analyst'].empty:
+                    total_sugar.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test'].isin(['GluFruSucG','GEnzytec']))]['Analyst'].values[0]
                     total_sugar.reindexObject(idxs=['Analyst'])
                 found = True
+
+            #Fructose
+            if fructose is not None and api.get_workflow_status_of(fructose) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='D-Fru')].empty:
+                logger.info("Importing fructose for {0}".format(i))
+                fructose.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='D-Fru')]['Result'].values[0].strip(), "utf-8")
+                fructose.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='D-Fru')]['Analysis Date/Time'].values[0]
+                fructose.CustomMethod = sugar_method
+                fructose.reindexObject(idxs=['Result','AnalysisDateTime','CustomMethod'])
+                if [j for j in api.get_transitions_for(fructose) if 'submit' in j.values()]:
+                    try:
+                        api.do_transition_for(fructose, "submit")
+                    except AttributeError:
+                        pass
+                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='D-Fru')]['Analyst'].empty:
+                    fructose.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='D-Fru')]['Analyst'].values[0]
+                    fructose.reindexObject(idxs=['Analyst'])
+                found = True
+
+            #Glucose
+            if glucose is not None and api.get_workflow_status_of(glucose) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='D-Glu')].empty:
+                logger.info("Importing glucose for {0}".format(i))
+                glucose.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='D-Glu')]['Result'].values[0].strip(), "utf-8")
+                glucose.AnalysisDateTime = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='D-Glu')]['Analysis Date/Time'].values[0]
+                glucose.CustomMethod = sugar_method
+                glucose.reindexObject(idxs=['Result','AnalysisDateTime','CustomMethod'])
+                if [j for j in api.get_transitions_for(glucose) if 'submit' in j.values()]:
+                    try:
+                        api.do_transition_for(glucose, "submit")
+                    except AttributeError:
+                        pass
+                if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='D-Glu')]['Analyst'].empty:
+                    glucose.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='D-Glu')]['Analyst'].values[0]
+                    glucose.reindexObject(idxs=['Analyst'])
+                found = True
+
+            #Sucrose
+            if sucrose is not None and api.get_workflow_status_of(sucrose) in ['unassigned']:
+                try:
+                    print("Importing Sucrose")
+                    logger.info("Importing sucrose for {0}".format(i))
+		    glu_f = float(glucose.Result) or float(unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='D-Glu')]['Result'].values[0].strip(), "utf-8"))
+		    fru_f = float(fructose.Result) or float(unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='D-Fru')]['Result'].values[0].strip(), "utf-8"))
+		    sugar_f = float(total_sugar.Result) or float(unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test'].isin(['GluFruSucG','GEnzytec']))]['Result'].values[0].strip(), "utf-8"))
+                    sucr_f = float((glu_f+fru_f)-sugar_f)
+		    if sucr_f <= 0:
+		        sucr_f = 0
+		    sucrose.Result = unicode(str(sucr_f), 'utf-8')
+                    sucrose.AnalysisDateTime = total_sugar.AnalysisDateTime or glucose.AnalysisDateTime or fructose.AnalysisDateTime
+                    sucrose.CustomMethod = sugar_method
+                    sucrose.Analyst = total_sugar.Analyst or glucose.Analyst or fructose.Analyst
+                    sucrose.reindexObject(idxs=['Result','AnalysisDateTime','CustomMethod', 'Analyst'])
+                    if [j for j in api.get_transitions_for(sucrose) if 'submit' in j.values()]:
+                        try:
+                            api.do_transition_for(sucrose, "submit")
+                        except AttributeError:
+                            pass
+                    found = True
+                except Exception as e:
+                    print("EXCEPTION FOR SUCROSE IS: {}".format(e))
+                    pass
 
             #Chloride
             if chloride is not None and api.get_workflow_status_of(chloride) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')].empty:
@@ -2434,7 +2531,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Analyst'].empty:
                     chloride.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Chloride')]['Analyst'].values[0]
                     chloride.reindexObject(idxs=['Analyst'])
-                found = True
+                imported = True
 
             #Sulfate
             if sulfate is not None and api.get_workflow_status_of(sulfate) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SO4 Low')].empty:
@@ -2452,7 +2549,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SO4 Low')]['Analyst'].empty:
                     sulfate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SO4 Low')]['Analyst'].values[0]
                     sulfate.reindexObject(idxs=['Analyst'])
-                found = True
+                imported = True
 
             #Nitrogen as Nitrate
             #ADD LOGIC TO HANDLE
@@ -2475,7 +2572,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Analyst'].empty:
                     n_as_nitrate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1S')]['Analyst'].values[0]
                     n_as_nitrate.reindexObject(idxs=['Analyst'])
-                found = True
+                imported = True
             elif n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')].empty:
                 logger.info("Importing N from Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")))
                 n_as_nitrate.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Result'].values[0].strip(), "utf-8")
@@ -2490,7 +2587,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analyst'].empty:
                     n_as_nitrate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO3')]['Analyst'].values[0]
                     n_as_nitrate.reindexObject(idxs=['Analyst'])
-                found = True
+                imported = True
 	    elif n_as_nitrate is not None and api.get_workflow_status_of(n_as_nitrate) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')].empty:
                 logger.info("Importing N from Nitrate for {0}. Result is: {1}".format(i,unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Result'].values[0].strip(), "utf-8")))
                 n_as_nitrate.Result = unicode(filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Result'].values[0].strip(), "utf-8")
@@ -2505,7 +2602,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Analyst'].empty:
                     n_as_nitrate.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPTON1')]['Analyst'].values[0]
                     n_as_nitrate.reindexObject(idxs=['Analyst'])
-                found = True
+                imported = True
 
             #Nitrite
             if nitrite is not None and api.get_workflow_status_of(nitrite) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')].empty:
@@ -2521,7 +2618,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')]['Analyst'].empty:
                     nitrite.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='SAPNO2')]['Analyst'].values[0]
                     nitrite.reindexObject(idxs=['Analyst'])
-                found = True
+                imported = True
 
             if imported:
                 clean_ids.append(api.get_id(i))
