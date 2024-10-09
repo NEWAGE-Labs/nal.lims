@@ -6,13 +6,12 @@ mgmt_dir = '/mnt/Data/Lab Management Exports/Overdue Accounts/'
 
 def get_samples_by_week(weeks_back=1):
 	ARs = api.search({'portal_type':'AnalysisRequest'})
-	recentARs = [api.get_object(ar) for ar in ARs if ar.getBatchUID is not None and DateTime(api.get_object_by_uid(ar.getBatchUID).SDGDate).year() == DateTime().year() and int(DateTime(api.get_object_by_uid(ar.getBatchUID).SDGDate).month()) > int((DateTime().month())-2)]
+	recentARs = [api.get_object(ar) for ar in ARs if ar.getBatchUID is not None and DateTime(api.get_object_by_uid(ar.getBatchUID).SDGDate).year() == DateTime().year() and int(DateTime(api.get_object_by_uid(ar.getBatchUID).SDGDate).month()) > int((DateTime().month())-3)]
         wk = int(DateTime().week()) - weeks_back
         newARs = []
 	for ar in recentARs:
 		if int(DateTime(ar.getBatch().SDGDate).week()) == wk:
 			newARs.append(ar)
-
 	ids = []
 	sdgs = []
 	dates = []

@@ -6,6 +6,7 @@ import pandas as pd
 from management import *
 from retract import *
 from DateTime import DateTime
+from json_etl import *
 
 BAD = ['invalid','cancelled','rejected','retracted']
 CLIENT_COLS = [

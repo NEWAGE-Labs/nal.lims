@@ -5,8 +5,8 @@
     i18n_domain="senaite.core">
 
   <browser:page
-      name="icpimport"
-      class=".instrumentimport.ICPImportView"
+      name="icapimport"
+      class=".icap.ICAPImportView"
       permission="cmf.ListFolderContents"
       for="*"
       template="templates/instrumentimport.pt"
@@ -14,8 +14,8 @@
       />
 
   <browser:page
-      name="newicpimport"
-      class=".instrumentimport.NewICPImportView"
+      name="agilentimport"
+      class=".agilent.AgilentImportView"
       permission="cmf.ListFolderContents"
       for="*"
       template="templates/instrumentimport.pt"
@@ -24,7 +24,7 @@
 
   <browser:page
       name="galleryimport"
-      class=".instrumentimport.GalleryImportView"
+      class=".gallery.GalleryImportView"
       permission="cmf.ListFolderContents"
       for="*"
       template="templates/instrumentimport.pt"
@@ -51,7 +51,7 @@
 
   <browser:page
       name="phecimport"
-      class=".instrumentimport.pHECImportView"
+      class=".phec.pHECImportView"
       permission="cmf.ListFolderContents"
       for="*"
       template="templates/instrumentimport.pt"
@@ -59,8 +59,8 @@
       />
 
   <browser:page
-      name="totalnitrogenimport"
-      class=".instrumentimport.TotalNitrogenImportView"
+      name="lecoimport"
+      class=".leco.LECOImportView"
       permission="cmf.ListFolderContents"
       for="*"
       template="templates/instrumentimport.pt"
@@ -78,7 +78,7 @@
 
   <browser:page
       name="manualimport"
-      class=".instrumentimport.ManualImportView"
+      class=".manual.ManualImportView"
       permission="cmf.ListFolderContents"
       for="*"
       template="templates/instrumentimport.pt"

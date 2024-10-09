@@ -17,7 +17,7 @@ class ClientCSVExportView(BrowserView):
         rootpath = '/mnt'
         path = '/Data/LIMS CSV Exports/'
         client = self.context
-        filepath = path + client.getName() + '.csv'
+        filepath = path + client.getName().replace('/','_') + '.csv'
         fullpath = rootpath + filepath
         sdgs_full = map(api.get_object,api.search({'portal_type':'Batch'}))
         sdgs_active = []

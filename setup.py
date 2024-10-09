@@ -59,8 +59,8 @@ setup(
         'senaite.jsonapi',
         'pandas==0.24.2',
         'numpy==1.16.6',
-        'pyodbc',
-	'collective.z3cform.datagridfield'
+        'pyodbc==4.0.39',
+	'jwt==0.3.2',
         #'Products.PDBDebugMode',
         #'ipdb'
     ],

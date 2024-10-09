@@ -156,56 +156,80 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
                 del(self.context_actions[_("Add")]["permission"])
 
     def get_platforms(self, obj):
-        platforms = []
-        #Get Analysis Services from Analyses from Analysis Requests from Batch
-        analyses = [api.get_object(an) for ar in obj.getAnalysisRequests() for an in map(api.get_object,ar.getAnalyses())]
+        if hasattr(obj,'Platforms') and obj.Platforms != '':
+            print('Successfully skipped Platforms for {}'.format(obj.title))
+            return obj.Platforms
+        else:
+            print('Getting Platforms for {}'.format(obj.title))
+            try:
+                print('Current Platforms are: {}'.format(obj.Platforms))
+            except AttributeError:
+                print('No Platforms exist yet')
 
-        for analysis in analyses:
-            service = analysis.getAnalysisService()
-            keyword = service.Keyword
-            category = service.getCategory().title
-            if category == 'Metals and Trace Elements' and keyword not in ['mercury','flouride', 'chloride', 'sulfate'] and "ICP" not in platforms:
-                platforms.append("ICP")
-            if keyword in ['mercury'] and "Mercury" not in platforms:
-                platforms.append("Mercury")
-            if keyword in ['lead','copper'] and any(['EGLE' in p.title for p in analysis.aq_parent.getProfiles()]) and "EGLE Pb/Cu" not in platforms:
-                platforms.append("EGLE Pb/Cu")
-            if keyword in ['chloride','ammonia','ammonium','nitrogen_nitrate','nitrogen_nitrite','nitrogen_ammonia','nitrogen_ammonium','sugars','sugars_fructose','sugars_glucose','sugars_sucrose'] and "Gallery" not in platforms:
-                platforms.append("Gallery")
-            if keyword in ['nitrogen','carbon'] and "LECO" not in platforms:
-                platforms.append("LECO")
-            if keyword in ['brix'] and "Brix" not in platforms:
-                platforms.append("Brix")
-            if keyword in ['ph'] and "pH" not in platforms:
-                platforms.append("pH")
-            if keyword in ['out_of_scope'] and "Outside Scope" not in platforms:
-                platforms.append("Outside Scope")
-            if keyword in ["temperature","volume","weight"] and "Common" not in platforms:
-                platforms.append("Common")
-            if keyword in ['carbonate','bicarbonate','alkalinity'] and "Carbonates" not in platforms:
-                platforms.append("Carbonates")
-            if keyword in ['ec','soluble_salts'] and "Conductivity" not in platforms:
-                platforms.append("Conductivity")
-            if 'plate' in keyword and "Petrifilm" not in platforms:
-                platforms.append("Petrifilm")
-            if 'aspergillus' in keyword or keyword in ['pythium','fusarium','hop_latent_viroid','cryptosporidium_parvum'] and "External Micro" not in platforms:
-                platforms.append("External Micro")
-            if 'c18' in keyword and "EGLE Micro" not in platforms:
-                platforms.append("EGLE Micro")
-            if 'pa' in keyword and 'c18' not in keyword and "PCR" not in platforms:
-                platforms.append("PCR")
+            platforms = []
+            #Get Analysis Services from Analyses from Analysis Requests from Batch
+            analyses = [api.get_object(an) for ar in obj.getAnalysisRequests() for an in map(api.get_object,ar.getAnalyses())]
 
-        return platforms
+            for analysis in analyses:
+                service = analysis.getAnalysisService()
+                keyword = service.Keyword
+                category = service.getCategory().title
+                if category == 'Metals and Trace Elements' and keyword not in ['mercury','flouride', 'chloride', 'sulfate'] and "ICP" not in platforms:
+                    platforms.append("ICP")
+                if keyword in ['mercury'] and "Mercury" not in platforms:
+                    platforms.append("Mercury")
+                if keyword in ['lead','copper'] and any(['EGLE' in p.title for p in analysis.aq_parent.getProfiles()]) and "EGLE Pb/Cu" not in platforms:
+                    platforms.append("EGLE Pb/Cu")
+                if keyword in ['chloride','ammonia','ammonium','nitrogen_nitrate','nitrogen_nitrite','nitrogen_ammonia','nitrogen_ammonium','sugars','sugars_fructose','sugars_glucose','sugars_sucrose'] and "Gallery" not in platforms:
+                    platforms.append("Gallery")
+                if keyword in ['nitrogen','carbon'] and "LECO" not in platforms:
+                    platforms.append("LECO")
+                if keyword in ['brix'] and "Brix" not in platforms:
+                    platforms.append("Brix")
+                if keyword in ['ph'] and "pH" not in platforms:
+                    platforms.append("pH")
+                if keyword in ['out_of_scope'] and "Outside Scope" not in platforms:
+                    platforms.append("Outside Scope")
+                if keyword in ["temperature","volume","weight"] and "Common" not in platforms:
+                    platforms.append("Common")
+                if keyword in ['carbonate','bicarbonate','alkalinity'] and "Carbonates" not in platforms:
+                    platforms.append("Carbonates")
+                if keyword in ['ec','soluble_salts'] and "Conductivity" not in platforms:
+                    platforms.append("Conductivity")
+                if 'plate' in keyword and "Petrifilm" not in platforms:
+                    platforms.append("Petrifilm")
+                if 'aspergillus' in keyword or keyword in ['pythium','fusarium','hop_latent_viroid','cryptosporidium_parvum'] and "External Micro" not in platforms:
+                    platforms.append("External Micro")
+                if 'c18' in keyword and "EGLE Micro" not in platforms:
+                    platforms.append("EGLE Micro")
+                if 'pa' in keyword and 'c18' not in keyword and "PCR" not in platforms:
+                    platforms.append("PCR")
+
+            obj.Platforms = ', '.join(platforms)
+            obj.reindexObject(idxs=['Platforms'])
+
+            return obj.Platforms
 
     def get_matrices(self, obj):
-        matrices = []
-        moptions = ['sap','waste','drinking','water','fertilizer','soil','root','swab','tissue','solid','food','fruit','air']
-        for i in obj.getAnalysisRequests():
-            matrix = i.getSampleType().Title() if i.getSampleType() else ''
-            for option in moptions:
-                if option in matrix.lower() and option not in matrices:
-                    matrices.append(option)
-        return matrices
+        if hasattr(obj, 'Matrices') and obj.Matrices != '':
+            print('Successfully skipped Matrices for {}'.format(obj.title))
+            return obj.Matrices
+        else:
+            print('Getting Matrices for {}'.format(obj.title))
+            try:
+                print('Current Matrices are: {}'.format(obj.Matrices))
+            except AttributeError:
+                print('No Matrices exist yet')
+            matrices = []
+            moptions = ['sap','waste','drinking','water','fertilizer','soil','root','swab','tissue','solid','food','fruit','air']
+            for i in obj.getAnalysisRequests():
+                matrix = i.getSampleType().Title() if i.getSampleType() else ''
+                for option in moptions:
+                    if option in matrix.lower() and option not in matrices:
+                        matrices.append(option)
+            obj.Matrices = ', '.join(matrices)
+            obj.reindexObject(idxs=['Matrices'])
+            return obj.Matrices
 
     def get_grower_contact(self, obj):
         batch = obj
@@ -256,8 +280,8 @@ class BatchFolderContentsView(BikaBatchFolderContentsView):
 
         item["BatchID"] = bid
         item["ClientBatchID"] = cbid
-        item["Matrices"] = ', '.join(matrices)
-        item["Platforms"] = ', '.join(platforms)
+        item["Matrices"] = matrices
+        item["Platforms"] = platforms
         item["replace"]["BatchID"] = get_link(url, bid)
         item["Title"] = title
         item["replace"]["Title"] = get_link(url, title)

@@ -58,12 +58,12 @@ class ClientFolderContentsView(BikaClientFolderContentsView):
         self.show_select_column = True
 
 	#Add New Columns
-	self.columns['MBGGrowerNumber'] = {"title": _("MBG Grower #")}
-	self.columns['TBGrowerNumber'] = {"title": _("True Blue Grower #"), "toggle": False}
+	#self.columns['MBGGrowerNumber'] = {"title": _("MBG Grower #"), "toggle": False}
+	#self.columns['TBGrowerNumber'] = {"title": _("True Blue Grower #"), "toggle": False}
 	#self.columns['Recent SDG'] = {"title": _("Most Recent SDG")}
 
-	for i in self.review_states:
-		i["columns"] = self.columns.keys()
+	#for i in self.review_states:
+	#	i["columns"] = self.columns.keys()
 
     def folderitem(self, obj, item, index):
         """Applies new properties to the item (Client) that is currently being
@@ -79,11 +79,11 @@ class ClientFolderContentsView(BikaClientFolderContentsView):
         :rtype: dict
         """
 	super(ClientFolderContentsView, self).folderitem(obj, item, index)
-	obj = api.get_object(obj)
-	if hasattr(obj,'MBGGrowerNumber') and obj.MBGGrowerNumber is not None:
-		item['MBGGrowerNumber'] = obj.MBGGrowerNumber
-	if hasattr(obj,'TBGrowerNumber') and obj.TBGrowerNumber is not None:
-		item['TBGrowerNumber'] = obj.TBGrowerNumber
+	#obj = api.get_object(obj)
+	#if hasattr(obj,'MBGGrowerNumber') and obj.MBGGrowerNumber is not None:
+	#	item['MBGGrowerNumber'] = obj.MBGGrowerNumber
+	#if hasattr(obj,'TBGrowerNumber') and obj.TBGrowerNumber is not None:
+	#	item['TBGrowerNumber'] = obj.TBGrowerNumber
 	url = api.get_url(obj)
 	item["replace"]["title"] = get_link(url+"/batches", item["title"])
 	item["replace"]["ClientID"] = get_link(url+"/batches", item["ClientID"])

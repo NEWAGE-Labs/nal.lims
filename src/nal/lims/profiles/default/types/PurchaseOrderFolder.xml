@@ -3,8 +3,8 @@
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <property name="title" i18n:translate="">Purchase Orders</property>
  <property name="icon_expr">senaite_theme/icon/method</property>
- <property name="factory">purchaseorderfolder</property>
- <property name="add_view_expr">string:${folder_url}/++add++purchaseorderfolder</property>
+ <property name="factory">PurchaseOrderFolder</property>
+ <property name="add_view_expr">string:${folder_url}/++add++PurchaseOrderFolder</property>
  <property name="link_target"></property>
  <property name="immediate_view">view</property>
  <property name="global_allow">True</property>

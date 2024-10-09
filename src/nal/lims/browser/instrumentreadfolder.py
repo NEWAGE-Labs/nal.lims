@@ -58,12 +58,12 @@ class InstrumentReadFolderView(BikaListingView):
         #Fix permissions
         self.context_actions = {
             _("Import Thermo ICP"): {
-                "url": "@@icpimport/",
+                "url": "@@icapimport/",
                 "permission": AddBatch,
                 "icon": "++resource++bika.lims.images/add.png"
             },
             _("Import Agilent ICP"): {
-                "url": "@@newicpimport/",
+                "url": "@@agilentimport/",
                 "permission": AddBatch,
                 "icon": "++resource++bika.lims.images/add.png"
             },
@@ -72,18 +72,8 @@ class InstrumentReadFolderView(BikaListingView):
                 "permission": AddBatch,
                 "icon": "++resource++bika.lims.images/add.png"
             },
-            _("Import pH"): {
-                "url": "@@phimport/",
-                "permission": AddBatch,
-                "icon": "++resource++bika.lims.images/add.png"
-            },
-            _("Import EC or SS/TDS"): {
-                "url": "@@ecimport/",
-                "permission": AddBatch,
-                "icon": "++resource++bika.lims.images/add.png"
-            },
             _("Import Total Nitrogen"): {
-                "url": "@@totalnitrogenimport/",
+                "url": "@@lecoimport/",
                 "permission": AddBatch,
                 "icon": "++resource++bika.lims.images/add.png"
             },

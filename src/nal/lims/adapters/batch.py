@@ -167,6 +167,26 @@ class BatchSchemaExtender(object):
                 visible=False,
             )
         ),
+
+        ExtStringField(
+            'Platforms',
+            required=False,
+            widget=StringWidget(
+                label=_("Platforms"),
+                description=_("The instrument platforms needed for this SDG."),
+                visible=False
+            ),
+        ),
+
+        ExtStringField(
+            'Matrices',
+            required=False,
+            widget=StringWidget(
+                label=_("Matrices"),
+                description=_("The matrices of samples contained within the SDG."),
+                visible=False
+            ),
+        ),
     ]
 
 #Custom function for Contact Fields
