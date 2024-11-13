@@ -19,14 +19,19 @@ class SDGCSVExportView(BrowserView):
 
         rootpath = '/mnt'
         path = '/Data/LIMS CSV Exports/'
+        path2 = '/Temp/LIMS Exports/'
+
         sdg = self.context
         filepath = path + sdg.title + '.csv'
+        filepath2 = path2 + sdg.title + '.csv'
         fullpath = rootpath + filepath
+        fullpath2 = rootpath + filepath2
         export_dict = {}
 
 	df = napi.getSDGCSV(sdg)
 
         df.to_csv(fullpath)
+        df.to_csv(fullpath2)
 
         IStatusMessage(self.request).addStatusMessage(
                 u"{} Successfully Exported to: {}".format(self.context.title, filepath)

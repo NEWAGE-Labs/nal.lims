@@ -212,7 +212,7 @@ class ICAPImportView(edit.DefaultEditForm):
                         bec = i[j]
                     if 'acidity' in j:
                         acidity = i[j]
-                    if 'weight' == j:
+                    if 'weight' in j:
                         weight = i[j]
 
 

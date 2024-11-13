@@ -24,6 +24,13 @@ class ReportsListingView(BikaReportsListingView):
             "toggle": True,
             "sortable": True,
         }
+        client = context
+        if client.ClientID == u'NAL24-001':
+            self.columns['aeawebhook'] = {
+                "title": _("AEA Web Push"),
+                "toggle": True,
+                "sortable": True,
+            }
 
         ## Update each contentfilter with the added and modified column keys
 	self.review_states[0]["columns"] = self.columns.keys()
@@ -50,4 +57,17 @@ class ReportsListingView(BikaReportsListingView):
 	item['autodownload'] = get_link(autolink, "download", target="_blank")
 	item['replace']['autodownload'] = get_link(autolink, "download", target="_blank")
 
-	return item
+	#CALL WEBHOOK URL
+        if 'aeawebhook' in item.keys():
+           print('has webhook')
+           if hasattr(sdg, 'report_sent'):
+               if sdg.report_sent is False:
+	           aealink = str(api.get_url(obj)+'/@@aeawebhook/')
+	           item['aeawebhook'] = get_link(aealink, "Push to AEA", target="_blank")
+	           item['replace']['aeawebhook'] = get_link(autolink, "Push to AEA", target="_blank")
+               else:
+                   item['replace']['aeawebhook'] = 'Sent to AEA'
+           else:
+               item['aeawebhook'] = 'Invalid to Send'
+
+        return item

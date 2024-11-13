@@ -19,7 +19,7 @@ import logging
 import copy
 from DateTime import DateTime
 
-class GalleryImportView(edit.DefaultEditForm):
+class SealImportView(edit.DefaultEditForm):
 
     def __init__(self, context, request):
           self.context = context
@@ -337,7 +337,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')]['Analyst'].empty:
                     ammonium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='Ammonium')]['Analyst'].values[0]
                     ammonium.reindexObject(idxs=['Analyst'])
-                imported = True
+                found = True
 
             if ammonium is not None and api.get_workflow_status_of(ammonium) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='AMMONIA SP')].empty:
                 logger.info("Importing Ammonium for {0}: {1}".format(i, ammonium))
@@ -354,7 +354,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='AMMONIA SP')]['Analyst'].empty:
                     ammonium.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='AMMONIA SP')]['Analyst'].values[0]
                     ammonium.reindexObject(idxs=['Analyst'])
-                imported = True
+                found = True
 
             #Total Sugar
             if total_sugar is not None and api.get_workflow_status_of(total_sugar) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test'].isin(['GluFruSucG','GEnzytec']))].empty:
@@ -371,7 +371,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test'].isin(['GluFruSucG','GEnzytec']))]['Analyst'].empty:
                     total_sugar.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test'].isin(['GluFruSucG','GEnzytec']))]['Analyst'].values[0]
                     total_sugar.reindexObject(idxs=['Analyst'])
-                imported = True
+                found = True
 
             #Fructose
             if fructose is not None and api.get_workflow_status_of(fructose) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='D-Fru')].empty:
@@ -388,7 +388,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='D-Fru')]['Analyst'].empty:
                     fructose.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='D-Fru')]['Analyst'].values[0]
                     fructose.reindexObject(idxs=['Analyst'])
-                imported = True
+                found = True
 
             #Glucose
             if glucose is not None and api.get_workflow_status_of(glucose) in ['unassigned'] and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='D-Glu')].empty:
@@ -405,7 +405,7 @@ class GalleryImportView(edit.DefaultEditForm):
                 if 'Analyst' in filtered_df.columns and not filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='D-Glu')]['Analyst'].empty:
                     glucose.Analyst = filtered_df[(filtered_df['Sample Name']==api.get_id(i)) & (filtered_df['Test']=='D-Glu')]['Analyst'].values[0]
                     glucose.reindexObject(idxs=['Analyst'])
-                imported = True
+                found = True
 
             #Sucrose
             if sucrose is not None and api.get_workflow_status_of(sucrose) in ['unassigned']:
@@ -428,7 +428,7 @@ class GalleryImportView(edit.DefaultEditForm):
                             api.do_transition_for(sucrose, "submit")
                         except AttributeError:
                             pass
-                    imported = True
+                    found = True
                 except Exception as e:
                     print("EXCEPTION FOR SUCROSE IS: {}".format(e))
                     pass

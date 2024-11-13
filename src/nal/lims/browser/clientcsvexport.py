@@ -16,9 +16,12 @@ class ClientCSVExportView(BrowserView):
 
         rootpath = '/mnt'
         path = '/Data/LIMS CSV Exports/'
+        path2 = '/Temp/LIMS Exports/'
         client = self.context
         filepath = path + client.getName().replace('/','_') + '.csv'
+        filepath2 = path2 + client.getName().replace('/','_') + '.csv'
         fullpath = rootpath + filepath
+        fullpath2 = rootpath + filepath2
         sdgs_full = map(api.get_object,api.search({'portal_type':'Batch'}))
         sdgs_active = []
         sdgs = []
@@ -38,6 +41,7 @@ class ClientCSVExportView(BrowserView):
         df = napi.getCSVDFbyAR(ARs)
 
         df.to_csv(fullpath)
+        df.to_csv(fullpath2)
 
         IStatusMessage(self.request).addStatusMessage(
                 u"{} Successfully Exported to: {}".format(self.context.title, filepath)

@@ -15,8 +15,10 @@ from nal.lims.fields import ExtIntegerField
 # from Products.Archetypes.public import DateTimeField as ExtDateTimeField
 from nal.lims.fields import ExtStringField
 from nal.lims.fields import ExtDateTimeField
+from nal.lims.fields import ExtBooleanField
 from Products.Archetypes.public import StringWidget
 from Products.Archetypes.public import IntegerWidget
+from Products.Archetypes.public import BooleanWidget
 from Products.Archetypes.atapi import FileWidget
 from bika.lims.browser.widgets import DateTimeWidget
 from senaite.core.browser.widgets.referencewidget import ReferenceWidget
@@ -184,6 +186,16 @@ class BatchSchemaExtender(object):
             widget=StringWidget(
                 label=_("Matrices"),
                 description=_("The matrices of samples contained within the SDG."),
+                visible=False
+            ),
+        ),
+
+        ExtBooleanField(
+            'report_sent',
+            required=False,
+            widget=BooleanWidget(
+                label=_("Report Sent"),
+                description=_("The data for this SDG has been sent in a report to the client"),
                 visible=False
             ),
         ),

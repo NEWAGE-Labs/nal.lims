@@ -32,6 +32,15 @@
       />
 
   <browser:page
+      name="sealimport"
+      class=".seal.SealImportView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/instrumentimport.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
+  <browser:page
       name="phimport"
       class=".instrumentimport.pHImportView"
       permission="cmf.ListFolderContents"

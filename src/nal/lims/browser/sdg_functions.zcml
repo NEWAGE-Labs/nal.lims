@@ -76,4 +76,13 @@
       layer="nal.lims.interfaces.INalLimsLayer"
       />
 
+  <browser:page
+      name="aeawebhook"
+      class=".aeawebhook.AEAWebhookView"
+      permission="cmf.ListFolderContents"
+      for="*"
+      template="templates/autodownload.pt"
+      layer="nal.lims.interfaces.INalLimsLayer"
+      />
+
 </configure>

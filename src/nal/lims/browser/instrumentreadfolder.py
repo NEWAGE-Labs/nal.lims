@@ -92,5 +92,10 @@ class InstrumentReadFolderView(BikaListingView):
                 "permission": AddBatch,
                 "icon": "++resource++bika.lims.images/add.png"
             },
+            _("SEAL Import"): {
+                "url": "@@sealimport/",
+                "permission": AddBatch,
+                "icon": "++resource++bika.lims.images/add.png"
+            },
         }
 
